@@ -22,7 +22,7 @@ import platform.Darwin.mach_absolute_time
 import platform.Darwin.mach_timebase_info
 import platform.Darwin.mach_timebase_info_data_t
 
-actual class TimeProviderImpl : TimeProvider {
+class IosTimeProvider : TimeProvider {
     override fun now(): Long {
         return Clock.System.now().toEpochMilliseconds()
     }
@@ -33,4 +33,8 @@ actual class TimeProviderImpl : TimeProvider {
         val elapsedNano = mach_absolute_time() * timebase.numer / timebase.denom
         return elapsedNano / 1_000_000 // Convert to milliseconds
     }
+}
+
+actual fun createTimeProvider(): TimeProvider {
+    return IosTimeProvider()
 }

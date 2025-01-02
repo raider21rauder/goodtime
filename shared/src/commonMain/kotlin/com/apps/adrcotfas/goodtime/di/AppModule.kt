@@ -27,7 +27,7 @@ import co.touchlab.kermit.StaticConfig
 import co.touchlab.kermit.platformLogWriter
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
-import com.apps.adrcotfas.goodtime.bl.TimeProviderImpl
+import com.apps.adrcotfas.goodtime.bl.createTimeProvider
 import com.apps.adrcotfas.goodtime.data.local.Database
 import com.apps.adrcotfas.goodtime.data.local.DatabaseExt.invoke
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
@@ -96,7 +96,7 @@ private val coreModule = module {
         )
     }
     single<TimeProvider> {
-        TimeProviderImpl()
+        createTimeProvider()
     }
 
     single<FinishedSessionsHandler> {

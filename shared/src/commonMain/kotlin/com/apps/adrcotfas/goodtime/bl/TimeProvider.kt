@@ -28,3 +28,5 @@ interface TimeProvider {
      */
     fun elapsedRealtime(): Long
 }
+
+expect fun createTimeProvider(): TimeProvider

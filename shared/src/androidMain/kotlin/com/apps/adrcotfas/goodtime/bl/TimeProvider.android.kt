@@ -20,7 +20,7 @@ package com.apps.adrcotfas.goodtime.bl
 import android.os.SystemClock
 import kotlinx.datetime.Clock
 
-actual class TimeProviderImpl : TimeProvider {
+class AndroidTimeProvider : TimeProvider {
     override fun now(): Long {
         return Clock.System.now().toEpochMilliseconds()
     }
@@ -28,4 +28,8 @@ actual class TimeProviderImpl : TimeProvider {
     override fun elapsedRealtime(): Long {
         return SystemClock.elapsedRealtime()
     }
+}
+
+actual fun createTimeProvider(): TimeProvider {
+    return AndroidTimeProvider()
 }
