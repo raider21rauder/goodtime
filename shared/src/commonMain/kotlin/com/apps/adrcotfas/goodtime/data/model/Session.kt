@@ -26,7 +26,7 @@ data class Session(
     val interruptions: Long, // minutes
     val label: String = DEFAULT_LABEL_NAME,
     val notes: String?,
-    val isWork: Boolean, // TODO: update repository to consider this in stats
+    val isWork: Boolean,
     val isArchived: Boolean,
 ) {
     companion object {
@@ -47,5 +47,16 @@ data class Session(
                 isWork = isWork,
                 isArchived = false,
             )
+
+        fun default() = Session(
+            id = 0,
+            timestamp = 0,
+            duration = 0,
+            interruptions = 0,
+            label = DEFAULT_LABEL_NAME,
+            notes = null,
+            isWork = true,
+            isArchived = false,
+        )
     }
 }

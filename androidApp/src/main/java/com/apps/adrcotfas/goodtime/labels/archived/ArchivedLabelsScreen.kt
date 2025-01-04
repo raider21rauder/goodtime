@@ -85,7 +85,7 @@ fun ArchivedLabelsScreen(
                     .padding(it)
                     .fillMaxSize(),
             ) {
-                items(labels, key = { label -> label.name }) { label ->
+                items(labels, key = Label::name) { label ->
                     ArchivedLabelListItem(
                         Modifier.animateItem(),
                         label = label,

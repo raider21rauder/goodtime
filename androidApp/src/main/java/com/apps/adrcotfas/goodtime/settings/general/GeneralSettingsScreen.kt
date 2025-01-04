@@ -53,7 +53,6 @@ import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
-import com.apps.adrcotfas.goodtime.settings.toSecondOfDay
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
@@ -61,6 +60,7 @@ import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
 import com.apps.adrcotfas.goodtime.utils.secondsOfDayToTimerFormat
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime

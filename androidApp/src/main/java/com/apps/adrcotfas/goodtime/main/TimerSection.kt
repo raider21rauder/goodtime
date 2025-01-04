@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -77,6 +76,7 @@ import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -87,6 +87,7 @@ import compose.icons.evaicons.outline.ShoppingBag
 import kotlinx.coroutines.delay
 
 // TODO add another status indicator for the break budget. imagine a bag with a number [ (bag) 3' ]
+// TODO: top indicators should have the same size as the label chip
 @Composable
 fun MainTimerView(
     modifier: Modifier,
@@ -97,6 +98,7 @@ fun MainTimerView(
     domainLabel: DomainLabel,
     onStart: () -> Unit,
     onToggle: (() -> Boolean)? = null,
+    onLabelClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -152,6 +154,7 @@ fun MainTimerView(
             showLabel = timerStyle.showLabel,
             labelName = label.name,
             color = labelColor,
+            onClick = onLabelClick,
         )
     }
 }
@@ -180,7 +183,8 @@ fun CurrentStatusSection(
 
     Row(
         modifier = modifier
-            .fillMaxWidth().height(imageSize)
+            .fillMaxWidth()
+            .height(imageSize)
             .hideUnless(isActive),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -246,7 +250,7 @@ fun StatusIndicator(
                 .graphicsLayer { this.alpha = alpha.value }
                 .padding(4.dp)
                 .size(imageSize)
-                .clip(MaterialTheme.shapes.extraSmall)
+                .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
                 .padding(5.dp),
         ) {
@@ -295,7 +299,7 @@ fun StreakIndicator(
                 modifier = Modifier
                     .padding(5.dp)
                     .size(imageSize)
-                    .clip(MaterialTheme.shapes.extraSmall)
+                    .clip(MaterialTheme.shapes.small)
                     .background(backgroundColor),
 
             ) {
@@ -332,7 +336,7 @@ fun BreakBudgetIndicator(
             modifier = Modifier
                 .padding(5.dp)
                 .height(imageSize)
-                .clip(MaterialTheme.shapes.extraSmall)
+                .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
                 .padding(horizontal = 8.dp),
         ) {
@@ -451,25 +455,12 @@ fun TimerTextView(
 }
 
 @Composable
-fun LabelSection(showLabel: Boolean, labelName: String, color: Color) {
-    val backgroundColor = color.copy(alpha = 0.15f)
+fun LabelSection(showLabel: Boolean, labelName: String, color: Color, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .hideUnless(labelName != Label.DEFAULT_LABEL_NAME && showLabel)
-            .padding(horizontal = 4.dp)
-            .wrapContentSize()
-            .clip(MaterialTheme.shapes.extraSmall)
-            .background(backgroundColor)
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .hideUnless(labelName != Label.DEFAULT_LABEL_NAME && showLabel),
     ) {
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = labelName,
-            style = MaterialTheme.typography.labelLarge.copy(
-                color = color,
-                fontWeight = FontWeight.Normal,
-            ),
-        )
+        LabelChip(name = labelName, color) { onClick() }
     }
 }
 
@@ -501,6 +492,7 @@ fun LabelSectionPreview() {
             showLabel = true,
             labelName = "Work",
             color = MaterialTheme.localColorsPalette.colors[13],
+            onClick = {},
         )
     }
 }

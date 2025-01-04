@@ -60,6 +60,8 @@ import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
+// TODO: add a landscape mode too with the two cards side by side
+// TODO: remove close button and move start button to the top, add a "X" close button instead
 @Composable
 fun FinishedSessionContent(
     timerUiState: TimerUiState,

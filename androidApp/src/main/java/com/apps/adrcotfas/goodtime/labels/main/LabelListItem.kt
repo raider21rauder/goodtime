@@ -25,6 +25,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.automirrored.outlined.Label
@@ -42,6 +43,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +52,7 @@ import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.isDefault
+import com.apps.adrcotfas.goodtime.ui.common.crop
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -155,6 +158,10 @@ fun LabelListItem(
                         )
                     }
                     DropdownMenu(
+                        modifier = Modifier
+                            .crop(vertical = 8.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        shape = MaterialTheme.shapes.medium,
                         expanded = dropDownMenuExpanded,
                         onDismissRequest = { dropDownMenuExpanded = false },
                     ) {

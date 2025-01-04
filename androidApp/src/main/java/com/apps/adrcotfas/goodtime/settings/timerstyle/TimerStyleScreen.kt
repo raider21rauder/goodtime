@@ -224,6 +224,7 @@ fun TimerStyleScreen(
                     ),
                     onStart = {},
                     onToggle = null,
+                    onLabelClick = {},
                 )
             }
             Column {
