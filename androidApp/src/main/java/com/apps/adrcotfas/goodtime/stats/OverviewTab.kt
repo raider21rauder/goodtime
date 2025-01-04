@@ -15,19 +15,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.di
+package com.apps.adrcotfas.goodtime.stats
 
-import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
-import com.apps.adrcotfas.goodtime.main.MainViewModel
-import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
-import com.apps.adrcotfas.goodtime.stats.StatsViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 
-actual val viewModelModule: Module = module {
-    singleOf(::MainViewModel)
-    singleOf(::LabelsViewModel)
-    singleOf(::SettingsViewModel)
-    singleOf(::StatsViewModel)
+@Composable
+fun OverviewTab() {
+    Text("Overview")
+    // TODO:
+    // First tab:
+    // Weekly or daily goal with progress bar (e.g. 5 hours per day or 35 hours per week)
+
+    // Overview - same as old version but with persistent time/sessions setting
+    // History - same as old version but with minutes/ hours on the Y axis
+    //
+    // Permit selection of multiple labels and display as area chart
+
+    // Productive time becomes "Time distribution"
+
+    // Pie chart -> Same as before but use legend and "Others" for small slices
 }

@@ -27,6 +27,11 @@ UPDATE localSession
 SET timestamp = :newTimestamp, duration = :newDuration, interruptions = :newInterruptions, labelName = :newLabel, notes = :newNotes
 WHERE id = :id;
 
+updateLabelByIds:
+UPDATE localSession
+SET labelName = :newLabel
+WHERE id IN ?;
+
 selectAll:
 SELECT *
 FROM localSession  ORDER BY timestamp DESC;
@@ -47,12 +52,20 @@ selectByLabel:
 SELECT *
 FROM localSession WHERE labelName IS ? ORDER BY timestamp DESC;
 
+selectByLabels:
+SELECT *
+FROM localSession WHERE labelName IN ? ORDER BY timestamp DESC;
+
 selectLastInsertSessionId:
 SELECT last_insert_rowid();
 
 delete:
 DELETE FROM localSession
 WHERE id = ?;
+
+deleteByIds:
+DELETE FROM localSession
+WHERE id IN ?;
 
 deleteAll:
 DELETE FROM localSession;

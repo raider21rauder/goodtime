@@ -138,13 +138,13 @@ class LocalDataRepositoryTest {
         }
         dataSource.updateLabelIsArchived(LABEL_NAME, true)
 
-        val sessions = dataSource.selectByIsArchived(true).first()
+        val sessions = dataSource.selectSessionsByIsArchived(true).first()
         assertEquals(expectedArchivedSessions, sessions.size, "selectSessionsByIsArchived failed")
 
         dataSource.insertLabel(label.copy(name = "ceva", isArchived = true))
         dataSource.insertLabel(label.copy(name = "fin", isArchived = true))
 
-        val labels = dataSource.selectAllLabelsArchived().first()
+        val labels = dataSource.selectLabelsByArchived(isArchived = true).first()
         assertEquals(3, labels.size, "selectLabelsByArchived failed")
     }
 

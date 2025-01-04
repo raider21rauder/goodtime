@@ -93,7 +93,7 @@ internal class LocalDataRepositoryImpl(
             .map { it.first() }
     }
 
-    override fun selectByIsArchived(isArchived: Boolean): Flow<List<Session>> {
+    override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> {
         return database.localSessionQueries
             .selectByIsArchived(isArchived, mapper = ::toExternalSessionMapper)
             .asFlow()
@@ -103,6 +103,13 @@ internal class LocalDataRepositoryImpl(
     override fun selectSessionsByLabel(label: String): Flow<List<Session>> {
         return database.localSessionQueries
             .selectByLabel(label, mapper = ::toExternalSessionMapper)
+            .asFlow()
+            .mapToList(defaultDispatcher)
+    }
+
+    override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> {
+        return database.localSessionQueries
+            .selectByLabels(labels, mapper = ::toExternalSessionMapper)
             .asFlow()
             .mapToList(defaultDispatcher)
     }
@@ -213,9 +220,9 @@ internal class LocalDataRepositoryImpl(
             .asFlow().mapToList(defaultDispatcher)
     }
 
-    override fun selectAllLabelsArchived(): Flow<List<Label>> {
+    override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> {
         return database.localLabelQueries
-            .selectAllArchived(mapper = ::toExternalLabelMapper)
+            .selectByArchived(isArchived, mapper = ::toExternalLabelMapper)
             .asFlow()
             .mapToList(defaultDispatcher)
     }

@@ -21,17 +21,23 @@ import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.stats.StatsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val viewModelModule: Module = module {
-    single { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+    val scopeName = "viewModelScope"
+    single(named(scopeName)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+
     viewModelOf(::MainViewModel)
     viewModelOf(::LabelsViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModelOf(::BackupViewModel)
+    viewModel { BackupViewModel(get(), get(named(scopeName))) }
+    viewModelOf(::StatsViewModel)
 }

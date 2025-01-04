@@ -74,9 +74,9 @@ selectByName:
 SELECT *
 FROM localLabel WHERE name = ?;
 
-selectAllArchived:
+selectByArchived:
 SELECT *
-FROM localLabel WHERE isArchived IS 1 ORDER BY orderIndex;
+FROM localLabel WHERE isArchived = ? ORDER BY orderIndex;
 
 selectLastInsertLabelId:
 SELECT last_insert_rowid();

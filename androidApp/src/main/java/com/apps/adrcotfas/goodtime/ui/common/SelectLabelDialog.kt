@@ -15,19 +15,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.di
+package com.apps.adrcotfas.goodtime.ui.common
 
-import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
-import com.apps.adrcotfas.goodtime.main.MainViewModel
-import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
-import com.apps.adrcotfas.goodtime.stats.StatsViewModel
-import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.module
+import androidx.compose.runtime.Composable
+import com.apps.adrcotfas.goodtime.data.model.Label
 
-actual val viewModelModule: Module = module {
-    singleOf(::MainViewModel)
-    singleOf(::LabelsViewModel)
-    singleOf(::SettingsViewModel)
-    singleOf(::StatsViewModel)
+@Composable
+fun SelectLabelDialog(labels: List<Label>, singleSelect: Boolean) {
 }
