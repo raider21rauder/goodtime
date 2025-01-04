@@ -20,10 +20,7 @@ package com.apps.adrcotfas.goodtime.labels.addedit
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,16 +34,13 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -58,18 +52,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -79,13 +69,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
@@ -94,14 +78,14 @@ import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LEN
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.labelNameIsValid
+import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import org.koin.androidx.compose.koinViewModel
-import kotlin.math.max
-import kotlin.math.min
 
+// TODO: fix bug not allowing spaces in the label name
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditLabelScreen(
@@ -386,7 +370,7 @@ private fun LabelNameRow(
                 modifier = internalModifier
                     .fillMaxWidth()
                     .clearFocusOnKeyboardDismiss(),
-                textStyle = MaterialTheme.typography.displaySmall.copy(
+                textStyle = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.onSurface,
                     textDecoration = if (isDefaultLabel) null else TextDecoration.Underline,
                 ),
@@ -403,7 +387,7 @@ private fun LabelNameRow(
             if (labelName.isEmpty()) {
                 Text(
                     text = if (isDefaultLabel) stringResource(R.string.label_default) else "Add label name",
-                    style = MaterialTheme.typography.displaySmall,
+                    style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -493,120 +477,6 @@ private fun TimerTypeRow(isCountDown: Boolean, onCountDownEnabled: (Boolean) -> 
 }
 
 @Composable
-fun EditableNumberListItem(
-    title: String,
-    value: Int,
-    minValue: Int = 1,
-    maxValue: Int = 90,
-    enabled: Boolean = true,
-    onValueChange: (Int) -> Unit,
-    enableSwitch: Boolean = false,
-    switchValue: Boolean = true,
-    onSwitchChange: (Boolean) -> Unit = {},
-) {
-    var textFieldValue by remember(value) { mutableStateOf(TextFieldValue(value.toString())) }
-    val interactionSource = remember { MutableInteractionSource() }
-    val isFocused by interactionSource.collectIsFocusedAsState()
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(isFocused) {
-        val endRange = if (isFocused) textFieldValue.text.length else 0
-        textFieldValue = textFieldValue.copy(
-            selection = TextRange(
-                start = 0,
-                end = endRange,
-            ),
-        )
-    }
-
-    val clickableModifier = if (enabled && switchValue) {
-        Modifier.clickable {
-            focusRequester.requestFocus()
-        }
-    } else {
-        Modifier
-    }
-
-    val colors =
-        if (enabled && switchValue) {
-            ListItemDefaults.colors()
-        } else {
-            ListItemDefaults.colors(
-                headlineColor = ListItemDefaults.colors().disabledHeadlineColor,
-            )
-        }
-    val strokeColor =
-        if (enabled && switchValue) {
-            MaterialTheme.colorScheme.primary
-        } else {
-            MaterialTheme.colorScheme.onSurface.copy(
-                0.38f,
-            )
-        }
-
-    ListItem(
-        modifier = clickableModifier,
-        colors = colors,
-        headlineContent = { Text(text = title) },
-        trailingContent = {
-            BasicTextField(
-                value = textFieldValue,
-                enabled = enabled && switchValue,
-                interactionSource = interactionSource,
-                onValueChange = {
-                    if (it.text.length <= 2 && it.text.all { char -> char.isDigit() }) {
-                        val newValue = min(max(it.text.toIntOrNull() ?: 0, minValue), maxValue)
-                        val empty = it.text.isEmpty()
-                        val newText = if (empty) "" else newValue.toString()
-                        val newSelection = TextRange(newText.length)
-                        textFieldValue = it.copy(text = newText, selection = newSelection)
-                        if (!empty) {
-                            onValueChange(newValue)
-                        }
-                    }
-                },
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                singleLine = true,
-                textStyle = MaterialTheme.typography.titleLarge.copy(
-                    textAlign = TextAlign.Center,
-                    color = colors.headlineColor,
-                ),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done,
-                ),
-                modifier = Modifier
-                    .widthIn(min = 32.dp, max = 64.dp)
-                    .border(1.dp, strokeColor, MaterialTheme.shapes.medium)
-                    .clip(RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-                    .focusRequester(focusRequester)
-                    .clearFocusOnKeyboardDismiss {
-                        textFieldValue = textFieldValue.copy(
-                            text = value.toString(),
-                        )
-                    },
-            )
-        },
-        leadingContent = {
-            if (enableSwitch) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Checkbox(
-                        checked = switchValue,
-                        enabled = enabled,
-                        onCheckedChange = onSwitchChange,
-                    )
-                    VerticalDivider(modifier = Modifier.height(32.dp), color = colors.headlineColor)
-                }
-            }
-        },
-    )
-}
-
-@Composable
 fun SaveButton(
     labelToEditInitialName: String,
     labelToEdit: Label,
@@ -632,15 +502,4 @@ fun SaveButton(
     ) {
         Text("Save")
     }
-}
-
-@Preview
-@Composable
-fun EditableNumberListItemPreview() {
-    EditableNumberListItem(
-        title = "Work duration",
-        value = 25,
-        onValueChange = {},
-        enableSwitch = true,
-    )
 }
