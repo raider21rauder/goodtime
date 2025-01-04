@@ -52,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import kotlinx.datetime.LocalTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,4 +154,14 @@ fun TimePickerDialogPreview() {
         onConfirm = {},
         timePickerState = rememberTimePickerState(),
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+fun TimePickerState.toLocalTime(): LocalTime {
+    return LocalTime(hour = hour, minute = minute)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+fun TimePickerState.toSecondOfDay(): Int {
+    return this.toLocalTime().toSecondOfDay()
 }

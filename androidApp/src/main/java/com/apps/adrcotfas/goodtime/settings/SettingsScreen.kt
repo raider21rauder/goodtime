@@ -27,7 +27,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -65,7 +64,6 @@ import compose.icons.evaicons.outline.Info
 import compose.icons.evaicons.outline.Save
 import compose.icons.evaicons.outline.Settings
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.LocalTime
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
@@ -235,9 +233,4 @@ fun SettingsScreen(
             }
         },
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.toSecondOfDay(): Int {
-    return LocalTime(hour = hour, minute = minute).toSecondOfDay()
 }
