@@ -50,6 +50,7 @@ data class AppSettings(
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
     val notificationPermissionState: NotificationPermissionState = NotificationPermissionState.NOT_ASKED,
+    val lastInsertedSessionId: Long = Long.MAX_VALUE,
 )
 
 enum class NotificationPermissionState {

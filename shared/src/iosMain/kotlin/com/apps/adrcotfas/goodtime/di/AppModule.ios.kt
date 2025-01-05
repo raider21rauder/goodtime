@@ -19,7 +19,10 @@ package com.apps.adrcotfas.goodtime.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.apps.adrcotfas.goodtime.data.local.DatabaseDriverFactory
+import androidx.room.RoomDatabase
+import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
+import com.apps.adrcotfas.goodtime.data.local.getDatabaseBuilder
+import kotlinx.cinterop.ExperimentalForeignApi
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -27,11 +30,11 @@ import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
+import kotlin.experimental.ExperimentalNativeApi
 
+@OptIn(ExperimentalForeignApi::class)
 actual val platformModule: Module = module {
-    single<DatabaseDriverFactory> {
-        DatabaseDriverFactory()
-    }
+    single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder() }
 
     single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
         getDataStore(
@@ -48,4 +51,6 @@ actual val platformModule: Module = module {
         )
     }
 }
+
+@OptIn(ExperimentalNativeApi::class)
 actual fun isDebug(): Boolean = Platform.isDebugBinary

@@ -25,7 +25,7 @@ data class Session(
     val duration: Long, // minutes
     val interruptions: Long, // minutes
     val label: String = DEFAULT_LABEL_NAME,
-    val notes: String?,
+    val notes: String,
     val isWork: Boolean,
     val isArchived: Boolean,
 ) {
@@ -43,7 +43,7 @@ data class Session(
                 duration = duration,
                 interruptions = interruptions,
                 label = label,
-                notes = null,
+                notes = "",
                 isWork = isWork,
                 isArchived = false,
             )
@@ -54,7 +54,7 @@ data class Session(
             duration = 0,
             interruptions = 0,
             label = DEFAULT_LABEL_NAME,
-            notes = null,
+            notes = "",
             isWork = true,
             isArchived = false,
         )

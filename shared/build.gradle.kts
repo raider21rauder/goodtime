@@ -4,8 +4,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -17,6 +18,11 @@ android {
     }
     buildFeatures {
         buildConfig = true
+    }
+    sourceSets {
+        named("androidTest") {
+            assets.srcDirs(files("$projectDir/schemas"))
+        }
     }
 }
 
@@ -37,7 +43,6 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             isStatic = false
-            linkerOpts("-lsqlite3")
             export(libs.touchlab.kermit.simple)
         }
     }
@@ -53,9 +58,9 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.koin.core)
             implementation(libs.coroutines.core)
-            implementation(libs.sqldelight.runtime)
-            implementation(libs.sqldelight.coroutines)
-            implementation(libs.sqldelight.primitive.adapters)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.paging)
+            implementation(libs.sqlite.bundled)
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)
             api(libs.kotlinx.serialization)
@@ -67,17 +72,16 @@ kotlin {
             implementation(libs.bundles.shared.commonTest)
         }
         androidMain.dependencies {
-            implementation(libs.sqldelight.driver.android)
             implementation(libs.androidx.core.ktx)
             implementation(libs.koin.android)
         }
-        getByName("androidUnitTest") {
-            dependencies {
-                implementation(libs.bundles.shared.androidTest)
-            }
+        androidUnitTest.dependencies {
+            implementation(libs.bundles.shared.androidTest)
+        }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.bundles.shared.androidTest)
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.driver.native)
         }
     }
     // https://kotlinlang.org/docs/multiplatform-expect-actual.html#expected-and-actual-classes
@@ -88,15 +92,15 @@ kotlin {
     }
 }
 
-sqldelight {
-    databases {
-        create("Database") {
-            packageName.set("com.apps.adrcotfas.goodtime.data.local")
-            version = 6
-            verifyMigrations = true
-        }
-    }
-    linkSqlite = true
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }
 
 tasks.register("testClasses") { }

@@ -17,20 +17,26 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.native.NativeSqliteDriver
-import co.touchlab.sqliter.DatabaseConfiguration
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSFileManager
+import platform.Foundation.NSUserDomainMask
 
-internal actual fun testDbConnection(): SqlDriver {
-    return NativeSqliteDriver(
-        schema = Database.Schema,
-        name = DATABASE_NAME,
-        onConfiguration = { config: DatabaseConfiguration ->
-            config.copy(
-                extendedConfig = DatabaseConfiguration.Extended(foreignKeyConstraints = true),
-                inMemory = true,
-            )
-        },
+fun getDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> {
+    val dbFilePath = documentDirectory() + "/$DATABASE_NAME"
+    return Room.databaseBuilder<ProductivityDatabase>(name = dbFilePath)
+}
 
+@OptIn(ExperimentalForeignApi::class)
+private fun documentDirectory(): String {
+    val documentDirectory = NSFileManager.defaultManager.URLForDirectory(
+        directory = NSDocumentDirectory,
+        inDomain = NSUserDomainMask,
+        appropriateForURL = null,
+        create = false,
+        error = null,
     )
+    return requireNotNull(documentDirectory?.path)
 }

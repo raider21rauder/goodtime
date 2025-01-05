@@ -17,157 +17,106 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
-import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToList
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
-import com.apps.adrcotfas.goodtime.data.model.toExternalLabelMapper
-import com.apps.adrcotfas.goodtime.data.model.toExternalSessionMapper
+import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.model.toLocal
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 internal class LocalDataRepositoryImpl(
-    private var database: Database,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private var sessionDao: SessionDao,
+    private var labelDao: LabelDao,
+    private val coroutineScope: CoroutineScope,
 ) : LocalDataRepository {
 
     init {
         insertDefaultLabel()
     }
 
-    override fun reinitDatabase(database: Database) {
-        this.database = database
+    override fun reinitDatabase(database: ProductivityDatabase) {
+        sessionDao = database.sessionsDao()
+        labelDao = database.labelsDao()
         insertDefaultLabel()
     }
 
     private fun insertDefaultLabel() {
-        database.localLabelQueries.selectByName(Label.DEFAULT_LABEL_NAME, ::toExternalLabelMapper)
-            .executeAsList().let {
-                if (it.isEmpty()) {
-                    val localLabel = Label.defaultLabel().toLocal()
-                    database.localLabelQueries.insert(localLabel)
-                }
-            }
+        coroutineScope.launch {
+            val localLabel = Label.defaultLabel().toLocal()
+            labelDao.insert(localLabel)
+        }
     }
 
-    override suspend fun insertSession(session: Session) {
-        withContext(defaultDispatcher) {
-            val localSession = session.toLocal()
-            database.localSessionQueries.insert(localSession)
-        }
+    override suspend fun insertSession(session: Session): Long {
+        return sessionDao.insert(session.toLocal())
     }
 
     override suspend fun updateSession(id: Long, newSession: Session) {
-        withContext(defaultDispatcher) {
-            val localSession = newSession.toLocal()
-            database.localSessionQueries.update(id = id, newSession = localSession)
-        }
+        val localSession = newSession.toLocal()
+        sessionDao.update(
+            newTimestamp = localSession.timestamp,
+            newDuration = localSession.duration,
+            newInterruptions = localSession.interruptions,
+            newLabel = localSession.labelName,
+            newNotes = localSession.notes,
+            id = id,
+        )
     }
 
     override fun selectAllSessions(): Flow<List<Session>> {
-        return database.localSessionQueries
-            .selectAll(mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
+        return sessionDao.selectAll().map { it.map { sessions -> sessions.toExternal() } }
     }
 
     override fun selectSessionsAfter(timestamp: Long): Flow<List<Session>> {
-        return database.localSessionQueries
-            .selectAfter(timestamp, mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
+        return sessionDao.selectAfter(timestamp)
+            .map { sessions -> sessions.map { it.toExternal() } }
     }
 
     override fun selectSessionById(id: Long): Flow<Session> {
-        return database.localSessionQueries
-            .selectById(id, mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
-            .filterNot { it.isEmpty() }
-            .map { it.first() }
+        return sessionDao.selectById(id).map { it.toExternal() }
     }
 
     override fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>> {
-        return database.localSessionQueries
-            .selectByIsArchived(isArchived, mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
+        return sessionDao.selectByIsArchived(isArchived)
+            .map { sessions -> sessions.map { it.toExternal() } }
     }
 
     override fun selectSessionsByLabel(label: String): Flow<List<Session>> {
-        return database.localSessionQueries
-            .selectByLabel(label, mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
+        return sessionDao.selectByLabel(label).map { sessions -> sessions.map { it.toExternal() } }
     }
 
     override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> {
-        return database.localSessionQueries
-            .selectByLabels(labels, mapper = ::toExternalSessionMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
-    }
-
-    override fun selectLastInsertSessionId(): Long? {
-        return database.localSessionQueries
-            .selectLastInsertSessionId().executeAsOneOrNull()
+        return sessionDao.selectByLabels(labels)
+            .map { sessions -> sessions.map { it.toExternal() } }
     }
 
     override suspend fun deleteSession(id: Long) {
-        withContext(defaultDispatcher) {
-            database.localSessionQueries.delete(id)
-        }
+        sessionDao.delete(id)
     }
 
     override suspend fun deleteAllSessions() {
-        withContext(defaultDispatcher) {
-            database.localSessionQueries.deleteAll()
-        }
+        sessionDao.deleteAll()
     }
 
-    override suspend fun insertLabel(label: Label) {
-        if (label.name.isEmpty()) return
-        withContext(defaultDispatcher) {
-            val localLabel = label.toLocal()
-            database.localLabelQueries.insert(localLabel)
-        }
+    override suspend fun insertLabel(label: Label): Long {
+        return labelDao.insert(label.toLocal())
     }
 
     override suspend fun insertLabelAndBulkRearrange(
         label: Label,
         labelsToUpdate: List<Pair<String, Long>>,
     ) {
-        withContext(defaultDispatcher) {
-            database.transaction {
-                val localLabel = label.toLocal()
-                database.localLabelQueries.insert(localLabel)
-                labelsToUpdate.forEach { (name, newOrderIndex) ->
-                    database.localLabelQueries.updateOrderIndex(newOrderIndex, name)
-                }
-            }
-        }
+        labelDao.insertLabelAndBulkRearrange(label.toLocal(), labelsToUpdate)
     }
 
     override suspend fun updateLabelOrderIndex(name: String, newOrderIndex: Long) {
-        withContext(defaultDispatcher) {
-            database.localLabelQueries.updateOrderIndex(newOrderIndex = newOrderIndex, name = name)
-        }
+        labelDao.updateOrderIndex(newOrderIndex.toInt(), name)
     }
 
     override suspend fun bulkUpdateLabelOrderIndex(labelsToUpdate: List<Pair<String, Long>>) {
-        withContext(defaultDispatcher) {
-            database.transaction {
-                labelsToUpdate.forEach { (name, newOrderIndex) ->
-                    database.localLabelQueries.updateOrderIndex(newOrderIndex, name)
-                }
-            }
-        }
+        labelDao.bulkUpdateLabelOrderIndex(labelsToUpdate)
     }
 
     override suspend fun updateLabel(
@@ -175,22 +124,22 @@ internal class LocalDataRepositoryImpl(
         newLabel: Label,
     ) {
         if (newLabel.name.isEmpty()) return
-        withContext(defaultDispatcher) {
-            database.localLabelQueries.updateLabel(
-                newName = newLabel.name,
-                newColorIndex = newLabel.colorIndex,
-                newUseDefaultTimeProfile = newLabel.useDefaultTimeProfile,
-                newIsCountdown = newLabel.timerProfile.isCountdown,
-                newWorkDuration = newLabel.timerProfile.workDuration,
-                newIsBreakEnabled = newLabel.timerProfile.isBreakEnabled,
-                newBreakDuration = newLabel.timerProfile.breakDuration,
-                newIsLongBreakEnabled = newLabel.timerProfile.isLongBreakEnabled,
-                newLongBreakDuration = newLabel.timerProfile.longBreakDuration,
-                newSessionsBeforeLongBreak = newLabel.timerProfile.sessionsBeforeLongBreak,
-                newWorkBreakRatio = newLabel.timerProfile.workBreakRatio,
-                name = name,
-            )
-        }
+        val localLabel = newLabel.toLocal()
+        labelDao.updateLabel(
+            newName = localLabel.name,
+            newColorIndex = localLabel.colorIndex,
+            newUseDefaultTimeProfile = localLabel.useDefaultTimeProfile,
+            newIsCountdown = localLabel.isCountdown,
+            newWorkDuration = localLabel.workDuration,
+            newIsBreakEnabled = localLabel.isBreakEnabled,
+            newBreakDuration = localLabel.breakDuration,
+            newIsLongBreakEnabled = localLabel.isLongBreakEnabled,
+            newLongBreakDuration = localLabel.longBreakDuration,
+            newSessionsBeforeLongBreak = localLabel.sessionsBeforeLongBreak,
+            newWorkBreakRatio = localLabel.workBreakRatio,
+            name = name,
+
+        )
     }
 
     override suspend fun updateDefaultLabel(newDefaultLabel: Label) {
@@ -200,47 +149,27 @@ internal class LocalDataRepositoryImpl(
     override fun selectDefaultLabel() = selectLabelByName(Label.DEFAULT_LABEL_NAME)
 
     override suspend fun updateLabelIsArchived(name: String, newIsArchived: Boolean) {
-        withContext(defaultDispatcher) {
-            database.localLabelQueries.updateIsArchived(newIsArchived, name)
-        }
+        labelDao.updateIsArchived(newIsArchived, name)
     }
 
     override fun selectLabelByName(name: String): Flow<Label?> {
-        return database.localLabelQueries
-            .selectByName(name, mapper = ::toExternalLabelMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher).map {
-                if (it.isEmpty()) null else it.first()
-            }
+        return labelDao.selectByName(name).map { it?.toExternal() }
     }
 
     override fun selectAllLabels(): Flow<List<Label>> {
-        return database.localLabelQueries
-            .selectAll(mapper = ::toExternalLabelMapper)
-            .asFlow().mapToList(defaultDispatcher)
+        return labelDao.selectAll().map { labels -> labels.map { it.toExternal() } }
     }
 
     override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> {
-        return database.localLabelQueries
-            .selectByArchived(isArchived, mapper = ::toExternalLabelMapper)
-            .asFlow()
-            .mapToList(defaultDispatcher)
-    }
-
-    override fun selectLastInsertLabelId(): Long? {
-        return database.localLabelQueries
-            .selectLastInsertLabelId().executeAsOneOrNull()
+        return labelDao.selectByArchived(isArchived)
+            .map { labels -> labels.map { it.toExternal() } }
     }
 
     override suspend fun deleteLabel(name: String) {
-        withContext(defaultDispatcher) {
-            database.localLabelQueries.delete(name)
-        }
+        labelDao.deleteByName(name)
     }
 
     override suspend fun deleteAllLabels() {
-        withContext(defaultDispatcher) {
-            database.localLabelQueries.deleteAll()
-        }
+        labelDao.deleteAll()
     }
 }

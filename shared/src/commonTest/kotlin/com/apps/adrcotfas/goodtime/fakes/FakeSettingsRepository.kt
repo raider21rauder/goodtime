@@ -126,6 +126,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setLastInsertedSessionId(id: Long) {
+        _settings.emit(
+            _settings.value.copy(lastInsertedSessionId = id),
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),

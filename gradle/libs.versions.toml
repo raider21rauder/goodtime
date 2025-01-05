@@ -6,8 +6,9 @@ android-targetSdk = "35"
 
 agp = "8.7.3"
 kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
 
-kotlinx-coroutines = "1.9.0"
+kotlinx-coroutines = "1.10.1"
 kotlinx-serialization = "1.7.3"
 kotlinx-datetime = "0.6.1"
 desugar_jdk_libs = "2.1.4"
@@ -23,11 +24,12 @@ androidx-adaptive-navigation-android = "1.0.0"
 androidx-datastore = "1.1.1"
 androidx-media = "1.7.0"
 androidx-documentfile = "1.0.1"
-compose-icons-eva = "1.1.1"
+androidx-room = "2.7.0-alpha12"
+sqlite = "2.5.0-alpha12"
 
-sqldelight = "2.0.2"
+compose-icons-eva = "1.1.1"
 koin = "4.0.0"
-okio = "3.9.0"
+okio = "3.9.1"
 kermit = "2.0.3"
 mikepenz-aboutlibraries = "11.2.3"
 spotless = "6.21.0"
@@ -36,6 +38,8 @@ androidx-test-junit = "1.2.1"
 espresso-core = "3.6.1"
 robolectric = "4.14.1"
 turbine = "1.2.0"
+coreKtx = "1.6.1"
+roomTestingAndroid = "2.7.0-alpha12"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
@@ -56,18 +60,18 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-media = { group = "androidx.media", name = "media", version.ref = "androidx-media" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "androidx-documentfile" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 devsrsouza-compose-icons-eva = { module = "br.com.devsrsouza.compose.icons:eva-icons", version.ref = "compose-icons-eva" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
-sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
-sqldelight-driver-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
-sqldelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
-sqldelight-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -91,11 +95,12 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 mikepenz-aboutlibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "mikepenz-aboutlibraries" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+room = { id = "androidx.room", version.ref = "androidx-room" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 shared-commonTest = [
@@ -111,6 +116,6 @@ shared-androidTest = [
     "androidx-espresso-core",
     "coroutines-test",
     "roboelectric",
-    "sqldelight-driver-jvm",
+    "androidx-room-testing",
     "turbine"
 ]

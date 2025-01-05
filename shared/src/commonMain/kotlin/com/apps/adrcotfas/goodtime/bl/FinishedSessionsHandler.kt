@@ -20,21 +20,24 @@ package com.apps.adrcotfas.goodtime.bl
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class FinishedSessionsHandler(
     private val coroutineScope: CoroutineScope,
     private val repo: LocalDataRepository,
+    private val settingsRepo: SettingsRepository,
     private val log: Logger,
 ) {
     fun updateSession(newSession: Session) {
         log.v { "Updating a finished session" }
         coroutineScope.launch {
             try {
-                val lastSessionId = repo.selectLastInsertSessionId()
+                val lastSessionId = settingsRepo.settings.first().lastInsertedSessionId
                 log.v { "lastSessionId: $lastSessionId" }
-                if (lastSessionId != null) {
+                if (lastSessionId != Long.MAX_VALUE) {
                     repo.updateSession(lastSessionId, newSession)
                 }
             } catch (e: Exception) {
@@ -50,7 +53,16 @@ class FinishedSessionsHandler(
     fun saveSession(session: Session) {
         log.i { "Saving session to stats: $session" }
         coroutineScope.launch {
-            repo.insertSession(session)
+            val id = repo.insertSession(session)
+            log.v { "Inserted session with id: $id" }
+            settingsRepo.setLastInsertedSessionId(id)
+        }
+    }
+
+    fun resetLastInsertedSessionId() {
+        log.v { "Resetting last inserted session id" }
+        coroutineScope.launch {
+            settingsRepo.setLastInsertedSessionId(Long.MAX_VALUE)
         }
     }
 }

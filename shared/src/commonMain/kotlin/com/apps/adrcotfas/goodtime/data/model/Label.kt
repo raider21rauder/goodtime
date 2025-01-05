@@ -20,8 +20,6 @@ package com.apps.adrcotfas.goodtime.data.model
 import kotlin.random.Random
 
 data class Label(
-    // TODO: do I need the id here?
-    val id: Long = 0,
     val name: String,
     val colorIndex: Long = 24,
     val orderIndex: Long = Long.MAX_VALUE,
@@ -42,7 +40,7 @@ data class Label(
     }
 
     fun isSameAs(label: Label): Boolean {
-        return this.copy(id = 0, orderIndex = 0) == label.copy(id = 0, orderIndex = 0)
+        return this.copy(orderIndex = 0) == label.copy(orderIndex = 0)
     }
 }
 

@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.Flow
  * Single source of truth for finished sessions and labels.
  */
 interface LocalDataRepository {
-    fun reinitDatabase(database: Database)
-    suspend fun insertSession(session: Session)
+    fun reinitDatabase(database: ProductivityDatabase)
+    suspend fun insertSession(session: Session): Long
     suspend fun updateSession(id: Long, newSession: Session)
     fun selectAllSessions(): Flow<List<Session>>
     fun selectSessionsAfter(timestamp: Long): Flow<List<Session>>
@@ -34,11 +34,10 @@ interface LocalDataRepository {
     fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>>
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
-    fun selectLastInsertSessionId(): Long?
     suspend fun deleteSession(id: Long)
     suspend fun deleteAllSessions()
 
-    suspend fun insertLabel(label: Label)
+    suspend fun insertLabel(label: Label): Long
     suspend fun insertLabelAndBulkRearrange(label: Label, labelsToUpdate: List<Pair<String, Long>>)
     suspend fun updateLabelOrderIndex(name: String, newOrderIndex: Long)
     suspend fun bulkUpdateLabelOrderIndex(labelsToUpdate: List<Pair<String, Long>>)
@@ -49,7 +48,6 @@ interface LocalDataRepository {
     fun selectLabelByName(name: String): Flow<Label?>
     fun selectAllLabels(): Flow<List<Label>>
     fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>>
-    fun selectLastInsertLabelId(): Long?
     suspend fun deleteLabel(name: String)
     suspend fun deleteAllLabels()
 }

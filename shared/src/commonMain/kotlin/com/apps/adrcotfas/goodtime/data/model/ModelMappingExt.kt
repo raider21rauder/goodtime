@@ -17,12 +17,11 @@
  */
 package com.apps.adrcotfas.goodtime.data.model
 
-import com.apps.adrcotfas.goodtime.LocalLabel
-import com.apps.adrcotfas.goodtime.LocalSession
+import com.apps.adrcotfas.goodtime.data.local.LocalLabel
+import com.apps.adrcotfas.goodtime.data.local.LocalSession
 
 fun Label.toLocal(): LocalLabel {
     return LocalLabel(
-        id = id,
         name = name,
         colorIndex = colorIndex,
         orderIndex = orderIndex,
@@ -39,39 +38,25 @@ fun Label.toLocal(): LocalLabel {
     )
 }
 
-fun toExternalLabelMapper(
-    id: Long,
-    name: String,
-    colorIndex: Long,
-    orderIndex: Long,
-    useDefaultTimeProfile: Boolean,
-    isCountdown: Boolean,
-    workDuration: Int,
-    isBreakEnabled: Boolean,
-    breakDuration: Int,
-    isLongBreakEnabled: Boolean,
-    longBreakDuration: Int,
-    sessionsBeforeLongBreak: Int,
-    workBreakRatio: Int,
-    isArchived: Boolean,
-) = Label(
-    id = id,
-    name = name,
-    colorIndex = colorIndex,
-    orderIndex = orderIndex,
-    useDefaultTimeProfile = useDefaultTimeProfile,
-    timerProfile = TimerProfile(
-        isCountdown = isCountdown,
-        workDuration = workDuration,
-        isBreakEnabled = isBreakEnabled,
-        breakDuration = breakDuration,
-        isLongBreakEnabled = isLongBreakEnabled,
-        longBreakDuration = longBreakDuration,
-        sessionsBeforeLongBreak = sessionsBeforeLongBreak,
-        workBreakRatio = workBreakRatio,
-    ),
-    isArchived = isArchived,
-)
+fun LocalLabel.toExternal(): Label {
+    return Label(
+        name = name,
+        colorIndex = colorIndex,
+        orderIndex = orderIndex,
+        useDefaultTimeProfile = useDefaultTimeProfile,
+        timerProfile = TimerProfile(
+            isCountdown = isCountdown,
+            workDuration = workDuration,
+            isBreakEnabled = isBreakEnabled,
+            breakDuration = breakDuration,
+            isLongBreakEnabled = isLongBreakEnabled,
+            longBreakDuration = longBreakDuration,
+            sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+            workBreakRatio = workBreakRatio,
+        ),
+        isArchived = isArchived,
+    )
+}
 
 fun Session.toLocal() = LocalSession(
     id = id,
@@ -84,21 +69,12 @@ fun Session.toLocal() = LocalSession(
     isArchived = isArchived,
 )
 
-fun toExternalSessionMapper(
-    id: Long,
-    timestamp: Long,
-    duration: Long,
-    interruptions: Long,
-    label: String,
-    notes: String?,
-    isWork: Boolean,
-    isArchived: Boolean,
-) = Session(
+fun LocalSession.toExternal() = Session(
     id = id,
     timestamp = timestamp,
     duration = duration,
     interruptions = interruptions,
-    label = label,
+    label = labelName,
     notes = notes,
     isWork = isWork,
     isArchived = isArchived,

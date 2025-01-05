@@ -17,15 +17,14 @@
  */
 package com.apps.adrcotfas.goodtime.data.local.backup
 
-import app.cash.sqldelight.db.SqlDriver
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatForBackupFileName
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToIso8601
 import com.apps.adrcotfas.goodtime.bl.TimerManager
-import com.apps.adrcotfas.goodtime.data.local.Database
-import com.apps.adrcotfas.goodtime.data.local.DatabaseExt.invoke
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
+import com.apps.adrcotfas.goodtime.data.local.getRoomDatabase
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.di.reinitModulesAtBackupAndRestore
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,7 +45,7 @@ class BackupManager(
     private val fileSystem: FileSystem,
     private val dbPath: String,
     private val filesDirPath: String,
-    private val sqlDriver: SqlDriver,
+    private val database: ProductivityDatabase,
     private val timeProvider: TimeProvider,
     private val backupPrompter: BackupPrompter,
     private val localDataRepository: LocalDataRepository,
@@ -118,12 +117,8 @@ class BackupManager(
 
     private suspend fun createBackup(tmpFilePath: String) {
         withContext(defaultDispatcher) {
-            try {
-                sqlDriver.close()
-                fileSystem.copy(dbPath.toPath(), tmpFilePath.toPath())
-            } finally {
-                afterOperation()
-            }
+            database.sessionsDao().checkpoint()
+            fileSystem.copy(dbPath.toPath(), tmpFilePath.toPath())
         }
     }
 
@@ -178,7 +173,7 @@ class BackupManager(
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {
             try {
-                sqlDriver.close()
+                database.sessionsDao().checkpoint()
                 fileSystem.copy(importedTemporaryFileName.toPath(), dbPath.toPath())
             } finally {
                 afterOperation()
@@ -188,7 +183,7 @@ class BackupManager(
 
     private fun afterOperation() {
         reinitModulesAtBackupAndRestore()
-        get<LocalDataRepository>().reinitDatabase(Database(driver = get<SqlDriver>()))
+        get<LocalDataRepository>().reinitDatabase(getRoomDatabase(get()))
         get<TimerManager>().restart()
     }
 

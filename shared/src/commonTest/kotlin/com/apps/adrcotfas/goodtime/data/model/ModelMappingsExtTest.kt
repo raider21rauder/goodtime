@@ -17,8 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.data.model
 
-import com.apps.adrcotfas.goodtime.LocalLabel
-import com.apps.adrcotfas.goodtime.LocalSession
+import com.apps.adrcotfas.goodtime.data.local.LocalLabel
+import com.apps.adrcotfas.goodtime.data.local.LocalSession
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.minutes
@@ -38,16 +38,7 @@ class ModelMappingsExtTest {
             isWork = true,
             isArchived = true,
         )
-        val session = toExternalSessionMapper(
-            localSession.id,
-            localSession.timestamp,
-            localSession.duration,
-            localSession.interruptions,
-            localSession.labelName,
-            localSession.notes,
-            localSession.isWork,
-            localSession.isArchived,
-        )
+        val session = localSession.toExternal()
         assertEquals(localSession, session.toLocal())
     }
 
@@ -66,23 +57,13 @@ class ModelMappingsExtTest {
         val localSession = session.toLocal()
         assertEquals(
             session,
-            toExternalSessionMapper(
-                localSession.id,
-                localSession.timestamp,
-                localSession.duration,
-                localSession.interruptions,
-                localSession.labelName,
-                localSession.notes,
-                localSession.isWork,
-                localSession.isArchived,
-            ),
+            localSession.toExternal(),
         )
     }
 
     @Test
     fun `Convert local label to external and back`() {
         val localLabel = LocalLabel(
-            id = 0,
             name = "name",
             colorIndex = 1,
             orderIndex = 2,
@@ -97,29 +78,13 @@ class ModelMappingsExtTest {
             workBreakRatio = 7,
             isArchived = true,
         )
-        val label = toExternalLabelMapper(
-            localLabel.id,
-            localLabel.name,
-            localLabel.colorIndex,
-            localLabel.orderIndex,
-            localLabel.useDefaultTimeProfile,
-            localLabel.isCountdown,
-            localLabel.workDuration,
-            localLabel.isBreakEnabled,
-            localLabel.breakDuration,
-            localLabel.isLongBreakEnabled,
-            localLabel.longBreakDuration,
-            localLabel.sessionsBeforeLongBreak,
-            localLabel.workBreakRatio,
-            localLabel.isArchived,
-        )
+        val label = localLabel.toExternal()
         assertEquals(localLabel, label.toLocal())
     }
 
     @Test
     fun `Convert external label to local and back`() {
         val label = Label(
-            id = 0,
             name = "name",
             colorIndex = 1,
             orderIndex = 2,
@@ -139,22 +104,7 @@ class ModelMappingsExtTest {
         val localLabel = label.toLocal()
         assertEquals(
             label,
-            toExternalLabelMapper(
-                localLabel.id,
-                localLabel.name,
-                localLabel.colorIndex,
-                localLabel.orderIndex,
-                localLabel.useDefaultTimeProfile,
-                localLabel.isCountdown,
-                localLabel.workDuration,
-                localLabel.isBreakEnabled,
-                localLabel.breakDuration,
-                localLabel.isLongBreakEnabled,
-                localLabel.longBreakDuration,
-                localLabel.sessionsBeforeLongBreak,
-                localLabel.workBreakRatio,
-                localLabel.isArchived,
-            ),
+            localLabel.toExternal(),
         )
     }
 }

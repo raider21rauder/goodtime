@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import app.cash.sqldelight.db.SqlDriver
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.StaticConfig
@@ -28,16 +27,16 @@ import co.touchlab.kermit.platformLogWriter
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.createTimeProvider
-import com.apps.adrcotfas.goodtime.data.local.Database
-import com.apps.adrcotfas.goodtime.data.local.DatabaseExt.invoke
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepositoryImpl
+import com.apps.adrcotfas.goodtime.data.local.ProductivityDatabase
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepositoryImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
 import okio.FileSystem
 import okio.Path.Companion.toPath
@@ -87,7 +86,12 @@ private val coreModule = module {
     factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag.withPrefixIfDebug) else baseLogger }
 
     single<LocalDataRepository> {
-        LocalDataRepositoryImpl(Database(driver = get<SqlDriver>()))
+        LocalDataRepositoryImpl(
+            get<ProductivityDatabase>().sessionsDao(),
+            get<ProductivityDatabase>().labelsDao(),
+            // TODO: extract coroutine scopes used in DI
+            CoroutineScope(SupervisorJob() + Dispatchers.IO),
+        )
     }
     single<SettingsRepository> {
         SettingsRepositoryImpl(
@@ -103,6 +107,7 @@ private val coreModule = module {
         FinishedSessionsHandler(
             get<CoroutineScope>(),
             get<LocalDataRepository>(),
+            get<SettingsRepository>(),
             getWith(FinishedSessionsHandler::class.simpleName),
         )
     }
@@ -112,7 +117,7 @@ private val coreModule = module {
             get<FileSystem>(),
             get<String>(named(DB_PATH_KEY)),
             get<String>(named(FILES_DIR_PATH_KEY)),
-            get<SqlDriver>(),
+            get<ProductivityDatabase>(),
             get<TimeProvider>(),
             get<BackupPrompter>(),
             get<LocalDataRepository>(),

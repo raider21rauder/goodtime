@@ -24,6 +24,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -61,6 +62,7 @@ class SettingsRepositoryImpl(
         val longBreakDataKey = stringPreferencesKey("longBreakDataKey")
         val breakBudgetDataKey = stringPreferencesKey("breakBudgetDataKey")
         val notificationPermissionStateKey = intPreferencesKey("notificationPermissionStateKey")
+        val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
     }
 
     override val settings: Flow<AppSettings> = dataStore.data
@@ -110,6 +112,8 @@ class SettingsRepositoryImpl(
                 notificationPermissionState = it[Keys.notificationPermissionStateKey]?.let { key ->
                     NotificationPermissionState.entries[key]
                 } ?: AppSettings().notificationPermissionState,
+                lastInsertedSessionId = it[Keys.lastInsertedSessionIdKey]
+                    ?: AppSettings().lastInsertedSessionId,
             )
         }.catch {
             log.e("Error parsing settings", it)
@@ -220,4 +224,7 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun activateDefaultLabel() = activateLabelWithName(Label.DEFAULT_LABEL_NAME)
+    override suspend fun setLastInsertedSessionId(id: Long) {
+        dataStore.edit { it[Keys.lastInsertedSessionIdKey] = id }
+    }
 }

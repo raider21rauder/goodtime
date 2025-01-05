@@ -174,7 +174,7 @@ fun LabelsScreen(
                     ) {
                         itemsIndexed(
                             labels,
-                            key = { _, item -> "${item.id}_${item.name}" },
+                            key = { _, item -> item.name },
                         ) { index, label ->
                             DraggableItem(dragDropState, index) { isDragging ->
                                 LabelListItem(
@@ -183,7 +183,7 @@ fun LabelsScreen(
                                     isDragging = isDragging,
                                     dragModifier = Modifier.dragContainer(
                                         dragDropState = dragDropState,
-                                        key = "${label.id}_${label.name}",
+                                        key = label.name,
                                         onDragFinished = { viewModel.rearrangeLabelsToDisk() },
                                     ),
                                     onActivate = {

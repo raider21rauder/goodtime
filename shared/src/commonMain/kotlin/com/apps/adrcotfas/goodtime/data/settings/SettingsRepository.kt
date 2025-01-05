@@ -44,4 +44,5 @@ interface SettingsRepository {
     suspend fun setNotificationPermissionState(state: NotificationPermissionState)
     suspend fun activateLabelWithName(labelName: String)
     suspend fun activateDefaultLabel()
+    suspend fun setLastInsertedSessionId(id: Long)
 }
