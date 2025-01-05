@@ -88,7 +88,9 @@ fun NavigationScaffold(
                     icon = { Icon(icon!!, contentDescription = null) },
                     selected = isSelected,
                     onClick = {
-                        onNavigate(it.route)
+                        if (currentDestination != it.route) {
+                            onNavigate(it.route)
+                        }
                     },
                 )
             }
