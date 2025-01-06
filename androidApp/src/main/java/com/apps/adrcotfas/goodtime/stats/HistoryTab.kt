@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +35,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
@@ -43,10 +45,10 @@ import com.apps.adrcotfas.goodtime.data.model.Session
 @Composable
 fun HistoryTab(
     modifier: Modifier,
-    sessions: List<Session>,
+    sessions: LazyPagingItems<Session>,
     labels: List<Label>,
-    onClick: (Long) -> Unit,
-    onLongClick: (Long) -> Unit,
+    onClick: (Session) -> Unit,
+    onLongClick: (Session) -> Unit,
 ) {
     val context = LocalContext.current
     val is24HourFormat = DateFormat.is24HourFormat(context)
@@ -56,14 +58,21 @@ fun HistoryTab(
             .fillMaxWidth()
             .height(height = Dp.Infinity),
     ) {
-        items(sessions, key = { session -> session.id }) { session ->
-            HistoryItem(
-                session,
-                labels.first { it.name == session.label }.colorIndex,
-                is24HourFormat,
-                onClick,
-                onLongClick,
-            )
+        items(
+            count = sessions.itemCount,
+            key = sessions.itemKey { it.id },
+            contentType = sessions.itemContentType { "sessions" },
+        ) { index ->
+            val session = sessions[index]
+            if (session != null) {
+                HistoryItem(
+                    session,
+                    labels.first { it.name == session.label }.colorIndex,
+                    is24HourFormat,
+                    { onClick(session) },
+                    { onLongClick(session) },
+                )
+            }
         }
     }
 }
@@ -74,16 +83,17 @@ fun HistoryItem(
     session: Session,
     colorIndex: Long,
     is24HourFormat: Boolean,
-    onClick: (Long) -> Unit,
-    onLongClick: (Long) -> Unit,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .combinedClickable(
-                onClick = { onClick(session.id) },
-                onLongClick = { onLongClick(session.id) },
-            ).padding(vertical = 8.dp, horizontal = 16.dp),
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
+            .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {

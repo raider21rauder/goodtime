@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -66,6 +67,9 @@ interface SessionDao {
 
     @Query("SELECT * FROM localSession WHERE labelName IN (:labelNames) ORDER BY timestamp DESC")
     fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>>
+
+    @Query("SELECT * FROM localSession WHERE isArchived = 0 AND isWork = 1 AND labelName IN (:labelNames) ORDER BY timestamp DESC")
+    fun selectSessionsForHistoryPaged(labelNames: List<String>): PagingSource<Int, LocalSession>
 
     @Query("DELETE FROM localSession WHERE id = :id")
     suspend fun delete(id: Long)

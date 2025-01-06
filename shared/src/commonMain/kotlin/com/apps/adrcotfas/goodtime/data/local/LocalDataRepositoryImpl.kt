@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
+import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.toExternal
@@ -90,6 +91,10 @@ internal class LocalDataRepositoryImpl(
     override fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>> {
         return sessionDao.selectByLabels(labels)
             .map { sessions -> sessions.map { it.toExternal() } }
+    }
+
+    override fun selectSessionsForHistoryPaged(labels: List<String>): PagingSource<Int, LocalSession> {
+        return sessionDao.selectSessionsForHistoryPaged(labels)
     }
 
     override suspend fun deleteSession(id: Long) {

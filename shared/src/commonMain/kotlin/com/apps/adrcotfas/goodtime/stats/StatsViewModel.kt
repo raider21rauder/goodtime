@@ -19,11 +19,17 @@ package com.apps.adrcotfas.goodtime.stats
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
+import com.apps.adrcotfas.goodtime.data.model.toExternal
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
@@ -35,9 +41,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class StatsUiState(
-    val isLoading: Boolean = true,
     val labels: List<Label> = emptyList(),
-    val sessions: List<Session> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
     val selectedSessions: List<Long> = emptyList(),
     val showLabelSelection: Boolean = false,
@@ -52,46 +56,36 @@ class StatsViewModel(
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
 
-//    init {
-//        viewModelScope.launch {
-//            repeat(1000000) {
-//                localDataRepo.insertSession(
-//                    Session.create(
-//                        timestamp = it.toLong(),
-//                        duration = DEFAULT_WORK_DURATION.toLong(),
-//                        interruptions = 0,
-//                        label = Label.DEFAULT_LABEL_NAME,
-//                        isWork = true,
-//                    ),
-//                )
-//            }
-//        }
-//    }
-
     private val _uiState = MutableStateFlow(StatsUiState())
     val uiState = _uiState
         .onStart { loadData() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatsUiState())
 
+    val sessions: Flow<PagingData<Session>> = uiState.map { it.selectedLabels }.flatMapLatest { selectSessionsForHistoryPaged(it) }
+
+    private fun selectSessionsForHistoryPaged(labels: List<String>): Flow<PagingData<Session>> =
+        Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
+            localDataRepo.selectSessionsForHistoryPaged(labels)
+        }.flow.map { value ->
+            value.map {
+                it.toExternal()
+            }
+        }
+
     private fun loadData() {
         viewModelScope.launch {
-            val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
-            _uiState.update {
-                it.copy(
-                    labels = labels,
-                    selectedLabels = labels.map { label -> label.name },
-                )
-            }
-
-            uiState.map { it.selectedLabels }.flatMapLatest {
-                localDataRepo.selectSessionsByLabels(it)
-            }.collect { sessions ->
-                _uiState.update { it.copy(sessions = sessions, isLoading = false) }
+            localDataRepo.selectLabelsByArchived(isArchived = false).first().let { labels ->
+                _uiState.update {
+                    it.copy(
+                        labels = labels,
+                        selectedLabels = labels.map { label -> label.name },
+                    )
+                }
             }
         }
     }
 
-    fun toggleIsSelected(index: Long) {
+    fun toggleSessionIsSelected(index: Long) {
         _uiState.update {
             val selectedSessions = it.selectedSessions.toMutableList()
             if (selectedSessions.contains(index)) {
@@ -107,8 +101,16 @@ class StatsViewModel(
         _uiState.update { it.copy(selectedLabels = selectedLabels) }
     }
 
-    fun selectSessions(indexes: List<Int>) {
-        _uiState.update { it.copy(selectedSessions = indexes.map { index -> uiState.value.sessions[index].id }) }
+    fun toggleSelectedSession(index: Long) {
+        _uiState.update {
+            val selectedSessions = it.selectedSessions.toMutableList()
+            if (selectedSessions.contains(index)) {
+                selectedSessions.remove(index)
+            } else {
+                selectedSessions.add(index)
+            }
+            it.copy(selectedSessions = selectedSessions)
+        }
     }
 
     fun deleteSession(index: Long) {
@@ -155,7 +157,13 @@ class StatsViewModel(
 
     fun onAddEditSession(sessionToEdit: Session? = null) {
         val session = sessionToEdit ?: generateNewSession()
-        _uiState.update { it.copy(sessionToEdit = sessionToEdit, newSession = session, showAddSession = true) }
+        _uiState.update {
+            it.copy(
+                sessionToEdit = sessionToEdit,
+                newSession = session,
+                showAddSession = true,
+            )
+        }
     }
 
     fun clearAddEditSession() {

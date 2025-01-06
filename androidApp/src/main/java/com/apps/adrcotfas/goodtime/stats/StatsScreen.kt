@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
@@ -74,6 +75,8 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showBottomSheet = uiState.showAddSession
+
+    val sessionsPagingItems = viewModel.sessions.collectAsLazyPagingItems()
 
     Scaffold(
         modifier = Modifier
@@ -107,17 +110,16 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
         var showTimePicker by rememberSaveable { mutableStateOf(false) }
         var showLabelPicker by rememberSaveable { mutableStateOf(false) }
 
-        // TODO: add session button
         // TODO: select labels button with badge according to number of selected labels
         HistoryTab(
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
-            sessions = uiState.sessions.filter { it.isWork },
+            sessions = sessionsPagingItems,
             labels = uiState.labels,
-            onClick = { index ->
-                viewModel.onAddEditSession(uiState.sessions.first { session -> session.id == index })
+            onClick = { session ->
+                viewModel.onAddEditSession(session)
             },
             onLongClick = {
-                viewModel.toggleIsSelected(it)
+                viewModel.toggleSessionIsSelected(it.id)
             },
         )
 

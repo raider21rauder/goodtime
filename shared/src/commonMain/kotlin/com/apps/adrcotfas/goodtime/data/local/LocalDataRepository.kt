@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
+import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,7 @@ interface LocalDataRepository {
     fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>>
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
+    fun selectSessionsForHistoryPaged(labels: List<String>): PagingSource<Int, LocalSession>
     suspend fun deleteSession(id: Long)
     suspend fun deleteAllSessions()
 
