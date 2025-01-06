@@ -97,7 +97,7 @@ class StatsViewModel(
         }
     }
 
-    fun selectLabels(selectedLabels: List<String>) {
+    fun setSelectedLabels(selectedLabels: List<String>) {
         _uiState.update { it.copy(selectedLabels = selectedLabels) }
     }
 

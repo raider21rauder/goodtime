@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +48,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
+import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
@@ -77,7 +80,9 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val showBottomSheet = uiState.showAddSession
 
     val sessionsPagingItems = viewModel.sessions.collectAsLazyPagingItems()
+    var showMultipleLabelPicker by rememberSaveable { mutableStateOf(false) }
 
+    val selectedLabelsCount = uiState.selectedLabels.size
     Scaffold(
         modifier = Modifier
             .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
@@ -96,6 +101,9 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add new session",
                         )
+                    }
+                    SelectLabelButton(selectedLabelsCount) {
+                        showMultipleLabelPicker = true
                     }
                 },
             )
@@ -231,6 +239,36 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 timePickerState = timePickerState,
             )
         }
+        if (showLabelPicker) {
+            SelectLabelDialog(
+                title = "Select label",
+                labels = uiState.labels,
+                initialSelectedLabels = listOf(uiState.newSession.label),
+                onDismiss = { showLabelPicker = false },
+                singleSelection = true,
+                onConfirm = {
+                    viewModel.updateSessionToEdit(
+                        uiState.newSession.copy(
+                            label = it.first(),
+                        ),
+                    )
+                    showLabelPicker = false
+                },
+            )
+        }
+        if (showMultipleLabelPicker) {
+            SelectLabelDialog(
+                title = "Select labels",
+                labels = uiState.labels,
+                initialSelectedLabels = uiState.selectedLabels,
+                onDismiss = { showMultipleLabelPicker = false },
+                singleSelection = false,
+                onConfirm = {
+                    viewModel.setSelectedLabels(it)
+                    showMultipleLabelPicker = false
+                },
+            )
+        }
 //        Column {
 //            SecondaryTabRow(
 //                selectedTabIndex = type.ordinal,
@@ -252,4 +290,18 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
 //            }
 //        }
     }
+}
+
+@Composable
+fun SelectLabelButton(count: Int, onClick: () -> Unit) {
+    IconButtonWithBadge(
+        icon = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.Label,
+                contentDescription = "Navigate to archived labels",
+            )
+        },
+        count = count,
+        onClick = onClick,
+    )
 }

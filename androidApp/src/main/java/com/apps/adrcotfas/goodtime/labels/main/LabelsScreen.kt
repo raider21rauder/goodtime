@@ -25,7 +25,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -33,15 +32,11 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -59,9 +54,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
+import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.DeleteConfirmationDialog
@@ -263,35 +258,17 @@ fun LabelsScreen(
 
 @Composable
 fun ArchivedLabelsButton(count: Int, onClick: () -> Unit) {
-    AnimatedVisibility(visible = count > 0, enter = fadeIn(), exit = fadeOut()) {
-        BadgedBox(
-            modifier = Modifier.padding(end = 8.dp),
-            badge = {
-                Badge(
-                    modifier = Modifier.padding(end = 8.dp),
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                ) {
-                    Text(
-                        count.let {
-                            if (it > 9) {
-                                "9+"
-                            } else {
-                                it.toString()
-                            }
-                        },
-                    )
-                }
-            },
-        ) {
-            IconButton(onClick = onClick) {
-                Icon(
-                    imageVector = EvaIcons.Outline.Archive,
-                    contentDescription = "Navigate to archived labels",
-                )
-            }
-        }
-    }
+    IconButtonWithBadge(
+        icon = {
+            Icon(
+                imageVector = EvaIcons.Outline.Archive,
+                contentDescription = "Navigate to archived labels",
+            )
+        },
+        showWhenNothingSelected = false,
+        count = count,
+        onClick = onClick,
+    )
 }
 
 @Composable

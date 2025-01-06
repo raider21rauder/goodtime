@@ -24,8 +24,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Label
+import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,26 +47,52 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 
 @Composable
-fun LabelChip(name: String, colorIndex: Long, onClick: () -> Unit) {
+fun LabelChip(
+    name: String,
+    colorIndex: Long,
+    selected: Boolean = true,
+    showIcon: Boolean = false,
+    onClick: () -> Unit,
+) {
     val color = MaterialTheme.localColorsPalette.colors[colorIndex.toInt()]
-    LabelChip(name, color, onClick)
+    LabelChip(name, color, selected, showIcon, onClick)
 }
 
 @Composable
-fun LabelChip(name: String, color: Color, onClick: () -> Unit) {
+fun LabelChip(
+    name: String,
+    color: Color,
+    selected: Boolean = true,
+    showIcon: Boolean = false,
+    onClick: () -> Unit,
+) {
     val defaultLabelName = stringResource(id = R.string.label_default)
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
+    val transparentColor = color.copy(alpha = 0.1f)
+
+    val chipColors = AssistChipDefaults.assistChipColors(
+        containerColor = transparentColor,
+        labelColor = color,
+    )
 
     AssistChip(
+        leadingIcon = {
+            if (showIcon) {
+                Icon(
+                    imageVector = if (selected) Icons.AutoMirrored.Filled.Label else Icons.AutoMirrored.Outlined.Label,
+                    contentDescription = null,
+                    tint = color,
+                )
+            }
+        },
         label = { Text(labelName) },
         onClick = onClick,
-        colors = AssistChipDefaults.assistChipColors(
-            containerColor = color.copy(alpha = 0.15f),
-            labelColor = color,
-        ),
+        colors = chipColors,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(width = 0.dp, color = Color.Transparent),
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        border = BorderStroke(
+            width = 0.dp,
+            color = Color.Transparent,
+        ),
     )
 }
 
@@ -78,7 +108,8 @@ private fun SmallLabelChip(modifier: Modifier = Modifier, name: String, color: C
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
     Row(
         modifier =
-        modifier.wrapContentWidth()
+        modifier
+            .wrapContentWidth()
             .widthIn(min = 32.dp)
             .clip(MaterialTheme.shapes.extraSmall)
             .background(color.copy(alpha = 0.15f)),
@@ -100,7 +131,7 @@ private fun SmallLabelChip(modifier: Modifier = Modifier, name: String, color: C
 @Composable
 fun LabelChipPreview() {
     MaterialTheme {
-        LabelChip("math", Color.Red, {})
+        LabelChip("math", Color.Red, selected = false, showIcon = false, {})
     }
 }
 
