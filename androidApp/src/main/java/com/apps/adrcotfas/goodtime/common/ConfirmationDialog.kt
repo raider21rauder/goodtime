@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.labels
+package com.apps.adrcotfas.goodtime.common
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -24,15 +24,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 
 @Composable
-fun DeleteConfirmationDialog(
-    labelToDeleteName: String,
+fun ConfirmationDialog(
+    title: String,
+    subtitle: String? = null,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Delete $labelToDeleteName?") },
-        text = { Text("Deleting this label will remove it from associated completed sessions.") },
+        title = { Text(title) },
+        text = {
+            subtitle?.let {
+                Text(subtitle)
+            }
+        },
         confirmButton = {
             TextButton(
                 onClick = onConfirm,

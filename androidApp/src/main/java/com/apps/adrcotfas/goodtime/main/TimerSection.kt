@@ -76,7 +76,7 @@ import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.stats.LabelChip
+import com.apps.adrcotfas.goodtime.stats.SmallLabelChip
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -98,7 +98,6 @@ fun MainTimerView(
     domainLabel: DomainLabel,
     onStart: () -> Unit,
     onToggle: (() -> Boolean)? = null,
-    onLabelClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -154,7 +153,6 @@ fun MainTimerView(
             showLabel = timerStyle.showLabel,
             labelName = label.name,
             color = labelColor,
-            onClick = onLabelClick,
         )
     }
 }
@@ -455,12 +453,12 @@ fun TimerTextView(
 }
 
 @Composable
-fun LabelSection(showLabel: Boolean, labelName: String, color: Color, onClick: () -> Unit) {
+fun LabelSection(showLabel: Boolean, labelName: String, color: Color) {
     Box(
         modifier = Modifier
             .hideUnless(labelName != Label.DEFAULT_LABEL_NAME && showLabel),
     ) {
-        LabelChip(name = labelName, color) { onClick() }
+        SmallLabelChip(name = labelName, color)
     }
 }
 
@@ -492,7 +490,6 @@ fun LabelSectionPreview() {
             showLabel = true,
             labelName = "Work",
             color = MaterialTheme.localColorsPalette.colors[13],
-            onClick = {},
         )
     }
 }

@@ -55,7 +55,7 @@ fun SelectLabelDialog(
     onConfirm: (List<String>) -> Unit,
     onDismiss: () -> Unit,
     labels: List<Label>,
-    initialSelectedLabels: List<String>,
+    initialSelectedLabels: List<String> = emptyList(),
 ) {
     var selectedLabels by rememberSaveable {
         mutableStateOf(initialSelectedLabels)

@@ -41,7 +41,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -97,18 +96,25 @@ fun LabelChip(
 }
 
 @Composable
-fun SmallLabelChip(modifier: Modifier = Modifier, name: String, colorIndex: Long) {
+fun SmallLabelChip(
+    name: String,
+    colorIndex: Long,
+) {
     val color = MaterialTheme.localColorsPalette.colors[colorIndex.toInt()]
-    SmallLabelChip(modifier, name, color)
+    SmallLabelChip(name, color)
 }
 
 @Composable
-private fun SmallLabelChip(modifier: Modifier = Modifier, name: String, color: Color) {
+fun SmallLabelChip(
+    name: String,
+    color: Color,
+) {
     val defaultLabelName = stringResource(id = R.string.label_default)
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
+
     Row(
         modifier =
-        modifier
+        Modifier
             .wrapContentWidth()
             .widthIn(min = 32.dp)
             .clip(MaterialTheme.shapes.extraSmall)
@@ -117,11 +123,11 @@ private fun SmallLabelChip(modifier: Modifier = Modifier, name: String, color: C
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 3.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = labelName,
-            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+            style = MaterialTheme.typography.labelSmall,
             color = color,
         )
     }
@@ -139,6 +145,9 @@ fun LabelChipPreview() {
 @Composable
 fun SmallLabelChipPreview() {
     MaterialTheme {
-        SmallLabelChip(Modifier, "math", Color.Red)
+        SmallLabelChip(
+            "math",
+            Color.Red,
+        )
     }
 }

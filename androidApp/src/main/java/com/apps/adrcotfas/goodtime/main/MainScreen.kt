@@ -183,9 +183,6 @@ fun MainScreen(
                 domainLabel = label,
                 onStart = viewModel::startTimer,
                 onToggle = viewModel::toggleTimer,
-                onLabelClick = {
-                    // TODO: open label select dialog
-                },
             )
             DialControl(
                 modifier = modifier,

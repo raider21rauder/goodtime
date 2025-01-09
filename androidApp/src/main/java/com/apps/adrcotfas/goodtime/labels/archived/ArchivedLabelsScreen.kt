@@ -44,8 +44,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.data.model.Label
-import com.apps.adrcotfas.goodtime.labels.DeleteConfirmationDialog
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -103,8 +103,9 @@ fun ArchivedLabelsScreen(
                 }
             }
             if (showDeleteConfirmationDialog) {
-                DeleteConfirmationDialog(
-                    labelToDeleteName = labelToDelete,
+                ConfirmationDialog(
+                    title = "Delete $labelToDelete?",
+                    subtitle = "Deleting this label will remove it from associated completed sessions.",
                     onConfirm = {
                         val lastLabelDeleted = labels.size == 1
                         viewModel.deleteLabel(labelToDelete)

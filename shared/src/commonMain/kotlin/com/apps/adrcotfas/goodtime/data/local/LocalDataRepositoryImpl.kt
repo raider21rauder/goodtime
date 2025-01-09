@@ -66,6 +66,14 @@ internal class LocalDataRepositoryImpl(
         )
     }
 
+    override suspend fun updateSessionsLabelByIds(newLabel: String, ids: List<Long>) {
+        sessionDao.updateLabelByIds(newLabel, ids)
+    }
+
+    override suspend fun updateSessionsLabelByIdsExcept(newLabel: String, ids: List<Long>, labels: List<String>) {
+        sessionDao.updateLabelByIdsExcept(newLabel, ids, labels)
+    }
+
     override fun selectAllSessions(): Flow<List<Session>> {
         return sessionDao.selectAll().map { it.map { sessions -> sessions.toExternal() } }
     }
@@ -97,8 +105,12 @@ internal class LocalDataRepositoryImpl(
         return sessionDao.selectSessionsForHistoryPaged(labels)
     }
 
-    override suspend fun deleteSession(id: Long) {
-        sessionDao.delete(id)
+    override suspend fun deleteSessions(ids: List<Long>) {
+        sessionDao.delete(ids)
+    }
+
+    override suspend fun deleteSessionsExcept(ids: List<Long>, labels: List<String>) {
+        sessionDao.deleteExcept(ids, labels)
     }
 
     override suspend fun deleteAllSessions() {

@@ -56,7 +56,7 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
 
 @Composable
-private fun ListItemDefaults.enabledColors(): ListItemColors {
+fun ListItemDefaults.enabledColors(): ListItemColors {
     val secondaryColor = colors().headlineColor.copy(alpha = 0.75f)
     return colors(
         supportingColor = secondaryColor,
@@ -65,7 +65,7 @@ private fun ListItemDefaults.enabledColors(): ListItemColors {
 }
 
 @Composable
-private fun ListItemDefaults.disabledColors(): ListItemColors {
+fun ListItemDefaults.disabledColors(): ListItemColors {
     val disabledColor = colors().disabledHeadlineColor
     return colors(
         headlineColor = disabledColor,
@@ -75,7 +75,7 @@ private fun ListItemDefaults.disabledColors(): ListItemColors {
 }
 
 @Composable
-private fun ListItemDefaults.selectedColors(): ListItemColors {
+fun ListItemDefaults.selectedColors(): ListItemColors {
     return colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 }
 

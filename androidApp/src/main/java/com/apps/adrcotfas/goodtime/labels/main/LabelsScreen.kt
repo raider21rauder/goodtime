@@ -56,10 +56,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
+import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.isDefault
-import com.apps.adrcotfas.goodtime.labels.DeleteConfirmationDialog
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ARCHIVED_LABELS_SCREEN_DESTINATION_ID
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
@@ -130,9 +130,7 @@ fun LabelsScreen(
             AnimatedPane {
                 Scaffold(
                     modifier = Modifier
-                        .windowInsetsPadding(
-                            WindowInsets.statusBars,
-                        ),
+                        .windowInsetsPadding(WindowInsets.statusBars),
                     topBar = {
                         CenterAlignedTopAppBar(
                             title = { Text("Labels") },
@@ -208,8 +206,9 @@ fun LabelsScreen(
                         }
                     }
                     if (showDeleteConfirmationDialog) {
-                        DeleteConfirmationDialog(
-                            labelToDeleteName = labelToDelete,
+                        ConfirmationDialog(
+                            title = "Delete $labelToDelete?",
+                            subtitle = "Deleting this label will remove it from associated completed sessions.",
                             onConfirm = {
                                 viewModel.deleteLabel(labelToDelete)
                                 showDeleteConfirmationDialog = false

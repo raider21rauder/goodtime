@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.fakes
 
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import androidx.room.RoomRawQuery
 import com.apps.adrcotfas.goodtime.data.local.LocalSession
 import com.apps.adrcotfas.goodtime.data.local.SessionDao
@@ -66,6 +68,20 @@ class FakeSessionDao : SessionDao {
         }
     }
 
+    override suspend fun updateLabelByIdsExcept(
+        newLabel: String,
+        ids: List<Long>,
+        labels: List<String>,
+    ) {
+        sessions.value = sessions.value.map {
+            if (it.id !in ids && it.isWork && it.labelName in labels) {
+                it.copy(labelName = newLabel)
+            } else {
+                it
+            }
+        }
+    }
+
     override fun selectAll(): Flow<List<LocalSession>> {
         return sessions
     }
@@ -90,12 +106,32 @@ class FakeSessionDao : SessionDao {
         return sessions.map { sessions -> sessions.filter { it.labelName in labelNames } }
     }
 
-    override suspend fun delete(id: Long) {
-        sessions.value = sessions.value.filter { it.id != id }
+    override fun selectSessionsForHistoryPaged(labelNames: List<String>): PagingSource<Int, LocalSession> {
+        return object : PagingSource<Int, LocalSession>() {
+            override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> {
+                return LoadResult.Page(
+                    data = sessions.value.filter { it.labelName in labelNames },
+                    prevKey = null,
+                    nextKey = null,
+                )
+            }
+
+            override fun getRefreshKey(state: PagingState<Int, LocalSession>): Int? = null
+        }
     }
 
-    override suspend fun deleteByIds(ids: List<Long>) {
+    override suspend fun delete(ids: List<Long>) {
         sessions.value = sessions.value.filter { it.id !in ids }
+    }
+
+    override suspend fun deleteExcept(ids: List<Long>, labels: List<String>) {
+        sessions.value = sessions.value.mapNotNull {
+            if (it.isWork && it.id !in ids && it.labelName in labels) {
+                null
+            } else {
+                it
+            }
+        }
     }
 
     override suspend fun deleteAll() {

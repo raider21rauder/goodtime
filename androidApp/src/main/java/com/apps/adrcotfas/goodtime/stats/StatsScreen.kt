@@ -18,6 +18,8 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import android.text.format.DateFormat
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
@@ -25,6 +27,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,6 +37,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -44,16 +49,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Trash
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
@@ -75,37 +84,35 @@ private enum class TabType {
 fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val context = LocalContext.current
 
-    val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val showBottomSheet = uiState.showAddSession
-
     val sessionsPagingItems = viewModel.sessions.collectAsLazyPagingItems()
-    var showMultipleLabelPicker by rememberSaveable { mutableStateOf(false) }
-
     val selectedLabelsCount = uiState.selectedLabels.size
+
+    BackHandler(enabled = uiState.showSelectionUi) {
+        if (uiState.showSelectionUi) {
+            viewModel.clearShowSelectionUi()
+        }
+    }
+
     Scaffold(
         modifier = Modifier
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
-            .windowInsetsPadding(
-                WindowInsets.statusBars,
-            ),
+            .windowInsetsPadding(WindowInsets.statusBars),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Statistics") },
-                scrollBehavior = topAppBarScrollBehavior,
-                actions = {
-                    IconButton(onClick = {
-                        viewModel.onAddEditSession()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Add new session",
-                        )
-                    }
-                    SelectLabelButton(selectedLabelsCount) {
-                        showMultipleLabelPicker = true
+            StatsScreenTopBar(
+                onAddButtonClick = { viewModel.onAddEditSession() },
+                onLabelButtonClick = {
+                    if (uiState.showSelectionUi) {
+                        viewModel.setShowEditLabelDialog(true)
+                    } else {
+                        viewModel.setShowSelectVisibleLabelsDialog(true)
                     }
                 },
+                selectedLabelsCount = selectedLabelsCount,
+                onCancel = { viewModel.clearShowSelectionUi() },
+                onDeleteClick = { viewModel.setShowDeleteConfirmationDialog(true) },
+                onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
+                showSelectionUi = uiState.showSelectionUi,
+                selectionCount = uiState.selectionCount,
             )
         },
     ) { paddingValues ->
@@ -116,15 +123,21 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
         val titles = listOf("Overview", "History")
         var showDatePicker by rememberSaveable { mutableStateOf(false) }
         var showTimePicker by rememberSaveable { mutableStateOf(false) }
-        var showLabelPicker by rememberSaveable { mutableStateOf(false) }
 
         // TODO: select labels button with badge according to number of selected labels
         HistoryTab(
             modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
             sessions = sessionsPagingItems,
+            isSelectAllEnabled = uiState.isSelectAllEnabled,
+            selectedSessions = uiState.selectedSessions,
+            unselectedSessions = uiState.unselectedSessions,
             labels = uiState.labels,
             onClick = { session ->
-                viewModel.onAddEditSession(session)
+                if (uiState.showSelectionUi) {
+                    viewModel.toggleSessionIsSelected(session.id)
+                } else {
+                    viewModel.onAddEditSession(session)
+                }
             },
             onLongClick = {
                 viewModel.toggleSessionIsSelected(it.id)
@@ -142,7 +155,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
             }
         }
 
-        if (showBottomSheet) {
+        if (uiState.showAddSession) {
             ModalBottomSheet(
                 onDismissRequest = { hideSheet() },
                 sheetState = sheetState,
@@ -167,7 +180,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                     onValidate = {
                         viewModel.setCanSave(it)
                     },
-                    onOpenLabelSelector = { showLabelPicker = true },
+                    onOpenLabelSelector = { viewModel.setShowSelectLabelDialog(true) },
                     onOpenDatePicker = { showDatePicker = true },
                     onOpenTimePicker = { showTimePicker = true },
                 )
@@ -239,12 +252,12 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 timePickerState = timePickerState,
             )
         }
-        if (showLabelPicker) {
+        if (uiState.showSelectLabelDialog) {
             SelectLabelDialog(
                 title = "Select label",
                 labels = uiState.labels,
                 initialSelectedLabels = listOf(uiState.newSession.label),
-                onDismiss = { showLabelPicker = false },
+                onDismiss = { viewModel.setShowSelectLabelDialog(false) },
                 singleSelection = true,
                 onConfirm = {
                     viewModel.updateSessionToEdit(
@@ -252,20 +265,54 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                             label = it.first(),
                         ),
                     )
-                    showLabelPicker = false
+                    viewModel.setShowSelectLabelDialog(false)
                 },
             )
         }
-        if (showMultipleLabelPicker) {
+        if (uiState.showSelectVisibleLabelsDialog) {
             SelectLabelDialog(
                 title = "Select labels",
                 labels = uiState.labels,
                 initialSelectedLabels = uiState.selectedLabels,
-                onDismiss = { showMultipleLabelPicker = false },
+                onDismiss = { viewModel.setShowSelectVisibleLabelsDialog(false) },
                 singleSelection = false,
                 onConfirm = {
                     viewModel.setSelectedLabels(it)
-                    showMultipleLabelPicker = false
+                    viewModel.setShowSelectVisibleLabelsDialog(false)
+                },
+            )
+        }
+        if (uiState.showDeleteConfirmationDialog) {
+            ConfirmationDialog(
+                title = "Delete selected sessions?",
+                onDismiss = { viewModel.setShowDeleteConfirmationDialog(false) },
+                onConfirm = {
+                    viewModel.deleteSelectedSessions()
+                    viewModel.clearShowSelectionUi()
+                },
+            )
+        }
+        if (uiState.showEditBulkLabelDialog) {
+            SelectLabelDialog(
+                title = "Edit label",
+                labels = uiState.labels,
+                onDismiss = { viewModel.setShowEditLabelDialog(false) },
+                singleSelection = true,
+                onConfirm = {
+                    viewModel.setSelectedLabelToBulkEdit(it.first())
+                    viewModel.setShowEditLabelDialog(false)
+                    viewModel.setShowEditLabelConfirmationDialog(true)
+                },
+            )
+        }
+        if (uiState.showEditLabelConfirmationDialog) {
+            ConfirmationDialog(
+                title = "Change label of selected sessions?",
+                onDismiss = { viewModel.setShowEditLabelConfirmationDialog(false) },
+                onConfirm = {
+                    viewModel.setShowEditLabelConfirmationDialog(false)
+                    viewModel.bulkEditLabel()
+                    viewModel.clearShowSelectionUi()
                 },
             )
         }
@@ -289,6 +336,90 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
 //                }
 //            }
 //        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StatsScreenTopBar(
+    onAddButtonClick: () -> Unit,
+    onLabelButtonClick: () -> Unit,
+    selectedLabelsCount: Int,
+    onCancel: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onSelectAll: () -> Unit,
+    showSelectionUi: Boolean,
+    selectionCount: Int,
+) {
+    val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = Color.Transparent,
+    )
+    Crossfade(showSelectionUi, label = "StatsScreen TopBar") {
+        if (it) {
+            TopAppBar(
+                title = {
+                    if (selectionCount != 0) {
+                        // TODO: consider plurals
+                        Text("${if (selectionCount > 99) "99+" else selectionCount.toString()} items")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        onDeleteClick()
+                    }) {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Trash,
+                            contentDescription = "Delete",
+                        )
+                    }
+                    IconButton(onClick = onSelectAll) {
+                        Icon(
+                            imageVector = Icons.Default.SelectAll,
+                            contentDescription = "Select all",
+                        )
+                    }
+                    IconButton(onClick = onLabelButtonClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.Label,
+                            contentDescription = "Select labels",
+                        )
+                    }
+                },
+                navigationIcon = {
+                    if (showSelectionUi) {
+                        IconButton(onClick = onCancel) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "Cancel",
+                            )
+                        }
+                    }
+                },
+                colors = colors,
+            )
+        } else {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text("Statistics")
+                },
+                actions = {
+                    if (!showSelectionUi) {
+                        IconButton(onClick = {
+                            onAddButtonClick()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Add new session",
+                            )
+                        }
+                    }
+                    SelectLabelButton(selectedLabelsCount) {
+                        onLabelButtonClick()
+                    }
+                },
+                colors = colors,
+            )
+        }
     }
 }
 

@@ -29,6 +29,13 @@ interface LocalDataRepository {
     fun reinitDatabase(database: ProductivityDatabase)
     suspend fun insertSession(session: Session): Long
     suspend fun updateSession(id: Long, newSession: Session)
+    suspend fun updateSessionsLabelByIds(newLabel: String, ids: List<Long>)
+    suspend fun updateSessionsLabelByIdsExcept(
+        newLabel: String,
+        ids: List<Long>,
+        labels: List<String>,
+    )
+
     fun selectAllSessions(): Flow<List<Session>>
     fun selectSessionsAfter(timestamp: Long): Flow<List<Session>>
     fun selectSessionById(id: Long): Flow<Session>
@@ -36,7 +43,8 @@ interface LocalDataRepository {
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
     fun selectSessionsForHistoryPaged(labels: List<String>): PagingSource<Int, LocalSession>
-    suspend fun deleteSession(id: Long)
+    suspend fun deleteSessions(ids: List<Long>)
+    suspend fun deleteSessionsExcept(ids: List<Long>, labels: List<String>)
     suspend fun deleteAllSessions()
 
     suspend fun insertLabel(label: Label): Long

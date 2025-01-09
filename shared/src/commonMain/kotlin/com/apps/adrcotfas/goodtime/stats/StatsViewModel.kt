@@ -43,13 +43,35 @@ import kotlinx.coroutines.launch
 data class StatsUiState(
     val labels: List<Label> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
+
+    // Selection UI related fields
     val selectedSessions: List<Long> = emptyList(),
-    val showLabelSelection: Boolean = false,
+    val unselectedSessions: List<Long> = emptyList(), // for the case with select all active
+    val selectedSessionsCountWhenAllSelected: Int = 0,
+    val isSelectAllEnabled: Boolean = false,
+    val showDeleteConfirmationDialog: Boolean = false,
+    val showEditBulkLabelDialog: Boolean = false,
+    val showEditLabelConfirmationDialog: Boolean = false,
+    val selectedLabelToBulkEdit: String? = null,
+
+    val showSelectLabelDialog: Boolean = false,
+    val showSelectVisibleLabelsDialog: Boolean = false,
     val sessionToEdit: Session? = null, // this does not change after initialization
     val newSession: Session = Session.default(),
     val showAddSession: Boolean = false,
     val canSave: Boolean = true,
-)
+) {
+    val showSelectionUi: Boolean
+        get() = selectedSessions.isNotEmpty() || isSelectAllEnabled
+
+    val selectionCount: Int
+        get() =
+            if (isSelectAllEnabled) {
+                selectedSessionsCountWhenAllSelected - unselectedSessions.size
+            } else {
+                selectedSessions.size
+            }
+}
 
 class StatsViewModel(
     private val localDataRepo: LocalDataRepository,
@@ -61,7 +83,8 @@ class StatsViewModel(
         .onStart { loadData() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatsUiState())
 
-    val sessions: Flow<PagingData<Session>> = uiState.map { it.selectedLabels }.flatMapLatest { selectSessionsForHistoryPaged(it) }
+    val sessions: Flow<PagingData<Session>> =
+        uiState.map { it.selectedLabels }.flatMapLatest { selectSessionsForHistoryPaged(it) }
 
     private fun selectSessionsForHistoryPaged(labels: List<String>): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
@@ -85,54 +108,77 @@ class StatsViewModel(
         }
     }
 
-    fun toggleSessionIsSelected(index: Long) {
-        _uiState.update {
-            val selectedSessions = it.selectedSessions.toMutableList()
-            if (selectedSessions.contains(index)) {
-                selectedSessions.remove(index)
-            } else {
-                selectedSessions.add(index)
-            }
-            it.copy(selectedSessions = selectedSessions)
-        }
-    }
-
     fun setSelectedLabels(selectedLabels: List<String>) {
         _uiState.update { it.copy(selectedLabels = selectedLabels) }
     }
 
-    fun toggleSelectedSession(index: Long) {
+    fun toggleSessionIsSelected(index: Long) {
         _uiState.update {
-            val selectedSessions = it.selectedSessions.toMutableList()
-            if (selectedSessions.contains(index)) {
-                selectedSessions.remove(index)
+            if (it.isSelectAllEnabled) {
+                val unselectedSessions = it.unselectedSessions.toMutableList()
+                if (unselectedSessions.contains(index)) {
+                    unselectedSessions.remove(index)
+                } else {
+                    unselectedSessions.add(index)
+                }
+                it.copy(
+                    unselectedSessions = unselectedSessions,
+                    isSelectAllEnabled = unselectedSessions.size != it.selectedSessionsCountWhenAllSelected,
+                )
             } else {
-                selectedSessions.add(index)
-            }
-            it.copy(selectedSessions = selectedSessions)
-        }
-    }
-
-    fun deleteSession(index: Long) {
-        viewModelScope.launch {
-            localDataRepo.deleteSession(index)
-            if (uiState.value.selectedSessions.contains(index)) {
-                _uiState.update { it.copy(selectedSessions = it.selectedSessions - index) }
+                val selectedSessions = it.selectedSessions.toMutableList()
+                if (selectedSessions.contains(index)) {
+                    selectedSessions.remove(index)
+                } else {
+                    selectedSessions.add(index)
+                }
+                it.copy(selectedSessions = selectedSessions)
             }
         }
     }
 
-    fun setShowLabelSelection(show: Boolean) {
-        _uiState.update { it.copy(showLabelSelection = show) }
-    }
-
-    fun setShowAddEditSession(session: Session) {
+    fun clearShowSelectionUi() {
         _uiState.update {
             it.copy(
-                sessionToEdit = session,
-                newSession = session,
+                isSelectAllEnabled = false,
+                selectedSessions = emptyList(),
+                unselectedSessions = emptyList(),
+                selectedSessionsCountWhenAllSelected = 0,
+                showDeleteConfirmationDialog = false,
             )
         }
+    }
+
+    fun selectAllSessions(allSessionsCount: Int) {
+        _uiState.update {
+            it.copy(
+                isSelectAllEnabled = true,
+                selectedSessionsCountWhenAllSelected = allSessionsCount,
+                selectedSessions = emptyList(),
+                unselectedSessions = emptyList(),
+            )
+        }
+    }
+
+    fun deleteSelectedSessions() {
+        viewModelScope.launch {
+            if (uiState.value.isSelectAllEnabled) {
+                localDataRepo.deleteSessionsExcept(
+                    uiState.value.unselectedSessions,
+                    uiState.value.selectedLabels,
+                )
+            } else {
+                localDataRepo.deleteSessions(uiState.value.selectedSessions)
+            }
+        }
+    }
+
+    fun setShowSelectLabelDialog(show: Boolean) {
+        _uiState.update { it.copy(showSelectLabelDialog = show) }
+    }
+
+    fun setShowSelectVisibleLabelsDialog(show: Boolean) {
+        _uiState.update { it.copy(showSelectVisibleLabelsDialog = show) }
     }
 
     fun updateSessionToEdit(session: Session) {
@@ -170,6 +216,10 @@ class StatsViewModel(
         _uiState.update { it.copy(showAddSession = false) }
     }
 
+    fun setShowDeleteConfirmationDialog(show: Boolean) {
+        _uiState.update { it.copy(showDeleteConfirmationDialog = show) }
+    }
+
     private fun generateNewSession(): Session {
         return Session.create(
             duration = DEFAULT_WORK_DURATION.toLong(),
@@ -178,5 +228,34 @@ class StatsViewModel(
             label = Label.DEFAULT_LABEL_NAME,
             isWork = true,
         )
+    }
+
+    fun setShowEditLabelDialog(show: Boolean) {
+        _uiState.update { it.copy(showEditBulkLabelDialog = show) }
+    }
+
+    fun setShowEditLabelConfirmationDialog(show: Boolean) {
+        _uiState.update { it.copy(showEditLabelConfirmationDialog = show) }
+    }
+
+    fun setSelectedLabelToBulkEdit(label: String) {
+        _uiState.update { it.copy(selectedLabelToBulkEdit = label) }
+    }
+
+    fun bulkEditLabel() {
+        viewModelScope.launch {
+            val label = uiState.value.selectedLabelToBulkEdit
+            label?.let {
+                if (uiState.value.isSelectAllEnabled) {
+                    localDataRepo.updateSessionsLabelByIdsExcept(
+                        label,
+                        uiState.value.unselectedSessions,
+                        uiState.value.selectedLabels,
+                    )
+                } else {
+                    localDataRepo.updateSessionsLabelByIds(label, uiState.value.selectedSessions)
+                }
+            }
+        }
     }
 }

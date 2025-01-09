@@ -49,7 +49,11 @@ abstract class LocalDataRepositoryTest {
     @BeforeTest
     fun setup() = runTest {
         db = getInMemoryDatabase()
-        repo = LocalDataRepositoryImpl(sessionDao = db.sessionsDao(), labelDao = db.labelsDao(), coroutineScope = this)
+        repo = LocalDataRepositoryImpl(
+            sessionDao = db.sessionsDao(),
+            labelDao = db.labelsDao(),
+            coroutineScope = this,
+        )
         repo.deleteAllSessions()
         repo.deleteAllLabels()
         repo.insertLabel(label)
@@ -189,7 +193,7 @@ abstract class LocalDataRepositoryTest {
         assertEquals(1, repo.selectAllSessions().first().size, "insertSession failed")
 
         val sessionId = repo.selectAllSessions().first().first().id
-        repo.deleteSession(sessionId)
+        repo.deleteSessions(listOf(sessionId))
         assertEquals(0, repo.selectAllSessions().first().size, "deleteSession failed")
 
         repo.deleteAllLabels()
