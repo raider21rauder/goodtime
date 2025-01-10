@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
+import androidx.room.Room
+import androidx.test.platform.app.InstrumentationRegistry
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
@@ -33,10 +35,8 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
 // TODO: Move this back to commonTest once we have a way to have an Android inMemory database without the need of a Context
-// see https://issuetracker.google.com/issues/378189504
-abstract class LocalDataRepositoryTest {
-
-    abstract fun getInMemoryDatabase(): ProductivityDatabase
+// see https://issuetracker.google.com/issues/388863167
+class LocalDataRepositoryTest {
 
     private lateinit var repo: LocalDataRepository
     private lateinit var db: ProductivityDatabase
@@ -48,7 +48,10 @@ abstract class LocalDataRepositoryTest {
 
     @BeforeTest
     fun setup() = runTest {
-        db = getInMemoryDatabase()
+        db = Room.inMemoryDatabaseBuilder(
+            InstrumentationRegistry.getInstrumentation().context,
+            ProductivityDatabase::class.java,
+        ).build()
         repo = LocalDataRepositoryImpl(
             sessionDao = db.sessionsDao(),
             labelDao = db.labelsDao(),
@@ -58,7 +61,7 @@ abstract class LocalDataRepositoryTest {
         repo.deleteAllLabels()
         repo.insertLabel(label)
         repo.insertLabel(Label.defaultLabel())
-        repo.insertSession(session) // TODO: retrieve last inserted session id and update the default session
+        repo.insertSession(session)
     }
 
     @Test
@@ -208,6 +211,129 @@ abstract class LocalDataRepositoryTest {
         assertEquals(2, repo.selectAllLabels().first().size, "insertLabel failed")
         repo.deleteLabel(labelToDeleteName)
         assertEquals(1, repo.selectAllLabels().first().size, "deleteLabel failed")
+    }
+
+    @Test
+    fun editSessionLabelExcept() = runTest {
+        repeat(3) {
+            repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
+        }
+        repeat(21) {
+            repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 3}"))
+        }
+
+        val allSessions = repo.selectAllSessions().first()
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = emptyList(),
+            selectedLabels = emptyList(),
+        )
+        assertEquals(allSessions, repo.selectAllSessions().first())
+
+        var label0SessionsSize = allSessions.filter {
+            it.label == "label0"
+        }.size
+        var label1SessionsSize = allSessions.filter {
+            it.label == "label1"
+        }.size
+        var label2SessionSize = allSessions.filter {
+            it.label == "label2"
+        }.size
+
+        val label0SessionsIds = allSessions.filter {
+            it.label == "label0"
+        }.map { it.id }
+
+        val label1SessionsIds = allSessions.filter {
+            it.label == "label1"
+        }.map { it.id }
+
+        val label2SessionsIds = allSessions.filter {
+            it.label == "label2"
+        }.map { it.id }
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = label1SessionsIds,
+            selectedLabels = listOf("label1"),
+        )
+        assertEquals(allSessions, repo.selectAllSessions().first())
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label1",
+            unselectedIds = emptyList(),
+            selectedLabels = listOf("label0"),
+        )
+        assertEquals(0, repo.selectAllSessions().first().filter { it.label == "label0" }.size)
+        assertEquals(
+            label0SessionsSize + label1SessionsSize,
+            repo.selectAllSessions().first().filter { it.label == "label1" }.size,
+        )
+
+        repo.updateSessionsLabelByIdsExcept(
+            newLabel = "label2",
+            unselectedIds = emptyList(),
+            selectedLabels = listOf("label0", "label1", "label2"),
+        )
+
+        assertEquals(
+            allSessions.size,
+            repo.selectAllSessions().first().filter { it.label == "label2" }.size,
+        )
+    }
+
+    @Test
+    fun deleteSessionsExcept() = runTest {
+        repeat(5) {
+            repo.insertLabel(Label.defaultLabel().copy(name = "label$it"))
+        }
+        repeat(20) {
+            repo.insertSession(session.copy(id = it.toLong(), label = "label${it % 5}"))
+        }
+
+        val allSessions = repo.selectAllSessions().first()
+
+        repo.deleteSessionsExcept(
+            unselectedIds = emptyList(),
+            selectedLabels = emptyList(),
+        )
+
+        assertEquals(allSessions.size, repo.selectAllSessions().first().size)
+
+        val label0SessionsIds = allSessions.filter {
+            it.label == "label0"
+        }.map { it.id }
+
+        val label1SessionsIds = allSessions.filter {
+            it.label == "label1"
+        }.map { it.id }
+
+        repo.deleteSessionsExcept(
+            unselectedIds = label1SessionsIds,
+            selectedLabels = listOf("label1"),
+        )
+        var remainingSessions = repo.selectAllSessions().first()
+        assertEquals(
+            allSessions.size,
+            remainingSessions.size,
+            "expecting that no sessions were deleted",
+        )
+
+        repo.deleteSessionsExcept(
+            unselectedIds = listOf(),
+            selectedLabels = listOf("label0"),
+        )
+
+        remainingSessions = repo.selectAllSessions().first()
+        assertEquals(allSessions.size - label0SessionsIds.size, remainingSessions.size)
+
+        val allLabelsNames = repo.selectAllLabels().first().map { it.name }
+        repo.deleteSessionsExcept(
+            unselectedIds = emptyList(),
+            selectedLabels = allLabelsNames,
+        )
+        remainingSessions = repo.selectAllSessions().first()
+        assertEquals(0, remainingSessions.size)
     }
 
     companion object {

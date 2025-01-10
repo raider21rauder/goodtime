@@ -32,8 +32,8 @@ interface LocalDataRepository {
     suspend fun updateSessionsLabelByIds(newLabel: String, ids: List<Long>)
     suspend fun updateSessionsLabelByIdsExcept(
         newLabel: String,
-        ids: List<Long>,
-        labels: List<String>,
+        unselectedIds: List<Long>,
+        selectedLabels: List<String>,
     )
 
     fun selectAllSessions(): Flow<List<Session>>
@@ -44,7 +44,7 @@ interface LocalDataRepository {
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
     fun selectSessionsForHistoryPaged(labels: List<String>): PagingSource<Int, LocalSession>
     suspend fun deleteSessions(ids: List<Long>)
-    suspend fun deleteSessionsExcept(ids: List<Long>, labels: List<String>)
+    suspend fun deleteSessionsExcept(unselectedIds: List<Long>, selectedLabels: List<String>)
     suspend fun deleteAllSessions()
 
     suspend fun insertLabel(label: Label): Long

@@ -114,6 +114,7 @@ shared-commonTest = [
     "androidx-paging-testing",
 ]
 shared-androidTest = [
+    "kotlin-test",
     "androidx-junit",
     "androidx-test-junit",
     "androidx-espresso-core",
