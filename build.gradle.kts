@@ -1,3 +1,5 @@
+import com.diffplug.gradle.spotless.SpotlessTask
+
 plugins {
     // this is necessary to avoid the plugins to be loaded multiple times
     // in each subproject's classloader
@@ -40,6 +42,10 @@ subprojects {
             tasks.named("preBuild") {
                 dependsOn("spotlessApply")
             }
+        }
+
+        tasks.withType<SpotlessTask>().configureEach {
+            notCompatibleWithConfigurationCache("https://github.com/diffplug/spotless/issues/987")
         }
     }
 }
