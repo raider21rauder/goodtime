@@ -17,11 +17,13 @@
  */
 package com.apps.adrcotfas.goodtime.ui.common
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -42,24 +44,30 @@ fun TopBar(
     icon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     actions: @Composable RowScope.() -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
+    showSeparator: Boolean = false,
 ) {
-    CenterAlignedTopAppBar(
-        modifier = Modifier.alpha(if (isVisible) 1f else 0f),
-        title = { Text(text = title, maxLines = 1) },
-        navigationIcon = {
-            if (onNavigateBack != null) {
-                IconButton(onClick = onNavigateBack) {
-                    Icon(
-                        icon,
-                        contentDescription = "Navigate back",
-                    )
+    Column {
+        CenterAlignedTopAppBar(
+            modifier = Modifier.alpha(if (isVisible) 1f else 0f),
+            title = { Text(text = title, maxLines = 1) },
+            navigationIcon = {
+                if (onNavigateBack != null) {
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            icon,
+                            contentDescription = "Navigate back",
+                        )
+                    }
                 }
-            }
-        },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Transparent,
-        ),
-        actions = actions,
-        scrollBehavior = scrollBehavior,
-    )
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = Color.Transparent,
+            ),
+            actions = actions,
+            scrollBehavior = scrollBehavior,
+        )
+        if (showSeparator) {
+            HorizontalDivider()
+        }
+    }
 }

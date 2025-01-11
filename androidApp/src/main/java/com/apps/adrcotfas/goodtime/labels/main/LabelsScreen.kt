@@ -25,6 +25,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,13 +33,12 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -63,7 +63,9 @@ import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ARCHIVED_LABELS_SCREEN_DESTINATION_ID
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
+import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.navigateToDetail
 import com.apps.adrcotfas.goodtime.ui.dragContainer
 import com.apps.adrcotfas.goodtime.ui.rememberDragDropState
@@ -71,6 +73,7 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Archive
 import compose.icons.evaicons.outline.Plus
+import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
 // TODO: consider sub-labels?
@@ -80,7 +83,10 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LabelsScreen(
     viewModel: LabelsViewModel = koinViewModel(),
+    mainViewModel: MainViewModel = koinViewModel(),
 ) {
+    val isDynamicTheme by mainViewModel.uiState.map { it.dynamicColor }
+        .collectAsStateWithLifecycle(initialValue = false)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
     val labels = uiState.unarchivedLabels
@@ -118,12 +124,14 @@ fun LabelsScreen(
     val isPortrait = configuration.isPortrait
 
     LaunchedEffect(Unit) {
-        if (!isPortrait) {
+        if (navigator.scaffoldDirective.maxHorizontalPartitions > 1) {
             navigator.navigateToDetail(activeLabelName)
         }
     }
 
     ListDetailPaneScaffold(
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.statusBars),
         directive = navigator.scaffoldDirective,
         value = navigator.scaffoldValue,
         listPane = {
@@ -132,13 +140,14 @@ fun LabelsScreen(
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.statusBars),
                     topBar = {
-                        CenterAlignedTopAppBar(
-                            title = { Text("Labels") },
+                        TopBar(
+                            title = "Labels",
                             actions = {
                                 ArchivedLabelsButton(uiState.archivedLabelCount) {
                                     navigator.navigateToDetail(ARCHIVED_LABELS_SCREEN_DESTINATION_ID)
                                 }
                             },
+                            showSeparator = listState.canScrollBackward,
                         )
                     },
                     floatingActionButton = {
@@ -162,8 +171,8 @@ fun LabelsScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier
-                            .fillMaxSize(),
-                        contentPadding = paddingValues,
+                            .fillMaxSize()
+                            .padding(top = paddingValues.calculateTopPadding()),
                     ) {
                         itemsIndexed(
                             labels,
@@ -173,6 +182,13 @@ fun LabelsScreen(
                                 LabelListItem(
                                     label = label,
                                     isActive = label.name == activeLabelName,
+                                    isActiveColor = if (isDynamicTheme) {
+                                        MaterialTheme.colorScheme.secondaryContainer
+                                    } else {
+                                        MaterialTheme.colorScheme.secondaryContainer.copy(
+                                            alpha = 0.2f,
+                                        )
+                                    },
                                     isDragging = isDragging,
                                     dragModifier = Modifier.dragContainer(
                                         dragDropState = dragDropState,

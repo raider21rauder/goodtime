@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.ui
 
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -25,6 +26,28 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import com.apps.adrcotfas.goodtime.R
+
+val bodyFontFamily = FontFamily(Font(resId = R.font.noto_sans))
+
+val baseline = Typography()
+
+val AppTypography = Typography(
+    displayLarge = baseline.displayLarge,
+    displayMedium = baseline.displayMedium,
+    displaySmall = baseline.displaySmall,
+    headlineLarge = baseline.headlineLarge,
+    headlineMedium = baseline.headlineMedium,
+    headlineSmall = baseline.headlineSmall,
+    titleLarge = baseline.titleLarge.copy(fontFamily = bodyFontFamily),
+    titleMedium = baseline.titleMedium.copy(fontFamily = bodyFontFamily),
+    titleSmall = baseline.titleSmall.copy(fontFamily = bodyFontFamily),
+    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
+    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
+    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
+    labelLarge = baseline.labelLarge,
+    labelMedium = baseline.labelMedium,
+    labelSmall = baseline.labelSmall,
+)
 
 @OptIn(ExperimentalTextApi::class)
 fun timerFontWith(resId: Int, weight: Int): FontFamily {

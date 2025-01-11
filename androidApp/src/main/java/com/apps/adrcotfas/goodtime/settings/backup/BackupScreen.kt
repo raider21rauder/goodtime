@@ -104,6 +104,7 @@ fun BackupScreen(
             viewModel.clearRestoreError()
         }
     }
+    val listState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -111,6 +112,7 @@ fun BackupScreen(
                 isVisible = showTopBar,
                 title = "Backup and restore",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -118,7 +120,7 @@ fun BackupScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
             CircularProgressListItem(

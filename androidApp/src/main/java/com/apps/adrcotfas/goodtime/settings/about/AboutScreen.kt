@@ -51,12 +51,14 @@ fun AboutScreen(
 ) {
     val context = LocalContext.current
 
+    val listState = rememberScrollState()
     Scaffold(
         topBar = {
             TopBar(
                 isVisible = showTopBar,
                 title = "About and feedback",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -64,7 +66,7 @@ fun AboutScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
             IconListItem(

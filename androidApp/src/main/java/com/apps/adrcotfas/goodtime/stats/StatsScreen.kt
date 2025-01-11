@@ -19,11 +19,15 @@ package com.apps.adrcotfas.goodtime.stats
 
 import android.text.format.DateFormat
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.Add
@@ -31,11 +35,14 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.SelectableDates
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -87,6 +94,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val sessionsPagingItems = viewModel.sessions.collectAsLazyPagingItems()
     val selectedLabelsCount = uiState.selectedLabels.size
+    val historyListState = rememberLazyListState()
 
     BackHandler(enabled = uiState.showSelectionUi) {
         if (uiState.showSelectionUi) {
@@ -113,36 +121,54 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
+                showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
             )
         },
     ) { paddingValues ->
-
-        paddingValues
-
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
         val titles = listOf("Overview", "History")
         var showDatePicker by rememberSaveable { mutableStateOf(false) }
         var showTimePicker by rememberSaveable { mutableStateOf(false) }
 
-        // TODO: select labels button with badge according to number of selected labels
-        HistoryTab(
-            modifier = Modifier.padding(top = paddingValues.calculateTopPadding()),
-            sessions = sessionsPagingItems,
-            isSelectAllEnabled = uiState.isSelectAllEnabled,
-            selectedSessions = uiState.selectedSessions,
-            unselectedSessions = uiState.unselectedSessions,
-            labels = uiState.labels,
-            onClick = { session ->
-                if (uiState.showSelectionUi) {
-                    viewModel.toggleSessionIsSelected(session.id)
-                } else {
-                    viewModel.onAddEditSession(session)
+        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
+            AnimatedVisibility(!uiState.showSelectionUi) {
+                SecondaryTabRow(
+                    selectedTabIndex = type.ordinal,
+                    modifier = Modifier.wrapContentSize(),
+                ) {
+                    titles.forEachIndexed { index, title ->
+                        Tab(
+                            selected = type == TabType.entries[index],
+                            onClick = { type = TabType.entries[index] },
+                            text = { Text(title) },
+                        )
+                    }
                 }
-            },
-            onLongClick = {
-                viewModel.toggleSessionIsSelected(it.id)
-            },
-        )
+            }
+            when (type) {
+                TabType.Overview -> OverviewTab()
+                TabType.History -> {
+                    HistoryTab(
+                        listState = historyListState,
+                        sessions = sessionsPagingItems,
+                        isSelectAllEnabled = uiState.isSelectAllEnabled,
+                        selectedSessions = uiState.selectedSessions,
+                        unselectedSessions = uiState.unselectedSessions,
+                        labels = uiState.labels,
+                        onClick = { session ->
+                            if (uiState.showSelectionUi) {
+                                viewModel.toggleSessionIsSelected(session.id)
+                            } else {
+                                viewModel.onAddEditSession(session)
+                            }
+                        },
+                        onLongClick = {
+                            viewModel.toggleSessionIsSelected(it.id)
+                        },
+                    )
+                }
+            }
+        }
 
         val sheetState = rememberModalBottomSheetState()
         val scope = rememberCoroutineScope()
@@ -316,26 +342,6 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 },
             )
         }
-//        Column {
-//            SecondaryTabRow(
-//                selectedTabIndex = type.ordinal,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(paddingValues),
-//            ) {
-//                titles.forEachIndexed { index, title ->
-//                    Tab(
-//                        selected = type == TabType.entries[index],
-//                        onClick = { type = TabType.entries[index] },
-//                        text = { Text(title) },
-//                    )
-//                }
-//                when (type) {
-//                    TabType.Overview -> OverviewTab()
-//                    TabType.History -> HistoryTab(sessions = uiState.sessions, labels = uiState.labels)
-//                }
-//            }
-//        }
     }
 }
 
@@ -350,75 +356,81 @@ fun StatsScreenTopBar(
     onSelectAll: () -> Unit,
     showSelectionUi: Boolean,
     selectionCount: Int,
+    showSeparator: Boolean,
 ) {
     val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = Color.Transparent,
     )
-    Crossfade(showSelectionUi, label = "StatsScreen TopBar") {
-        if (it) {
-            TopAppBar(
-                title = {
-                    if (selectionCount != 0) {
-                        // TODO: consider plurals
-                        Text("${if (selectionCount > 99) "99+" else selectionCount.toString()} items")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {
-                        onDeleteClick()
-                    }) {
-                        Icon(
-                            imageVector = EvaIcons.Outline.Trash,
-                            contentDescription = "Delete",
-                        )
-                    }
-                    IconButton(onClick = onSelectAll) {
-                        Icon(
-                            imageVector = Icons.Default.SelectAll,
-                            contentDescription = "Select all",
-                        )
-                    }
-                    IconButton(onClick = onLabelButtonClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.Label,
-                            contentDescription = "Select labels",
-                        )
-                    }
-                },
-                navigationIcon = {
-                    if (showSelectionUi) {
-                        IconButton(onClick = onCancel) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = "Cancel",
-                            )
+    Column {
+        Crossfade(showSelectionUi, label = "StatsScreen TopBar") {
+            if (it) {
+                TopAppBar(
+                    title = {
+                        if (selectionCount != 0) {
+                            // TODO: consider plurals
+                            Text("${if (selectionCount > 99) "99+" else selectionCount.toString()} items")
                         }
-                    }
-                },
-                colors = colors,
-            )
-        } else {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text("Statistics")
-                },
-                actions = {
-                    if (!showSelectionUi) {
+                    },
+                    actions = {
                         IconButton(onClick = {
-                            onAddButtonClick()
+                            onDeleteClick()
                         }) {
                             Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Add new session",
+                                imageVector = EvaIcons.Outline.Trash,
+                                contentDescription = "Delete",
                             )
                         }
-                    }
-                    SelectLabelButton(selectedLabelsCount) {
-                        onLabelButtonClick()
-                    }
-                },
-                colors = colors,
-            )
+                        IconButton(onClick = onSelectAll) {
+                            Icon(
+                                imageVector = Icons.Default.SelectAll,
+                                contentDescription = "Select all",
+                            )
+                        }
+                        IconButton(onClick = onLabelButtonClick) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Outlined.Label,
+                                contentDescription = "Select labels",
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        if (showSelectionUi) {
+                            IconButton(onClick = onCancel) {
+                                Icon(
+                                    imageVector = Icons.Default.Clear,
+                                    contentDescription = "Cancel",
+                                )
+                            }
+                        }
+                    },
+                    colors = colors,
+                )
+            } else {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text("Statistics")
+                    },
+                    actions = {
+                        if (!showSelectionUi) {
+                            IconButton(onClick = {
+                                onAddButtonClick()
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Add new session",
+                                )
+                            }
+                        }
+                        SelectLabelButton(selectedLabelsCount) {
+                            onLabelButtonClick()
+                        }
+                    },
+                    colors = colors,
+                )
+            }
+        }
+        if (showSeparator) {
+            HorizontalDivider()
         }
     }
 }

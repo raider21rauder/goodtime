@@ -100,6 +100,8 @@ fun AddEditLabelScreen(
     val isEditMode = labelName.isNotEmpty()
     val context = LocalContext.current
 
+    val listState = rememberScrollState()
+
     LaunchedEffect(labelName) {
         val defaultLabelName = context.getString(R.string.label_default)
         viewModel.init(labelName, defaultLabelName)
@@ -152,6 +154,7 @@ fun AddEditLabelScreen(
                         )
                     }
                 },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -160,7 +163,7 @@ fun AddEditLabelScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = paddingValues.calculateTopPadding())
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background)
                     .imePadding(),
             ) {

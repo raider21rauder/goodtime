@@ -81,12 +81,15 @@ fun TimerStyleScreen(
 
     val timerStyle = uiState.settings.timerStyle
 
+    val listState = rememberScrollState()
+
     Scaffold(
         topBar = {
             TopBar(
                 isVisible = showTopBar,
                 title = "Timer style",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -94,7 +97,7 @@ fun TimerStyleScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
             var colorIndex by rememberSaveable { mutableIntStateOf(24) }

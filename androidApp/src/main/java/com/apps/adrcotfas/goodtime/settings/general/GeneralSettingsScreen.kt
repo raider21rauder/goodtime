@@ -100,12 +100,14 @@ fun GeneralSettingsScreen(
         }
     }
 
+    val scrollState = rememberScrollState()
     Scaffold(
         topBar = {
             TopBar(
                 isVisible = showTopBar,
                 title = "General settings",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = scrollState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -113,7 +115,7 @@ fun GeneralSettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

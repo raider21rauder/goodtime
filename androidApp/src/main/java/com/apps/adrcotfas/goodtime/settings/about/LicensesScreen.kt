@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.settings.about
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,12 +35,15 @@ fun LicensesScreen(
     onNavigateBack: () -> Boolean,
     showTopBar: Boolean,
 ) {
+    val listState = rememberLazyListState()
+
     Scaffold(
         topBar = {
             TopBar(
                 isVisible = showTopBar,
                 title = "Open Source licenses",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -48,6 +52,7 @@ fun LicensesScreen(
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
                 .background(MaterialTheme.colorScheme.background),
+            lazyListState = listState,
             showLicenseBadges = false,
             showAuthor = true,
         )

@@ -86,11 +86,13 @@ fun SettingsScreen(
     var isFirstOpen by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        if (!isPortrait && !isFirstOpen) {
+        if (navigator.scaffoldDirective.maxHorizontalPartitions > 1 && !isFirstOpen) {
             isFirstOpen = true
             navigator.navigateToDetail(Destination.GeneralSettings.route)
         }
     }
+
+    val listState = rememberScrollState()
 
     ListDetailPaneScaffold(
         directive = navigator.scaffoldDirective,
@@ -99,14 +101,14 @@ fun SettingsScreen(
             AnimatedPane {
                 Scaffold(
                     topBar = {
-                        TopBar(title = "Settings")
+                        TopBar(title = "Settings", showSeparator = listState.canScrollBackward)
                     },
                 ) { paddingValues ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(top = paddingValues.calculateTopPadding())
-                            .verticalScroll(rememberScrollState()),
+                            .verticalScroll(listState),
                     ) {
                         ActionSection(
                             notificationPermissionState = notificationPermissionState,

@@ -71,12 +71,14 @@ fun NotificationsScreen(
     val breakRingTone = toSoundData(settings.breakFinishedSound)
     val candidateRingTone = uiState.notificationSoundCandidate?.let { toSoundData(it) }
 
+    val listState = rememberScrollState()
     Scaffold(
         topBar = {
             TopBar(
                 isVisible = showTopBar,
                 title = "Notifications",
                 onNavigateBack = { onNavigateBack() },
+                showSeparator = listState.canScrollBackward,
             )
         },
     ) { paddingValues ->
@@ -84,7 +86,7 @@ fun NotificationsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = paddingValues.calculateTopPadding())
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
             CompactPreferenceGroupTitle(text = "Productivity Reminder")

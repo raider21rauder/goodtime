@@ -44,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,6 +68,7 @@ fun LabelListItem(
     label: Label,
     isActive: Boolean,
     isDragging: Boolean,
+    isActiveColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     @SuppressLint("ModifierParameter")
     dragModifier: Modifier,
     onActivate: () -> Unit,
@@ -87,11 +89,7 @@ fun LabelListItem(
                 .clickable { onActivate() }
                 .let {
                     if (active) {
-                        it.background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = 0.1f,
-                            ),
-                        )
+                        it.background(isActiveColor)
                     } else {
                         it
                     }

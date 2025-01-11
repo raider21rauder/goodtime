@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.DropdownMenu
@@ -72,16 +73,20 @@ fun ArchivedLabelsScreen(
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     var labelToDelete by remember { mutableStateOf("") }
 
+    val listState = rememberLazyListState()
+
     Scaffold(
         topBar = {
             TopBar(
                 title = "Archived labels",
                 onNavigateBack = if (showTopBar) onNavigateBack else null,
+                showSeparator = listState.canScrollBackward,
             )
         },
         content = {
             LazyColumn(
-                Modifier
+                state = listState,
+                modifier = Modifier
                     .padding(it)
                     .fillMaxSize(),
             ) {

@@ -44,5 +44,5 @@ val palette = listOf(
     "#808080",
 )
 
-val lightPalette = palette + "#efefef"
-val darkPalette = palette + "#2b2b2b"
+val lightPalette = palette + "#ADADAD"
+val darkPalette = palette + "#353535"
