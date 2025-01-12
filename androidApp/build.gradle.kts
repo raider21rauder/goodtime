@@ -27,7 +27,12 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+            )
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
             applicationIdSuffix = ".debug"
@@ -79,6 +84,6 @@ dependencies {
     implementation(libs.mikepenz.aboutlibraries.compose)
 
     implementation(libs.devsrsouza.compose.icons.eva)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
 }
