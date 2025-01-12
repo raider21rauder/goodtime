@@ -74,14 +74,14 @@ class GoodtimeApplication : Application() {
                     AlarmManagerHandler(
                         get<Context>(),
                         get<TimeProvider>(),
-                        getWith(AlarmManagerHandler::class.simpleName),
+                        getWith("AlarmManagerHandler"),
                     )
                 }
                 single<ReminderHelper> {
                     ReminderHelper(
                         get(),
                         get(),
-                        getWith(ReminderHelper::class.simpleName),
+                        getWith("ReminderHelper"),
                     )
                 }
                 viewModel<SoundsViewModel> {
@@ -93,7 +93,7 @@ class GoodtimeApplication : Application() {
                     SoundPlayer(
                         context = get(),
                         settingsRepo = get(),
-                        logger = getWith(SoundPlayer::class.simpleName),
+                        logger = getWith("SoundPlayer"),
                     )
                 }
                 single {
@@ -106,7 +106,7 @@ class GoodtimeApplication : Application() {
                     TorchManager(
                         context = get(),
                         settingsRepo = get(),
-                        logger = getWith(TorchManager::class.simpleName),
+                        logger = getWith("TorchManager"),
                     )
                 }
                 single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {

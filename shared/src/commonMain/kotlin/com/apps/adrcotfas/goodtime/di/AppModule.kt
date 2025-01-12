@@ -96,7 +96,7 @@ private val coreModule = module {
     single<SettingsRepository> {
         SettingsRepositoryImpl(
             get<DataStore<Preferences>>(named(SETTINGS_NAME)),
-            getWith(SettingsRepository::class.simpleName),
+            getWith("SettingsRepository"),
         )
     }
     single<TimeProvider> {
@@ -108,7 +108,7 @@ private val coreModule = module {
             get<CoroutineScope>(),
             get<LocalDataRepository>(),
             get<SettingsRepository>(),
-            getWith(FinishedSessionsHandler::class.simpleName),
+            getWith("FinishedSessionsHandler"),
         )
     }
 
@@ -121,7 +121,7 @@ private val coreModule = module {
             get<TimeProvider>(),
             get<BackupPrompter>(),
             get<LocalDataRepository>(),
-            getWith(BackupManager::class.simpleName),
+            getWith("BackupManager"),
         )
     }
 }

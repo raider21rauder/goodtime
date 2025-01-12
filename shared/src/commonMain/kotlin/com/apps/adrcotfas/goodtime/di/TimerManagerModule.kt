@@ -33,7 +33,7 @@ val timerManagerModule = module {
             get<List<EventListener>>(),
             get<TimeProvider>(),
             get<FinishedSessionsHandler>(),
-            getWith(TimerManager::class.simpleName),
+            getWith("TimerManager"),
         )
     }
 }
