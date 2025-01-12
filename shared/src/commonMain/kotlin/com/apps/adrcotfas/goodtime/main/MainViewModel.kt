@@ -148,9 +148,9 @@ class MainViewModel(
                             timerStyle = timerStyle,
                             darkThemePreference = uiSettings.themePreference,
                             dynamicColor = uiSettings.useDynamicColor,
-                            screensaverMode = uiSettings.screensaverMode,
+                            screensaverMode = uiSettings.screenSaverModePossible(),
                             fullscreenMode = uiSettings.fullscreenMode,
-                            trueBlackMode = uiSettings.trueBlackMode,
+                            trueBlackMode = uiSettings.trueBlackModePossible(),
                             dndDuringWork = uiSettings.dndDuringWork,
                         )
                     }

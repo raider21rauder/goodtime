@@ -83,7 +83,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
 private enum class TabType {
-    Overview, History
+    Overview, Timeline
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,7 +126,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
         },
     ) { paddingValues ->
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
-        val titles = listOf("Overview", "History")
+        val titles = listOf("Overview", "Timeline")
         var showDatePicker by rememberSaveable { mutableStateOf(false) }
         var showTimePicker by rememberSaveable { mutableStateOf(false) }
 
@@ -148,7 +148,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
             }
             when (type) {
                 TabType.Overview -> OverviewTab()
-                TabType.History -> {
+                TabType.Timeline -> {
                     HistoryTab(
                         listState = historyListState,
                         sessions = sessionsPagingItems,

@@ -111,9 +111,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
             settingsRepository.updateUiSettings {
                 it.copy(fullscreenMode = enable)
             }
-            if (!enable && uiState.value.settings.uiSettings.trueBlackMode) {
-                setTrueBlackMode(false)
-            }
         }
     }
 
@@ -129,9 +126,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         viewModelScope.launch {
             settingsRepository.updateUiSettings {
                 it.copy(keepScreenOn = enable)
-            }
-            if (!enable && uiState.value.settings.uiSettings.screensaverMode) {
-                setScreensaverMode(false)
             }
         }
     }

@@ -76,7 +76,14 @@ data class UiSettings(
     val keepScreenOn: Boolean = true,
     val screensaverMode: Boolean = true,
     val dndDuringWork: Boolean = false,
-)
+) {
+    fun trueBlackModePossible(): Boolean {
+        return fullscreenMode && trueBlackMode
+    }
+    fun screenSaverModePossible(): Boolean {
+        return keepScreenOn && screensaverMode
+    }
+}
 
 @Serializable
 enum class ThemePreference {
