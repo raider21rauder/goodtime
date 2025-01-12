@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import com.apps.adrcotfas.goodtime.R
 
-val bodyFontFamily = FontFamily(Font(resId = R.font.noto_sans))
+val bodyFontFamily = FontFamily(Font(resId = R.font.open_sans))
 
 val baseline = Typography()
 
