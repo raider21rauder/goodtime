@@ -35,9 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
-import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import kotlinx.datetime.DayOfWeek
 import java.time.format.TextStyle
 

@@ -30,8 +30,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -41,9 +39,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,13 +57,12 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
 // TODO: add a landscape mode too with the two cards side by side
-// TODO: remove close button and move start button to the top, add a "X" close button instead
 @Composable
 fun FinishedSessionContent(
     timerUiState: TimerUiState,
     historyUiState: HistoryUiState,
-    onClose: (Boolean) -> Unit,
-    onNext: (Boolean) -> Unit,
+    addIdleMinutes: Boolean,
+    onChangeAddIdleMinutes: (Boolean) -> Unit,
 ) {
     val timeProvider = koinInject<TimeProvider>()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -80,7 +75,7 @@ fun FinishedSessionContent(
             elapsedRealtime = timeProvider.elapsedRealtime()
         }
     }
-    FinishedSessionContent(timerUiState, historyUiState, elapsedRealtime, onClose, onNext)
+    FinishedSessionContent(timerUiState, historyUiState, elapsedRealtime, addIdleMinutes, onChangeAddIdleMinutes)
 }
 
 @Composable
@@ -88,11 +83,9 @@ fun FinishedSessionContent(
     timerUiState: TimerUiState,
     historyUiState: HistoryUiState,
     elapsedRealtime: Long,
-    onClose: (Boolean) -> Unit,
-    onNext: (Boolean) -> Unit,
+    addIdleMinutes: Boolean,
+    onChangeAddIdleMinutes: (Boolean) -> Unit,
 ) {
-    var addIdleMinutes by rememberSaveable { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -110,13 +103,13 @@ fun FinishedSessionContent(
             timerUiState,
             elapsedRealtime,
             addIdleMinutes,
-        ) { addIdleMinutes = !addIdleMinutes }
+            onChangeAddIdleMinutes,
+        )
         Spacer(modifier = Modifier.height(16.dp))
         HistoryCard(
             historyUiState,
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Buttons({ onClose(addIdleMinutes) }, { onNext(addIdleMinutes) }, isBreak)
     }
 }
 
@@ -291,38 +284,6 @@ fun HistoryCard(historyUiState: HistoryUiState) {
     }
 }
 
-@Composable
-private fun Buttons(
-    onClose: () -> Unit,
-    onNext: () -> Unit,
-    isBreak: Boolean,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Button(
-            modifier = Modifier.weight(0.5f),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary.copy(
-                    alpha = 0.12f,
-                ),
-            ),
-            onClick = onClose,
-        ) {
-            Text("Close")
-        }
-        Spacer(modifier = Modifier.width(16.dp))
-        Button(
-            modifier = Modifier.weight(0.5f),
-            onClick = onNext,
-        ) {
-            Text(text = if (isBreak) "Start work" else "Start break")
-        }
-    }
-}
-
 @Preview
 @Composable
 fun FinishedSessionContentPreview() {
@@ -338,7 +299,7 @@ fun FinishedSessionContentPreview() {
             todayInterruptedMinutes = 3,
         ),
         elapsedRealtime = 3.minutes.inWholeMilliseconds,
-        onClose = {},
-        onNext = {},
+        addIdleMinutes = false,
+        onChangeAddIdleMinutes = {},
     )
 }

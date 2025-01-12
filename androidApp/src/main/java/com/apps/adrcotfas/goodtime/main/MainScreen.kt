@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
+import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isWork
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
@@ -59,6 +60,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberDialControlState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
+import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
@@ -213,28 +215,38 @@ fun MainScreen(
     }
 
     if (showBottomSheet) {
+        var addIdleMinutes by rememberSaveable { mutableStateOf(false) }
+        val isBreak = timerUiState.timerType.isBreak
         ModalBottomSheet(
             onDismissRequest = {
                 viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
                 showBottomSheet = false
+            },
+            dragHandle = {
+                DragHandle(
+                    buttonText = if (isBreak) "Start work" else "Start break",
+                    onClose = {
+                        if (addIdleMinutes) {
+                            viewModel.resetTimer(updateWorkTime = true)
+                        } else {
+                            viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
+                        }
+                        hideSheet()
+                    },
+                    onClick = {
+                        viewModel.next(addIdleMinutes)
+                        hideSheet()
+                    },
+                    isEnabled = true,
+                )
             },
             sheetState = sheetState,
         ) {
             FinishedSessionContent(
                 timerUiState = timerUiState,
                 historyUiState = historyUiState,
-                onClose = { considerIdleTimeAsWork ->
-                    if (considerIdleTimeAsWork) {
-                        viewModel.resetTimer(updateWorkTime = true)
-                    } else {
-                        viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
-                    }
-                    hideSheet()
-                },
-                onNext = { considerIdleTimeAsWork ->
-                    viewModel.next(considerIdleTimeAsWork)
-                    hideSheet()
-                },
+                addIdleMinutes = addIdleMinutes,
+                onChangeAddIdleMinutes = { addIdleMinutes = it },
             )
         }
     }
