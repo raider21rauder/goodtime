@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.fadeIn
@@ -44,6 +45,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
@@ -64,7 +66,7 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel = koinViewModel(),
+    viewModel: MainViewModel = koinViewModel(viewModelStoreOwner = LocalContext.current as ComponentActivity),
     settingsViewModel: SettingsViewModel = koinViewModel(),
 ) {
     val mainUiState by viewModel.uiState.collectAsStateWithLifecycle(MainUiState())

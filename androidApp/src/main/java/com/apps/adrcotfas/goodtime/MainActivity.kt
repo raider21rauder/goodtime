@@ -36,14 +36,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.isFinished
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
@@ -57,6 +57,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -64,19 +65,21 @@ class MainActivity : ComponentActivity(), KoinComponent {
 
     private val log: Logger by injectLogger("MainActivity")
 
-    private val viewModel by inject<MainViewModel>()
     private val notificationManager: NotificationArchManager by inject()
 
     private var fullScreenJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        log.d { "onCreate" }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
         }
 
         setContent {
+            val viewModel =
+                koinViewModel<MainViewModel>(viewModelStoreOwner = LocalContext.current as ComponentActivity)
             val coroutineScope = rememberCoroutineScope()
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -93,7 +96,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
             }
 
             val darkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
-            val dynamicColor = uiState.dynamicColor
 
             toggleKeepScreenOn(isActive)
             if (notificationManager.isNotificationPolicyAccessGranted()) {
@@ -101,6 +103,19 @@ class MainActivity : ComponentActivity(), KoinComponent {
                     notificationManager.toggleDndMode(workSessionIsInProgress)
                 } else {
                     notificationManager.toggleDndMode(false)
+                }
+            }
+
+            var currentDestination by rememberSaveable { mutableStateOf(Destination.Main.route) }
+
+            val isMainDestination =
+                bottomNavigationItems.find { it.route == currentDestination } != null
+            viewModel.setIsMainScreen(currentDestination == Destination.Main.route)
+            val showNavigation = isMainDestination.xor(hideBottomBarWhenActive)
+
+            LaunchedEffect(isFinished) {
+                if (isFinished && currentDestination != Destination.Main.route) {
+                    currentDestination = Destination.Main.route
                 }
             }
 
@@ -125,7 +140,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 onDispose {}
             }
 
-            ApplicationTheme(darkTheme = darkTheme, dynamicColor = dynamicColor) {
+            ApplicationTheme(darkTheme = darkTheme, dynamicColor = uiState.dynamicColor) {
                 val interactionSource = remember { MutableInteractionSource() }
                 Surface(
                     modifier = Modifier
@@ -147,29 +162,15 @@ class MainActivity : ComponentActivity(), KoinComponent {
                         },
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val navController = rememberNavController()
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentRoute = navBackStackEntry?.destination?.route
-
-                    LaunchedEffect(isFinished) {
-                        if (isFinished && currentRoute != Destination.Main.route) {
-                            navController.navigate(Destination.Main.route)
-                        }
-                    }
-
-                    val isMainDestination =
-                        bottomNavigationItems.find { it.route == currentRoute } != null
-                    viewModel.setIsMainScreen(currentRoute == Destination.Main.route)
-                    val showNavigation = isMainDestination.xor(hideBottomBarWhenActive)
-
                     NavigationScaffold(
+                        currentDestination = currentDestination,
                         showNavigation = showNavigation,
-                        onNavigate = navController::navigate,
-                        currentDestination = currentRoute,
-                        dynamicColor = dynamicColor,
-                    ) {
-                        NavigationHost(navController)
-                    }
+                        onNavigationChange = { newDestination ->
+                            if (newDestination != currentDestination) {
+                                currentDestination = newDestination
+                            }
+                        },
+                    )
                 }
             }
         }

@@ -22,26 +22,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.window.core.layout.WindowWidthSizeClass
+import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
 import com.apps.adrcotfas.goodtime.main.Destination
+import com.apps.adrcotfas.goodtime.main.MainScreen
 import com.apps.adrcotfas.goodtime.main.bottomNavigationItems
+import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
+import com.apps.adrcotfas.goodtime.stats.StatsScreen
 
 @Composable
 fun NavigationScaffold(
+    currentDestination: String,
     showNavigation: Boolean,
-    onNavigate: (route: String) -> Unit,
-    currentDestination: String?,
-    dynamicColor: Boolean,
-    content: @Composable () -> Unit,
+    onNavigationChange: (String) -> Unit,
 ) {
     val permissionsState = getPermissionsState()
-
     val adaptiveInfo = currentWindowAdaptiveInfo()
     val customNavSuiteType = with(adaptiveInfo) {
         if (!showNavigation) {
@@ -53,19 +53,8 @@ fun NavigationScaffold(
         }
     }
 
-    val colors =
-        if (dynamicColor) {
-            NavigationSuiteDefaults.colors()
-        } else {
-            NavigationSuiteDefaults.colors(
-                navigationBarContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                navigationRailContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            )
-        }
-
     NavigationSuiteScaffold(
         layoutType = customNavSuiteType,
-        navigationSuiteColors = colors,
         navigationSuiteItems = {
             bottomNavigationItems.forEach {
                 val isSelected = it.route == currentDestination
@@ -88,14 +77,17 @@ fun NavigationScaffold(
                     icon = { Icon(icon!!, contentDescription = null) },
                     selected = isSelected,
                     onClick = {
-                        if (currentDestination != it.route) {
-                            onNavigate(it.route)
-                        }
+                        onNavigationChange(it.route)
                     },
                 )
             }
         },
     ) {
-        content()
+        when (currentDestination) {
+            Destination.Main.route -> MainScreen()
+            Destination.Labels.route -> LabelsScreen()
+            Destination.Stats.route -> StatsScreen()
+            Destination.Settings.route -> SettingsScreen()
+        }
     }
 }
