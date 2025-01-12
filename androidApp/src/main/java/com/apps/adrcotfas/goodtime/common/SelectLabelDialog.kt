@@ -93,6 +93,7 @@ fun SelectLabelDialog(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 FlowRow(
+                    modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     labels.forEach { label ->

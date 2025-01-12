@@ -22,10 +22,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
 import com.apps.adrcotfas.goodtime.main.Destination
@@ -44,22 +48,30 @@ fun NavigationScaffold(
     val permissionsState = getPermissionsState()
     val adaptiveInfo = currentWindowAdaptiveInfo()
     val customNavSuiteType = with(adaptiveInfo) {
-        if (!showNavigation) {
-            NavigationSuiteType.None
-        } else if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) {
             NavigationSuiteType.NavigationRail
         } else {
             NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(adaptiveInfo)
         }
     }
 
+    val colors = if (showNavigation) {
+        NavigationSuiteDefaults.colors()
+    } else {
+        NavigationSuiteDefaults.colors(
+            navigationBarContainerColor = Color.Transparent,
+        )
+    }
+
     NavigationSuiteScaffold(
         layoutType = customNavSuiteType,
+        navigationSuiteColors = colors,
         navigationSuiteItems = {
             bottomNavigationItems.forEach {
                 val isSelected = it.route == currentDestination
                 val icon = if (isSelected) it.selectedIcon else it.icon
                 item(
+                    modifier = Modifier.alpha(if (showNavigation) 1f else 0f),
                     badge = {
                         val count = listOf(
                             permissionsState.shouldAskForNotificationPermission,
