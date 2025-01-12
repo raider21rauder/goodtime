@@ -111,6 +111,17 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
             settingsRepository.updateUiSettings {
                 it.copy(fullscreenMode = enable)
             }
+            if (!enable && uiState.value.settings.uiSettings.trueBlackMode) {
+                setTrueBlackMode(false)
+            }
+        }
+    }
+
+    fun setTrueBlackMode(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateUiSettings {
+                it.copy(trueBlackMode = enable)
+            }
         }
     }
 

@@ -177,16 +177,23 @@ fun GeneralSettingsScreen(
             SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = "During work sessions")
             CheckboxListItem(
-                title = "Keep the screen on",
-                checked = uiState.settings.uiSettings.keepScreenOn,
-            ) {
-                viewModel.setKeepScreenOn(it)
-            }
-            CheckboxListItem(
                 title = "Fullscreen mode",
                 checked = uiState.settings.uiSettings.fullscreenMode,
             ) {
                 viewModel.setFullscreenMode(it)
+            }
+            CheckboxListItem(
+                title = "True black mode",
+                checked = uiState.settings.uiSettings.trueBlackMode,
+                enabled = uiState.settings.uiSettings.fullscreenMode,
+            ) {
+                viewModel.setTrueBlackMode(it)
+            }
+            CheckboxListItem(
+                title = "Keep the screen on",
+                checked = uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setKeepScreenOn(it)
             }
             CheckboxListItem(
                 title = "Screensaver mode",

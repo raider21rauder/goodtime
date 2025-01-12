@@ -30,6 +30,7 @@ import com.apps.adrcotfas.goodtime.bl.getBaseTime
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
+import com.apps.adrcotfas.goodtime.bl.isRunning
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -74,6 +75,7 @@ data class TimerUiState(
 
     val displayTime = max(baseTime, 0)
 
+    val isRunning = timerState.isRunning
     val isPaused = timerState.isPaused
     val isActive = timerState.isActive
     val isBreak = timerType.isBreak
@@ -87,6 +89,7 @@ data class MainUiState(
     val dynamicColor: Boolean = false,
     val screensaverMode: Boolean = false,
     val fullscreenMode: Boolean = false,
+    val trueBlackMode: Boolean = true,
     val dndDuringWork: Boolean = false,
     val isMainScreen: Boolean = true,
 ) {
@@ -122,7 +125,7 @@ class MainViewModel(
                 flow { emitUiState(it) }
             }
         }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+    }
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.onStart {
@@ -147,6 +150,7 @@ class MainViewModel(
                             dynamicColor = uiSettings.useDynamicColor,
                             screensaverMode = uiSettings.screensaverMode,
                             fullscreenMode = uiSettings.fullscreenMode,
+                            trueBlackMode = uiSettings.trueBlackMode,
                             dndDuringWork = uiSettings.dndDuringWork,
                         )
                     }

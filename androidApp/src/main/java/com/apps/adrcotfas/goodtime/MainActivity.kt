@@ -28,7 +28,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -45,7 +44,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.bl.isRunning
+import com.apps.adrcotfas.goodtime.bl.isActive
+import com.apps.adrcotfas.goodtime.bl.isFinished
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import com.apps.adrcotfas.goodtime.main.Destination
@@ -55,6 +55,7 @@ import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.component.KoinComponent
@@ -82,20 +83,21 @@ class MainActivity : ComponentActivity(), KoinComponent {
             val coroutineScope = rememberCoroutineScope()
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle()
+            val workSessionIsInProgress by viewModel.timerUiState.map { it.workSessionIsInProgress() }
+                .collectAsStateWithLifecycle(false)
+            val isActive by viewModel.timerUiState.map { it.timerState.isActive }
+                .collectAsStateWithLifecycle(false)
+            val isFinished by viewModel.timerUiState.map { it.timerState.isFinished }
+                .collectAsStateWithLifecycle(false)
 
-            val workSessionIsInProgress = timerUiState.workSessionIsInProgress()
-            val isRunning = timerUiState.timerState.isRunning
-            val isFinished = timerUiState.isFinished
-
-            val fullscreenMode = uiState.isMainScreen && uiState.fullscreenMode && isRunning
+            val fullscreenMode = uiState.isMainScreen && uiState.fullscreenMode && isActive
             var hideBottomBarWhenActive by remember(fullscreenMode) {
                 mutableStateOf(fullscreenMode)
             }
 
             val darkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
 
-            toggleKeepScreenOn(isRunning)
+            toggleKeepScreenOn(isActive)
             if (notificationManager.isNotificationPolicyAccessGranted()) {
                 if (uiState.dndDuringWork) {
                     notificationManager.toggleDndMode(workSessionIsInProgress)
@@ -158,7 +160,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 }
                             }
                         },
-                    color = MaterialTheme.colorScheme.background,
                 ) {
                     NavigationScaffold(
                         currentDestination = currentDestination,
