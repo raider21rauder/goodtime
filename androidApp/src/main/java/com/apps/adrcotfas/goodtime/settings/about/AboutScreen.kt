@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -40,6 +43,7 @@ import compose.icons.evaicons.outline.BookOpen
 import compose.icons.evaicons.outline.Email
 import compose.icons.evaicons.outline.Github
 import compose.icons.evaicons.outline.Star
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +55,7 @@ fun AboutScreen(
 ) {
     val context = LocalContext.current
 
+    val onboardingViewModel = koinInject<OnboardingViewModel>()
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
@@ -90,6 +95,13 @@ fun AboutScreen(
                 isSelected = isLicensesSelected,
             )
             SubtleHorizontalDivider()
+            IconListItem(
+                title = "App Intro",
+                icon = { Icon(Icons.Outlined.Flag, contentDescription = "App Intro") },
+                onClick = {
+                    onboardingViewModel.setOnboardingFinished(false)
+                },
+            )
             IconListItem(
                 title = "Feedback",
                 icon = { Icon(EvaIcons.Outline.Email, contentDescription = "Feedback") },

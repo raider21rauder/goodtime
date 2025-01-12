@@ -18,4 +18,10 @@
 -->
 <resources>
     <string name="label_default">Implicit</string>
+    <string name="intro_title_1">"Avoid distractions"</string>
+    <string name="intro_description_1">"Keep your work on track using timed sessions handled by the app."</string>
+    <string name="intro_title_2">"Clear your mind"</string>
+    <string name="intro_description_2">"Reward yourself with short breaks and get refreshed."</string>
+    <string name="intro_title_3">"Get started"</string>
+    <string name="intro_description_3">"Stay focused, get rid of procrastination and improve your productivity."</string>
 </resources>

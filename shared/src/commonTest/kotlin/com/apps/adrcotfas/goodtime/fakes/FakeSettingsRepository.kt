@@ -132,6 +132,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setOnboardingFinished(finished: Boolean) {
+        _settings.emit(
+            _settings.value.copy(onboardingFinished = finished),
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),

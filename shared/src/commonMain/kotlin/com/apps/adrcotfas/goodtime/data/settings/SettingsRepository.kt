@@ -45,4 +45,5 @@ interface SettingsRepository {
     suspend fun activateLabelWithName(labelName: String)
     suspend fun activateDefaultLabel()
     suspend fun setLastInsertedSessionId(id: Long)
+    suspend fun setOnboardingFinished(finished: Boolean)
 }

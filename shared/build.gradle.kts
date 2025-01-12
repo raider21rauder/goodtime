@@ -57,7 +57,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(libs.koin.core)
-            implementation(libs.coroutines.core)
+            api(libs.coroutines.core)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.room.paging)
             implementation(libs.sqlite.bundled)

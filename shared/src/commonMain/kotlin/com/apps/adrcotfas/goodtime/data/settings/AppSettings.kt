@@ -51,6 +51,8 @@ data class AppSettings(
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
     val notificationPermissionState: NotificationPermissionState = NotificationPermissionState.NOT_ASKED,
     val lastInsertedSessionId: Long = Long.MAX_VALUE,
+
+    val onboardingFinished: Boolean = false,
 )
 
 enum class NotificationPermissionState {
@@ -70,7 +72,7 @@ data class ProductivityReminderSettings(
 @Serializable
 data class UiSettings(
     val themePreference: ThemePreference = ThemePreference.DARK,
-    val useDynamicColor: Boolean = true,
+    val useDynamicColor: Boolean = false,
     val fullscreenMode: Boolean = true,
     val trueBlackMode: Boolean = true,
     val keepScreenOn: Boolean = true,

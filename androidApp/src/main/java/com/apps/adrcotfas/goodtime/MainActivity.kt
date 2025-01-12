@@ -51,6 +51,8 @@ import com.apps.adrcotfas.goodtime.di.injectLogger
 import com.apps.adrcotfas.goodtime.main.Destination
 import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.main.bottomNavigationItems
+import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
+import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -78,6 +80,14 @@ class MainActivity : ComponentActivity(), KoinComponent {
         }
 
         setContent {
+            val onboardingViewModel = koinViewModel<OnboardingViewModel>()
+            val onboardingState by onboardingViewModel.onboardingState.collectAsStateWithLifecycle()
+
+            // TODO: add loading/splash screen
+            if (onboardingState.loading) {
+                return@setContent
+            }
+
             val viewModel =
                 koinViewModel<MainViewModel>(viewModelStoreOwner = LocalContext.current as ComponentActivity)
             val coroutineScope = rememberCoroutineScope()
@@ -95,7 +105,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 mutableStateOf(fullscreenMode)
             }
 
-            val darkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
+            val isDarkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
 
             toggleKeepScreenOn(isActive)
             if (notificationManager.isNotificationPolicyAccessGranted()) {
@@ -126,21 +136,26 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 }
             }
 
-            DisposableEffect(uiState.darkThemePreference) {
+            val considerDarkTheme = if (!onboardingState.finished) {
+                false
+            } else {
+                isDarkTheme
+            }
+            DisposableEffect(considerDarkTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
                         android.graphics.Color.TRANSPARENT,
                         android.graphics.Color.TRANSPARENT,
-                    ) { darkTheme },
+                    ) { considerDarkTheme },
                     navigationBarStyle = SystemBarStyle.auto(
                         lightScrim,
                         darkScrim,
-                    ) { darkTheme },
+                    ) { considerDarkTheme },
                 )
                 onDispose {}
             }
 
-            ApplicationTheme(darkTheme = darkTheme, dynamicColor = uiState.dynamicColor) {
+            ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.dynamicColor) {
                 val interactionSource = remember { MutableInteractionSource() }
                 Surface(
                     modifier = Modifier
@@ -150,6 +165,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                             indication = null,
                         ) {
                             if (fullscreenMode) {
+                                fullScreenJob?.cancel()
                                 fullScreenJob = coroutineScope.launch {
                                     toggleFullscreen(false)
                                     hideBottomBarWhenActive = false
@@ -161,15 +177,19 @@ class MainActivity : ComponentActivity(), KoinComponent {
                             }
                         },
                 ) {
-                    NavigationScaffold(
-                        currentDestination = currentDestination,
-                        showNavigation = showNavigation,
-                        onNavigationChange = { newDestination ->
-                            if (newDestination != currentDestination) {
-                                currentDestination = newDestination
-                            }
-                        },
-                    )
+                    if (!onboardingState.finished) {
+                        OnboardingScreen()
+                    } else {
+                        NavigationScaffold(
+                            currentDestination = currentDestination,
+                            showNavigation = showNavigation,
+                            onNavigationChange = { newDestination ->
+                                if (newDestination != currentDestination) {
+                                    currentDestination = newDestination
+                                }
+                            },
+                        )
+                    }
                 }
             }
         }

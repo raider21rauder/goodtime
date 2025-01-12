@@ -63,6 +63,7 @@ class SettingsRepositoryImpl(
         val breakBudgetDataKey = stringPreferencesKey("breakBudgetDataKey")
         val notificationPermissionStateKey = intPreferencesKey("notificationPermissionStateKey")
         val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
+        val onboardingFinishedKey = booleanPreferencesKey("onboardingFinishedKey")
     }
 
     override val settings: Flow<AppSettings> = dataStore.data
@@ -74,35 +75,36 @@ class SettingsRepositoryImpl(
                 throw exception
             }
         }.map {
+            val default = AppSettings()
             AppSettings(
                 productivityReminderSettings = it[Keys.productivityReminderSettingsKey]?.let { p ->
                     json.decodeFromString<ProductivityReminderSettings>(p)
-                } ?: ProductivityReminderSettings(),
+                } ?: default.productivityReminderSettings,
                 uiSettings = it[Keys.uiSettingsKey]?.let { u ->
                     json.decodeFromString<UiSettings>(u)
-                } ?: UiSettings(),
+                } ?: default.uiSettings,
                 timerStyle = it[Keys.timerStyleKey]?.let { t ->
                     json.decodeFromString<TimerStyleData>(t)
-                } ?: TimerStyleData(),
-                workdayStart = it[Keys.workdayStartKey] ?: AppSettings().workdayStart,
-                firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: AppSettings().firstDayOfWeek,
+                } ?: default.timerStyle,
+                workdayStart = it[Keys.workdayStartKey] ?: default.workdayStart,
+                firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
                 workFinishedSound = it[Keys.workFinishedSoundKey]
-                    ?: AppSettings().workFinishedSound,
+                    ?: default.workFinishedSound,
                 breakFinishedSound = it[Keys.breakFinishedSoundKey]
-                    ?: AppSettings().breakFinishedSound,
+                    ?: default.breakFinishedSound,
                 userSounds = it[Keys.userSoundsKey]?.let { u ->
                     json.decodeFromString<Set<SoundData>>(u)
                 } ?: emptySet(),
                 vibrationStrength = it[Keys.vibrationStrengthKey]
-                    ?: AppSettings().vibrationStrength,
-                enableTorch = it[Keys.enableTorchKey] ?: AppSettings().enableTorch,
+                    ?: default.vibrationStrength,
+                enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
                 overrideSoundProfile = it[Keys.overrideSoundProfile]
-                    ?: AppSettings().overrideSoundProfile,
+                    ?: default.overrideSoundProfile,
                 insistentNotification = it[Keys.insistentNotificationKey]
-                    ?: AppSettings().insistentNotification,
-                autoStartWork = it[Keys.autoStartWorkKey] ?: AppSettings().autoStartWork,
-                autoStartBreak = it[Keys.autoStartBreakKey] ?: AppSettings().autoStartBreak,
-                labelName = it[Keys.labelNameKey] ?: AppSettings().labelName,
+                    ?: default.insistentNotification,
+                autoStartWork = it[Keys.autoStartWorkKey] ?: default.autoStartWork,
+                autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
+                labelName = it[Keys.labelNameKey] ?: default.labelName,
                 longBreakData = it[Keys.longBreakDataKey]?.let { l ->
                     json.decodeFromString<LongBreakData>(l)
                 } ?: LongBreakData(),
@@ -111,9 +113,11 @@ class SettingsRepositoryImpl(
                 } ?: BreakBudgetData(),
                 notificationPermissionState = it[Keys.notificationPermissionStateKey]?.let { key ->
                     NotificationPermissionState.entries[key]
-                } ?: AppSettings().notificationPermissionState,
+                } ?: default.notificationPermissionState,
                 lastInsertedSessionId = it[Keys.lastInsertedSessionIdKey]
-                    ?: AppSettings().lastInsertedSessionId,
+                    ?: default.lastInsertedSessionId,
+                onboardingFinished = it[Keys.onboardingFinishedKey]
+                    ?: default.onboardingFinished,
             )
         }.catch {
             log.e("Error parsing settings", it)
@@ -226,5 +230,9 @@ class SettingsRepositoryImpl(
     override suspend fun activateDefaultLabel() = activateLabelWithName(Label.DEFAULT_LABEL_NAME)
     override suspend fun setLastInsertedSessionId(id: Long) {
         dataStore.edit { it[Keys.lastInsertedSessionIdKey] = id }
+    }
+
+    override suspend fun setOnboardingFinished(finished: Boolean) {
+        dataStore.edit { it[Keys.onboardingFinishedKey] = finished }
     }
 }
