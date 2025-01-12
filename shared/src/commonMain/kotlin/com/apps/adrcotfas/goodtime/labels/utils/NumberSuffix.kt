@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.utils
+package com.apps.adrcotfas.goodtime.labels.utils
 
 fun generateUniqueNameForDuplicate(name: String, existingNames: List<String>): String {
     return generateUniqueNameForDuplicate(name, existingNames, null)

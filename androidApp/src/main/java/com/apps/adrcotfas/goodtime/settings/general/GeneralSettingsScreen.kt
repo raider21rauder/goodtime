@@ -61,7 +61,7 @@ import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
-import com.apps.adrcotfas.goodtime.utils.secondsOfDayToTimerFormat
+import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber

@@ -22,8 +22,8 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.labels.utils.generateUniqueNameForDuplicate
 import com.apps.adrcotfas.goodtime.ui.lightPalette
-import com.apps.adrcotfas.goodtime.utils.generateUniqueNameForDuplicate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine

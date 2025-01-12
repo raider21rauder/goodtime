@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.utils
+package com.apps.adrcotfas.goodtime.labels.utils
 
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.format

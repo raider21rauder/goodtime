@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
-import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
@@ -34,9 +32,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
-// TODO: Move this back to commonTest once we have a way to have an Android inMemory database without the need of a Context
-// see https://issuetracker.google.com/issues/388863167
-class LocalDataRepositoryTest {
+class LocalDataRepositoryTest : RoomDatabaseTest() {
 
     private lateinit var repo: LocalDataRepository
     private lateinit var db: ProductivityDatabase
@@ -48,10 +44,7 @@ class LocalDataRepositoryTest {
 
     @BeforeTest
     fun setup() = runTest {
-        db = Room.inMemoryDatabaseBuilder(
-            InstrumentationRegistry.getInstrumentation().context,
-            ProductivityDatabase::class.java,
-        ).build()
+        db = getInMemoryDatabaseBuilder().build()
         repo = LocalDataRepositoryImpl(
             sessionDao = db.sessionsDao(),
             labelDao = db.labelsDao(),
@@ -230,26 +223,15 @@ class LocalDataRepositoryTest {
         )
         assertEquals(allSessions, repo.selectAllSessions().first())
 
-        var label0SessionsSize = allSessions.filter {
+        val label0SessionsSize = allSessions.filter {
             it.label == "label0"
         }.size
-        var label1SessionsSize = allSessions.filter {
+        val label1SessionsSize = allSessions.filter {
             it.label == "label1"
         }.size
-        var label2SessionSize = allSessions.filter {
-            it.label == "label2"
-        }.size
-
-        val label0SessionsIds = allSessions.filter {
-            it.label == "label0"
-        }.map { it.id }
 
         val label1SessionsIds = allSessions.filter {
             it.label == "label1"
-        }.map { it.id }
-
-        val label2SessionsIds = allSessions.filter {
-            it.label == "label2"
         }.map { it.id }
 
         repo.updateSessionsLabelByIdsExcept(
