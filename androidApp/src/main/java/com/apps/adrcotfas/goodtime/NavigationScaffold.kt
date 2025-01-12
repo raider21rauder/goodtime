@@ -87,6 +87,7 @@ fun NavigationScaffold(
                         }
                     },
                     icon = { Icon(icon!!, contentDescription = null) },
+                    label = { Text(it.label) },
                     selected = isSelected,
                     onClick = {
                         onNavigationChange(it.route)

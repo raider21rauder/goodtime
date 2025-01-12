@@ -36,7 +36,6 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -110,7 +109,7 @@ class MainViewModel(
     private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
 
-    val timerUiState: Flow<TimerUiState> = timerManager.timerData.flatMapLatest {
+    val timerUiState = timerManager.timerData.flatMapLatest {
         when (it.state) {
             TimerState.RUNNING, TimerState.PAUSED -> flow {
                 while (true) {
@@ -123,7 +122,7 @@ class MainViewModel(
                 flow { emitUiState(it) }
             }
         }
-    }.distinctUntilChanged()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.onStart {

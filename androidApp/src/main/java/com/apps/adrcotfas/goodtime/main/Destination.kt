@@ -32,10 +32,10 @@ import compose.icons.evaicons.outline.PieChart
 import compose.icons.evaicons.outline.Settings
 
 sealed class Destination(val route: String, val label: String, val icon: ImageVector?, val selectedIcon: ImageVector? = null) {
-    data object Main : Destination("main", "Main", icon = EvaIcons.Outline.Home, selectedIcon = EvaIcons.Fill.Home)
+    data object Main : Destination("main", "Home", icon = EvaIcons.Outline.Home, selectedIcon = EvaIcons.Fill.Home)
     data object Labels : Destination("labels", "Labels", icon = Icons.AutoMirrored.Outlined.Label, selectedIcon = Icons.AutoMirrored.Filled.Label)
     data object ArchivedLabels : Destination("archivedLabels", "Archived labels", null)
-    data object Stats : Destination("stats", "Stats", icon = EvaIcons.Outline.PieChart, selectedIcon = EvaIcons.Fill.PieChart)
+    data object Stats : Destination("stats", "Statistics", icon = EvaIcons.Outline.PieChart, selectedIcon = EvaIcons.Fill.PieChart)
     data object Settings : Destination("settings", "Settings", icon = EvaIcons.Outline.Settings, selectedIcon = EvaIcons.Fill.Settings)
 
     data object GeneralSettings : Destination("generalSettings", "General Settings", null)
