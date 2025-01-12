@@ -65,6 +65,7 @@ import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
+import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
 import compose.icons.EvaIcons
@@ -430,7 +431,7 @@ fun StatsScreenTopBar(
             }
         }
         if (showSeparator) {
-            HorizontalDivider()
+            SubtleHorizontalDivider()
         }
     }
 }
