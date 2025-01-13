@@ -84,12 +84,13 @@ fun GeneralSettingsScreen(
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val notificationManager = koinInject<NotificationArchManager>()
     var isNotificationPolicyAccessGranted by remember { mutableStateOf(notificationManager.isNotificationPolicyAccessGranted()) }
+    var isNotificationPolicyAccessRequested by remember { mutableStateOf(false) }
     LaunchedEffect(lifecycleState) {
         when (lifecycleState) {
             Lifecycle.State.RESUMED -> {
                 isNotificationPolicyAccessGranted =
                     notificationManager.isNotificationPolicyAccessGranted()
-                if (isNotificationPolicyAccessGranted) {
+                if (isNotificationPolicyAccessRequested && isNotificationPolicyAccessGranted) {
                     viewModel.setDndDuringWork(true)
                 }
             }
@@ -210,6 +211,7 @@ fun GeneralSettingsScreen(
                 if (isNotificationPolicyAccessGranted) {
                     viewModel.setDndDuringWork(it)
                 } else {
+                    isNotificationPolicyAccessRequested = true
                     requestDndPolicyAccess(context.findActivity()!!)
                 }
             }
