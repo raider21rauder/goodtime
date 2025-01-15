@@ -42,6 +42,7 @@ class FakeSessionDao : SessionDao {
         newInterruptions: Long,
         newLabel: String,
         newNotes: String,
+        newIsWork: Boolean,
         id: Long,
     ) {
         sessions.value = sessions.value.map {
@@ -52,6 +53,7 @@ class FakeSessionDao : SessionDao {
                     interruptions = newInterruptions,
                     labelName = newLabel,
                     notes = newNotes,
+                    isWork = newIsWork,
                 )
             } else {
                 it
