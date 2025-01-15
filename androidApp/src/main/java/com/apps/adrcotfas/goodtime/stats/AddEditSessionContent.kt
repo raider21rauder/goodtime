@@ -28,11 +28,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
+import androidx.compose.material.icons.automirrored.outlined.Notes
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -50,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
+import com.apps.adrcotfas.goodtime.common.TextBox
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
@@ -97,7 +99,7 @@ fun AddEditSessionContent(
         )
 
         Row(
-            modifier = Modifier.padding(start = 54.dp),
+            modifier = Modifier.padding(start = 68.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             FilterChip(
@@ -121,7 +123,7 @@ fun AddEditSessionContent(
             title = "Duration",
             value = session.duration.let { if (it != 0L) it.toInt() else null },
             icon = {
-                Spacer(modifier = Modifier.size(24.dp))
+                Spacer(modifier = Modifier.width(36.dp))
             },
             restoreValueOnClearFocus = false,
             onValueChange = { onUpdate(session.copy(duration = it.toLong())) },
@@ -192,26 +194,42 @@ fun AddEditSessionContent(
                 )
             }
         }
-        if (labels.isNotEmpty()) {
-            ListItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onOpenLabelSelector()
-                    },
-                leadingContent = {
-                    Icon(
-                        modifier = Modifier.padding(start = 12.dp),
-                        imageVector = Icons.AutoMirrored.Outlined.Label,
-                        contentDescription = "Label",
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
+        ListItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onOpenLabelSelector()
                 },
-                colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                headlineContent = {
-                    val colorIndex = labels.first { it.name == session.label }.colorIndex
-                    LabelChip(session.label, colorIndex, onClick = onOpenLabelSelector)
-                },
+            leadingContent = {
+                Icon(
+                    modifier = Modifier.padding(start = 12.dp),
+                    imageVector = Icons.AutoMirrored.Outlined.Label,
+                    contentDescription = "Label",
+                    tint = MaterialTheme.colorScheme.onSurface,
+                )
+            },
+            colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+            headlineContent = {
+                val colorIndex = labels.first { it.name == session.label }.colorIndex
+                LabelChip(session.label, colorIndex, onClick = onOpenLabelSelector)
+            },
+        )
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.Top,
+        ) {
+            Icon(
+                modifier = Modifier.padding(16.dp),
+                imageVector = Icons.AutoMirrored.Outlined.Notes,
+                contentDescription = "Label",
+                tint = MaterialTheme.colorScheme.onSurface,
+            )
+            TextBox(
+                modifier = Modifier.padding(top = 12.dp).weight(1f),
+                value = session.notes,
+                onValueChange = { onUpdate(session.copy(notes = it)) },
+                placeholder = "Add notes",
             )
         }
     }
