@@ -17,12 +17,35 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 
 @Composable
-fun OverviewTab() {
+fun OverviewTab(overviewData: SessionOverviewData) {
     Text("Overview")
+
+    HorizontalDivider()
+    Text("today work time: ${overviewData.workToday}")
+    Text("today interrupt time: ${overviewData.interruptionsToday}")
+    Text("today break time: ${overviewData.breaksToday}")
+
+    HorizontalDivider()
+    Text("this week work time: ${overviewData.workThisWeek}")
+    Text("this week interrupt time: ${overviewData.interruptionsThisWeek}")
+    Text("this week break time: ${overviewData.breaksThisWeek}")
+
+    HorizontalDivider()
+    Text("this month work time: ${overviewData.workThisMonth}")
+    Text("this month interrupt time: ${overviewData.interruptionsThisMonth}")
+    Text("this month break time: ${overviewData.breaksThisMonth}")
+
+    HorizontalDivider()
+    Text("total work time: ${overviewData.workTotal}")
+    Text("total interrupt time: ${overviewData.interruptionsTotal}")
+    Text("total break time: ${overviewData.breaksTotal}")
+
     // TODO:
     // First tab:
     // Weekly or daily goal with progress bar (e.g. 5 hours per day or 35 hours per week)

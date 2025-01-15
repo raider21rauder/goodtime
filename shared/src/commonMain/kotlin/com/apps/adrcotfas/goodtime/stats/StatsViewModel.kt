@@ -25,13 +25,17 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 import com.apps.adrcotfas.goodtime.data.model.toExternal
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -39,10 +43,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DayOfWeek
 
 data class StatsUiState(
     val labels: List<Label> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
+
+    val overviewData: SessionOverviewData = SessionOverviewData(),
 
     // Selection UI related fields
     val selectedSessions: List<Long> = emptyList(),
@@ -75,6 +82,7 @@ data class StatsUiState(
 
 class StatsViewModel(
     private val localDataRepo: LocalDataRepository,
+    private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
 
@@ -83,7 +91,7 @@ class StatsViewModel(
         .onStart { loadData() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatsUiState())
 
-    val sessions: Flow<PagingData<Session>> =
+    val pagedSessions: Flow<PagingData<Session>> =
         uiState.map { it.selectedLabels }.flatMapLatest { selectSessionsForHistoryPaged(it) }
 
     private fun selectSessionsForHistoryPaged(labels: List<String>): Flow<PagingData<Session>> =
@@ -97,12 +105,27 @@ class StatsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            localDataRepo.selectLabelsByArchived(isArchived = false).first().let { labels ->
+            val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
+            _uiState.update {
+                it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
+            }
+            combine(
+                settingsRepository.settings.distinctUntilChanged { old, new ->
+                    old.firstDayOfWeek == new.firstDayOfWeek && old.workdayStart == new.workdayStart
+                },
+                uiState.map { it.selectedLabels },
+            ) { settings, selectedLabels ->
+                val todayStart = timeProvider.startOfTodayAdjusted(settings.workdayStart)
+                val weekStart = timeProvider.startOfThisWeekAdjusted(
+                    DayOfWeek(settings.firstDayOfWeek),
+                    settings.workdayStart,
+                )
+                val monthStart = timeProvider.startOfThisMonthAdjusted(settings.workdayStart)
+                localDataRepo.selectOverviewAfter(todayStart, weekStart, monthStart, selectedLabels)
+                    .first()
+            }.collect { overviewData ->
                 _uiState.update {
-                    it.copy(
-                        labels = labels,
-                        selectedLabels = labels.map { label -> label.name },
-                    )
+                    it.copy(overviewData = overviewData)
                 }
             }
         }

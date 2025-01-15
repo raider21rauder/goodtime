@@ -70,6 +70,7 @@ import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Trash
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
@@ -92,7 +93,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val context = LocalContext.current
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val sessionsPagingItems = viewModel.sessions.collectAsLazyPagingItems()
+    val sessionsPagingItems = viewModel.pagedSessions.collectAsLazyPagingItems()
     val selectedLabelsCount = uiState.selectedLabels.size
     val historyListState = rememberLazyListState()
 
@@ -147,7 +148,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 }
             }
             when (type) {
-                TabType.Overview -> OverviewTab()
+                TabType.Overview -> OverviewTab(uiState.overviewData)
                 TabType.Timeline -> {
                     HistoryTab(
                         listState = historyListState,
@@ -283,7 +284,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
             SelectLabelDialog(
                 title = "Select label",
                 labels = uiState.labels,
-                initialSelectedLabels = listOf(uiState.newSession.label),
+                initialSelectedLabels = persistentListOf(uiState.newSession.label),
                 onDismiss = { viewModel.setShowSelectLabelDialog(false) },
                 singleSelection = true,
                 onConfirm = {

@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)
             api(libs.kotlinx.serialization)
+            // TODO: https://medium.com/androiddevelopers/jetpack-compose-stability-explained-79c10db270c8
+            implementation(libs.kotlinx.collections.immutable)
             implementation(libs.kotlinx.datetime)
             implementation(libs.androidx.lifecycle.viewmodel)
             api(libs.touchlab.kermit)

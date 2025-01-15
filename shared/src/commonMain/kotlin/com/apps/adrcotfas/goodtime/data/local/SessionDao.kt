@@ -26,6 +26,21 @@ import androidx.room.RawQuery
 import androidx.room.RoomRawQuery
 import kotlinx.coroutines.flow.Flow
 
+data class SessionOverviewData(
+    val workToday: Long = 0,
+    val breaksToday: Long = 0,
+    val interruptionsToday: Long = 0,
+    val workThisWeek: Long = 0,
+    val breaksThisWeek: Long = 0,
+    val interruptionsThisWeek: Long = 0,
+    val workThisMonth: Long = 0,
+    val breaksThisMonth: Long = 0,
+    val interruptionsThisMonth: Long = 0,
+    val workTotal: Long = 0,
+    val breaksTotal: Long = 0,
+    val interruptionsTotal: Long = 0,
+)
+
 @Dao
 interface SessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -58,6 +73,34 @@ interface SessionDao {
 
     @Query("SELECT * FROM localSession WHERE timestamp > :timestamp ORDER BY timestamp DESC")
     fun selectAfter(timestamp: Long): Flow<List<LocalSession>>
+
+    @Query(
+        """
+        SELECT
+            -- Today
+            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS workToday,
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS breaksToday,
+            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :todayStart THEN interruptions ELSE 0 END) AS interruptionsToday,
+
+            -- This Week
+            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS workThisWeek,
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS breaksThisWeek,
+            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :weekStart THEN interruptions ELSE 0 END) AS interruptionsThisWeek,
+
+            -- This Month
+            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS workThisMonth,
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS breaksThisMonth,
+            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :monthStart THEN interruptions ELSE 0 END) AS interruptionsThisMonth,
+
+            -- Total (No timestamp filter)
+            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) THEN duration ELSE 0 END) AS workTotal,
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) THEN duration ELSE 0 END) AS breaksTotal,
+            SUM(CASE WHEN labelName IN (:labels) THEN interruptions ELSE 0 END) AS interruptionsTotal
+        FROM localSession
+        WHERE labelName IN (:labels)
+        """,
+    )
+    fun selectOverviewAfter(todayStart: Long, weekStart: Long, monthStart: Long, labels: List<String>): Flow<SessionOverviewData>
 
     @Query("SELECT * FROM localSession WHERE id = :id")
     fun selectById(id: Long): Flow<LocalSession>

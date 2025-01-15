@@ -36,10 +36,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,9 +53,7 @@ fun SelectLabelDialog(
     labels: List<Label>,
     initialSelectedLabels: List<String> = emptyList(),
 ) {
-    var selectedLabels by rememberSaveable {
-        mutableStateOf(initialSelectedLabels)
-    }
+    val selectedLabels = rememberMutableStateListOf(*initialSelectedLabels.toTypedArray())
 
     BasicAlertDialog(
         onDismissRequest = onDismiss,
@@ -108,10 +102,10 @@ fun SelectLabelDialog(
                             } else {
                                 val alreadySelected = selectedLabels.contains(label.name)
                                 if (selectedLabels.size == 1 && alreadySelected) return@LabelChip
-                                selectedLabels = if (selectedLabels.contains(label.name)) {
-                                    selectedLabels - label.name
+                                if (selectedLabels.contains(label.name)) {
+                                    selectedLabels.remove(label.name)
                                 } else {
-                                    selectedLabels + label.name
+                                    selectedLabels.add(label.name)
                                 }
                             }
                         }

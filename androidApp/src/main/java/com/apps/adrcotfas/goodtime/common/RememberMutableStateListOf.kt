@@ -15,22 +15,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.bl
+package com.apps.adrcotfas.goodtime.common
 
-import platform.Darwin.mach_absolute_time
-import platform.Darwin.mach_timebase_info
-import platform.Darwin.mach_timebase_info_data_t
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 
-class IosTimeProvider : TimeProvider {
-
-    override fun elapsedRealtime(): Long {
-        val timebase = mach_timebase_info_data_t()
-        mach_timebase_info(timebase.ptr)
-        val elapsedNano = mach_absolute_time() * timebase.numer / timebase.denom
-        return elapsedNano / 1_000_000 // Convert to milliseconds
+@Composable
+fun <T : Any> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
+    return rememberSaveable(saver = snapshotStateListSaver()) {
+        elements.toList().toMutableStateList()
     }
 }
 
-actual fun createTimeProvider(): TimeProvider {
-    return IosTimeProvider()
-}
+private fun <T : Any> snapshotStateListSaver() = listSaver<SnapshotStateList<T>, T>(
+    save = { stateList -> stateList.toList() },
+    restore = { it.toMutableStateList() },
+)
