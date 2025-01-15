@@ -48,7 +48,6 @@ import kotlinx.datetime.DayOfWeek
 data class StatsUiState(
     val labels: List<Label> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
-
     val overviewData: SessionOverviewData = SessionOverviewData(),
 
     // Selection UI related fields
@@ -56,13 +55,8 @@ data class StatsUiState(
     val unselectedSessions: List<Long> = emptyList(), // for the case with select all active
     val selectedSessionsCountWhenAllSelected: Int = 0,
     val isSelectAllEnabled: Boolean = false,
-    val showDeleteConfirmationDialog: Boolean = false,
-    val showEditBulkLabelDialog: Boolean = false,
-    val showEditLabelConfirmationDialog: Boolean = false,
     val selectedLabelToBulkEdit: String? = null,
 
-    val showSelectLabelDialog: Boolean = false,
-    val showSelectVisibleLabelsDialog: Boolean = false,
     val sessionToEdit: Session? = null, // this does not change after initialization
     val newSession: Session = Session.default(),
     val showAddSession: Boolean = false,
@@ -105,6 +99,7 @@ class StatsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
+            //TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
             _uiState.update {
                 it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
@@ -167,7 +162,6 @@ class StatsViewModel(
                 selectedSessions = emptyList(),
                 unselectedSessions = emptyList(),
                 selectedSessionsCountWhenAllSelected = 0,
-                showDeleteConfirmationDialog = false,
             )
         }
     }
@@ -194,14 +188,6 @@ class StatsViewModel(
                 localDataRepo.deleteSessions(uiState.value.selectedSessions)
             }
         }
-    }
-
-    fun setShowSelectLabelDialog(show: Boolean) {
-        _uiState.update { it.copy(showSelectLabelDialog = show) }
-    }
-
-    fun setShowSelectVisibleLabelsDialog(show: Boolean) {
-        _uiState.update { it.copy(showSelectVisibleLabelsDialog = show) }
     }
 
     fun updateSessionToEdit(session: Session) {
@@ -239,10 +225,6 @@ class StatsViewModel(
         _uiState.update { it.copy(showAddSession = false) }
     }
 
-    fun setShowDeleteConfirmationDialog(show: Boolean) {
-        _uiState.update { it.copy(showDeleteConfirmationDialog = show) }
-    }
-
     private fun generateNewSession(): Session {
         return Session.create(
             duration = DEFAULT_WORK_DURATION.toLong(),
@@ -251,14 +233,6 @@ class StatsViewModel(
             label = Label.DEFAULT_LABEL_NAME,
             isWork = true,
         )
-    }
-
-    fun setShowEditLabelDialog(show: Boolean) {
-        _uiState.update { it.copy(showEditBulkLabelDialog = show) }
-    }
-
-    fun setShowEditLabelConfirmationDialog(show: Boolean) {
-        _uiState.update { it.copy(showEditLabelConfirmationDialog = show) }
     }
 
     fun setSelectedLabelToBulkEdit(label: String) {

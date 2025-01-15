@@ -97,6 +97,14 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     val selectedLabelsCount = uiState.selectedLabels.size
     val historyListState = rememberLazyListState()
 
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var showTimePicker by rememberSaveable { mutableStateOf(false) }
+    var showSelectVisibleLabelsDialog by rememberSaveable { mutableStateOf(false) }
+    var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
+    var showDeleteConfirmationDialog by rememberSaveable { mutableStateOf(false) }
+    var showEditBulkLabelDialog by rememberSaveable { mutableStateOf(false) }
+    var showEditLabelConfirmationDialog by rememberSaveable { mutableStateOf(false) }
+
     BackHandler(enabled = uiState.showSelectionUi) {
         if (uiState.showSelectionUi) {
             viewModel.clearShowSelectionUi()
@@ -111,14 +119,14 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 onAddButtonClick = { viewModel.onAddEditSession() },
                 onLabelButtonClick = {
                     if (uiState.showSelectionUi) {
-                        viewModel.setShowEditLabelDialog(true)
+                        showEditBulkLabelDialog = true
                     } else {
-                        viewModel.setShowSelectVisibleLabelsDialog(true)
+                        showSelectVisibleLabelsDialog = true
                     }
                 },
                 selectedLabelsCount = selectedLabelsCount,
                 onCancel = { viewModel.clearShowSelectionUi() },
-                onDeleteClick = { viewModel.setShowDeleteConfirmationDialog(true) },
+                onDeleteClick = { showDeleteConfirmationDialog = true },
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
@@ -128,8 +136,6 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     ) { paddingValues ->
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
         val titles = listOf("Overview", "Timeline")
-        var showDatePicker by rememberSaveable { mutableStateOf(false) }
-        var showTimePicker by rememberSaveable { mutableStateOf(false) }
 
         Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
             AnimatedVisibility(!uiState.showSelectionUi) {
@@ -208,7 +214,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                     onValidate = {
                         viewModel.setCanSave(it)
                     },
-                    onOpenLabelSelector = { viewModel.setShowSelectLabelDialog(true) },
+                    onOpenLabelSelector = { showSelectLabelDialog = true },
                     onOpenDatePicker = { showDatePicker = true },
                     onOpenTimePicker = { showTimePicker = true },
                 )
@@ -280,12 +286,12 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 timePickerState = timePickerState,
             )
         }
-        if (uiState.showSelectLabelDialog) {
+        if (showSelectLabelDialog) {
             SelectLabelDialog(
                 title = "Select label",
                 labels = uiState.labels,
                 initialSelectedLabels = persistentListOf(uiState.newSession.label),
-                onDismiss = { viewModel.setShowSelectLabelDialog(false) },
+                onDismiss = { showSelectLabelDialog = false },
                 singleSelection = true,
                 onConfirm = {
                     viewModel.updateSessionToEdit(
@@ -293,54 +299,55 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                             label = it.first(),
                         ),
                     )
-                    viewModel.setShowSelectLabelDialog(false)
+                    showSelectLabelDialog = false
                 },
             )
         }
-        if (uiState.showSelectVisibleLabelsDialog) {
+        if (showSelectVisibleLabelsDialog) {
             SelectLabelDialog(
                 title = "Select labels",
                 labels = uiState.labels,
                 initialSelectedLabels = uiState.selectedLabels,
-                onDismiss = { viewModel.setShowSelectVisibleLabelsDialog(false) },
+                onDismiss = { showSelectVisibleLabelsDialog = false },
                 singleSelection = false,
                 onConfirm = {
                     viewModel.setSelectedLabels(it)
-                    viewModel.setShowSelectVisibleLabelsDialog(false)
+                    showSelectVisibleLabelsDialog = false
                 },
             )
         }
-        if (uiState.showDeleteConfirmationDialog) {
+        if (showDeleteConfirmationDialog) {
             ConfirmationDialog(
                 title = "Delete selected sessions?",
-                onDismiss = { viewModel.setShowDeleteConfirmationDialog(false) },
+                onDismiss = { showDeleteConfirmationDialog = false },
                 onConfirm = {
                     viewModel.deleteSelectedSessions()
                     viewModel.clearShowSelectionUi()
+                    showDeleteConfirmationDialog = false
                 },
             )
         }
-        if (uiState.showEditBulkLabelDialog) {
+        if (showEditBulkLabelDialog) {
             SelectLabelDialog(
                 title = "Edit label",
                 labels = uiState.labels,
-                onDismiss = { viewModel.setShowEditLabelDialog(false) },
+                onDismiss = { showEditBulkLabelDialog = false },
                 singleSelection = true,
                 onConfirm = {
                     viewModel.setSelectedLabelToBulkEdit(it.first())
-                    viewModel.setShowEditLabelDialog(false)
-                    viewModel.setShowEditLabelConfirmationDialog(true)
+                    showEditBulkLabelDialog = false
+                    showEditLabelConfirmationDialog = true
                 },
             )
         }
-        if (uiState.showEditLabelConfirmationDialog) {
+        if (showEditLabelConfirmationDialog) {
             ConfirmationDialog(
                 title = "Change label of selected sessions?",
-                onDismiss = { viewModel.setShowEditLabelConfirmationDialog(false) },
+                onDismiss = { showEditLabelConfirmationDialog = false },
                 onConfirm = {
-                    viewModel.setShowEditLabelConfirmationDialog(false)
                     viewModel.bulkEditLabel()
                     viewModel.clearShowSelectionUi()
+                    showEditLabelConfirmationDialog = false
                 },
             )
         }

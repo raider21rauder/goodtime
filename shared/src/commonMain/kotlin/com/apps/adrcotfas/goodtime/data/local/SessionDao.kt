@@ -65,7 +65,7 @@ interface SessionDao {
     @Query("UPDATE localSession SET labelName = :newLabel WHERE id IN (:ids)")
     suspend fun updateLabelByIds(newLabel: String, ids: List<Long>)
 
-    @Query("UPDATE localSession SET labelName = :newLabel WHERE isWork = 1 AND isArchived = 0 AND id NOT IN (:ids) AND labelName IN (:labels)")
+    @Query("UPDATE localSession SET labelName = :newLabel WHERE isArchived = 0 AND id NOT IN (:ids) AND labelName IN (:labels)")
     suspend fun updateLabelByIdsExcept(newLabel: String, ids: List<Long>, labels: List<String>)
 
     @Query("SELECT * FROM localSession ORDER BY timestamp DESC")
@@ -114,13 +114,13 @@ interface SessionDao {
     @Query("SELECT * FROM localSession WHERE labelName IN (:labelNames) ORDER BY timestamp DESC")
     fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>>
 
-    @Query("SELECT * FROM localSession WHERE isArchived = 0 AND isWork = 1 AND labelName IN (:labelNames) ORDER BY timestamp DESC")
+    @Query("SELECT * FROM localSession WHERE isArchived = 0 AND labelName IN (:labelNames) ORDER BY timestamp DESC")
     fun selectSessionsForHistoryPaged(labelNames: List<String>): PagingSource<Int, LocalSession>
 
     @Query("DELETE FROM localSession WHERE id IN (:ids)")
     suspend fun delete(ids: List<Long>)
 
-    @Query("DELETE FROM localSession WHERE isWork = 1 AND id NOT IN (:ids) AND labelName IN (:labels)")
+    @Query("DELETE FROM localSession WHERE id NOT IN (:ids) AND labelName IN (:labels)")
     suspend fun deleteExcept(ids: List<Long>, labels: List<String>)
 
     @Query("DELETE FROM localSession")

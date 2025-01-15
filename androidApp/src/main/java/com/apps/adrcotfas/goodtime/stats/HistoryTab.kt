@@ -19,16 +19,19 @@ package com.apps.adrcotfas.goodtime.stats
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ListItem
@@ -40,9 +43,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -55,6 +59,7 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.ui.common.enabledColors
 import com.apps.adrcotfas.goodtime.ui.common.selectedColors
+import com.apps.adrcotfas.goodtime.shared.R as SharedR
 
 @Composable
 fun HistoryTab(
@@ -141,32 +146,64 @@ fun HistoryListItem(
             onLongClick = onLongClick,
         ),
         colors = if (isSelected) ListItemDefaults.selectedColors() else ListItemDefaults.enabledColors(),
-        leadingContent = {
-            Row(modifier = Modifier.width(32.dp), horizontalArrangement = Arrangement.Center) {
-                Text(
-                    text = session.duration.toString(),
-                    style = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
-                )
-            }
-        },
         headlineContent = {
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+                    Image(
+                        modifier = Modifier.size(16.dp),
+                        painter = painterResource(
+                            if (session.isWork) {
+                                SharedR.drawable.ic_status_goodtime
+                            } else {
+                                SharedR.drawable.ic_break
+                            },
+                        ),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                        contentDescription = "session type",
+                    )
+
+                    Spacer(modifier = Modifier.size(4.dp))
+
+                    Text(
+                        text = "${session.duration}min",
+                        maxLines = 1,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
+                    )
+
+                    if (session.interruptions > 0) {
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Image(
+                            modifier = Modifier.size(16.dp),
+                            painter = painterResource(SharedR.drawable.ic_broken_link),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                            contentDescription = "interruptions",
+                        )
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(
+                            text = "${session.interruptions}min",
+                            maxLines = 1,
+                            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onSurfaceVariant),
+                        )
+                    }
+                }
+
                 val (date, time) = session.timestamp.formatToPrettyDateAndTime(is24HourFormat)
                 Text(
                     text = "$date $time",
                     maxLines = 1,
                     style = MaterialTheme.typography.bodySmall,
                 )
-                if (session.interruptions > 0) {
-                    Text(
-                        text = "Interruptions: ${session.interruptions}",
-                        maxLines = 1,
-                        style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onSurfaceVariant),
-                    )
-                }
                 if (session.notes.isNotEmpty()) {
                     Text(
                         text = session.notes,
