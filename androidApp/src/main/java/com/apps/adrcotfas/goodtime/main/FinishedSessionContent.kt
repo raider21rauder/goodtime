@@ -51,6 +51,7 @@ import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.WIGGLE_ROOM_MILLIS
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
+import com.apps.adrcotfas.goodtime.common.TextBox
 import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.milliseconds
@@ -63,6 +64,8 @@ fun FinishedSessionContent(
     historyUiState: HistoryUiState,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
+    notes: String,
+    onNotesChanged: (String) -> Unit,
 ) {
     val timeProvider = koinInject<TimeProvider>()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -75,22 +78,31 @@ fun FinishedSessionContent(
             elapsedRealtime = timeProvider.elapsedRealtime()
         }
     }
-    FinishedSessionContent(timerUiState, historyUiState, elapsedRealtime, addIdleMinutes, onChangeAddIdleMinutes)
+    FinishedSessionContent(
+        timerUiState,
+        historyUiState,
+        elapsedRealtime,
+        addIdleMinutes,
+        onChangeAddIdleMinutes,
+        notes,
+        onNotesChanged,
+    )
 }
 
-@Composable
-fun FinishedSessionContent(
+@Composable private fun FinishedSessionContent(
     timerUiState: TimerUiState,
     historyUiState: HistoryUiState,
     elapsedRealtime: Long,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
+    notes: String,
+    onNotesChanged: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val isBreak = timerUiState.timerType.isBreak
@@ -98,18 +110,22 @@ fun FinishedSessionContent(
             text = if (isBreak) "Break finished" else "Work finished",
             style = MaterialTheme.typography.displaySmall,
         )
-        Spacer(modifier = Modifier.height(16.dp))
         CurrentSessionCard(
             timerUiState,
             elapsedRealtime,
             addIdleMinutes,
             onChangeAddIdleMinutes,
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        HistoryCard(
-            historyUiState,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        HistoryCard(historyUiState)
+
+        Card {
+            TextBox(
+                modifier = Modifier.padding(16.dp),
+                value = notes,
+                onValueChange = onNotesChanged,
+                placeholder = "Add notes",
+            )
+        }
     }
 }
 
@@ -301,5 +317,7 @@ fun FinishedSessionContentPreview() {
         elapsedRealtime = 3.minutes.inWholeMilliseconds,
         addIdleMinutes = false,
         onChangeAddIdleMinutes = {},
+        notes = "Some notes",
+        onNotesChanged = {},
     )
 }

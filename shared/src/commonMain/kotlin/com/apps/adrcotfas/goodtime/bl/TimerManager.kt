@@ -87,7 +87,9 @@ class TimerManager(
             it.labelName
         }.distinctUntilChanged().flatMapLatest { labelName ->
             localDataRepo.selectLabelByName(labelName)
-                .combine(localDataRepo.selectDefaultLabel().filterNotNull()) { label, defaultLabel ->
+                .combine(
+                    localDataRepo.selectDefaultLabel().filterNotNull(),
+                ) { label, defaultLabel ->
                     val defaultTimerProfile = defaultLabel.timerProfile
                     if (label == null) {
                         settingsRepo.activateDefaultLabel()
@@ -321,10 +323,19 @@ class TimerManager(
         nextInternal(updateWorkTime, finishActionType)
     }
 
+    fun updateNotesForLastCompletedSession(notes: String) {
+        if (notes.isNotEmpty()) {
+            finishedSessionsHandler.updateLastFinishedSessionNotes(notes.trim())
+        }
+    }
+
     /**
      * Called automatically when autoStart is enabled and the time is up or manually at the end of a session.
      */
-    private fun nextInternal(updateWorkTime: Boolean = false, finishActionType: FinishActionType) {
+    private fun nextInternal(
+        updateWorkTime: Boolean = false,
+        finishActionType: FinishActionType,
+    ) {
         val data = timerData.value
         if (!data.isReady) {
             log.e { "timer data not ready" }
@@ -461,10 +472,8 @@ class TimerManager(
             if (isFinished && updateWorkTime) {
                 finishedSessionsHandler.updateSession(it)
                 return
-            } else if (!isFinished || (
-                    isFinished &&
-                        (finishActionType != FinishActionType.MANUAL_NEXT)
-                    )
+            } else if (!isFinished ||
+                (isFinished && (finishActionType != FinishActionType.MANUAL_NEXT))
             ) {
                 finishedSessionsHandler.saveSession(it)
             }

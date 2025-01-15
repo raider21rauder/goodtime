@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
         }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             val onboardingViewModel = koinViewModel<OnboardingViewModel>()

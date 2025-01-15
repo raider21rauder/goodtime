@@ -31,6 +31,28 @@ class FinishedSessionsHandler(
     private val settingsRepo: SettingsRepository,
     private val log: Logger,
 ) {
+
+    fun updateLastFinishedSessionNotes(notes: String) {
+        log.v { "Updating the notes" }
+        coroutineScope.launch {
+            try {
+                val lastSessionId = settingsRepo.settings.first().lastInsertedSessionId
+                log.v { "lastSessionId: $lastSessionId" }
+
+                if (lastSessionId != Long.MAX_VALUE) {
+                    val oldSession = repo.selectSessionById(lastSessionId).first()
+                    val updatedSession = oldSession.copy(notes = notes)
+                    repo.updateSession(lastSessionId, updatedSession)
+                }
+            } catch (e: Exception) {
+                log.e { "Error updating notes: $e" }
+                when (e) {
+                    !is NoSuchElementException -> throw e
+                }
+            }
+        }
+    }
+
     fun updateSession(newSession: Session) {
         log.v { "Updating a finished session" }
         coroutineScope.launch {

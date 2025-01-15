@@ -53,7 +53,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isWork
 import com.apps.adrcotfas.goodtime.common.isPortrait
@@ -129,11 +128,7 @@ fun MainScreen(
         } else {
             null
         },
-        if ((
-                !label.profile.isCountdown &&
-                    thereIsNoBreakBudget &&
-                    timerUiState.timerType.isWork
-                ) ||
+        if ((!label.profile.isCountdown && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
             isCountUpWithoutBreaks
         ) {
             DialRegion.RIGHT
@@ -224,7 +219,7 @@ fun MainScreen(
         }
     }
 
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by rememberSaveable(timerUiState.isFinished) { mutableStateOf(timerUiState.isFinished) }
 
@@ -237,26 +232,28 @@ fun MainScreen(
     }
 
     if (showBottomSheet) {
-        var addIdleMinutes by rememberSaveable { mutableStateOf(false) }
+        var updateWorkTime by rememberSaveable { mutableStateOf(false) }
         val isBreak = timerUiState.timerType.isBreak
+
+        var notes by rememberSaveable { mutableStateOf("") }
+
         ModalBottomSheet(
             onDismissRequest = {
-                viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
+                viewModel.resetTimer(updateWorkTime = updateWorkTime)
+                viewModel.updateNotesForLastCompletedSession(notes)
                 showBottomSheet = false
             },
             dragHandle = {
                 DragHandle(
                     buttonText = if (isBreak) "Start work" else "Start break",
                     onClose = {
-                        if (addIdleMinutes) {
-                            viewModel.resetTimer(updateWorkTime = true)
-                        } else {
-                            viewModel.resetTimer(actionType = FinishActionType.MANUAL_DO_NOTHING)
-                        }
+                        viewModel.resetTimer(updateWorkTime = updateWorkTime)
+                        viewModel.updateNotesForLastCompletedSession(notes)
                         hideSheet()
                     },
                     onClick = {
-                        viewModel.next(addIdleMinutes)
+                        viewModel.next(updateWorkTime = updateWorkTime)
+                        viewModel.updateNotesForLastCompletedSession(notes)
                         hideSheet()
                     },
                     isEnabled = true,
@@ -267,8 +264,10 @@ fun MainScreen(
             FinishedSessionContent(
                 timerUiState = timerUiState,
                 historyUiState = historyUiState,
-                addIdleMinutes = addIdleMinutes,
-                onChangeAddIdleMinutes = { addIdleMinutes = it },
+                addIdleMinutes = updateWorkTime,
+                onChangeAddIdleMinutes = { updateWorkTime = it },
+                notes = notes,
+                onNotesChanged = { notes = it },
             )
         }
     }

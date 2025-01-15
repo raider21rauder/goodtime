@@ -210,7 +210,10 @@ class MainViewModel(
         }
     }
 
-    fun resetTimer(updateWorkTime: Boolean = false, actionType: FinishActionType = FinishActionType.MANUAL_RESET) {
+    fun resetTimer(
+        updateWorkTime: Boolean = false,
+        actionType: FinishActionType = FinishActionType.MANUAL_RESET,
+    ) {
         timerManager.reset(updateWorkTime, actionType)
     }
 
@@ -250,5 +253,9 @@ class MainViewModel(
 
     fun next(updateWorkTime: Boolean = false) {
         timerManager.next(updateWorkTime)
+    }
+
+    fun updateNotesForLastCompletedSession(notes: String) {
+        timerManager.updateNotesForLastCompletedSession(notes = notes)
     }
 }

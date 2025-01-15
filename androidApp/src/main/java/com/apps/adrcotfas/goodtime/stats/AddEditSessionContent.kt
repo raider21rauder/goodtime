@@ -226,7 +226,7 @@ fun AddEditSessionContent(
                 tint = MaterialTheme.colorScheme.onSurface,
             )
             TextBox(
-                modifier = Modifier.padding(top = 12.dp).weight(1f),
+                modifier = Modifier.padding(top = 14.dp).weight(1f),
                 value = session.notes,
                 onValueChange = { onUpdate(session.copy(notes = it)) },
                 placeholder = "Add notes",

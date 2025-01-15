@@ -22,10 +22,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -112,8 +109,6 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
     }
 
     Scaffold(
-        modifier = Modifier
-            .windowInsetsPadding(WindowInsets.statusBars),
         topBar = {
             StatsScreenTopBar(
                 onAddButtonClick = { viewModel.onAddEditSession() },
@@ -178,7 +173,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
             }
         }
 
-        val sheetState = rememberModalBottomSheetState()
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val scope = rememberCoroutineScope()
 
         val hideSheet = {
