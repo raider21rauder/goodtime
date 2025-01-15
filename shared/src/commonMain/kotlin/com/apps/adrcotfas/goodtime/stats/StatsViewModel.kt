@@ -28,7 +28,6 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
-import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -99,7 +98,7 @@ class StatsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            //TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
+            // TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
             _uiState.update {
                 it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
@@ -217,6 +216,7 @@ class StatsViewModel(
                 sessionToEdit = sessionToEdit,
                 newSession = session,
                 showAddSession = true,
+                canSave = sessionToEdit != null,
             )
         }
     }
@@ -227,7 +227,7 @@ class StatsViewModel(
 
     private fun generateNewSession(): Session {
         return Session.create(
-            duration = DEFAULT_WORK_DURATION.toLong(),
+            duration = 0,
             timestamp = timeProvider.now(),
             interruptions = 0,
             label = Label.DEFAULT_LABEL_NAME,

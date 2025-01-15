@@ -18,6 +18,8 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import android.text.format.DateFormat
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,12 +33,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,9 +75,10 @@ fun AddEditSessionContent(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .animateContentSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
     ) {
         val context = LocalContext.current
         val locale = context.resources.configuration.locales[0]
@@ -88,9 +96,30 @@ fun AddEditSessionContent(
             monthNames,
         )
 
+        Row(
+            modifier = Modifier.padding(start = 54.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            FilterChip(
+                onClick = { onUpdate(session.copy(isWork = true)) },
+                label = {
+                    Text("Work")
+                },
+                selected = session.isWork,
+            )
+
+            FilterChip(
+                onClick = { onUpdate(session.copy(isWork = false, interruptions = 0)) },
+                label = {
+                    Text("Break")
+                },
+                selected = !session.isWork,
+            )
+        }
+
         EditableNumberListItem(
-            title = "Work duration",
-            value = session.duration.toInt(),
+            title = "Duration",
+            value = session.duration.let { if (it != 0L) it.toInt() else null },
             icon = {
                 Spacer(modifier = Modifier.size(24.dp))
             },
@@ -99,6 +128,22 @@ fun AddEditSessionContent(
             onValueEmpty = { onValidate(!it) },
         )
 
+        AnimatedVisibility(session.isWork) {
+            var enableInterruptions by rememberSaveable { mutableStateOf(session.interruptions > 0) }
+            EditableNumberListItem(
+                minValue = 0,
+                title = "Interruptions",
+                value = session.interruptions.toInt(),
+                enableSwitch = true,
+                switchValue = enableInterruptions,
+                onSwitchChange = {
+                    enableInterruptions = it
+                    onUpdate(session.copy(interruptions = if (it) session.interruptions else 0))
+                },
+                onValueChange = { onUpdate(session.copy(interruptions = it.toLong())) },
+                onValueEmpty = { onValidate(!it) },
+            )
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -114,7 +159,12 @@ fun AddEditSessionContent(
                 horizontalArrangement = Arrangement.Start,
             ) {
                 Icon(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(
+                        start = 28.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                        bottom = 16.dp,
+                    ),
                     imageVector = EvaIcons.Outline.Clock,
                     contentDescription = "Time",
                 )
@@ -151,6 +201,7 @@ fun AddEditSessionContent(
                     },
                 leadingContent = {
                     Icon(
+                        modifier = Modifier.padding(start = 12.dp),
                         imageVector = Icons.AutoMirrored.Outlined.Label,
                         contentDescription = "Label",
                         tint = MaterialTheme.colorScheme.onSurface,
@@ -163,20 +214,5 @@ fun AddEditSessionContent(
                 },
             )
         }
-// TODO: decide later if we want to allow editing interruptions
-//        var enableInterruptions by rememberSaveable { mutableStateOf(session.interruptions > 0) }
-//        EditableNumberListItem(
-//            minValue = 0,
-//            title = "Interruptions",
-//            value = session.interruptions.toInt(),
-//            enableSwitch = true,
-//            switchValue = enableInterruptions,
-//            onSwitchChange = {
-//                enableInterruptions = it
-//                onUpdate(session.copy(interruptions = if (it) session.interruptions else 0))
-//            },
-//            onValueChange = { onUpdate(session.copy(interruptions = it.toLong())) },
-//            onValueEmpty = { onValidate(!it) },
-//        )
     }
 }

@@ -62,6 +62,7 @@ internal class LocalDataRepositoryImpl(
             newInterruptions = localSession.interruptions,
             newLabel = localSession.labelName,
             newNotes = localSession.notes,
+            newIsWork = localSession.isWork,
             id = id,
         )
     }

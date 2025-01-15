@@ -346,15 +346,6 @@ private fun LabelNameRow(
     showError: Boolean,
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(labelName) {
-        if (isAddingNewLabel) {
-            try {
-                focusRequester.requestFocus()
-            } catch (e: Exception) {
-                // ignore
-            }
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -401,6 +392,10 @@ private fun LabelNameRow(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )
+        }
+
+        LaunchedEffect(labelName) {
+            if (isAddingNewLabel) focusRequester.requestFocus()
         }
     }
 }

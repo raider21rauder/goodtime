@@ -49,7 +49,7 @@ interface SessionDao {
     @Query(
         """
         UPDATE localSession
-        SET timestamp = :newTimestamp, duration = :newDuration, interruptions = :newInterruptions, labelName = :newLabel, notes = :newNotes
+        SET timestamp = :newTimestamp, duration = :newDuration, interruptions = :newInterruptions, labelName = :newLabel, notes = :newNotes, isWork = :newIsWork
         WHERE id = :id
     """,
     )
@@ -59,6 +59,7 @@ interface SessionDao {
         newInterruptions: Long,
         newLabel: String,
         newNotes: String,
+        newIsWork: Boolean,
         id: Long,
     )
 

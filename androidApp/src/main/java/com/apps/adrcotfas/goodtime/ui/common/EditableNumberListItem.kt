@@ -61,10 +61,11 @@ import kotlin.math.min
 @Composable
 fun EditableNumberListItem(
     title: String,
-    value: Int,
+    value: Int?,
     minValue: Int = 1,
     maxValue: Int = 90,
     enabled: Boolean = true,
+    autofocus: Boolean = false,
     restoreValueOnClearFocus: Boolean = true,
     icon: (@Composable () -> Unit)? = null,
     onValueChange: (Int) -> Unit,
@@ -77,7 +78,7 @@ fun EditableNumberListItem(
     var textFieldValue by remember(value) {
         mutableStateOf(
             TextFieldValue(
-                value.toString(),
+                value?.toString() ?: "",
                 selection = TextRange(maxValueDigits, maxValueDigits),
             ),
         )
@@ -168,6 +169,9 @@ fun EditableNumberListItem(
                         }
                     },
             )
+            LaunchedEffect(autofocus) {
+                if (textFieldValue.text.isEmpty()) focusRequester.requestFocus()
+            }
         },
         leadingContent = {
             if (enableSwitch) {
