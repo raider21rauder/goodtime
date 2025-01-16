@@ -22,11 +22,9 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atTime
+import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.minus
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 interface TimeProvider {
@@ -42,15 +40,15 @@ interface TimeProvider {
      */
     fun elapsedRealtime(): Long
 
-    fun startOfTodayAdjusted(dayStartSecondOfDay: Int): Long {
+    fun startOfToday(): Long {
         val currentInstant = Instant.fromEpochMilliseconds(now())
         val timeZone = TimeZone.currentSystemDefault()
         val currentDateTime = currentInstant.toLocalDateTime(timeZone)
-        val startOfDay = currentDateTime.date.atTime(LocalTime.fromSecondOfDay(dayStartSecondOfDay))
-        return startOfDay.toInstant(timeZone).toEpochMilliseconds()
+        val startOfDay = currentDateTime.date.atStartOfDayIn(timeZone)
+        return startOfDay.toEpochMilliseconds()
     }
 
-    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek, dayStartSecondOfDay: Int): Long {
+    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): Long {
         val currentInstant = Instant.fromEpochMilliseconds(now())
         val timeZone = TimeZone.currentSystemDefault()
         val currentDateTime = currentInstant.toLocalDateTime(timeZone)
@@ -60,11 +58,11 @@ interface TimeProvider {
             date = date.minus(1, DateTimeUnit.DAY)
         }
 
-        val startOfWeek = date.atTime(LocalTime.fromSecondOfDay(dayStartSecondOfDay))
-        return startOfWeek.toInstant(timeZone).toEpochMilliseconds()
+        val startOfWeek = date.atStartOfDayIn(timeZone)
+        return startOfWeek.toEpochMilliseconds()
     }
 
-    fun startOfThisMonthAdjusted(dayStartSecondOfDay: Int): Long {
+    fun startOfThisMonthAdjusted(): Long {
         val currentInstant = Instant.fromEpochMilliseconds(now())
         val timeZone = TimeZone.currentSystemDefault()
         val currentDateTime = currentInstant.toLocalDateTime(timeZone)
@@ -74,8 +72,8 @@ interface TimeProvider {
             currentDateTime.date.month,
             1,
         )
-        val startOfMonth = date.atTime(LocalTime.fromSecondOfDay(dayStartSecondOfDay))
-        return startOfMonth.toInstant(timeZone).toEpochMilliseconds()
+        val startOfMonth = date.atStartOfDayIn(timeZone)
+        return startOfMonth.toEpochMilliseconds()
     }
 }
 

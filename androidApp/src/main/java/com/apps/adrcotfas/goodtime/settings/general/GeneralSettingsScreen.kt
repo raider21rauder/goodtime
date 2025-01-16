@@ -51,7 +51,6 @@ import com.apps.adrcotfas.goodtime.common.getAppLanguage
 import com.apps.adrcotfas.goodtime.common.prettyName
 import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
-import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
@@ -131,16 +130,17 @@ fun GeneralSettingsScreen(
                     },
                 )
             }
-            BetterListItem(
-                title = "Workday start",
-                trailing = secondsOfDayToTimerFormat(
-                    uiState.settings.workdayStart,
-                    DateFormat.is24HourFormat(context),
-                ),
-                onClick = {
-                    viewModel.setShowWorkdayStartPicker(true)
-                },
-            )
+// TODO: decide later if we keep this
+//            BetterListItem(
+//                title = "Workday start",
+//                trailing = secondsOfDayToTimerFormat(
+//                    uiState.settings.workdayStart,
+//                    DateFormat.is24HourFormat(context),
+//                ),
+//                onClick = {
+//                    viewModel.setShowWorkdayStartPicker(true)
+//                },
+//            )
             DropdownMenuListItem(
                 title = "Start of the week",
                 value = DayOfWeek.of(uiState.settings.firstDayOfWeek)

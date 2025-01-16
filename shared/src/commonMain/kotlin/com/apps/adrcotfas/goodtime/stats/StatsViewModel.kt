@@ -34,7 +34,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -104,17 +103,14 @@ class StatsViewModel(
                 it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
             }
             combine(
-                settingsRepository.settings.distinctUntilChanged { old, new ->
-                    old.firstDayOfWeek == new.firstDayOfWeek && old.workdayStart == new.workdayStart
-                },
+                settingsRepository.settings.map { it.firstDayOfWeek },
                 uiState.map { it.selectedLabels },
-            ) { settings, selectedLabels ->
-                val todayStart = timeProvider.startOfTodayAdjusted(settings.workdayStart)
+            ) { firstDayOfWeek, selectedLabels ->
+                val todayStart = timeProvider.startOfToday()
                 val weekStart = timeProvider.startOfThisWeekAdjusted(
-                    DayOfWeek(settings.firstDayOfWeek),
-                    settings.workdayStart,
+                    DayOfWeek(firstDayOfWeek),
                 )
-                val monthStart = timeProvider.startOfThisMonthAdjusted(settings.workdayStart)
+                val monthStart = timeProvider.startOfThisMonthAdjusted()
                 localDataRepo.selectOverviewAfter(todayStart, weekStart, monthStart, selectedLabels)
                     .first()
             }.collect { overviewData ->
