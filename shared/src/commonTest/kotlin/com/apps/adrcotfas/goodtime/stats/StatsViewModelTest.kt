@@ -46,7 +46,7 @@ class StatsViewModelTest {
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var timeProvider: FakeTimeProvider
 
-    private lateinit var viewModel: StatsViewModel
+    private lateinit var viewModel: StatisticsViewModel
 
     @BeforeTest
     fun setup() = runTest {
@@ -55,11 +55,11 @@ class StatsViewModelTest {
         timeProvider = FakeTimeProvider()
         localDataRepository = LocalDataRepositoryImpl(fakeSessionDao, fakeLabelDao, this)
         settingsRepository = FakeSettingsRepository()
-        viewModel = StatsViewModel(localDataRepository, settingsRepository, timeProvider)
+        viewModel = StatisticsViewModel(localDataRepository, settingsRepository, timeProvider)
         populateRepo()
 
         viewModel.uiState.test {
-            assertTrue { awaitItem() == StatsUiState() }
+            assertTrue { awaitItem() == StatisticsUiState() }
             assertTrue { awaitItem().labels.isNotEmpty() }
             cancel()
         }

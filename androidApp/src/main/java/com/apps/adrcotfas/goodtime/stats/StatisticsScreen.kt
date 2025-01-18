@@ -20,28 +20,20 @@ package com.apps.adrcotfas.goodtime.stats
 import android.text.format.DateFormat
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.SelectAll
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
@@ -52,7 +44,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -64,9 +55,6 @@ import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Trash
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -86,7 +74,7 @@ private enum class TabType {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
+fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
     val context = LocalContext.current
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -125,6 +113,8 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
+                showBreaks = uiState.considerBreaks,
+                onSetShowBreaks = { viewModel.setShowBreaks(it) },
                 showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
             )
         },
@@ -148,10 +138,11 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                     }
                 }
             }
+
             when (type) {
-                TabType.Overview -> OverviewTab(uiState.overviewData)
+                TabType.Overview -> OverviewTab(uiState.overviewData, uiState.considerBreaks)
                 TabType.Timeline -> {
-                    HistoryTab(
+                    TimelineTab(
                         listState = historyListState,
                         sessions = sessionsPagingItems,
                         isSelectAllEnabled = uiState.isSelectAllEnabled,
@@ -203,6 +194,7 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                 AddEditSessionContent(
                     session = uiState.newSession,
                     labels = uiState.labels,
+                    showBreaks = uiState.considerBreaks,
                     onUpdate = {
                         viewModel.updateSessionToEdit(it)
                     },
@@ -345,96 +337,6 @@ fun StatsScreen(viewModel: StatsViewModel = koinViewModel()) {
                     showEditLabelConfirmationDialog = false
                 },
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StatsScreenTopBar(
-    onAddButtonClick: () -> Unit,
-    onLabelButtonClick: () -> Unit,
-    selectedLabelsCount: Int,
-    onCancel: () -> Unit,
-    onDeleteClick: () -> Unit,
-    onSelectAll: () -> Unit,
-    showSelectionUi: Boolean,
-    selectionCount: Int,
-    showSeparator: Boolean,
-) {
-    val colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor = Color.Transparent,
-    )
-    Column {
-        Crossfade(showSelectionUi, label = "StatsScreen TopBar") {
-            if (it) {
-                TopAppBar(
-                    title = {
-                        if (selectionCount != 0) {
-                            // TODO: consider plurals
-                            Text("${if (selectionCount > 99) "99+" else selectionCount.toString()} items")
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            onDeleteClick()
-                        }) {
-                            Icon(
-                                imageVector = EvaIcons.Outline.Trash,
-                                contentDescription = "Delete",
-                            )
-                        }
-                        IconButton(onClick = onSelectAll) {
-                            Icon(
-                                imageVector = Icons.Default.SelectAll,
-                                contentDescription = "Select all",
-                            )
-                        }
-                        IconButton(onClick = onLabelButtonClick) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.Label,
-                                contentDescription = "Select labels",
-                            )
-                        }
-                    },
-                    navigationIcon = {
-                        if (showSelectionUi) {
-                            IconButton(onClick = onCancel) {
-                                Icon(
-                                    imageVector = Icons.Default.Clear,
-                                    contentDescription = "Cancel",
-                                )
-                            }
-                        }
-                    },
-                    colors = colors,
-                )
-            } else {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text("Statistics")
-                    },
-                    actions = {
-                        if (!showSelectionUi) {
-                            IconButton(onClick = {
-                                onAddButtonClick()
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add new session",
-                                )
-                            }
-                        }
-                        SelectLabelButton(selectedLabelsCount) {
-                            onLabelButtonClick()
-                        }
-                    },
-                    colors = colors,
-                )
-            }
-        }
-        if (showSeparator) {
-            SubtleHorizontalDivider()
         }
     }
 }

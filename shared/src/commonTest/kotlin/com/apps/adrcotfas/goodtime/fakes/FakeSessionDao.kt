@@ -75,9 +75,10 @@ class FakeSessionDao : SessionDao {
         newLabel: String,
         ids: List<Long>,
         labels: List<String>,
+        considerBreaks: Boolean,
     ) {
         sessions.value = sessions.value.map {
-            if (it.id !in ids && it.isWork && it.labelName in labels) {
+            if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
                 it.copy(labelName = newLabel)
             } else {
                 it
@@ -106,9 +107,6 @@ class FakeSessionDao : SessionDao {
             val breaksToday =
                 sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= todayStart }
                     .sumOf { it.duration }
-            val interruptionsToday =
-                sessions.filter { it.labelName in labels && it.timestamp >= todayStart }
-                    .sumOf { it.interruptions }
 
             val workThisWeek =
                 sessions.filter { it.isWork && it.labelName in labels && it.timestamp >= weekStart }
@@ -116,9 +114,6 @@ class FakeSessionDao : SessionDao {
             val breaksThisWeek =
                 sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= weekStart }
                     .sumOf { it.duration }
-            val interruptionsThisWeek =
-                sessions.filter { it.labelName in labels && it.timestamp >= weekStart }
-                    .sumOf { it.interruptions }
 
             val workThisMonth =
                 sessions.filter { it.isWork && it.labelName in labels && it.timestamp >= monthStart }
@@ -126,22 +121,21 @@ class FakeSessionDao : SessionDao {
             val breaksThisMonth =
                 sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= monthStart }
                     .sumOf { it.duration }
-            val interruptionsThisMonth =
-                sessions.filter { it.labelName in labels && it.timestamp >= monthStart }
-                    .sumOf { it.interruptions }
 
             val workTotal = sessions.filter { it.isWork && it.labelName in labels }
                 .sumOf { it.duration }
             val breaksTotal = sessions.filter { !it.isWork && it.labelName in labels }
                 .sumOf { it.duration }
-            val interruptionsTotal = sessions.filter { it.labelName in labels }
-                .sumOf { it.interruptions }
 
             SessionOverviewData(
-                workToday, breaksToday, interruptionsToday,
-                workThisWeek, breaksThisWeek, interruptionsThisWeek,
-                workThisMonth, breaksThisMonth, interruptionsThisMonth,
-                workTotal, breaksTotal, interruptionsTotal,
+                workToday,
+                breaksToday,
+                workThisWeek,
+                breaksThisWeek,
+                workThisMonth,
+                breaksThisMonth,
+                workTotal,
+                breaksTotal,
             )
         }
     }
@@ -162,11 +156,14 @@ class FakeSessionDao : SessionDao {
         return sessions.map { sessions -> sessions.filter { it.labelName in labelNames } }
     }
 
-    override fun selectSessionsForHistoryPaged(labelNames: List<String>): PagingSource<Int, LocalSession> {
+    override fun selectSessionsForHistoryPaged(
+        labelNames: List<String>,
+        considerBreaks: Boolean,
+    ): PagingSource<Int, LocalSession> {
         return object : PagingSource<Int, LocalSession>() {
             override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> {
                 return LoadResult.Page(
-                    data = sessions.value.filter { it.labelName in labelNames },
+                    data = sessions.value.filter { it.labelName in labelNames && if (!considerBreaks) it.isWork else true },
                     prevKey = null,
                     nextKey = null,
                 )
@@ -180,9 +177,13 @@ class FakeSessionDao : SessionDao {
         sessions.value = sessions.value.filter { it.id !in ids }
     }
 
-    override suspend fun deleteExcept(ids: List<Long>, labels: List<String>) {
+    override suspend fun deleteExcept(
+        ids: List<Long>,
+        labels: List<String>,
+        considerBreaks: Boolean,
+    ) {
         sessions.value = sessions.value.mapNotNull {
-            if (it.isWork && it.id !in ids && it.labelName in labels) {
+            if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
                 null
             } else {
                 it

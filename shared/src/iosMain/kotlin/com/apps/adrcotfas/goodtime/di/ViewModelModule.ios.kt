@@ -21,7 +21,7 @@ import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
-import com.apps.adrcotfas.goodtime.stats.StatsViewModel
+import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -30,6 +30,6 @@ actual val viewModelModule: Module = module {
     singleOf(::MainViewModel)
     singleOf(::LabelsViewModel)
     singleOf(::SettingsViewModel)
-    singleOf(::StatsViewModel)
+    singleOf(::StatisticsViewModel)
     singleOf(::OnboardingViewModel)
 }

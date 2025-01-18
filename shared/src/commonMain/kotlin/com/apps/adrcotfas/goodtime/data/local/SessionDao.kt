@@ -28,17 +28,13 @@ import kotlinx.coroutines.flow.Flow
 
 data class SessionOverviewData(
     val workToday: Long = 0,
-    val breaksToday: Long = 0,
-    val interruptionsToday: Long = 0,
+    val breakToday: Long = 0,
     val workThisWeek: Long = 0,
-    val breaksThisWeek: Long = 0,
-    val interruptionsThisWeek: Long = 0,
+    val breakThisWeek: Long = 0,
     val workThisMonth: Long = 0,
-    val breaksThisMonth: Long = 0,
-    val interruptionsThisMonth: Long = 0,
+    val breakThisMonth: Long = 0,
     val workTotal: Long = 0,
-    val breaksTotal: Long = 0,
-    val interruptionsTotal: Long = 0,
+    val breakTotal: Long = 0,
 )
 
 @Dao
@@ -66,8 +62,21 @@ interface SessionDao {
     @Query("UPDATE localSession SET labelName = :newLabel WHERE id IN (:ids)")
     suspend fun updateLabelByIds(newLabel: String, ids: List<Long>)
 
-    @Query("UPDATE localSession SET labelName = :newLabel WHERE isArchived = 0 AND id NOT IN (:ids) AND labelName IN (:labels)")
-    suspend fun updateLabelByIdsExcept(newLabel: String, ids: List<Long>, labels: List<String>)
+    @Query(
+        """
+        UPDATE localSession SET labelName = :newLabel
+        WHERE isArchived = 0
+        AND id NOT IN (:ids)
+        AND labelName IN (:labels)
+        AND (:considerBreaks = 1 OR isWork = 1)
+        """,
+    )
+    suspend fun updateLabelByIdsExcept(
+        newLabel: String,
+        ids: List<Long>,
+        labels: List<String>,
+        considerBreaks: Boolean,
+    )
 
     @Query("SELECT * FROM localSession ORDER BY timestamp DESC")
     fun selectAll(): Flow<List<LocalSession>>
@@ -80,28 +89,26 @@ interface SessionDao {
         SELECT
             -- Today
             SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS workToday,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS breaksToday,
-            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :todayStart THEN interruptions ELSE 0 END) AS interruptionsToday,
-
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS breakToday,
             -- This Week
             SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS workThisWeek,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS breaksThisWeek,
-            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :weekStart THEN interruptions ELSE 0 END) AS interruptionsThisWeek,
-
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS breakThisWeek,
             -- This Month
             SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS workThisMonth,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS breaksThisMonth,
-            SUM(CASE WHEN labelName IN (:labels) AND timestamp >= :monthStart THEN interruptions ELSE 0 END) AS interruptionsThisMonth,
-
-            -- Total (No timestamp filter)
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS breakThisMonth,
+            -- Total
             SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) THEN duration ELSE 0 END) AS workTotal,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) THEN duration ELSE 0 END) AS breaksTotal,
-            SUM(CASE WHEN labelName IN (:labels) THEN interruptions ELSE 0 END) AS interruptionsTotal
+            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) THEN duration ELSE 0 END) AS breakTotal
         FROM localSession
         WHERE labelName IN (:labels)
         """,
     )
-    fun selectOverviewAfter(todayStart: Long, weekStart: Long, monthStart: Long, labels: List<String>): Flow<SessionOverviewData>
+    fun selectOverviewAfter(
+        todayStart: Long,
+        weekStart: Long,
+        monthStart: Long,
+        labels: List<String>,
+    ): Flow<SessionOverviewData>
 
     @Query("SELECT * FROM localSession WHERE id = :id")
     fun selectById(id: Long): Flow<LocalSession>
@@ -115,14 +122,31 @@ interface SessionDao {
     @Query("SELECT * FROM localSession WHERE labelName IN (:labelNames) ORDER BY timestamp DESC")
     fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>>
 
-    @Query("SELECT * FROM localSession WHERE isArchived = 0 AND labelName IN (:labelNames) ORDER BY timestamp DESC")
-    fun selectSessionsForHistoryPaged(labelNames: List<String>): PagingSource<Int, LocalSession>
+    @Query(
+        """
+        SELECT * FROM localSession
+        WHERE labelName IN (:labelNames)
+        AND (:considerBreaks = 1 OR isWork = 1)
+        ORDER BY timestamp DESC
+    """,
+    )
+    fun selectSessionsForHistoryPaged(
+        labelNames: List<String>,
+        considerBreaks: Boolean,
+    ): PagingSource<Int, LocalSession>
 
     @Query("DELETE FROM localSession WHERE id IN (:ids)")
     suspend fun delete(ids: List<Long>)
 
-    @Query("DELETE FROM localSession WHERE id NOT IN (:ids) AND labelName IN (:labels)")
-    suspend fun deleteExcept(ids: List<Long>, labels: List<String>)
+    @Query(
+        """
+        DELETE FROM localSession
+        WHERE id NOT IN (:ids)
+        AND labelName IN (:labels)
+        AND (:considerBreaks = 1 OR isWork = 1)
+        """,
+    )
+    suspend fun deleteExcept(ids: List<Long>, labels: List<String>, considerBreaks: Boolean)
 
     @Query("DELETE FROM localSession")
     suspend fun deleteAll()

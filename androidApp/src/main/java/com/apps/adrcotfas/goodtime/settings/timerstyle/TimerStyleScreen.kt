@@ -239,7 +239,7 @@ fun TimerStyleScreen(
                     },
                 )
                 CheckboxListItem(
-                    title = "Show current streak",
+                    title = "Show sessions until long break",
                     subtitle = "For countdown timers with long breaks enabled",
                     checked = timerStyle.showStreak,
                     onCheckedChange = {

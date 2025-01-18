@@ -26,7 +26,6 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -36,7 +35,7 @@ import com.apps.adrcotfas.goodtime.main.MainScreen
 import com.apps.adrcotfas.goodtime.main.bottomNavigationItems
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
-import com.apps.adrcotfas.goodtime.stats.StatsScreen
+import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 
 @Composable
 fun NavigationScaffold(
@@ -91,7 +90,7 @@ fun NavigationScaffold(
         when (currentDestination) {
             Destination.Main.route -> MainScreen()
             Destination.Labels.route -> LabelsScreen()
-            Destination.Stats.route -> StatsScreen()
+            Destination.Stats.route -> StatisticsScreen()
             Destination.Settings.route -> SettingsScreen()
         }
     }

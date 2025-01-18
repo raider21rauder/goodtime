@@ -71,8 +71,13 @@ internal class LocalDataRepositoryImpl(
         sessionDao.updateLabelByIds(newLabel, ids)
     }
 
-    override suspend fun updateSessionsLabelByIdsExcept(newLabel: String, unselectedIds: List<Long>, selectedLabels: List<String>) {
-        sessionDao.updateLabelByIdsExcept(newLabel, unselectedIds, selectedLabels)
+    override suspend fun updateSessionsLabelByIdsExcept(
+        newLabel: String,
+        unselectedIds: List<Long>,
+        selectedLabels: List<String>,
+        considerBreaks: Boolean,
+    ) {
+        sessionDao.updateLabelByIdsExcept(newLabel, unselectedIds, selectedLabels, considerBreaks)
     }
 
     override fun selectAllSessions(): Flow<List<Session>> {
@@ -102,21 +107,35 @@ internal class LocalDataRepositoryImpl(
             .map { sessions -> sessions.map { it.toExternal() } }
     }
 
-    override fun selectOverviewAfter(todayStart: Long, thisWeekStart: Long, thisMonthStart: Long, labels: List<String>): Flow<SessionOverviewData> {
-        return sessionDao.selectOverviewAfter(todayStart, thisWeekStart, thisMonthStart, labels)
+    override fun selectOverviewAfter(
+        todayStart: Long,
+        thisWeekStart: Long,
+        thisMonthStart: Long,
+        labels: List<String>,
+    ): Flow<SessionOverviewData> {
+        return sessionDao.selectOverviewAfter(
+            todayStart,
+            thisWeekStart,
+            thisMonthStart,
+            labels,
+        )
             .map { it }
     }
 
-    override fun selectSessionsForHistoryPaged(labels: List<String>): PagingSource<Int, LocalSession> {
-        return sessionDao.selectSessionsForHistoryPaged(labels)
+    override fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): PagingSource<Int, LocalSession> {
+        return sessionDao.selectSessionsForHistoryPaged(labels, showBreaks)
     }
 
     override suspend fun deleteSessions(ids: List<Long>) {
         sessionDao.delete(ids)
     }
 
-    override suspend fun deleteSessionsExcept(unselectedIds: List<Long>, selectedLabels: List<String>) {
-        sessionDao.deleteExcept(unselectedIds, selectedLabels)
+    override suspend fun deleteSessionsExcept(
+        unselectedIds: List<Long>,
+        selectedLabels: List<String>,
+        considerBreaks: Boolean,
+    ) {
+        sessionDao.deleteExcept(unselectedIds, selectedLabels, considerBreaks)
     }
 
     override suspend fun deleteAllSessions() {

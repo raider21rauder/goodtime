@@ -20,15 +20,12 @@ package com.apps.adrcotfas.goodtime.common
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun IconButtonWithBadge(
@@ -43,10 +40,8 @@ fun IconButtonWithBadge(
         exit = fadeOut(),
     ) {
         BadgedBox(
-            modifier = Modifier.padding(end = 8.dp),
             badge = {
                 Badge(
-                    modifier = Modifier.padding(end = 8.dp),
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentColor = MaterialTheme.colorScheme.onSecondary,
                 ) {

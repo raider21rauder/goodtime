@@ -15,22 +15,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.bl
+package com.apps.adrcotfas.goodtime.common
 
-import kotlinx.datetime.Clock
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 
-interface TimeProvider {
-    /**
-     * Returns the current time in milliseconds since Unix Epoch.
-     */
-    fun now(): Long {
-        return Clock.System.now().toEpochMilliseconds()
+class DurationExtensionTest {
+
+    @Test
+    fun testFormatMinutes() {
+        assertEquals(1.days.plus(2.hours).plus(30.minutes).formatOverview(), "26h 30min")
+        assertEquals(40.days.plus(2.hours).plus(30.minutes).formatOverview(), "962h 30min")
+        assertEquals(99999.hours.plus(30.minutes).formatOverview(), "99999h 30min")
     }
-
-    /**
-     * Returns the current time in milliseconds since boot, including time spent in sleep.
-     */
-    fun elapsedRealtime(): Long
 }
-
-expect fun createTimeProvider(): TimeProvider

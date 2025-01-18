@@ -62,7 +62,7 @@ import com.apps.adrcotfas.goodtime.ui.common.selectedColors
 import com.apps.adrcotfas.goodtime.shared.R as SharedR
 
 @Composable
-fun HistoryTab(
+fun TimelineTab(
     sessions: LazyPagingItems<Session>,
     isSelectAllEnabled: Boolean,
     selectedSessions: List<Long>,
@@ -115,7 +115,7 @@ fun HistoryTab(
             if (session != null) {
                 val isSelected = selectedSessions.contains(session.id) ||
                     isSelectAllEnabled && !unselectedSessions.contains(session.id)
-                HistoryListItem(
+                TimelineListItem(
                     modifier = Modifier.animateItem(),
                     session = session,
                     colorIndex = labels.first { it.name == session.label }.colorIndex,
@@ -131,7 +131,7 @@ fun HistoryTab(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HistoryListItem(
+fun TimelineListItem(
     modifier: Modifier = Modifier,
     session: Session,
     isSelected: Boolean = false,
@@ -159,7 +159,7 @@ fun HistoryListItem(
                     horizontalArrangement = Arrangement.Start,
                 ) {
                     Image(
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(12.dp),
                         painter = painterResource(
                             if (session.isWork) {
                                 SharedR.drawable.ic_status_goodtime
@@ -180,22 +180,6 @@ fun HistoryListItem(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         ),
                     )
-
-                    if (session.interruptions > 0) {
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Image(
-                            modifier = Modifier.size(16.dp),
-                            painter = painterResource(SharedR.drawable.ic_broken_link),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-                            contentDescription = "interruptions",
-                        )
-                        Spacer(modifier = Modifier.size(4.dp))
-                        Text(
-                            text = "${session.interruptions}min",
-                            maxLines = 1,
-                            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onSurfaceVariant),
-                        )
-                    }
                 }
 
                 val (date, time) = session.timestamp.formatToPrettyDateAndTime(is24HourFormat)
@@ -231,7 +215,7 @@ fun HistoryListItem(
 @Composable
 fun HistoryListItemPreview() {
     MaterialTheme {
-        HistoryListItem(
+        TimelineListItem(
             session = Session.default().copy(
                 duration = 25,
                 timestamp = System.currentTimeMillis(),

@@ -52,6 +52,7 @@ data class AppSettings(
     val notificationPermissionState: NotificationPermissionState = NotificationPermissionState.NOT_ASKED,
     val lastInsertedSessionId: Long = Long.MAX_VALUE,
 
+    val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val onboardingFinished: Boolean = false,
 )
 

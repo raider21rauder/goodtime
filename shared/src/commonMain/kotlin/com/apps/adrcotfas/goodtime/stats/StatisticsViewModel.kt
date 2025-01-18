@@ -24,6 +24,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
+import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -34,6 +35,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -43,7 +45,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
 
-data class StatsUiState(
+data class StatisticsUiState(
     val labels: List<Label> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
     val overviewData: SessionOverviewData = SessionOverviewData(),
@@ -59,6 +61,9 @@ data class StatsUiState(
     val newSession: Session = Session.default(),
     val showAddSession: Boolean = false,
     val canSave: Boolean = true,
+
+    // Overview section related fields
+    val considerBreaks: Boolean = false,
 ) {
     val showSelectionUi: Boolean
         get() = selectedSessions.isNotEmpty() || isSelectAllEnabled
@@ -72,23 +77,26 @@ data class StatsUiState(
             }
 }
 
-class StatsViewModel(
+class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(StatsUiState())
+    private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState = _uiState
         .onStart { loadData() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatsUiState())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsUiState())
 
     val pagedSessions: Flow<PagingData<Session>> =
-        uiState.map { it.selectedLabels }.flatMapLatest { selectSessionsForHistoryPaged(it) }
+        uiState.distinctUntilChanged { old, new ->
+            old.selectedLabels == new.selectedLabels &&
+                old.considerBreaks == new.considerBreaks
+        }.flatMapLatest { selectSessionsForHistoryPaged(it.selectedLabels, it.considerBreaks) }
 
-    private fun selectSessionsForHistoryPaged(labels: List<String>): Flow<PagingData<Session>> =
+    private fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
-            localDataRepo.selectSessionsForHistoryPaged(labels)
+            localDataRepo.selectSessionsForHistoryPaged(labels, showBreaks)
         }.flow.map { value ->
             value.map {
                 it.toExternal()
@@ -106,12 +114,17 @@ class StatsViewModel(
                 settingsRepository.settings.map { it.firstDayOfWeek },
                 uiState.map { it.selectedLabels },
             ) { firstDayOfWeek, selectedLabels ->
-                val todayStart = timeProvider.startOfToday()
-                val weekStart = timeProvider.startOfThisWeekAdjusted(
+                val todayStart = Time.startOfToday()
+                val weekStart = Time.startOfThisWeekAdjusted(
                     DayOfWeek(firstDayOfWeek),
                 )
-                val monthStart = timeProvider.startOfThisMonthAdjusted()
-                localDataRepo.selectOverviewAfter(todayStart, weekStart, monthStart, selectedLabels)
+                val monthStart = Time.startOfThisMonth()
+                localDataRepo.selectOverviewAfter(
+                    todayStart,
+                    weekStart,
+                    monthStart,
+                    selectedLabels,
+                )
                     .first()
             }.collect { overviewData ->
                 _uiState.update {
@@ -178,6 +191,7 @@ class StatsViewModel(
                 localDataRepo.deleteSessionsExcept(
                     uiState.value.unselectedSessions,
                     uiState.value.selectedLabels,
+                    uiState.value.considerBreaks,
                 )
             } else {
                 localDataRepo.deleteSessions(uiState.value.selectedSessions)
@@ -244,11 +258,17 @@ class StatsViewModel(
                         label,
                         uiState.value.unselectedSessions,
                         uiState.value.selectedLabels,
+                        uiState.value.considerBreaks,
                     )
                 } else {
                     localDataRepo.updateSessionsLabelByIds(label, uiState.value.selectedSessions)
                 }
             }
         }
+    }
+
+    fun setShowBreaks(show: Boolean) {
+        // TODO: store to repository to persist
+        _uiState.update { it.copy(considerBreaks = show) }
     }
 }

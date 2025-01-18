@@ -17,34 +17,40 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
+import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
-fun OverviewTab(overviewData: SessionOverviewData) {
-    Text("Overview")
-
-    HorizontalDivider()
-    Text("today work time: ${overviewData.workToday}")
-    Text("today interrupt time: ${overviewData.interruptionsToday}")
-    Text("today break time: ${overviewData.breaksToday}")
-
-    HorizontalDivider()
-    Text("this week work time: ${overviewData.workThisWeek}")
-    Text("this week interrupt time: ${overviewData.interruptionsThisWeek}")
-    Text("this week break time: ${overviewData.breaksThisWeek}")
-
-    HorizontalDivider()
-    Text("this month work time: ${overviewData.workThisMonth}")
-    Text("this month interrupt time: ${overviewData.interruptionsThisMonth}")
-    Text("this month break time: ${overviewData.breaksThisMonth}")
-
-    HorizontalDivider()
-    Text("total work time: ${overviewData.workTotal}")
-    Text("total interrupt time: ${overviewData.interruptionsTotal}")
-    Text("total break time: ${overviewData.breaksTotal}")
+fun OverviewTab(overviewData: SessionOverviewData, showBreak: Boolean) {
+    OverviewSection(
+        overviewData,
+        mapOf(
+            OverviewDurationType.TODAY to "Today",
+            OverviewDurationType.THIS_WEEK to "Week 17",
+            OverviewDurationType.THIS_MONTH to "December",
+            OverviewDurationType.TOTAL to "Total",
+        ),
+        showBreak,
+    )
 
     // TODO:
     // First tab:
@@ -58,4 +64,100 @@ fun OverviewTab(overviewData: SessionOverviewData) {
     // Productive time becomes "Time distribution"
 
     // Pie chart -> Same as before but use legend and "Others" for small slices
+}
+
+@Composable
+fun OverviewSection(
+    data: SessionOverviewData,
+    typeNames: Map<OverviewDurationType, String>,
+    showBreak: Boolean,
+) {
+    val color = MaterialTheme.colorScheme.primary
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                "Overview",
+                style = MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            OverviewDurationType.entries.forEach { overviewType ->
+                val valueWork = when (overviewType) {
+                    OverviewDurationType.TODAY -> data.workToday
+                    OverviewDurationType.THIS_WEEK -> data.workThisWeek
+                    OverviewDurationType.THIS_MONTH -> data.workThisMonth
+                    OverviewDurationType.TOTAL -> data.workTotal
+                }.minutes.formatOverview()
+                val valueBreak = when (overviewType) {
+                    OverviewDurationType.TODAY -> data.breakToday
+                    OverviewDurationType.THIS_WEEK -> data.breakThisWeek
+                    OverviewDurationType.THIS_MONTH -> data.breakThisMonth
+                    OverviewDurationType.TOTAL -> data.breakTotal
+                }.minutes.formatOverview()
+
+                OverviewTypeSection(
+                    modifier = Modifier.weight(1f / OverviewDurationType.entries.size),
+                    title = typeNames[overviewType]!!,
+                    valueWork = valueWork,
+                    colorWork = color,
+                    showBreak = showBreak,
+                    valueBreak = valueBreak,
+                    colorBreak = MaterialTheme.colorScheme.error,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun OverviewTypeSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    valueWork: String,
+    colorWork: Color,
+    showBreak: Boolean,
+    valueBreak: String,
+    colorBreak: Color,
+) {
+    Column(
+        modifier = modifier.animateContentSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            valueWork,
+            style = MaterialTheme.typography.labelLarge.copy(
+                color = colorWork,
+                textAlign = TextAlign.Center,
+            ),
+        )
+        if (showBreak) {
+            Text(
+                valueBreak,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = colorBreak,
+                    textAlign = TextAlign.Center,
+                ),
+            )
+        }
+        Text(
+            title,
+            style = MaterialTheme.typography.labelMedium,
+        )
+    }
 }
