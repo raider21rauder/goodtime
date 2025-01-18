@@ -50,6 +50,8 @@ import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
+import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -166,8 +168,10 @@ fun ArchivedLabelListItem(
                 expanded = dropDownMenuExpanded,
                 onDismissRequest = { dropDownMenuExpanded = false },
             ) {
+                val paddingModifier = Modifier.padding(end = 32.dp)
                 DropdownMenuItem(
-                    text = { Text("Unarchive") },
+                    modifier = firstMenuItemModifier,
+                    text = { Text(modifier = paddingModifier, text = "Unarchive") },
                     onClick = {
                         onUnarchive()
                         dropDownMenuExpanded = false
@@ -181,7 +185,8 @@ fun ArchivedLabelListItem(
                     },
                 )
                 DropdownMenuItem(
-                    text = { Text("Delete") },
+                    modifier = lastMenuItemModifier,
+                    text = { Text(modifier = paddingModifier, text = "Delete") },
                     onClick = {
                         onDelete()
                         dropDownMenuExpanded = false

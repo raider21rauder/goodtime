@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
@@ -42,8 +43,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
+import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Trash
@@ -129,7 +133,9 @@ fun StatisticsScreenTopBar(
                                 expanded = showMore,
                                 onDismissRequest = { showMore = false },
                             ) {
+                                val paddingModifier = Modifier.padding(end = 32.dp)
                                 DropdownMenuItem(
+                                    modifier = firstMenuItemModifier,
                                     leadingIcon = {
                                         Icon(
                                             imageVector = Icons.Default.Add,
@@ -137,7 +143,7 @@ fun StatisticsScreenTopBar(
                                         )
                                     },
                                     text = {
-                                        Text("Add session")
+                                        Text(modifier = paddingModifier, text = "Add session")
                                     },
                                     onClick = {
                                         onAddButtonClick()
@@ -145,7 +151,7 @@ fun StatisticsScreenTopBar(
                                     },
                                 )
                                 DropdownMenuItem(
-                                    modifier = Modifier.toggleable(
+                                    modifier = lastMenuItemModifier.toggleable(
                                         value = showBreaks,
                                         onValueChange = {
                                             onSetShowBreaks(!showBreaks)
@@ -159,7 +165,7 @@ fun StatisticsScreenTopBar(
                                         )
                                     },
                                     text = {
-                                        Text("Show breaks")
+                                        Text(modifier = paddingModifier, text = "Show breaks")
                                     },
                                     onClick = {
                                         onSetShowBreaks(!showBreaks)

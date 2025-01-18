@@ -18,13 +18,29 @@
 package com.apps.adrcotfas.goodtime.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -37,8 +53,8 @@ fun BetterDropdownMenu(
 ) {
     DropdownMenu(
         modifier = Modifier
-            .crop(vertical = 8.dp)
-            .clip(RoundedCornerShape(8.dp)),
+            .crop(vertical = DROPDOWN_MENU_CORNER.dp)
+            .clip(RoundedCornerShape(DROPDOWN_MENU_CORNER.dp)),
         shape = MaterialTheme.shapes.medium,
         expanded = expanded,
         onDismissRequest = onDismissRequest,
@@ -51,24 +67,38 @@ fun BetterDropdownMenu(
 fun BetterDropdownMenu(
     expanded: Boolean,
     value: String,
-    onDismissRequest: () -> Unit,
     dropdownMenuOptions: List<String>,
+    onDismissRequest: () -> Unit,
     onDropdownMenuItemSelected: (Int) -> Unit,
 ) {
+    val paddingModifier = Modifier.padding(end = DROPDOWN_MENU_END_PADDING.dp)
     BetterDropdownMenu(expanded = expanded, onDismissRequest = onDismissRequest) {
         dropdownMenuOptions.forEachIndexed { index, it ->
+            val isSelected = it == value
+            val isFirstIndex = index == 0
+            val isLastIndex = index == dropdownMenuOptions.lastIndex
+
+            val indexModifier = if (isFirstIndex) {
+                firstMenuItemModifier
+            } else if (isLastIndex) {
+                lastMenuItemModifier
+            } else {
+                Modifier
+            }
+
+            val selectionModifier = Modifier.background(
+                MaterialTheme.colorScheme.primary.copy(
+                    alpha = 0.1f,
+                ),
+            )
+
+            val modifier = if (isSelected) indexModifier.then(selectionModifier) else indexModifier
+
             DropdownMenuItem(
-                modifier = if (it == value) {
-                    Modifier.background(
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.1f,
-                        ),
-                    )
-                } else {
-                    Modifier
-                },
+                modifier = modifier,
                 text = {
                     Text(
+                        modifier = paddingModifier,
                         text = it,
                         style = if (it == value) {
                             MaterialTheme.typography.bodyMedium.copy(
@@ -87,3 +117,63 @@ fun BetterDropdownMenu(
         }
     }
 }
+
+@Composable
+fun DropdownMenuBox(
+    value: String,
+    options: List<String>,
+    onDismissRequest: () -> Unit,
+    onDropdownMenuItemSelected: (Int) -> Unit,
+) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    Box {
+        Row(
+            modifier = Modifier
+                .wrapContentSize()
+                .clip(MaterialTheme.shapes.medium)
+                .clickable {
+                    expanded = true
+                }
+                .padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+        ) {
+            Text(text = value, style = MaterialTheme.typography.bodyMedium)
+            Spacer(modifier = Modifier.width(24.dp))
+            Icon(
+                imageVector = Icons.Default.ExpandMore,
+                contentDescription = "Dropdown",
+            )
+        }
+        BetterDropdownMenu(
+            expanded = expanded,
+            value = value,
+            onDismissRequest = {
+                expanded = false
+                onDismissRequest()
+            },
+            dropdownMenuOptions = options,
+            onDropdownMenuItemSelected = {
+                onDropdownMenuItemSelected(it)
+                expanded = false
+            },
+        )
+    }
+}
+
+private const val DROPDOWN_MENU_CORNER = 8
+private const val DROPDOWN_MENU_END_PADDING = 32
+
+val firstMenuItemModifier = Modifier.clip(
+    RoundedCornerShape(
+        topStart = DROPDOWN_MENU_CORNER.dp,
+        topEnd = DROPDOWN_MENU_CORNER.dp,
+    ),
+)
+
+val lastMenuItemModifier = Modifier.clip(
+    RoundedCornerShape(
+        bottomStart = DROPDOWN_MENU_CORNER.dp,
+        bottomEnd = DROPDOWN_MENU_CORNER.dp,
+    ),
+)

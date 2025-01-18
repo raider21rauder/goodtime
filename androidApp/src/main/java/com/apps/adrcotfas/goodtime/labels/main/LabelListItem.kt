@@ -51,6 +51,9 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
+import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
+import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -156,8 +159,10 @@ fun LabelListItem(
                         expanded = dropDownMenuExpanded,
                         onDismissRequest = { dropDownMenuExpanded = false },
                     ) {
+                        val paddingModifier = Modifier.padding(end = 32.dp)
                         DropdownMenuItem(
-                            text = { Text("Edit") },
+                            modifier = firstMenuItemModifier,
+                            text = { Text(modifier = paddingModifier, text = "Edit") },
                             onClick = {
                                 onEdit()
                                 dropDownMenuExpanded = false
@@ -167,7 +172,7 @@ fun LabelListItem(
                             },
                         )
                         DropdownMenuItem(
-                            text = { Text("Duplicate") },
+                            text = { Text(modifier = paddingModifier, text = "Duplicate") },
                             onClick = {
                                 onDuplicate()
                                 dropDownMenuExpanded = false
@@ -179,8 +184,9 @@ fun LabelListItem(
                                 )
                             },
                         )
+                        SubtleHorizontalDivider()
                         DropdownMenuItem(
-                            text = { Text("Archive") },
+                            text = { Text(modifier = paddingModifier, text = "Archive") },
                             onClick = {
                                 onArchive()
                                 dropDownMenuExpanded = false
@@ -193,7 +199,8 @@ fun LabelListItem(
                             },
                         )
                         DropdownMenuItem(
-                            text = { Text("Delete") },
+                            modifier = lastMenuItemModifier,
+                            text = { Text(modifier = paddingModifier, text = "Delete") },
                             onClick = {
                                 onDelete()
                                 dropDownMenuExpanded = false

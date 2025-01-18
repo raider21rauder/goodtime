@@ -62,6 +62,8 @@ import com.apps.adrcotfas.goodtime.common.getFileName
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
+import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
+import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Fill
 import compose.icons.evaicons.Outline
@@ -278,14 +280,16 @@ fun NotificationSoundItem(
                 expanded = dropDownMenuExpanded,
                 onDismissRequest = { dropDownMenuExpanded = false },
             ) {
+                val paddingModifier = Modifier.padding(end = 32.dp)
                 DropdownMenuItem(
+                    modifier = firstMenuItemModifier.then(lastMenuItemModifier),
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
                             contentDescription = "Delete sound",
                         )
                     },
-                    text = { Text("Remove") },
+                    text = { Text(modifier = paddingModifier, text = "Remove") },
                     onClick = {
                         onRemove()
                         dropDownMenuExpanded = false
