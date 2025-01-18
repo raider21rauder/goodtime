@@ -171,7 +171,7 @@ fun AddEditSessionContent(
                 )
                 Text(
                     text = date,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -188,7 +188,7 @@ fun AddEditSessionContent(
                 Text(
                     modifier = Modifier.padding(end = 24.dp),
                     text = time,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }

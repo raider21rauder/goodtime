@@ -98,7 +98,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
 
     Scaffold(
         topBar = {
-            StatsScreenTopBar(
+            StatisticsScreenTopBar(
                 onAddButtonClick = { viewModel.onAddEditSession() },
                 onLabelButtonClick = {
                     if (uiState.showSelectionUi) {

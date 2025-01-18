@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -61,6 +60,7 @@ import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.getFileName
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
+import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Fill
@@ -70,6 +70,7 @@ import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.BellOff
 import compose.icons.evaicons.outline.CheckmarkCircle2
 import compose.icons.evaicons.outline.Plus
+import compose.icons.evaicons.outline.Trash
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -273,11 +274,17 @@ fun NotificationSoundItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onRemove != null) {
-            DropdownMenu(
+            BetterDropdownMenu(
                 expanded = dropDownMenuExpanded,
                 onDismissRequest = { dropDownMenuExpanded = false },
             ) {
                 DropdownMenuItem(
+                    leadingIcon = {
+                        Icon(
+                            EvaIcons.Outline.Trash,
+                            contentDescription = "Delete sound",
+                        )
+                    },
                     text = { Text("Remove") },
                     onClick = {
                         onRemove()

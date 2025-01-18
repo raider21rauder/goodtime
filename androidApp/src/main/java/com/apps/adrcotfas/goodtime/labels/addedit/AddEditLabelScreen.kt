@@ -39,6 +39,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
@@ -298,16 +299,17 @@ fun AddEditLabelScreen(
                                     )
                                 }
                                 ListItem(
-                                    modifier = Modifier.clickable {
-                                        toggleBreak()
-                                    },
+                                    modifier = Modifier.toggleable(
+                                        value = isBreakEnabled,
+                                        onValueChange = { toggleBreak() },
+                                    ),
                                     headlineContent = {
                                         Text("Enable break budget")
                                     },
                                     trailingContent = {
                                         Checkbox(
                                             checked = isBreakEnabled,
-                                            onCheckedChange = { toggleBreak() },
+                                            onCheckedChange = null,
                                         )
                                     },
                                 )

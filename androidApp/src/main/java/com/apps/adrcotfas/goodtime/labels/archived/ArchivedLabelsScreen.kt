@@ -28,7 +28,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -49,6 +48,7 @@ import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
+import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
@@ -162,7 +162,7 @@ fun ArchivedLabelListItem(
                 Icon(EvaIcons.Outline.MoreVertical, contentDescription = "More about $labelName")
             }
 
-            DropdownMenu(
+            BetterDropdownMenu(
                 expanded = dropDownMenuExpanded,
                 onDismissRequest = { dropDownMenuExpanded = false },
             ) {

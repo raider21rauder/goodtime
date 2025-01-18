@@ -19,20 +19,19 @@ package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -42,18 +41,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
-import com.apps.adrcotfas.goodtime.ui.common.crop
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Trash
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatsScreenTopBar(
+fun StatisticsScreenTopBar(
     onAddButtonClick: () -> Unit,
     onLabelButtonClick: () -> Unit,
     selectedLabelsCount: Int,
@@ -128,15 +125,17 @@ fun StatsScreenTopBar(
                             showMore = true
                         }) {
                             Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More")
-                            DropdownMenu(
-                                modifier = Modifier
-                                    .crop(vertical = 8.dp)
-                                    .clip(RoundedCornerShape(8.dp)),
-                                shape = MaterialTheme.shapes.medium,
+                            BetterDropdownMenu(
                                 expanded = showMore,
                                 onDismissRequest = { showMore = false },
                             ) {
                                 DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Default.Add,
+                                            contentDescription = "Add session",
+                                        )
+                                    },
                                     text = {
                                         Text("Add session")
                                     },
@@ -146,17 +145,21 @@ fun StatsScreenTopBar(
                                     },
                                 )
                                 DropdownMenuItem(
-                                    text = {
-                                        Text("Show breaks")
-                                    },
+                                    modifier = Modifier.toggleable(
+                                        value = showBreaks,
+                                        onValueChange = {
+                                            onSetShowBreaks(!showBreaks)
+                                            showMore = false
+                                        },
+                                    ),
                                     trailingIcon = {
                                         Checkbox(
                                             checked = showBreaks,
-                                            onCheckedChange = {
-                                                onSetShowBreaks(!showBreaks)
-                                                showMore = false
-                                            },
+                                            onCheckedChange = null,
                                         )
+                                    },
+                                    text = {
+                                        Text("Show breaks")
                                     },
                                     onClick = {
                                         onSetShowBreaks(!showBreaks)
