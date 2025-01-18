@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.ListItem
@@ -146,42 +145,38 @@ fun TimelineListItem(
             onLongClick = onLongClick,
         ),
         colors = if (isSelected) ListItemDefaults.selectedColors() else ListItemDefaults.enabledColors(),
-        headlineContent = {
-            Column(
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+        leadingContent = {
+            Row(
+                // TODO: check this on small screens/large fonts
+                modifier = Modifier.widthIn(min = 64.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start,
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-                ) {
-                    Image(
-                        modifier = Modifier.size(12.dp),
-                        painter = painterResource(
-                            if (session.isWork) {
-                                SharedR.drawable.ic_status_goodtime
-                            } else {
-                                SharedR.drawable.ic_break
-                            },
-                        ),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
-                        contentDescription = "session type",
-                    )
+                Image(
+                    modifier = Modifier.size(12.dp),
+                    painter = painterResource(
+                        if (session.isWork) {
+                            SharedR.drawable.ic_status_goodtime
+                        } else {
+                            SharedR.drawable.ic_break
+                        },
+                    ),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
+                    contentDescription = "session type",
+                )
+                Spacer(modifier = Modifier.size(4.dp))
 
-                    Spacer(modifier = Modifier.size(4.dp))
-
-                    Text(
-                        text = "${session.duration}min",
-                        maxLines = 1,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
-                    )
-                }
-
+                Text(
+                    text = "${session.duration}min",
+                    maxLines = 1,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    ),
+                )
+            }
+        },
+        headlineContent = {
+            Column {
                 val (date, time) = session.timestamp.formatToPrettyDateAndTime(is24HourFormat)
                 Text(
                     text = "$date $time",
@@ -220,7 +215,6 @@ fun HistoryListItemPreview() {
                 duration = 25,
                 timestamp = System.currentTimeMillis(),
                 label = "mathematics",
-                interruptions = 12,
                 notes = "Today was a good day and I did a lot of work and I am very happy",
             ),
             isSelected = false,
