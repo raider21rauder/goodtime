@@ -78,8 +78,7 @@ fun StatisticsScreenTopBar(
                 TopAppBar(
                     title = {
                         if (selectionCount != 0) {
-                            // TODO: consider plurals
-                            Text("${if (selectionCount > 99) "99+" else selectionCount.toString()} items")
+                            Text(if (selectionCount > 99) "99+" else selectionCount.toString())
                         }
                     },
                     actions = {

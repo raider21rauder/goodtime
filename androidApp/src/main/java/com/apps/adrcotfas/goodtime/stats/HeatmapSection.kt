@@ -119,24 +119,30 @@ fun HeatmapSection(
                     .wrapContentSize()
                     .background(MaterialTheme.colorScheme.surface)
                     .padding(vertical = 16.dp, horizontal = cellSize),
-                verticalAlignment = Alignment.Bottom,
             ) {
                 Column(
                     modifier = Modifier
-                        .wrapContentHeight(),
+                        .wrapContentHeight()
+                        .padding(horizontal = cellSpacing),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(cellSpacing),
                 ) {
-                    Spacer(modifier = Modifier.size(cellSize))
+                    Box(
+                        modifier = Modifier
+                            .size(cellSize),
+                    )
                     daysInOrder.forEach {
                         if (it.value % 2 == 1) {
                             Text(
-                                modifier = Modifier.height(cellSize).padding(end = cellSpacing),
+                                modifier = Modifier.padding(cellSpacing).height(cellSize),
                                 text = it.getDisplayName(TextStyle.SHORT, locale),
                                 style = MaterialTheme.typography.labelSmall,
                             )
                         } else {
-                            Spacer(modifier = Modifier.size(cellSize))
+                            Box(
+                                modifier = Modifier
+                                    .padding(cellSpacing)
+                                    .size(cellSize),
+                            )
                         }
                     }
                 }
@@ -164,6 +170,7 @@ fun HeatmapSection(
                                     )
                                 ) {
                                     Text(
+                                        modifier = Modifier.height(cellSize),
                                         text = monthName,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
@@ -207,7 +214,7 @@ fun HeatmapSection(
                                 }
                             }
                         }
-                        item { Spacer(modifier = Modifier.size(cellSpacing)) }
+                        item { Spacer(modifier = Modifier.size(cellSize / 2)) }
                     }
                 }
             }

@@ -37,9 +37,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -70,6 +68,7 @@ data class StatisticsUiState(
 
     // Overview Tab related fields
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
+    val workdayStart: Int = 0,
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val statisticsData: StatisticsData = StatisticsData(),
 ) {
@@ -125,34 +124,39 @@ class StatisticsViewModel(
             }
         }
         viewModelScope.launch {
-            combine(
-                settingsRepository.settings.map { it.firstDayOfWeek }.distinctUntilChanged(),
-                settingsRepository.settings.map { it.statisticsSettings }.distinctUntilChanged(),
-            ) { firstDayOfWeek, statisticsSettings ->
-                firstDayOfWeek to statisticsSettings
-            }.collect { pair ->
+            settingsRepository.settings.distinctUntilChanged { old, new ->
+                old.statisticsSettings == new.statisticsSettings &&
+                    old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart
+            }.collect { settings ->
                 _uiState.update {
                     it.copy(
-                        firstDayOfWeek = DayOfWeek(pair.first),
-                        statisticsSettings = pair.second,
+                        firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                        workdayStart = settings.workdayStart,
+                        statisticsSettings = settings.statisticsSettings,
                     )
                 }
             }
         }
 
         viewModelScope.launch {
-            combine(
-                uiState.map { it.firstDayOfWeek }.distinctUntilChanged(),
-                uiState.map { it.selectedLabels }.filter { it.isNotEmpty() }.distinctUntilChanged(),
-            ) { firstDayOfWeek, selectedLabels ->
-                localDataRepo.selectSessionsByLabels(selectedLabels)
+            uiState.distinctUntilChanged { old, new ->
+                old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart &&
+                    old.selectedLabels == new.selectedLabels
+            }.flatMapLatest { uiState ->
+                localDataRepo.selectSessionsByLabels(uiState.selectedLabels)
                     .map { sessions ->
                         withContext(Dispatchers.Default) {
-                            computeStatisticsData(firstDayOfWeek, sessions)
+                            computeStatisticsData(
+                                uiState.firstDayOfWeek,
+                                uiState.workdayStart,
+                                sessions,
+                            )
                         }
-                    }.first()
-            }.collect { statisticsData ->
-                _uiState.update { it.copy(statisticsData = statisticsData) }
+                    }
+            }.collect { data ->
+                _uiState.update { it.copy(statisticsData = data) }
             }
         }
     }

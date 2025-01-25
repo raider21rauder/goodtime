@@ -27,6 +27,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 data class SessionOverviewData(
     val workTodayPerLabel: Map<String, Long> = emptyMap(),
@@ -64,9 +65,9 @@ private data class PreProcessingSession(
     val isWork: Boolean,
 )
 
-// TODO: bring back start of workday but don't use it for hours
 fun computeStatisticsData(
     firstDayOfWeek: DayOfWeek,
+    startOfWorkDay: Int,
     sessions: List<Session>,
 ): StatisticsData {
     val today = Time.startOfToday()
@@ -103,7 +104,8 @@ fun computeStatisticsData(
 
     sessions.map {
         // Adjust the timestamp to the middle of the session for a more accurate heatmap
-        val adjustedTimestamp = it.timestamp - it.duration.minutes.inWholeMilliseconds / 2
+        val adjustedTimestamp =
+            it.timestamp - it.duration.minutes.inWholeMilliseconds / 2 - startOfWorkDay.seconds.inWholeMilliseconds
         PreProcessingSession(
             label = it.label,
             adjustedTimestamp = adjustedTimestamp,
