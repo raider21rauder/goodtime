@@ -17,33 +17,59 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
+import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
+import kotlinx.datetime.DayOfWeek
 
 @Composable
-fun OverviewTab(overviewData: SessionOverviewData, showBreak: Boolean) {
-    OverviewSection(
-        overviewData,
-        mapOf(
+fun OverviewTab(
+    firstDayOfWeek: DayOfWeek,
+    statisticsSettings: StatisticsSettings,
+    statisticsData: StatisticsData,
+    onChangeOverviewType: (OverviewType) -> Unit,
+    onChangeOverviewDurationType: (OverviewDurationType) -> Unit,
+) {
+    Column(Modifier.verticalScroll(rememberScrollState())) {
+        val typeNames = mapOf(
             OverviewDurationType.TODAY to "Today",
             OverviewDurationType.THIS_WEEK to "Week 17",
             OverviewDurationType.THIS_MONTH to "December",
             OverviewDurationType.TOTAL to "Total",
-        ),
-        showBreak,
-    )
+        )
+
+        OverviewSection(
+            statisticsData.overviewData,
+            typeNames,
+            statisticsSettings.overviewType,
+            onChangeOverviewType,
+        )
+
+        Spacer(Modifier.size(16.dp))
+        WorkBreakRatioSection(
+            statisticsData.overviewData,
+            statisticsSettings.overviewDurationType,
+            onChangeOverviewDurationType,
+            typeNames = typeNames,
+        )
+        HeatmapSection(
+            firstDayOfWeek,
+            data = statisticsData.heatmapData,
+        )
+    }
 
     // TODO:
-    // First tab:
     // Weekly or daily goal with progress bar (e.g. 5 hours per day or 35 hours per week)
 
-    // Overview - same as old version but with persistent time/sessions setting
     // History - same as old version but with minutes/ hours on the Y axis
-    //
     // Permit selection of multiple labels and display as area chart
-
-    // Productive time becomes "Time distribution"
-
     // Pie chart -> Same as before but use legend and "Others" for small slices
 }

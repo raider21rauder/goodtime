@@ -34,7 +34,7 @@ interface LocalDataRepository {
         newLabel: String,
         unselectedIds: List<Long>,
         selectedLabels: List<String>,
-        considerBreaks: Boolean,
+        considerBreaks: Boolean = false,
     )
 
     fun selectAllSessions(): Flow<List<Session>>
@@ -43,16 +43,19 @@ interface LocalDataRepository {
     fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>>
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
-    fun selectOverviewAfter(
-        todayStart: Long,
-        thisWeekStart: Long,
-        thisMonthStart: Long,
-        labels: List<String>,
-    ): Flow<SessionOverviewData>
 
-    fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): PagingSource<Int, LocalSession>
+    fun selectSessionsForHistoryPaged(
+        labels: List<String>,
+        showBreaks: Boolean,
+    ): PagingSource<Int, LocalSession>
+
     suspend fun deleteSessions(ids: List<Long>)
-    suspend fun deleteSessionsExcept(unselectedIds: List<Long>, selectedLabels: List<String>, considerBreaks: Boolean)
+    suspend fun deleteSessionsExcept(
+        unselectedIds: List<Long>,
+        selectedLabels: List<String>,
+        considerBreaks: Boolean = false,
+    )
+
     suspend fun deleteAllSessions()
 
     suspend fun insertLabel(label: Label): Long

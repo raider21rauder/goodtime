@@ -26,17 +26,6 @@ import androidx.room.RawQuery
 import androidx.room.RoomRawQuery
 import kotlinx.coroutines.flow.Flow
 
-data class SessionOverviewData(
-    val workToday: Long = 0,
-    val breakToday: Long = 0,
-    val workThisWeek: Long = 0,
-    val breakThisWeek: Long = 0,
-    val workThisMonth: Long = 0,
-    val breakThisMonth: Long = 0,
-    val workTotal: Long = 0,
-    val breakTotal: Long = 0,
-)
-
 @Dao
 interface SessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -83,32 +72,6 @@ interface SessionDao {
 
     @Query("SELECT * FROM localSession WHERE timestamp > :timestamp ORDER BY timestamp DESC")
     fun selectAfter(timestamp: Long): Flow<List<LocalSession>>
-
-    @Query(
-        """
-        SELECT
-            -- Today
-            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS workToday,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :todayStart THEN duration ELSE 0 END) AS breakToday,
-            -- This Week
-            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS workThisWeek,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :weekStart THEN duration ELSE 0 END) AS breakThisWeek,
-            -- This Month
-            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS workThisMonth,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) AND timestamp >= :monthStart THEN duration ELSE 0 END) AS breakThisMonth,
-            -- Total
-            SUM(CASE WHEN isWork = 1 AND labelName IN (:labels) THEN duration ELSE 0 END) AS workTotal,
-            SUM(CASE WHEN isWork = 0 AND labelName IN (:labels) THEN duration ELSE 0 END) AS breakTotal
-        FROM localSession
-        WHERE labelName IN (:labels)
-        """,
-    )
-    fun selectOverviewAfter(
-        todayStart: Long,
-        weekStart: Long,
-        monthStart: Long,
-        labels: List<String>,
-    ): Flow<SessionOverviewData>
 
     @Query("SELECT * FROM localSession WHERE id = :id")
     fun selectById(id: Long): Flow<LocalSession>

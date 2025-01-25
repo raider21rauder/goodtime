@@ -113,7 +113,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
-                showBreaks = uiState.considerBreaks,
+                showBreaks = uiState.statisticsSettings.showBreaks,
                 onSetShowBreaks = { viewModel.setShowBreaks(it) },
                 showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
             )
@@ -140,7 +140,18 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
             }
 
             when (type) {
-                TabType.Overview -> OverviewTab(uiState.overviewData, uiState.considerBreaks)
+                TabType.Overview -> OverviewTab(
+                    firstDayOfWeek = uiState.firstDayOfWeek,
+                    statisticsSettings = uiState.statisticsSettings,
+                    statisticsData = uiState.statisticsData,
+                    onChangeOverviewType = {
+                        viewModel.setOverviewType(it)
+                    },
+                    onChangeOverviewDurationType = {
+                        viewModel.setOverviewDurationType(it)
+                    },
+                )
+
                 TabType.Timeline -> {
                     TimelineTab(
                         listState = historyListState,
@@ -194,7 +205,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                 AddEditSessionContent(
                     session = uiState.newSession,
                     labels = uiState.labels,
-                    showBreaks = uiState.considerBreaks,
+                    showBreaks = uiState.statisticsSettings.showBreaks,
                     onUpdate = {
                         viewModel.updateSessionToEdit(it)
                     },

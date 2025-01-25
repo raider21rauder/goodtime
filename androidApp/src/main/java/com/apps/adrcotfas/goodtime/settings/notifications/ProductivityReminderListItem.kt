@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
@@ -68,7 +69,7 @@ fun ProductivityReminderListItem(
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    val daysInOrder = rotateList(DayOfWeek.entries.toList(), firstDayOfWeek)
+                    val daysInOrder = firstDayOfWeek.entriesStartingWithThis()
                     for (day in daysInOrder) {
                         FilledIconButton(
                             colors =
@@ -106,11 +107,6 @@ fun ProductivityReminderListItem(
             onClick = { onReminderTimeClick() },
         )
     }
-}
-
-private fun rotateList(list: List<DayOfWeek>, firstDayOfWeek: DayOfWeek): List<DayOfWeek> {
-    val index = list.indexOf(firstDayOfWeek)
-    return list.subList(index, list.size) + list.subList(0, index)
 }
 
 @Preview

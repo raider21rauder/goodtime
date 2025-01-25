@@ -22,7 +22,6 @@ import androidx.paging.PagingState
 import androidx.room.RoomRawQuery
 import com.apps.adrcotfas.goodtime.data.local.LocalSession
 import com.apps.adrcotfas.goodtime.data.local.SessionDao
-import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -92,52 +91,6 @@ class FakeSessionDao : SessionDao {
 
     override fun selectAfter(timestamp: Long): Flow<List<LocalSession>> {
         return sessions.map { sessions -> sessions.filter { it.timestamp > timestamp } }
-    }
-
-    override fun selectOverviewAfter(
-        todayStart: Long,
-        weekStart: Long,
-        monthStart: Long,
-        labels: List<String>,
-    ): Flow<SessionOverviewData> {
-        return sessions.map { sessions ->
-            val workToday =
-                sessions.filter { it.isWork && it.labelName in labels && it.timestamp >= todayStart }
-                    .sumOf { it.duration }
-            val breaksToday =
-                sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= todayStart }
-                    .sumOf { it.duration }
-
-            val workThisWeek =
-                sessions.filter { it.isWork && it.labelName in labels && it.timestamp >= weekStart }
-                    .sumOf { it.duration }
-            val breaksThisWeek =
-                sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= weekStart }
-                    .sumOf { it.duration }
-
-            val workThisMonth =
-                sessions.filter { it.isWork && it.labelName in labels && it.timestamp >= monthStart }
-                    .sumOf { it.duration }
-            val breaksThisMonth =
-                sessions.filter { !it.isWork && it.labelName in labels && it.timestamp >= monthStart }
-                    .sumOf { it.duration }
-
-            val workTotal = sessions.filter { it.isWork && it.labelName in labels }
-                .sumOf { it.duration }
-            val breaksTotal = sessions.filter { !it.isWork && it.labelName in labels }
-                .sumOf { it.duration }
-
-            SessionOverviewData(
-                workToday,
-                breaksToday,
-                workThisWeek,
-                breaksThisWeek,
-                workThisMonth,
-                breaksThisMonth,
-                workTotal,
-                breaksTotal,
-            )
-        }
     }
 
     override fun selectById(id: Long): Flow<LocalSession> {

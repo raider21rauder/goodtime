@@ -38,17 +38,12 @@ enum class HistoryViewType {
     YEAR,
 }
 
-enum class HeatMapType {
-    HOURS_OF_THE_DAY,
-    DAYS_OF_THE_WEEK,
-}
-
 @Serializable
 data class StatisticsSettings(
-    val overviewShowBreak: Boolean = false,
+    val showBreaks: Boolean = false,
     val overviewType: OverviewType = OverviewType.TIME,
+    val overviewDurationType: OverviewDurationType = OverviewDurationType.THIS_WEEK,
     val historyViewType: HistoryViewType = HistoryViewType.DAY,
     val historyViewAggregateLabels: Boolean = false,
-    val heatMapType: HeatMapType = HeatMapType.HOURS_OF_THE_DAY,
     val pieChartViewType: OverviewDurationType = OverviewDurationType.THIS_MONTH,
 )

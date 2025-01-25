@@ -46,6 +46,7 @@ class SettingsRepositoryImpl(
         val productivityReminderSettingsKey =
             stringPreferencesKey("productivityReminderSettingsKey")
         val uiSettingsKey = stringPreferencesKey("uiSettingsKey")
+        val statisticsSettingsKey = stringPreferencesKey("statisticsSettingsKey")
         val timerStyleKey = stringPreferencesKey("timerStyleKey")
         val workdayStartKey = intPreferencesKey("workdayStartKey")
         val firstDayOfWeekKey = intPreferencesKey("firstDayOfWeekKey")
@@ -83,6 +84,9 @@ class SettingsRepositoryImpl(
                 uiSettings = it[Keys.uiSettingsKey]?.let { u ->
                     json.decodeFromString<UiSettings>(u)
                 } ?: default.uiSettings,
+                statisticsSettings = it[Keys.statisticsSettingsKey]?.let { s ->
+                    json.decodeFromString<StatisticsSettings>(s)
+                } ?: default.statisticsSettings,
                 timerStyle = it[Keys.timerStyleKey]?.let { t ->
                     json.decodeFromString<TimerStyleData>(t)
                 } ?: default.timerStyle,
@@ -147,17 +151,21 @@ class SettingsRepositoryImpl(
         }
     }
 
+    override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
+        dataStore.edit {
+            val previous = it[Keys.statisticsSettingsKey]?.let { s -> json.decodeFromString(s) }
+                ?: StatisticsSettings()
+            val new = transform(previous)
+            it[Keys.statisticsSettingsKey] = json.encodeToString(new)
+        }
+    }
+
     override suspend fun updateTimerStyle(
         transform: (TimerStyleData) -> TimerStyleData,
     ) {
         dataStore.edit {
-            val previous = it[Keys.timerStyleKey]?.let { t ->
-                try {
-                    json.decodeFromString(t)
-                } catch (e: Exception) {
-                    null
-                }
-            } ?: TimerStyleData()
+            val previous = it[Keys.timerStyleKey]?.let { t -> json.decodeFromString(t) }
+                ?: TimerStyleData()
             val new = transform(previous)
             it[Keys.timerStyleKey] = json.encodeToString(new)
         }

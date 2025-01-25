@@ -25,6 +25,7 @@ import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.ProductivityReminderSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
+import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.data.settings.UiSettings
 import kotlinx.coroutines.flow.Flow
@@ -47,6 +48,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
     override suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings) = _settings.emit(
         _settings.value.copy(uiSettings = transform(UiSettings())),
     )
+
+    override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
+        _settings.emit(
+            _settings.value.copy(statisticsSettings = transform(StatisticsSettings())),
+        )
+    }
 
     override suspend fun updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData) {
         _settings.emit(

@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.common
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
@@ -27,6 +28,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
 import kotlin.time.Duration
@@ -48,13 +50,15 @@ fun Duration.formatOverview(): String {
 object Time {
 
     fun startOfToday(): Long {
-        val (dateTime, timeZone) = currentDateTimeAndTimeZone()
+        val dateTime = currentDateTime()
+        val timeZone = TimeZone.currentSystemDefault()
         val startOfDay = dateTime.date.atStartOfDayIn(timeZone)
         return startOfDay.toEpochMilliseconds()
     }
 
     fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): Long {
-        val (dateTime, timeZone) = currentDateTimeAndTimeZone()
+        val dateTime = currentDateTime()
+        val timeZone = TimeZone.currentSystemDefault()
         var date = dateTime.date
         while (date.dayOfWeek != startDayOfWeek) {
             date = date.minus(1, DateTimeUnit.DAY)
@@ -65,57 +69,107 @@ object Time {
     }
 
     fun startOfThisMonth(): Long {
-        val (dateTime, timeZone) = currentDateTimeAndTimeZone()
+        val dateTime = currentDateTime()
         val date = LocalDate(
             dateTime.date.year,
             dateTime.date.month,
             1,
         )
-        val startOfMonth = date.atStartOfDayIn(timeZone)
+        val startOfMonth = date.atStartOfDayIn(TimeZone.currentSystemDefault())
         return startOfMonth.toEpochMilliseconds()
     }
 
     fun thisYear(): Int {
-        val dateTime = currentDateTimeAndTimeZone()
-        return dateTime.first.year
+        val dateTime = currentDateTime()
+        return dateTime.year
     }
 
     fun thisMonth(): Int {
-        val dateTime = currentDateTimeAndTimeZone()
-        return dateTime.first.monthNumber
+        val dateTime = currentDateTime()
+        return dateTime.monthNumber
     }
 
     fun isoWeekNumber(): Int {
-        val dateTime = currentDateTimeAndTimeZone().first
+        val dateTime = currentDateTime()
         val date = dateTime.date
         return date.isoWeekNumber()
     }
 
-    private fun currentDateTimeAndTimeZone(): Pair<LocalDateTime, TimeZone> {
+    // TODO: consider start of workday
+    fun currentDateTime(): LocalDateTime {
         val timeZone = TimeZone.currentSystemDefault()
         val now = Clock.System.now().toEpochMilliseconds()
         val currentInstant = Instant.fromEpochMilliseconds(now)
-        return currentInstant.toLocalDateTime(timeZone) to timeZone
+        return currentInstant.toLocalDateTime(timeZone)
     }
 
-    private fun LocalDate.isoWeekNumber(): Int {
-        if (firstWeekInYearStart(year + 1) < this) return 1
-        val currentYearStart = firstWeekInYearStart(year)
-        val start = if (this < currentYearStart) firstWeekInYearStart(year - 1) else currentYearStart
-        val currentCalendarWeek = start.until(this, DateTimeUnit.WEEK) + 1
-        return currentCalendarWeek
+    fun toLocalDateTime(epochMillis: Long): LocalDateTime {
+        val timeZone = TimeZone.currentSystemDefault()
+        val instant = Instant.fromEpochMilliseconds(epochMillis)
+        return instant.toLocalDateTime(timeZone)
     }
+}
 
-    private fun firstWeekInYearStart(year: Int): LocalDate {
-        val jan1st = LocalDate(year, 1, 1)
-        val previousMonday = jan1st.minus(jan1st.dayOfWeek.ordinal, DateTimeUnit.DAY)
-        return if (jan1st.dayOfWeek <= DayOfWeek.THURSDAY) {
-            previousMonday
-        } else {
-            previousMonday.plus(
-                1,
-                DateTimeUnit.WEEK,
-            )
-        }
+private fun firstWeekInYearStart(year: Int): LocalDate {
+    val jan1st = LocalDate(year, 1, 1)
+    val previousMonday = jan1st.minus(jan1st.dayOfWeek.ordinal, DateTimeUnit.DAY)
+    return if (jan1st.dayOfWeek <= DayOfWeek.THURSDAY) {
+        previousMonday
+    } else {
+        previousMonday.plus(
+            1,
+            DateTimeUnit.WEEK,
+        )
     }
+}
+
+fun LocalDate.isoWeekNumber(): Int {
+    if (firstWeekInYearStart(year + 1) < this) return 1
+    val currentYearStart = firstWeekInYearStart(year)
+    val start = if (this < currentYearStart) firstWeekInYearStart(year - 1) else currentYearStart
+    val currentCalendarWeek = start.until(this, DateTimeUnit.WEEK) + 1
+    return currentCalendarWeek
+}
+
+fun LocalDate.firstDayOfWeekInMonth(startDayOfWeek: DayOfWeek): LocalDate {
+    val firstDayOfMonth = LocalDate(year, month, 1)
+    var date = firstDayOfMonth
+    while (date.dayOfWeek != startDayOfWeek) {
+        date = date.plus(1, DateTimeUnit.DAY)
+    }
+    return date
+}
+
+fun LocalDate.firstDayOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
+    var date = this
+    while (date.dayOfWeek != startDayOfWeek) {
+        date = date.minus(1, DateTimeUnit.DAY)
+    }
+    return date
+}
+
+fun LocalDate.endOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
+    var date = this
+    if (date.dayOfWeek == startDayOfWeek) {
+        return date.plus(DatePeriod(days = 6))
+    }
+    while (date.dayOfWeek != startDayOfWeek) {
+        date = date.plus(DatePeriod(days = 1))
+    }
+    date.minus(DatePeriod(days = 1))
+    return date
+}
+
+fun LocalDate.toEpochMilliseconds(): Long {
+    return this.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+}
+
+fun LocalDateTime.toEpochMilliseconds(): Long {
+    return this.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+}
+
+inline fun <reified T : Enum<T>> T.entriesStartingWithThis(): List<T> {
+    val entries = enumValues<T>()
+    val index = entries.indexOf(this)
+    return entries.drop(index) + entries.take(index)
 }

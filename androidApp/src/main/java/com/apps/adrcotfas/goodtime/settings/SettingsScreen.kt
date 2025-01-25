@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.settings
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -69,7 +70,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun SettingsScreen(
-    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalContext.current as ComponentActivity),
+    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
 ) {
     val context = LocalContext.current
     val navigator = rememberListDetailPaneScaffoldNavigator<String>()

@@ -24,18 +24,22 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
-import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
-import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.toExternal
+import com.apps.adrcotfas.goodtime.data.settings.HistoryViewType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -43,12 +47,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.DayOfWeek
 
 data class StatisticsUiState(
+    val isLoading: Boolean = true,
     val labels: List<Label> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
-    val overviewData: SessionOverviewData = SessionOverviewData(),
 
     // Selection UI related fields
     val selectedSessions: List<Long> = emptyList(),
@@ -57,13 +62,16 @@ data class StatisticsUiState(
     val isSelectAllEnabled: Boolean = false,
     val selectedLabelToBulkEdit: String? = null,
 
+    // Add/Edit session related fields
     val sessionToEdit: Session? = null, // this does not change after initialization
     val newSession: Session = Session.default(),
     val showAddSession: Boolean = false,
     val canSave: Boolean = true,
 
-    // Overview section related fields
-    val considerBreaks: Boolean = false,
+    // Overview Tab related fields
+    val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
+    val statisticsSettings: StatisticsSettings = StatisticsSettings(),
+    val statisticsData: StatisticsData = StatisticsData(),
 ) {
     val showSelectionUi: Boolean
         get() = selectedSessions.isNotEmpty() || isSelectAllEnabled
@@ -77,6 +85,7 @@ data class StatisticsUiState(
             }
 }
 
+// TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
 class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
@@ -91,10 +100,15 @@ class StatisticsViewModel(
     val pagedSessions: Flow<PagingData<Session>> =
         uiState.distinctUntilChanged { old, new ->
             old.selectedLabels == new.selectedLabels &&
-                old.considerBreaks == new.considerBreaks
-        }.flatMapLatest { selectSessionsForHistoryPaged(it.selectedLabels, it.considerBreaks) }
+                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
+        }.flatMapLatest {
+            selectSessionsForHistoryPaged(it.selectedLabels, it.statisticsSettings.showBreaks)
+        }
 
-    private fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): Flow<PagingData<Session>> =
+    private fun selectSessionsForHistoryPaged(
+        labels: List<String>,
+        showBreaks: Boolean,
+    ): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
             localDataRepo.selectSessionsForHistoryPaged(labels, showBreaks)
         }.flow.map { value ->
@@ -105,31 +119,40 @@ class StatisticsViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            // TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
             _uiState.update {
                 it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
             }
+        }
+        viewModelScope.launch {
             combine(
-                settingsRepository.settings.map { it.firstDayOfWeek },
-                uiState.map { it.selectedLabels },
-            ) { firstDayOfWeek, selectedLabels ->
-                val todayStart = Time.startOfToday()
-                val weekStart = Time.startOfThisWeekAdjusted(
-                    DayOfWeek(firstDayOfWeek),
-                )
-                val monthStart = Time.startOfThisMonth()
-                localDataRepo.selectOverviewAfter(
-                    todayStart,
-                    weekStart,
-                    monthStart,
-                    selectedLabels,
-                )
-                    .first()
-            }.collect { overviewData ->
+                settingsRepository.settings.map { it.firstDayOfWeek }.distinctUntilChanged(),
+                settingsRepository.settings.map { it.statisticsSettings }.distinctUntilChanged(),
+            ) { firstDayOfWeek, statisticsSettings ->
+                firstDayOfWeek to statisticsSettings
+            }.collect { pair ->
                 _uiState.update {
-                    it.copy(overviewData = overviewData)
+                    it.copy(
+                        firstDayOfWeek = DayOfWeek(pair.first),
+                        statisticsSettings = pair.second,
+                    )
                 }
+            }
+        }
+
+        viewModelScope.launch {
+            combine(
+                uiState.map { it.firstDayOfWeek }.distinctUntilChanged(),
+                uiState.map { it.selectedLabels }.filter { it.isNotEmpty() }.distinctUntilChanged(),
+            ) { firstDayOfWeek, selectedLabels ->
+                localDataRepo.selectSessionsByLabels(selectedLabels)
+                    .map { sessions ->
+                        withContext(Dispatchers.Default) {
+                            computeStatisticsData(firstDayOfWeek, sessions)
+                        }
+                    }.first()
+            }.collect { statisticsData ->
+                _uiState.update { it.copy(statisticsData = statisticsData) }
             }
         }
     }
@@ -191,7 +214,7 @@ class StatisticsViewModel(
                 localDataRepo.deleteSessionsExcept(
                     uiState.value.unselectedSessions,
                     uiState.value.selectedLabels,
-                    uiState.value.considerBreaks,
+                    uiState.value.statisticsSettings.showBreaks,
                 )
             } else {
                 localDataRepo.deleteSessions(uiState.value.selectedSessions)
@@ -258,7 +281,7 @@ class StatisticsViewModel(
                         label,
                         uiState.value.unselectedSessions,
                         uiState.value.selectedLabels,
-                        uiState.value.considerBreaks,
+                        uiState.value.statisticsSettings.showBreaks,
                     )
                 } else {
                     localDataRepo.updateSessionsLabelByIds(label, uiState.value.selectedSessions)
@@ -268,7 +291,38 @@ class StatisticsViewModel(
     }
 
     fun setShowBreaks(show: Boolean) {
-        // TODO: store to repository to persist
-        _uiState.update { it.copy(considerBreaks = show) }
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(showBreaks = show) }
+        }
+    }
+
+    fun setOverviewType(type: OverviewType) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(overviewType = type) }
+        }
+    }
+
+    fun setOverviewDurationType(type: OverviewDurationType) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(overviewDurationType = type) }
+        }
+    }
+
+    fun setHistoryViewType(type: HistoryViewType) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(historyViewType = type) }
+        }
+    }
+
+    fun setHistoryViewAggregateLabels(aggregate: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(historyViewAggregateLabels = aggregate) }
+        }
+    }
+
+    fun setPieChartViewType(type: OverviewDurationType) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(pieChartViewType = type) }
+        }
     }
 }

@@ -35,30 +35,46 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.formatOverview
-import com.apps.adrcotfas.goodtime.data.local.SessionOverviewData
+import com.apps.adrcotfas.goodtime.common.prettyName
+import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
+import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun OverviewSection(
     data: SessionOverviewData,
     typeNames: Map<OverviewDurationType, String>,
-    showBreak: Boolean,
+    type: OverviewType,
+    onTypeChanged: (OverviewType) -> Unit,
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val color = MaterialTheme.colorScheme.primary
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(vertical = 8.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
             Text(
                 "Overview",
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,
                 ),
+            )
+            DropdownMenuBox(
+                value = type.prettyName(),
+                options = prettyNames<OverviewType>(),
+                onDismissRequest = {},
+                onDropdownMenuItemSelected = {
+                    onTypeChanged(OverviewType.entries[it])
+                },
             )
         }
 
@@ -71,27 +87,27 @@ fun OverviewSection(
             verticalAlignment = Alignment.Bottom,
         ) {
             OverviewDurationType.entries.forEach { overviewType ->
-                val valueWork = when (overviewType) {
-                    OverviewDurationType.TODAY -> data.workToday
-                    OverviewDurationType.THIS_WEEK -> data.workThisWeek
-                    OverviewDurationType.THIS_MONTH -> data.workThisMonth
-                    OverviewDurationType.TOTAL -> data.workTotal
-                }.minutes.formatOverview()
-                val valueBreak = when (overviewType) {
-                    OverviewDurationType.TODAY -> data.breakToday
-                    OverviewDurationType.THIS_WEEK -> data.breakThisWeek
-                    OverviewDurationType.THIS_MONTH -> data.breakThisMonth
-                    OverviewDurationType.TOTAL -> data.breakTotal
-                }.minutes.formatOverview()
+                val valueWork = if (type == OverviewType.TIME) {
+                    when (overviewType) {
+                        OverviewDurationType.TODAY -> data.workToday
+                        OverviewDurationType.THIS_WEEK -> data.workThisWeek
+                        OverviewDurationType.THIS_MONTH -> data.workThisMonth
+                        OverviewDurationType.TOTAL -> data.workTotal
+                    }.minutes.formatOverview()
+                } else {
+                    when (overviewType) {
+                        OverviewDurationType.TODAY -> data.workSessionsToday
+                        OverviewDurationType.THIS_WEEK -> data.workSessionsThisWeek
+                        OverviewDurationType.THIS_MONTH -> data.workSessionsThisMonth
+                        OverviewDurationType.TOTAL -> data.workSessionsTotal
+                    }.toString()
+                }
 
                 OverviewTypeSection(
                     modifier = Modifier.weight(1f / OverviewDurationType.entries.size),
                     title = typeNames[overviewType]!!,
                     valueWork = valueWork,
                     colorWork = color,
-                    showBreak = showBreak,
-                    valueBreak = valueBreak,
-                    colorBreak = MaterialTheme.colorScheme.error,
                 )
             }
         }
@@ -104,9 +120,6 @@ fun OverviewTypeSection(
     title: String,
     valueWork: String,
     colorWork: Color,
-    showBreak: Boolean,
-    valueBreak: String,
-    colorBreak: Color,
 ) {
     Column(
         modifier = modifier.animateContentSize(),
@@ -119,15 +132,6 @@ fun OverviewTypeSection(
                 textAlign = TextAlign.Center,
             ),
         )
-        if (showBreak) {
-            Text(
-                valueBreak,
-                style = MaterialTheme.typography.labelLarge.copy(
-                    color = colorBreak,
-                    textAlign = TextAlign.Center,
-                ),
-            )
-        }
         Text(
             title,
             style = MaterialTheme.typography.labelMedium,

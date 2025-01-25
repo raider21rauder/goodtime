@@ -57,6 +57,7 @@ import kotlinx.datetime.LocalTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePicker(
+    title: String = "Select time",
     onConfirm: (TimePickerState) -> Unit,
     onDismiss: () -> Unit,
     timePickerState: TimePickerState,
@@ -69,6 +70,7 @@ fun TimePicker(
     }
 
     TimePickerDialog(
+        title = title,
         onDismiss = { onDismiss() },
         onConfirm = { onConfirm(timePickerState) },
         toggle = {
@@ -96,7 +98,7 @@ fun TimePicker(
 
 @Composable
 fun TimePickerDialog(
-    title: String = "Reminder time",
+    title: String,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
     toggle: @Composable () -> Unit = {},
@@ -150,6 +152,7 @@ fun TimePickerDialog(
 @Composable
 fun TimePickerDialogPreview() {
     TimePicker(
+        title = "Time picker",
         onDismiss = {},
         onConfirm = {},
         timePickerState = rememberTimePickerState(),

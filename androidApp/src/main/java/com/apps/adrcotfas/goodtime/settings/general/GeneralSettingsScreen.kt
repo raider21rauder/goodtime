@@ -23,6 +23,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,6 +52,7 @@ import com.apps.adrcotfas.goodtime.common.getAppLanguage
 import com.apps.adrcotfas.goodtime.common.prettyName
 import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
+import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
@@ -71,7 +73,7 @@ import java.time.format.TextStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneralSettingsScreen(
-    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalContext.current as ComponentActivity),
+    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
     onNavigateBack: () -> Boolean,
     showTopBar: Boolean,
 ) {
@@ -130,17 +132,16 @@ fun GeneralSettingsScreen(
                     },
                 )
             }
-// TODO: decide later if we keep this
-//            BetterListItem(
-//                title = "Workday start",
-//                trailing = secondsOfDayToTimerFormat(
-//                    uiState.settings.workdayStart,
-//                    DateFormat.is24HourFormat(context),
-//                ),
-//                onClick = {
-//                    viewModel.setShowWorkdayStartPicker(true)
-//                },
-//            )
+            BetterListItem(
+                title = "Workday start",
+                trailing = secondsOfDayToTimerFormat(
+                    uiState.settings.workdayStart,
+                    DateFormat.is24HourFormat(context),
+                ),
+                onClick = {
+                    viewModel.setShowWorkdayStartPicker(true)
+                },
+            )
             DropdownMenuListItem(
                 title = "Start of the week",
                 value = DayOfWeek.of(uiState.settings.firstDayOfWeek)

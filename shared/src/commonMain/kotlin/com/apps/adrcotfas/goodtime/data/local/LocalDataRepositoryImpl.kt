@@ -107,21 +107,6 @@ internal class LocalDataRepositoryImpl(
             .map { sessions -> sessions.map { it.toExternal() } }
     }
 
-    override fun selectOverviewAfter(
-        todayStart: Long,
-        thisWeekStart: Long,
-        thisMonthStart: Long,
-        labels: List<String>,
-    ): Flow<SessionOverviewData> {
-        return sessionDao.selectOverviewAfter(
-            todayStart,
-            thisWeekStart,
-            thisMonthStart,
-            labels,
-        )
-            .map { it }
-    }
-
     override fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): PagingSource<Int, LocalSession> {
         return sessionDao.selectSessionsForHistoryPaged(labels, showBreaks)
     }
