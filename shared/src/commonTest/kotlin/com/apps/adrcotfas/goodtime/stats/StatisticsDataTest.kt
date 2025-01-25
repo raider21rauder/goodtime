@@ -33,18 +33,18 @@ class StatisticsDataTest {
 
         // Test case: session from 12 months ago
         val session12MonthsAgo = todayTimestamp - 12 * 30L * 24.hours.inWholeMilliseconds
-        assertEquals(0.5, calculateSessionWeight(session12MonthsAgo, todayTimestamp), 0.001)
+        assertEquals(0.0, calculateSessionWeight(session12MonthsAgo, todayTimestamp), 0.001)
 
-        // Test case: session from 24 months ago
-        val session24MonthsAgo = todayTimestamp - 24 * 30L * 24.hours.inWholeMilliseconds
-        assertEquals(0.0, calculateSessionWeight(session24MonthsAgo, todayTimestamp), 0.001)
+        // Test case: session from 9 months ago
+        val session9MonthsAgo = todayTimestamp - 9 * 30L * 24.hours.inWholeMilliseconds
+        assertEquals(0.25, calculateSessionWeight(session9MonthsAgo, todayTimestamp), 0.001)
 
         // Test case: session from 6 months ago
         val session6MonthsAgo = todayTimestamp - 6 * 30L * 24.hours.inWholeMilliseconds
-        assertEquals(0.75, calculateSessionWeight(session6MonthsAgo, todayTimestamp), 0.001)
+        assertEquals(0.5, calculateSessionWeight(session6MonthsAgo, todayTimestamp), 0.001)
 
-        // Test case: session from 25 months ago (should be clamped to 0)
-        val session25MonthsAgo = todayTimestamp - 25 * 30L * 24.hours.inWholeMilliseconds
-        assertEquals(0.0, calculateSessionWeight(session25MonthsAgo, todayTimestamp), 0.001)
+        // Test case: session from 3 months ago
+        val session3MonthsAgo = todayTimestamp - 3 * 30L * 24.hours.inWholeMilliseconds
+        assertEquals(0.75, calculateSessionWeight(session3MonthsAgo, todayTimestamp), 0.001)
     }
 }
