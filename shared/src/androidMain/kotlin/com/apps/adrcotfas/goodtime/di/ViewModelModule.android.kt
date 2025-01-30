@@ -22,6 +22,7 @@ import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,5 +42,6 @@ actual val viewModelModule: Module = module {
     viewModelOf(::SettingsViewModel)
     viewModel { BackupViewModel(get(), get(named(scopeName))) }
     viewModelOf(::StatisticsViewModel)
+    viewModelOf(::StatisticsHistoryViewModel)
     viewModelOf(::OnboardingViewModel)
 }

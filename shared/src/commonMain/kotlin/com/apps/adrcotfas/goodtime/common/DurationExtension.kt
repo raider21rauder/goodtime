@@ -26,6 +26,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.atTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
@@ -48,15 +49,16 @@ fun Duration.formatOverview(): String {
 }
 
 object Time {
-
-    fun startOfToday(): Long {
+    // TODO: consider workday start
+    fun startOfTodayMillis(): Long {
         val dateTime = currentDateTime()
         val timeZone = TimeZone.currentSystemDefault()
         val startOfDay = dateTime.date.atStartOfDayIn(timeZone)
         return startOfDay.toEpochMilliseconds()
     }
 
-    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): Long {
+    // TODO: consider workday start
+    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): LocalDateTime {
         val dateTime = currentDateTime()
         val timeZone = TimeZone.currentSystemDefault()
         var date = dateTime.date
@@ -64,29 +66,20 @@ object Time {
             date = date.minus(1, DateTimeUnit.DAY)
         }
 
-        val startOfWeek = date.atStartOfDayIn(timeZone)
-        return startOfWeek.toEpochMilliseconds()
+        val startOfWeekInstant = date.atStartOfDayIn(timeZone)
+        return startOfWeekInstant.toLocalDateTime(timeZone)
     }
 
-    fun startOfThisMonth(): Long {
+    // TODO: consider workday start
+    fun startOfThisMonth(): LocalDateTime {
         val dateTime = currentDateTime()
         val date = LocalDate(
             dateTime.date.year,
             dateTime.date.month,
             1,
         )
-        val startOfMonth = date.atStartOfDayIn(TimeZone.currentSystemDefault())
-        return startOfMonth.toEpochMilliseconds()
-    }
-
-    fun thisYear(): Int {
-        val dateTime = currentDateTime()
-        return dateTime.year
-    }
-
-    fun thisMonth(): Int {
-        val dateTime = currentDateTime()
-        return dateTime.monthNumber
+        val startOfMonthInstant = date.atStartOfDayIn(TimeZone.currentSystemDefault())
+        return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
     fun isoWeekNumber(): Int {
@@ -121,6 +114,18 @@ private fun firstWeekInYearStart(year: Int): LocalDate {
             DateTimeUnit.WEEK,
         )
     }
+}
+
+fun LocalDateTime.plus(datePeriod: DatePeriod): LocalDateTime {
+    val date = date
+    val time = time
+    return date.plus(datePeriod).atTime(time)
+}
+
+fun LocalDateTime.minus(datePeriod: DatePeriod): LocalDateTime {
+    val date = date
+    val time = time
+    return date.minus(datePeriod).atTime(time)
 }
 
 fun LocalDate.isoWeekNumber(): Int {
@@ -159,6 +164,19 @@ fun LocalDate.endOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
     date.minus(DatePeriod(days = 1))
     return date
 }
+
+fun LocalDate.firstDayOfThisQuarter(): LocalDate {
+    val firstMonthInQuarter = when (quarter) {
+        1 -> 1
+        2 -> 4
+        3 -> 7
+        4 -> 10
+        else -> throw IllegalArgumentException("Invalid quarter: $quarter. Valid values are 1-4.")
+    }
+    return LocalDate(year, firstMonthInQuarter, 1)
+}
+
+val LocalDate.quarter get() = (monthNumber - 1) / 3 + 1
 
 fun LocalDate.toEpochMilliseconds(): Long {
     return this.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()

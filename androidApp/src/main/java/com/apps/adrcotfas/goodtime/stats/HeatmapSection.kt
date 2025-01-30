@@ -103,7 +103,7 @@ fun HeatmapSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Calendar",
+                "Heatmap",
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,
@@ -199,7 +199,7 @@ fun HeatmapSection(
                                                     .clip(MaterialTheme.shapes.extraSmall)
                                                     .background(
                                                         color.copy(
-                                                            alpha = data[currentDay] ?: 0f,
+                                                            alpha = data[currentDay]?.plus(0.2f) ?: 0f,
                                                         ),
                                                     ),
                                             )

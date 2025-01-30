@@ -82,8 +82,21 @@ interface SessionDao {
     @Query("SELECT * FROM localSession WHERE labelName = :labelName ORDER BY timestamp DESC")
     fun selectByLabel(labelName: String): Flow<List<LocalSession>>
 
-    @Query("SELECT * FROM localSession WHERE labelName IN (:labelNames) ORDER BY timestamp DESC")
+    @Query("SELECT * FROM localSession WHERE labelName IN (:labelNames) ORDER BY timestamp ASC")
     fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>>
+
+    @Query(
+        """
+        SELECT * FROM localSession
+        WHERE labelName IN (:labelNames)
+        AND timestamp >= :after
+        ORDER BY timestamp ASC
+    """,
+    )
+    fun selectByLabels(
+        labelNames: List<String>,
+        after: Long,
+    ): Flow<List<LocalSession>>
 
     @Query(
         """
@@ -93,7 +106,7 @@ interface SessionDao {
         ORDER BY timestamp DESC
     """,
     )
-    fun selectSessionsForHistoryPaged(
+    fun selectSessionsForTimelinePaged(
         labelNames: List<String>,
         considerBreaks: Boolean,
     ): PagingSource<Int, LocalSession>

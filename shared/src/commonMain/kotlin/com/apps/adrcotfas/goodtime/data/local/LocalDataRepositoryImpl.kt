@@ -107,8 +107,16 @@ internal class LocalDataRepositoryImpl(
             .map { sessions -> sessions.map { it.toExternal() } }
     }
 
-    override fun selectSessionsForHistoryPaged(labels: List<String>, showBreaks: Boolean): PagingSource<Int, LocalSession> {
-        return sessionDao.selectSessionsForHistoryPaged(labels, showBreaks)
+    override fun selectSessionsByLabels(
+        labels: List<String>,
+        after: Long,
+    ): Flow<List<Session>> {
+        return sessionDao.selectByLabels(labels, after)
+            .map { sessions -> sessions.map { it.toExternal() } }
+    }
+
+    override fun selectSessionsForTimelinePaged(labels: List<String>, showBreaks: Boolean): PagingSource<Int, LocalSession> {
+        return sessionDao.selectSessionsForTimelinePaged(labels, showBreaks)
     }
 
     override suspend fun deleteSessions(ids: List<Long>) {

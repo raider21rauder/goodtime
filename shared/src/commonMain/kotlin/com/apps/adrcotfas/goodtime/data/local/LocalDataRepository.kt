@@ -43,8 +43,12 @@ interface LocalDataRepository {
     fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>>
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
+    fun selectSessionsByLabels(
+        labels: List<String>,
+        after: Long,
+    ): Flow<List<Session>>
 
-    fun selectSessionsForHistoryPaged(
+    fun selectSessionsForTimelinePaged(
         labels: List<String>,
         showBreaks: Boolean,
     ): PagingSource<Int, LocalSession>

@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.fakes
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
+import com.apps.adrcotfas.goodtime.data.settings.HistoryChartSettings
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.ProductivityReminderSettings
@@ -52,6 +53,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
     override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
         _settings.emit(
             _settings.value.copy(statisticsSettings = transform(StatisticsSettings())),
+        )
+    }
+
+    override suspend fun updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings) {
+        _settings.emit(
+            _settings.value.copy(historyChartSettings = transform(HistoryChartSettings())),
         )
     }
 

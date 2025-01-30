@@ -18,14 +18,14 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import com.apps.adrcotfas.goodtime.common.Time
+import com.apps.adrcotfas.goodtime.common.Time.toLocalDateTime
 import com.apps.adrcotfas.goodtime.common.toEpochMilliseconds
 import com.apps.adrcotfas.goodtime.data.model.Session
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
-import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -49,30 +49,25 @@ data class SessionOverviewData(
 )
 
 typealias HeatmapData = Map<LocalDate, Float>
-typealias HistoryChartData = Map<LocalDate, Map<String, Long>>
+
+typealias ProductiveHoursOfTheDay = Map<Int, Float>
 
 data class StatisticsData(
     val overviewData: SessionOverviewData = SessionOverviewData(),
     val heatmapData: HeatmapData = emptyMap(),
-    val historyChartData: HistoryChartData = emptyMap(),
-)
-
-private data class PreProcessingSession(
-    val label: String,
-    val adjustedTimestamp: Long,
-    val adjustedDateTime: LocalDateTime,
-    val duration: Long,
-    val isWork: Boolean,
+    val productiveHoursOfTheDay: ProductiveHoursOfTheDay = emptyMap(),
 )
 
 fun computeStatisticsData(
-    firstDayOfWeek: DayOfWeek,
-    startOfWorkDay: Int,
     sessions: List<Session>,
+    firstDayOfWeek: DayOfWeek,
+    workDayStart: Int,
 ): StatisticsData {
-    val today = Time.startOfToday()
-    val startOfWeek = Time.startOfThisWeekAdjusted(firstDayOfWeek)
-    val startOfMonth = Time.startOfThisWeekAdjusted(firstDayOfWeek)
+    val today = Time.startOfTodayMillis()
+    val startOfThisWeekDate = Time.startOfThisWeekAdjusted(firstDayOfWeek)
+    val startOfThisWeek = startOfThisWeekDate.toEpochMilliseconds()
+    val startOfThisMonthDate = Time.startOfThisMonth()
+    val startOfThisMonth = startOfThisMonthDate.toEpochMilliseconds()
 
     val workTodayPerLabel = mutableMapOf<String, Long>()
     var workSessionsToday = 0L
@@ -98,18 +93,24 @@ fun computeStatisticsData(
     val oneYearAgoLocalDate = todayLocalDate.minus(DatePeriod(years = 1))
 
     val heatmapData = mutableMapOf<LocalDate, Float>()
-
     var maxHeatMapValue = 1f
+
+    val productiveHoursOfTheDay = mutableMapOf<Int, Float>()
+    var maxProductiveHourOfTheDay = 1f
+
     val oneYearAgoMillis = oneYearAgoLocalDate.toEpochMilliseconds()
 
-    sessions.map {
+    sessions.asSequence().map {
         // Adjust the timestamp to the middle of the session for a more accurate heatmap
-        val adjustedTimestamp =
-            it.timestamp - it.duration.minutes.inWholeMilliseconds / 2 - startOfWorkDay.seconds.inWholeMilliseconds
+        val timestamp = it.timestamp - it.duration.minutes.inWholeMilliseconds / 2
+        // Adjust the timestamp to the start of the work day
+        val adjustedTimestamp = timestamp - workDayStart.seconds.inWholeMilliseconds
         PreProcessingSession(
             label = it.label,
+            timestamp = timestamp,
+            dateTime = toLocalDateTime(timestamp),
             adjustedTimestamp = adjustedTimestamp,
-            adjustedDateTime = Time.toLocalDateTime(adjustedTimestamp),
+            adjustedDateTime = toLocalDateTime(adjustedTimestamp),
             duration = it.duration,
             isWork = it.isWork,
         )
@@ -117,9 +118,21 @@ fun computeStatisticsData(
         val date = session.adjustedDateTime.date
 
         if (session.isWork) {
+            // TODO: extract productive hours computation to separate to function
             if (today - session.adjustedTimestamp < oneYearAgoMillis) {
                 heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
                 maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
+
+                val weight = calculateSessionWeight(session.timestamp, today)
+                productiveHoursOfTheDay[session.dateTime.hour] =
+                    (
+                        productiveHoursOfTheDay[session.adjustedDateTime.hour]
+                            ?: 0f
+                        ) + session.duration * weight
+                maxProductiveHourOfTheDay = maxOf(
+                    maxProductiveHourOfTheDay,
+                    productiveHoursOfTheDay[session.dateTime.hour] ?: 0f,
+                )
             }
 
             if (session.adjustedTimestamp >= today) {
@@ -128,13 +141,15 @@ fun computeStatisticsData(
                     (workTodayPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsToday++
             }
-            if (session.adjustedTimestamp >= startOfWeek) {
+            // TODO: consider end of this week
+            if (session.adjustedTimestamp >= startOfThisWeek) {
                 workThisWeek += session.duration
                 workThisWeekPerLabel[session.label] =
                     (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsThisWeek++
             }
-            if (session.adjustedTimestamp >= startOfMonth) {
+            // TODO: consider end of this month
+            if (session.adjustedTimestamp >= startOfThisMonth) {
                 workThisMonth += session.duration
                 workThisMonthPerLabel[session.label] =
                     (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
@@ -148,10 +163,10 @@ fun computeStatisticsData(
             if (session.adjustedTimestamp >= today) {
                 breakToday += session.duration
             }
-            if (session.adjustedTimestamp >= startOfWeek) {
+            if (session.adjustedTimestamp >= startOfThisWeek) {
                 breakThisWeek += session.duration
             }
-            if (session.adjustedTimestamp >= startOfMonth) {
+            if (session.adjustedTimestamp >= startOfThisMonth) {
                 breakThisMonth += session.duration
             }
             breakTotal += session.duration
@@ -161,6 +176,10 @@ fun computeStatisticsData(
     // normalize the values for the heatmap
     heatmapData.forEach {
         heatmapData[it.key] = (it.value / maxHeatMapValue).coerceIn(0f, 1f)
+    }
+
+    productiveHoursOfTheDay.forEach {
+        productiveHoursOfTheDay[it.key] = (it.value / maxProductiveHourOfTheDay).coerceIn(0f, 1f)
     }
 
     val overviewData = SessionOverviewData(
@@ -185,15 +204,15 @@ fun computeStatisticsData(
     return StatisticsData(
         overviewData = overviewData,
         heatmapData = heatmapData,
+        productiveHoursOfTheDay = productiveHoursOfTheDay,
     )
 }
 
 /**
  * The older the session, the less weight it has.
- * For a session from 12 months ago, the weight is 0. For a session from today, the weight is 1.
+ * For a session from 365 days ago, the weight is 0. For a session from today, the weight is 1.
  */
-fun calculateSessionWeight(sessionTimestamp: Long, todayTimestamp: Long): Double {
-    val monthsDifference =
-        (todayTimestamp - sessionTimestamp) / (30L * 24.hours.inWholeMilliseconds)
-    return (12 - monthsDifference).coerceIn(0L, 12L) / 12.0
+fun calculateSessionWeight(sessionTimestamp: Long, todayTimestamp: Long): Float {
+    val daysDifference = (todayTimestamp - sessionTimestamp).milliseconds.inWholeDays
+    return (365 - daysDifference).coerceIn(0L, 365L) / 365f
 }

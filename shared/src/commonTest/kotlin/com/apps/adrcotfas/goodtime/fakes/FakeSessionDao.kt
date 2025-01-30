@@ -109,7 +109,11 @@ class FakeSessionDao : SessionDao {
         return sessions.map { sessions -> sessions.filter { it.labelName in labelNames } }
     }
 
-    override fun selectSessionsForHistoryPaged(
+    override fun selectByLabels(labelNames: List<String>, after: Long): Flow<List<LocalSession>> {
+        return sessions.map { sessions -> sessions.filter { it.labelName in labelNames && it.timestamp > after } }
+    }
+
+    override fun selectSessionsForTimelinePaged(
         labelNames: List<String>,
         considerBreaks: Boolean,
     ): PagingSource<Int, LocalSession> {

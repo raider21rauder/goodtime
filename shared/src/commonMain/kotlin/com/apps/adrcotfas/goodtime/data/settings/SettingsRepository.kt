@@ -27,6 +27,7 @@ interface SettingsRepository {
     suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings)
     suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings)
     suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings)
+    suspend fun updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings)
     suspend fun updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData)
     suspend fun setWorkDayStart(secondOfDay: Int)
     suspend fun setFirstDayOfWeek(dayOfWeek: Int)

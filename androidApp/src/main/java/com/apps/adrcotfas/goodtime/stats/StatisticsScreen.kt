@@ -74,7 +74,10 @@ private enum class TabType {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
+fun StatisticsScreen(
+    viewModel: StatisticsViewModel = koinViewModel(),
+    historyViewModel: StatisticsHistoryViewModel = koinViewModel(),
+) {
     val context = LocalContext.current
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -150,6 +153,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                     onChangeOverviewDurationType = {
                         viewModel.setOverviewDurationType(it)
                     },
+                    historyChartViewModel = historyViewModel,
                 )
 
                 TabType.Timeline -> {
@@ -310,6 +314,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                 singleSelection = false,
                 onConfirm = {
                     viewModel.setSelectedLabels(it)
+                    historyViewModel.setSelectedLabels(it)
                     showSelectVisibleLabelsDialog = false
                 },
             )

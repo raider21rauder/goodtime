@@ -53,6 +53,7 @@ data class AppSettings(
     val lastInsertedSessionId: Long = Long.MAX_VALUE,
 
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
+    val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
     val onboardingFinished: Boolean = false,
 )
 

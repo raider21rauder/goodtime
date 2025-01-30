@@ -18,13 +18,10 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
@@ -37,6 +34,7 @@ fun OverviewTab(
     statisticsData: StatisticsData,
     onChangeOverviewType: (OverviewType) -> Unit,
     onChangeOverviewDurationType: (OverviewDurationType) -> Unit,
+    historyChartViewModel: StatisticsHistoryViewModel,
 ) {
     Column(Modifier.verticalScroll(rememberScrollState())) {
         val typeNames = mapOf(
@@ -53,16 +51,18 @@ fun OverviewTab(
             onChangeOverviewType,
         )
 
-        Spacer(Modifier.size(16.dp))
+        HistorySection(historyChartViewModel)
+
+        HeatmapSection(
+            firstDayOfWeek,
+            data = statisticsData.heatmapData,
+        )
+
         WorkBreakRatioSection(
             statisticsData.overviewData,
             statisticsSettings.overviewDurationType,
             onChangeOverviewDurationType,
             typeNames = typeNames,
-        )
-        HeatmapSection(
-            firstDayOfWeek,
-            data = statisticsData.heatmapData,
         )
     }
 

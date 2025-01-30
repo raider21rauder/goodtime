@@ -15,39 +15,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.data.settings
+package com.apps.adrcotfas.goodtime.stats
 
-import kotlinx.serialization.Serializable
+import kotlinx.datetime.LocalDateTime
 
-enum class OverviewType {
-    SESSIONS,
-    TIME,
-}
-
-enum class OverviewDurationType {
-    TODAY,
-    THIS_WEEK,
-    THIS_MONTH,
-    TOTAL,
-}
-
-enum class HistoryIntervalType {
-    DAYS,
-    WEEKS,
-    MONTHS,
-    QUARTERS,
-    YEARS,
-}
-
-@Serializable
-data class StatisticsSettings(
-    val showBreaks: Boolean = false,
-    val overviewType: OverviewType = OverviewType.TIME,
-    val overviewDurationType: OverviewDurationType = OverviewDurationType.THIS_WEEK,
-    val pieChartViewType: OverviewDurationType = OverviewDurationType.THIS_MONTH,
-)
-
-@Serializable
-data class HistoryChartSettings(
-    val intervalType: HistoryIntervalType = HistoryIntervalType.DAYS,
+data class PreProcessingSession(
+    val label: String,
+    val timestamp: Long,
+    val dateTime: LocalDateTime,
+    val adjustedTimestamp: Long,
+    val adjustedDateTime: LocalDateTime,
+    val duration: Long,
+    val isWork: Boolean,
 )

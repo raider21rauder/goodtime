@@ -47,6 +47,7 @@ class SettingsRepositoryImpl(
             stringPreferencesKey("productivityReminderSettingsKey")
         val uiSettingsKey = stringPreferencesKey("uiSettingsKey")
         val statisticsSettingsKey = stringPreferencesKey("statisticsSettingsKey")
+        val historyChartSettingsKey = stringPreferencesKey("historyChartSettingsKey")
         val timerStyleKey = stringPreferencesKey("timerStyleKey")
         val workdayStartKey = intPreferencesKey("workdayStartKey")
         val firstDayOfWeekKey = intPreferencesKey("firstDayOfWeekKey")
@@ -87,6 +88,9 @@ class SettingsRepositoryImpl(
                 statisticsSettings = it[Keys.statisticsSettingsKey]?.let { s ->
                     json.decodeFromString<StatisticsSettings>(s)
                 } ?: default.statisticsSettings,
+                historyChartSettings = it[Keys.historyChartSettingsKey]?.let { h ->
+                    json.decodeFromString<HistoryChartSettings>(h)
+                } ?: default.historyChartSettings,
                 timerStyle = it[Keys.timerStyleKey]?.let { t ->
                     json.decodeFromString<TimerStyleData>(t)
                 } ?: default.timerStyle,
@@ -157,6 +161,17 @@ class SettingsRepositoryImpl(
                 ?: StatisticsSettings()
             val new = transform(previous)
             it[Keys.statisticsSettingsKey] = json.encodeToString(new)
+        }
+    }
+
+    override suspend fun updateHistoryChartSettings(
+        transform: (HistoryChartSettings) -> HistoryChartSettings,
+    ) {
+        dataStore.edit {
+            val previous = it[Keys.historyChartSettingsKey]?.let { s -> json.decodeFromString(s) }
+                ?: HistoryChartSettings()
+            val new = transform(previous)
+            it[Keys.historyChartSettingsKey] = json.encodeToString(new)
         }
     }
 

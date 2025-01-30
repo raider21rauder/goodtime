@@ -82,8 +82,11 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.mikepenz.aboutlibraries.core)
     implementation(libs.mikepenz.aboutlibraries.compose)
-
     implementation(libs.devsrsouza.compose.icons.eva)
+
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m3)
+
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
 }

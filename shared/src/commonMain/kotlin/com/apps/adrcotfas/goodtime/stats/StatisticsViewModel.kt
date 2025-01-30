@@ -28,7 +28,6 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.toExternal
-import com.apps.adrcotfas.goodtime.data.settings.HistoryViewType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -101,15 +100,15 @@ class StatisticsViewModel(
             old.selectedLabels == new.selectedLabels &&
                 old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
         }.flatMapLatest {
-            selectSessionsForHistoryPaged(it.selectedLabels, it.statisticsSettings.showBreaks)
+            selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
         }
 
-    private fun selectSessionsForHistoryPaged(
+    private fun selectSessionsForTimelinePaged(
         labels: List<String>,
         showBreaks: Boolean,
     ): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
-            localDataRepo.selectSessionsForHistoryPaged(labels, showBreaks)
+            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks)
         }.flow.map { value ->
             value.map {
                 it.toExternal()
@@ -117,6 +116,7 @@ class StatisticsViewModel(
         }
 
     private fun loadData() {
+        // on first load, selected labels are all labels
         viewModelScope.launch {
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
             _uiState.update {
@@ -149,9 +149,9 @@ class StatisticsViewModel(
                     .map { sessions ->
                         withContext(Dispatchers.Default) {
                             computeStatisticsData(
-                                uiState.firstDayOfWeek,
-                                uiState.workdayStart,
-                                sessions,
+                                sessions = sessions,
+                                firstDayOfWeek = uiState.firstDayOfWeek,
+                                workDayStart = uiState.workdayStart,
                             )
                         }
                     }
@@ -309,18 +309,6 @@ class StatisticsViewModel(
     fun setOverviewDurationType(type: OverviewDurationType) {
         viewModelScope.launch {
             settingsRepository.updateStatisticsSettings { it.copy(overviewDurationType = type) }
-        }
-    }
-
-    fun setHistoryViewType(type: HistoryViewType) {
-        viewModelScope.launch {
-            settingsRepository.updateStatisticsSettings { it.copy(historyViewType = type) }
-        }
-    }
-
-    fun setHistoryViewAggregateLabels(aggregate: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.updateStatisticsSettings { it.copy(historyViewAggregateLabels = aggregate) }
         }
     }
 
