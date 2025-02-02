@@ -314,7 +314,12 @@ fun StatisticsScreen(
                 singleSelection = false,
                 onConfirm = {
                     viewModel.setSelectedLabels(it)
-                    historyViewModel.setSelectedLabels(it)
+
+                    val labelData = uiState.labels.filter { label ->
+                        it.contains(label.name)
+                    }.map { label -> LabelData(label.name, label.colorIndex) }
+
+                    historyViewModel.setSelectedLabels(labelData)
                     showSelectVisibleLabelsDialog = false
                 },
             )

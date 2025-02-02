@@ -36,12 +36,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.DayOfWeek
 
+data class LabelData(
+    val name: String,
+    val colorIndex: Long,
+)
+
 data class StatisticsHistoryUiState(
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
     val workdayStart: Int = 0,
     val data: HistoryChartData = HistoryChartData(),
     val type: HistoryIntervalType = HistoryIntervalType.DAYS,
-    val selectedLabels: List<String> = emptyList(),
+    val selectedLabels: List<LabelData> = emptyList(),
 )
 
 class StatisticsHistoryViewModel(
@@ -58,7 +63,14 @@ class StatisticsHistoryViewModel(
         viewModelScope.launch {
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
             _uiState.update {
-                it.copy(selectedLabels = labels.map { label -> label.name })
+                it.copy(
+                    selectedLabels = labels.map { label ->
+                        LabelData(
+                            name = label.name,
+                            colorIndex = label.colorIndex,
+                        )
+                    },
+                )
             }
         }
 
@@ -88,11 +100,12 @@ class StatisticsHistoryViewModel(
                     old.workdayStart == new.workdayStart
             }.flatMapLatest {
                 localDataRepo.selectSessionsByLabels(
-                    it.selectedLabels,
+                    it.selectedLabels.map { label -> label.name },
                 ).map { sessions ->
                     withContext(Dispatchers.Default) {
                         computeHistoryChartData(
                             sessions = sessions,
+                            labels = uiState.value.selectedLabels.map { label -> label.name },
                             type = it.type,
                             firstDayOfWeek = it.firstDayOfWeek,
                             workDayStart = it.workdayStart,
@@ -111,7 +124,7 @@ class StatisticsHistoryViewModel(
         }
     }
 
-    fun setSelectedLabels(selectedLabels: List<String>) {
+    fun setSelectedLabels(selectedLabels: List<LabelData>) {
         _uiState.update { it.copy(selectedLabels = selectedLabels) }
     }
 }

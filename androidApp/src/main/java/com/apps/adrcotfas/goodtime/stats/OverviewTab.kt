@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
+import com.apps.adrcotfas.goodtime.stats.history.HistorySection
 import kotlinx.datetime.DayOfWeek
 
 @Composable

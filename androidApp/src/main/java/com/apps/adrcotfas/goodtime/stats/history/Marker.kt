@@ -15,14 +15,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.stats
+package com.apps.adrcotfas.goodtime.stats.history
 
 import android.text.Layout
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.ColorUtils
+import androidx.compose.ui.unit.sp
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisGuidelineComponent
 import com.patrykandpatrick.vico.compose.common.component.fixed
 import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
@@ -37,10 +37,6 @@ import com.patrykandpatrick.vico.core.cartesian.layer.CartesianLayerDimensions
 import com.patrykandpatrick.vico.core.cartesian.layer.CartesianLayerMargins
 import com.patrykandpatrick.vico.core.cartesian.marker.CartesianMarker
 import com.patrykandpatrick.vico.core.cartesian.marker.DefaultCartesianMarker
-import com.patrykandpatrick.vico.core.common.Fill
-import com.patrykandpatrick.vico.core.common.LayeredComponent
-import com.patrykandpatrick.vico.core.common.component.Shadow
-import com.patrykandpatrick.vico.core.common.component.ShapeComponent
 import com.patrykandpatrick.vico.core.common.component.TextComponent
 import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 
@@ -48,69 +44,40 @@ import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 internal fun rememberMarker(
     valueFormatter: DefaultCartesianMarker.ValueFormatter =
         DefaultCartesianMarker.ValueFormatter.default(),
-    showIndicator: Boolean = true,
 ): CartesianMarker {
-    val labelBackgroundShape = markerCorneredShape(CorneredShape.Corner.Rounded)
+    val labelBackgroundShape = markerCorneredShape(
+        CorneredShape.Corner.Relative(
+            sizePercent = 12,
+            treatment = CorneredShape.CornerTreatment.Rounded,
+        ),
+    )
     val labelBackground =
         rememberShapeComponent(
             fill = fill(MaterialTheme.colorScheme.surfaceContainer),
             shape = labelBackgroundShape,
             shadow =
-            shadow(radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp, y = LABEL_BACKGROUND_SHADOW_DY_DP.dp),
+            shadow(
+                radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp,
+                y = LABEL_BACKGROUND_SHADOW_DY_DP.dp,
+            ),
         )
     val label =
         rememberTextComponent(
             color = MaterialTheme.colorScheme.onSurface,
-            textAlignment = Layout.Alignment.ALIGN_CENTER,
-            padding = insets(8.dp, 4.dp),
+            textAlignment = Layout.Alignment.ALIGN_OPPOSITE,
+            lineCount = 10, // 1 for total, 1 for others, 8 for labels
+            lineHeight = 16.0.sp,
+            padding = insets(16.dp, 16.dp),
             background = labelBackground,
             minWidth = TextComponent.MinWidth.fixed(40.dp),
         )
-    val indicatorFrontComponent =
-        rememberShapeComponent(fill(MaterialTheme.colorScheme.surface), CorneredShape.Pill)
-    val indicatorCenterComponent = rememberShapeComponent(shape = CorneredShape.Pill)
-    val indicatorRearComponent = rememberShapeComponent(shape = CorneredShape.Pill)
-    val indicator =
-        LayeredComponent(
-            back = indicatorRearComponent,
-            front =
-            LayeredComponent(
-                back = indicatorCenterComponent,
-                front = indicatorFrontComponent,
-                padding = insets(5.dp),
-            ),
-            padding = insets(10.dp),
-        )
     val guideline = rememberAxisGuidelineComponent()
-    return remember(label, valueFormatter, indicator, showIndicator, guideline) {
+    return remember(label, valueFormatter, guideline) {
         object :
             DefaultCartesianMarker(
                 label = label,
                 valueFormatter = valueFormatter,
-                indicator =
-                if (showIndicator) {
-                    { color ->
-                        LayeredComponent(
-                            back =
-                            ShapeComponent(Fill(ColorUtils.setAlphaComponent(color, 38)), CorneredShape.Pill),
-                            front =
-                            LayeredComponent(
-                                back =
-                                ShapeComponent(
-                                    fill = Fill(color),
-                                    shape = CorneredShape.Pill,
-                                    shadow = Shadow(radiusDp = 12f, color = color),
-                                ),
-                                front = indicatorFrontComponent,
-                                padding = insets(5.dp),
-                            ),
-                            padding = insets(10.dp),
-                        )
-                    }
-                } else {
-                    null
-                },
-                indicatorSizeDp = 36f,
+                indicator = null,
                 guideline = guideline,
             ) {
             override fun updateLayerMargins(
@@ -122,17 +89,8 @@ internal fun rememberMarker(
                 with(context) {
                     val baseShadowMarginDp =
                         CLIPPING_FREE_SHADOW_RADIUS_MULTIPLIER * LABEL_BACKGROUND_SHADOW_RADIUS_DP
-                    var topMargin = (baseShadowMarginDp - LABEL_BACKGROUND_SHADOW_DY_DP).pixels
-                    var bottomMargin = (baseShadowMarginDp + LABEL_BACKGROUND_SHADOW_DY_DP).pixels
-                    when (labelPosition) {
-                        LabelPosition.Top,
-                        LabelPosition.AbovePoint,
-                        -> topMargin += label.getHeight(context) + tickSizeDp.pixels
-                        LabelPosition.Bottom,
-                        LabelPosition.BelowPoint,
-                        -> bottomMargin += label.getHeight(context) + tickSizeDp.pixels
-                        LabelPosition.AroundPoint -> {}
-                    }
+                    val topMargin = (baseShadowMarginDp - LABEL_BACKGROUND_SHADOW_DY_DP).pixels
+                    val bottomMargin = (baseShadowMarginDp + LABEL_BACKGROUND_SHADOW_DY_DP).pixels
                     layerMargins.ensureValuesAtLeast(top = topMargin, bottom = bottomMargin)
                 }
             }
@@ -140,6 +98,6 @@ internal fun rememberMarker(
     }
 }
 
-private const val LABEL_BACKGROUND_SHADOW_RADIUS_DP = 4f
-private const val LABEL_BACKGROUND_SHADOW_DY_DP = 2f
+private const val LABEL_BACKGROUND_SHADOW_RADIUS_DP = 2f
+private const val LABEL_BACKGROUND_SHADOW_DY_DP = 1f
 private const val CLIPPING_FREE_SHADOW_RADIUS_MULTIPLIER = 1.4f

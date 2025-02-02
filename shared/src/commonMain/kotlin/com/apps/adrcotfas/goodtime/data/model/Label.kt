@@ -29,11 +29,20 @@ data class Label(
     val isArchived: Boolean = false,
 ) {
     companion object {
+        // the internal name of the default, built-in label which cannot be deleted
         const val DEFAULT_LABEL_NAME = "PRODUCTIVITY_DEFAULT_LABEL"
-        const val DEFAULT_LABEL_COLOR_INDEX = 24L
+
+        // the internal name of the virtual label used for displaying aggregated data
+        const val OTHERS_LABEL_NAME = "PRODUCTIVITY_OTHERS_LABEL"
+        const val DEFAULT_LABEL_COLOR_INDEX = 24
+        const val OTHERS_LABEL_COLOR_INDEX = 24
         const val LABEL_NAME_MAX_LENGTH = 32
         fun defaultLabel() =
-            Label(name = DEFAULT_LABEL_NAME, colorIndex = DEFAULT_LABEL_COLOR_INDEX, orderIndex = 0)
+            Label(
+                name = DEFAULT_LABEL_NAME,
+                colorIndex = DEFAULT_LABEL_COLOR_INDEX.toLong(),
+                orderIndex = 0,
+            )
 
         fun newLabelWithRandomColorIndex(lastIndex: Int) =
             Label(name = "", colorIndex = Random.nextInt(lastIndex).toLong())

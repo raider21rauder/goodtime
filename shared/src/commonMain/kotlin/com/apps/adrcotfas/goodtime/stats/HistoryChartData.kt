@@ -34,6 +34,7 @@ import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -52,87 +53,77 @@ class HistoryChartData(
 
 fun computeHistoryChartData(
     sessions: List<Session>,
+    labels: List<String>,
     workDayStart: Int,
     firstDayOfWeek: DayOfWeek,
     type: HistoryIntervalType,
 ): HistoryChartData {
     val today = currentDateTime().date
-    val reference = when (type) {
+
+    data class IterationData(
+        val intervalStart: LocalDate,
+        val intervalLength: Int,
+        val step: DatePeriod,
+    )
+
+    val iterationData: IterationData = when (type) {
         HistoryIntervalType.DAYS -> {
-            today
+            IterationData(
+                intervalStart = today.minus(DatePeriod(days = NUM_DAYS)),
+                intervalLength = NUM_DAYS,
+                step = DatePeriod(days = 1),
+            )
         }
 
         HistoryIntervalType.WEEKS -> {
-            today.firstDayOfWeekInThisWeek(firstDayOfWeek)
+            IterationData(
+                intervalStart = today.firstDayOfWeekInThisWeek(firstDayOfWeek)
+                    .minus(DatePeriod(days = NUM_WEEKS * 7)),
+                intervalLength = NUM_WEEKS,
+                step = DatePeriod(days = 7),
+            )
         }
 
         HistoryIntervalType.MONTHS -> {
-            LocalDate(today.year, today.month, 1)
+            IterationData(
+                intervalStart = LocalDate(
+                    today.year,
+                    today.month,
+                    1,
+                ).minus(DatePeriod(months = NUM_MONTHS)),
+                intervalLength = NUM_MONTHS,
+                step = DatePeriod(months = 1),
+            )
         }
 
         HistoryIntervalType.QUARTERS -> {
-            today.firstDayOfThisQuarter()
+            IterationData(
+                intervalStart = today.firstDayOfThisQuarter()
+                    .minus(DatePeriod(months = NUM_QUARTERS * 3)),
+                intervalLength = NUM_QUARTERS,
+                step = DatePeriod(months = 3),
+            )
         }
 
         HistoryIntervalType.YEARS -> {
-            LocalDate(today.year, 1, 1)
+            IterationData(
+                intervalStart = LocalDate(today.year, 1, 1).minus(DatePeriod(years = NUM_YEARS)),
+                intervalLength = NUM_YEARS,
+                step = DatePeriod(years = 1),
+            )
         }
     }
 
-    val numDummyValues = when (type) {
-        HistoryIntervalType.DAYS -> NUM_DAYS
-        HistoryIntervalType.WEEKS -> NUM_WEEKS
-        HistoryIntervalType.MONTHS -> NUM_MONTHS
-        HistoryIntervalType.QUARTERS -> NUM_QUARTERS
-        HistoryIntervalType.YEARS -> NUM_YEARS
+    // timestamp to (label to duration)
+    val intermediateData = mutableMapOf<LocalDate, Map<String, Long>>()
+
+    // Initialize the data with zeros to default label
+    var tmpDate = iterationData.intervalStart
+    repeat(iterationData.intervalLength + 1) {
+        intermediateData[tmpDate] = labels.associateWith { 0L }
+        tmpDate = tmpDate.plus(iterationData.step)
     }
 
-    val x = mutableListOf<LocalDate>()
-    val y = mutableMapOf(Label.DEFAULT_LABEL_NAME to MutableList(numDummyValues) { 0L })
-
-    var tmpDate = reference
-
-    // Initialize the data with zeros
-    when (type) {
-        HistoryIntervalType.DAYS -> {
-            repeat(numDummyValues) {
-                x.add(tmpDate)
-                tmpDate = tmpDate.minus(DatePeriod(days = 1))
-            }
-        }
-
-        HistoryIntervalType.WEEKS -> {
-            repeat(numDummyValues) {
-                x.add(tmpDate)
-                tmpDate = tmpDate.minus(DatePeriod(days = 7))
-            }
-        }
-
-        HistoryIntervalType.MONTHS -> {
-            repeat(numDummyValues) {
-                x.add(tmpDate)
-                tmpDate = tmpDate.minus(DatePeriod(months = 1))
-            }
-        }
-
-        HistoryIntervalType.QUARTERS -> {
-            repeat(numDummyValues) {
-                x.add(tmpDate)
-                tmpDate = tmpDate.minus(DatePeriod(months = 3))
-            }
-        }
-
-        HistoryIntervalType.YEARS -> {
-            repeat(numDummyValues) {
-                x.add(tmpDate)
-                tmpDate = tmpDate.minus(DatePeriod(years = 1))
-            }
-        }
-    }
-
-    x.reverse()
-
-    val emptyList = List(numDummyValues) { 0L }
     sessions.asSequence().map {
         val timestamp = it.timestamp - it.duration.minutes.inWholeMilliseconds / 2
         val adjustedTimestamp = timestamp - workDayStart.seconds.inWholeMilliseconds
@@ -150,51 +141,84 @@ fun computeHistoryChartData(
         val label = session.label
 
         if (session.isWork) {
-            when (type) {
-                HistoryIntervalType.DAYS -> {
-                    if (date in x) {
-                        y[label] = (y[label] ?: emptyList.toMutableList()).apply {
-                            this[x.indexOf(date)] += session.duration
-                        }
-                    }
-                }
+            val dateToConsider = when (type) {
+                HistoryIntervalType.DAYS -> date
+                HistoryIntervalType.WEEKS -> date.firstDayOfWeekInThisWeek(firstDayOfWeek)
+                HistoryIntervalType.MONTHS -> LocalDate(date.year, date.month, 1)
+                HistoryIntervalType.QUARTERS -> date.firstDayOfThisQuarter()
+                HistoryIntervalType.YEARS -> LocalDate(date.year, 1, 1)
+            }
 
-                HistoryIntervalType.WEEKS -> {
-                    val startOfWeek = date.firstDayOfWeekInThisWeek(firstDayOfWeek)
-                    if (startOfWeek in x) {
-                        y[label] = (y[label] ?: emptyList.toMutableList()).apply {
-                            this[x.indexOf(startOfWeek)] += session.duration
-                        }
-                    }
-                }
-
-                HistoryIntervalType.MONTHS -> {
-                    val startOfMonth = LocalDate(date.year, date.month, 1)
-                    if (startOfMonth in x) {
-                        y[label] = (y[label] ?: emptyList.toMutableList()).apply {
-                            this[x.indexOf(startOfMonth)] += session.duration
-                        }
-                    }
-                }
-
-                HistoryIntervalType.QUARTERS -> {
-                    val startOfQuarter = date.firstDayOfThisQuarter()
-                    if (startOfQuarter in x) {
-                        y[label] = (y[label] ?: emptyList.toMutableList()).apply {
-                            this[x.indexOf(startOfQuarter)] += session.duration
-                        }
-                    }
-                }
-                HistoryIntervalType.YEARS -> {
-                    val startOfYear = LocalDate(date.year, 1, 1)
-                    if (startOfYear in x) {
-                        y[label] = (y[label] ?: emptyList.toMutableList()).apply {
-                            this[x.indexOf(startOfYear)] += session.duration
-                        }
-                    }
-                }
+            if (dateToConsider in intermediateData.keys) {
+                val innerMap =
+                    intermediateData.getOrElse(dateToConsider) { mutableMapOf(label to 0L) }
+                        .toMutableMap()
+                innerMap[label] = innerMap.getOrElse(label) { 0L } + session.duration
+                intermediateData[dateToConsider] = innerMap
             }
         }
     }
-    return HistoryChartData(x = x.map { it.toEpochMilliseconds() }, y = y)
+    // Aggregate data if needed
+    intermediateData.forEach {
+        val aggregatedData = aggregateDataIfNeeded(it.value)
+        intermediateData[it.key] = aggregatedData
+    }
+
+    // prepare data structures ready for the chart
+    val x = mutableListOf<Long>()
+    val y = mutableMapOf<String, List<Long>>()
+
+    val emptyList = List(iterationData.intervalLength + 1) { 0L }
+    intermediateData.asIterable().forEachIndexed { index, entry ->
+        x.add(entry.key.toEpochMilliseconds())
+
+        entry.value.forEach { (label, duration) ->
+            y[label] = (y[label] ?: emptyList).toMutableList().apply {
+                this[index] = duration
+            }
+        }
+    }
+
+    return HistoryChartData(x = x, y = y)
+}
+
+/**
+ * Aggregates the [data] if needed by grouping the small values according to [threshold] into an "Others" label.
+ */
+fun aggregateDataIfNeeded(
+    data: Map<String, Long>,
+    threshold: Double = 0.05,
+    maxLabels: Int = 8,
+): Map<String, Long> {
+    val sortedData = data.entries.sortedByDescending { it.value }
+    val totalValue = sortedData.sumOf { it.value }
+
+    if (totalValue == 0L) return data
+
+    val smallValues = mutableListOf<Map.Entry<String, Long>>()
+    val largeValues = mutableListOf<Map.Entry<String, Long>>()
+
+    for (entry in sortedData) {
+        if (entry.value.toDouble() / totalValue < threshold) {
+            smallValues.add(entry)
+        } else {
+            largeValues.add(entry)
+        }
+    }
+
+    return if (largeValues.size + smallValues.size > maxLabels) {
+        val smallValuesSum = smallValues.sumOf { it.value }
+        val (mainMapEntries, otherMapEntries) = if (largeValues.size <= maxLabels) {
+            largeValues to emptyList()
+        } else {
+            largeValues.take(maxLabels - 1) to largeValues.drop(maxLabels - 1)
+        }
+        val othersMap =
+            mapOf(Label.OTHERS_LABEL_NAME to otherMapEntries.sumOf { it.value } + smallValuesSum)
+
+        val result = mainMapEntries.associate { it.key to it.value } + othersMap
+        result
+    } else {
+        largeValues.associate { it.key to it.value }
+    }
 }
