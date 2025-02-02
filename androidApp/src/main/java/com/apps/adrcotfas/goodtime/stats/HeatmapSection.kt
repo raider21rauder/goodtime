@@ -51,6 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.common.Time
+import com.apps.adrcotfas.goodtime.common.at
 import com.apps.adrcotfas.goodtime.common.convertSpToDp
 import com.apps.adrcotfas.goodtime.common.endOfWeekInThisWeek
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
@@ -59,6 +60,7 @@ import com.apps.adrcotfas.goodtime.common.firstDayOfWeekInThisWeek
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.daysUntil
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import java.time.format.TextStyle
@@ -76,11 +78,15 @@ fun HeatmapSection(
     val locale = remember { context.resources.configuration.locales[0] }
 
     val endLocalDate = remember { Time.currentDateTime().date }
-    val startLocalDate = remember { endLocalDate.minus(DatePeriod(years = 1)) }
+    val startLocalDate = remember { endLocalDate.minus(DatePeriod(days = 363)) }
 
     val startAtStartOfWeek = remember { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
     val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
-    val numberOfWeeks = remember { startAtStartOfWeek.daysUntil(endAtEndOfWeek) / 7 }
+    val numberOfWeeks = remember {
+        (startLocalDate.daysUntil(endAtEndOfWeek) / 7).let {
+            if (firstDayOfWeek != DayOfWeek.MONDAY) it + 1 else it
+        }
+    }
 
     val cellSize = remember { (convertSpToDp(density, 11.sp.value) * 1.5f).dp }
     val cellSpacing = remember { cellSize / 6f }
@@ -130,10 +136,16 @@ fun HeatmapSection(
                         modifier = Modifier
                             .size(cellSize),
                     )
+                    val labeledDays = mutableListOf(1, 3, 5).apply {
+                        if (firstDayOfWeek == DayOfWeek.MONDAY) add(7)
+                    }
+
                     daysInOrder.forEach {
-                        if (it.value % 2 == 1) {
+                        if (labeledDays.contains(it.isoDayNumber)) {
                             Text(
-                                modifier = Modifier.padding(cellSpacing).height(cellSize),
+                                modifier = Modifier
+                                    .padding(cellSpacing)
+                                    .height(cellSize),
                                 text = it.getDisplayName(TextStyle.SHORT, locale),
                                 style = MaterialTheme.typography.labelSmall,
                             )
@@ -180,7 +192,7 @@ fun HeatmapSection(
 
                                 daysInOrder.forEach { dayOfWeek ->
                                     val currentDay =
-                                        currentWeekStart.plus(DatePeriod(days = dayOfWeek.value - 1))
+                                        currentWeekStart.at(dayOfWeek)
                                     if (currentDay in startLocalDate..endLocalDate) {
                                         Box(modifier = Modifier.padding(cellSpacing)) {
                                             Box(
@@ -199,10 +211,17 @@ fun HeatmapSection(
                                                     .clip(MaterialTheme.shapes.extraSmall)
                                                     .background(
                                                         color.copy(
-                                                            alpha = data[currentDay]?.plus(0.2f) ?: 0f,
+                                                            alpha = data[currentDay]?.plus(0.2f)
+                                                                ?: 0f,
                                                         ),
                                                     ),
-                                            )
+                                            ) {
+                                                Text(
+                                                    modifier = Modifier.align(Alignment.Center),
+                                                    text = currentDay.dayOfMonth.toString(),
+                                                    style = MaterialTheme.typography.labelSmall,
+                                                )
+                                            }
                                         }
                                     } else {
                                         Box(

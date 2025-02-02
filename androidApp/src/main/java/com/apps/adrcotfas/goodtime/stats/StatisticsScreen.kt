@@ -20,6 +20,8 @@ package com.apps.adrcotfas.goodtime.stats
 import android.text.format.DateFormat
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -125,239 +127,243 @@ fun StatisticsScreen(
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
         val titles = listOf("Overview", "Timeline")
 
-        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
-            AnimatedVisibility(!uiState.showSelectionUi) {
-                SecondaryTabRow(
-                    selectedTabIndex = type.ordinal,
-                    modifier = Modifier.wrapContentSize(),
-                    divider = { SubtleHorizontalDivider() },
-                ) {
-                    titles.forEachIndexed { index, title ->
-                        Tab(
-                            selected = type == TabType.entries[index],
-                            onClick = { type = TabType.entries[index] },
-                            text = { Text(title) },
+        AnimatedVisibility(!uiState.isLoading, enter = fadeIn(), exit = fadeOut()) {
+            Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
+                AnimatedVisibility(!uiState.showSelectionUi) {
+                    SecondaryTabRow(
+                        selectedTabIndex = type.ordinal,
+                        modifier = Modifier.wrapContentSize(),
+                        divider = { SubtleHorizontalDivider() },
+                    ) {
+                        titles.forEachIndexed { index, title ->
+                            Tab(
+                                selected = type == TabType.entries[index],
+                                onClick = { type = TabType.entries[index] },
+                                text = { Text(title) },
+                            )
+                        }
+                    }
+                }
+
+                when (type) {
+                    TabType.Overview -> OverviewTab(
+                        firstDayOfWeek = uiState.firstDayOfWeek,
+                        statisticsSettings = uiState.statisticsSettings,
+                        statisticsData = uiState.statisticsData,
+                        onChangeOverviewType = {
+                            viewModel.setOverviewType(it)
+                        },
+                        onChangeOverviewDurationType = {
+                            viewModel.setOverviewDurationType(it)
+                        },
+                        historyChartViewModel = historyViewModel,
+                    )
+
+                    TabType.Timeline -> {
+                        TimelineTab(
+                            listState = historyListState,
+                            sessions = sessionsPagingItems,
+                            isSelectAllEnabled = uiState.isSelectAllEnabled,
+                            selectedSessions = uiState.selectedSessions,
+                            unselectedSessions = uiState.unselectedSessions,
+                            labels = uiState.labels,
+                            onClick = { session ->
+                                if (uiState.showSelectionUi) {
+                                    viewModel.toggleSessionIsSelected(session.id)
+                                } else {
+                                    viewModel.onAddEditSession(session)
+                                }
+                            },
+                            onLongClick = {
+                                viewModel.toggleSessionIsSelected(it.id)
+                            },
                         )
                     }
                 }
             }
 
-            when (type) {
-                TabType.Overview -> OverviewTab(
-                    firstDayOfWeek = uiState.firstDayOfWeek,
-                    statisticsSettings = uiState.statisticsSettings,
-                    statisticsData = uiState.statisticsData,
-                    onChangeOverviewType = {
-                        viewModel.setOverviewType(it)
-                    },
-                    onChangeOverviewDurationType = {
-                        viewModel.setOverviewDurationType(it)
-                    },
-                    historyChartViewModel = historyViewModel,
-                )
+            val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+            val scope = rememberCoroutineScope()
 
-                TabType.Timeline -> {
-                    TimelineTab(
-                        listState = historyListState,
-                        sessions = sessionsPagingItems,
-                        isSelectAllEnabled = uiState.isSelectAllEnabled,
-                        selectedSessions = uiState.selectedSessions,
-                        unselectedSessions = uiState.unselectedSessions,
+            val hideSheet = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    if (!sheetState.isVisible) {
+                        viewModel.clearAddEditSession()
+                    }
+                }
+            }
+
+            if (uiState.showAddSession) {
+                ModalBottomSheet(
+                    onDismissRequest = { hideSheet() },
+                    sheetState = sheetState,
+                    dragHandle = {
+                        DragHandle(
+                            buttonText = "Save",
+                            isEnabled = uiState.canSave,
+                            onClose = { hideSheet() },
+                            onClick = {
+                                viewModel.saveSession()
+                                hideSheet()
+                            },
+                        )
+                    },
+                ) {
+                    AddEditSessionContent(
+                        session = uiState.newSession,
                         labels = uiState.labels,
-                        onClick = { session ->
-                            if (uiState.showSelectionUi) {
-                                viewModel.toggleSessionIsSelected(session.id)
-                            } else {
-                                viewModel.onAddEditSession(session)
-                            }
+                        showBreaks = uiState.statisticsSettings.showBreaks,
+                        onUpdate = {
+                            viewModel.updateSessionToEdit(it)
                         },
-                        onLongClick = {
-                            viewModel.toggleSessionIsSelected(it.id)
+                        onValidate = {
+                            viewModel.setCanSave(it)
                         },
+                        onOpenLabelSelector = { showSelectLabelDialog = true },
+                        onOpenDatePicker = { showDatePicker = true },
+                        onOpenTimePicker = { showTimePicker = true },
                     )
                 }
             }
-        }
+            if (showDatePicker) {
+                val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                val now = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                val tomorrowMillis =
+                    LocalDateTime(
+                        now.date.plus(DatePeriod(days = 1)),
+                        LocalTime(hour = 0, minute = 0),
+                    ).toInstant(
+                        TimeZone.currentSystemDefault(),
+                    ).toEpochMilliseconds()
 
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        val scope = rememberCoroutineScope()
-
-        val hideSheet = {
-            scope.launch { sheetState.hide() }.invokeOnCompletion {
-                if (!sheetState.isVisible) {
-                    viewModel.clearAddEditSession()
-                }
-            }
-        }
-
-        if (uiState.showAddSession) {
-            ModalBottomSheet(
-                onDismissRequest = { hideSheet() },
-                sheetState = sheetState,
-                dragHandle = {
-                    DragHandle(
-                        buttonText = "Save",
-                        isEnabled = uiState.canSave,
-                        onClose = { hideSheet() },
-                        onClick = {
-                            viewModel.saveSession()
-                            hideSheet()
-                        },
-                    )
-                },
-            ) {
-                AddEditSessionContent(
-                    session = uiState.newSession,
-                    labels = uiState.labels,
-                    showBreaks = uiState.statisticsSettings.showBreaks,
-                    onUpdate = {
-                        viewModel.updateSessionToEdit(it)
+                val datePickerState = rememberDatePickerState(
+                    initialSelectedDateMillis = dateTime.toInstant(TimeZone.currentSystemDefault())
+                        .toEpochMilliseconds(),
+                    selectableDates = object : SelectableDates {
+                        override fun isSelectableDate(utcTimeMillis: Long) =
+                            utcTimeMillis < tomorrowMillis
                     },
-                    onValidate = {
-                        viewModel.setCanSave(it)
+                )
+                DatePickerDialog(
+                    onDismiss = { showDatePicker = false },
+                    onConfirm = {
+                        val newDate = Instant.fromEpochMilliseconds(it)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                        val newDateTime = LocalDateTime(newDate.date, dateTime.time)
+                        val newTimestamp =
+                            newDateTime.toInstant(TimeZone.currentSystemDefault())
+                                .toEpochMilliseconds()
+                        viewModel.updateSessionToEdit(
+                            uiState.newSession.copy(
+                                timestamp = newTimestamp,
+                            ),
+                        )
+                        showDatePicker = false
                     },
-                    onOpenLabelSelector = { showSelectLabelDialog = true },
-                    onOpenDatePicker = { showDatePicker = true },
-                    onOpenTimePicker = { showTimePicker = true },
+                    datePickerState = datePickerState,
                 )
             }
-        }
-        if (showDatePicker) {
-            val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-            val now = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-            val tomorrowMillis =
-                LocalDateTime(
-                    now.date.plus(DatePeriod(days = 1)),
-                    LocalTime(hour = 0, minute = 0),
-                ).toInstant(
-                    TimeZone.currentSystemDefault(),
-                ).toEpochMilliseconds()
+            if (showTimePicker) {
+                val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                val time = dateTime.time
+                val timePickerState = rememberTimePickerState(
+                    initialHour = time.hour,
+                    initialMinute = time.minute,
+                    is24Hour = DateFormat.is24HourFormat(context),
+                )
+                TimePicker(
+                    onDismiss = { showTimePicker = false },
+                    onConfirm = {
+                        val newTime = it.toLocalTime()
+                        val newDateTime = LocalDateTime(dateTime.date, newTime)
+                        val newTimestamp =
+                            newDateTime.toInstant(TimeZone.currentSystemDefault())
+                                .toEpochMilliseconds()
 
-            val datePickerState = rememberDatePickerState(
-                initialSelectedDateMillis = dateTime.toInstant(TimeZone.currentSystemDefault())
-                    .toEpochMilliseconds(),
-                selectableDates = object : SelectableDates {
-                    override fun isSelectableDate(utcTimeMillis: Long) =
-                        utcTimeMillis < tomorrowMillis
-                },
-            )
-            DatePickerDialog(
-                onDismiss = { showDatePicker = false },
-                onConfirm = {
-                    val newDate = Instant.fromEpochMilliseconds(it)
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
-                    val newDateTime = LocalDateTime(newDate.date, dateTime.time)
-                    val newTimestamp =
-                        newDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-                    viewModel.updateSessionToEdit(
-                        uiState.newSession.copy(
-                            timestamp = newTimestamp,
-                        ),
-                    )
-                    showDatePicker = false
-                },
-                datePickerState = datePickerState,
-            )
-        }
-        if (showTimePicker) {
-            val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-            val time = dateTime.time
-            val timePickerState = rememberTimePickerState(
-                initialHour = time.hour,
-                initialMinute = time.minute,
-                is24Hour = DateFormat.is24HourFormat(context),
-            )
-            TimePicker(
-                onDismiss = { showTimePicker = false },
-                onConfirm = {
-                    val newTime = it.toLocalTime()
-                    val newDateTime = LocalDateTime(dateTime.date, newTime)
-                    val newTimestamp =
-                        newDateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+                        viewModel.updateSessionToEdit(
+                            uiState.newSession.copy(
+                                timestamp = newTimestamp,
+                            ),
+                        )
+                        showTimePicker = false
+                    },
+                    timePickerState = timePickerState,
+                )
+            }
+            if (showSelectLabelDialog) {
+                SelectLabelDialog(
+                    title = "Select label",
+                    labels = uiState.labels,
+                    initialSelectedLabels = persistentListOf(uiState.newSession.label),
+                    onDismiss = { showSelectLabelDialog = false },
+                    singleSelection = true,
+                    onConfirm = {
+                        viewModel.updateSessionToEdit(
+                            uiState.newSession.copy(
+                                label = it.first(),
+                            ),
+                        )
+                        showSelectLabelDialog = false
+                    },
+                )
+            }
+            if (showSelectVisibleLabelsDialog) {
+                SelectLabelDialog(
+                    title = "Select labels",
+                    labels = uiState.labels,
+                    initialSelectedLabels = uiState.selectedLabels,
+                    onDismiss = { showSelectVisibleLabelsDialog = false },
+                    singleSelection = false,
+                    onConfirm = {
+                        viewModel.setSelectedLabels(it)
 
-                    viewModel.updateSessionToEdit(
-                        uiState.newSession.copy(
-                            timestamp = newTimestamp,
-                        ),
-                    )
-                    showTimePicker = false
-                },
-                timePickerState = timePickerState,
-            )
-        }
-        if (showSelectLabelDialog) {
-            SelectLabelDialog(
-                title = "Select label",
-                labels = uiState.labels,
-                initialSelectedLabels = persistentListOf(uiState.newSession.label),
-                onDismiss = { showSelectLabelDialog = false },
-                singleSelection = true,
-                onConfirm = {
-                    viewModel.updateSessionToEdit(
-                        uiState.newSession.copy(
-                            label = it.first(),
-                        ),
-                    )
-                    showSelectLabelDialog = false
-                },
-            )
-        }
-        if (showSelectVisibleLabelsDialog) {
-            SelectLabelDialog(
-                title = "Select labels",
-                labels = uiState.labels,
-                initialSelectedLabels = uiState.selectedLabels,
-                onDismiss = { showSelectVisibleLabelsDialog = false },
-                singleSelection = false,
-                onConfirm = {
-                    viewModel.setSelectedLabels(it)
+                        val labelData = uiState.labels.filter { label ->
+                            it.contains(label.name)
+                        }.map { label -> LabelData(label.name, label.colorIndex) }
 
-                    val labelData = uiState.labels.filter { label ->
-                        it.contains(label.name)
-                    }.map { label -> LabelData(label.name, label.colorIndex) }
-
-                    historyViewModel.setSelectedLabels(labelData)
-                    showSelectVisibleLabelsDialog = false
-                },
-            )
-        }
-        if (showDeleteConfirmationDialog) {
-            ConfirmationDialog(
-                title = "Delete selected sessions?",
-                onDismiss = { showDeleteConfirmationDialog = false },
-                onConfirm = {
-                    viewModel.deleteSelectedSessions()
-                    viewModel.clearShowSelectionUi()
-                    showDeleteConfirmationDialog = false
-                },
-            )
-        }
-        if (showEditBulkLabelDialog) {
-            SelectLabelDialog(
-                title = "Edit label",
-                labels = uiState.labels,
-                onDismiss = { showEditBulkLabelDialog = false },
-                singleSelection = true,
-                onConfirm = {
-                    viewModel.setSelectedLabelToBulkEdit(it.first())
-                    showEditBulkLabelDialog = false
-                    showEditLabelConfirmationDialog = true
-                },
-            )
-        }
-        if (showEditLabelConfirmationDialog) {
-            ConfirmationDialog(
-                title = "Change label of selected sessions?",
-                onDismiss = { showEditLabelConfirmationDialog = false },
-                onConfirm = {
-                    viewModel.bulkEditLabel()
-                    viewModel.clearShowSelectionUi()
-                    showEditLabelConfirmationDialog = false
-                },
-            )
+                        historyViewModel.setSelectedLabels(labelData)
+                        showSelectVisibleLabelsDialog = false
+                    },
+                )
+            }
+            if (showDeleteConfirmationDialog) {
+                ConfirmationDialog(
+                    title = "Delete selected sessions?",
+                    onDismiss = { showDeleteConfirmationDialog = false },
+                    onConfirm = {
+                        viewModel.deleteSelectedSessions()
+                        viewModel.clearShowSelectionUi()
+                        showDeleteConfirmationDialog = false
+                    },
+                )
+            }
+            if (showEditBulkLabelDialog) {
+                SelectLabelDialog(
+                    title = "Edit label",
+                    labels = uiState.labels,
+                    onDismiss = { showEditBulkLabelDialog = false },
+                    singleSelection = true,
+                    onConfirm = {
+                        viewModel.setSelectedLabelToBulkEdit(it.first())
+                        showEditBulkLabelDialog = false
+                        showEditLabelConfirmationDialog = true
+                    },
+                )
+            }
+            if (showEditLabelConfirmationDialog) {
+                ConfirmationDialog(
+                    title = "Change label of selected sessions?",
+                    onDismiss = { showEditLabelConfirmationDialog = false },
+                    onConfirm = {
+                        viewModel.bulkEditLabel()
+                        viewModel.clearShowSelectionUi()
+                        showEditLabelConfirmationDialog = false
+                    },
+                )
+            }
         }
     }
 }

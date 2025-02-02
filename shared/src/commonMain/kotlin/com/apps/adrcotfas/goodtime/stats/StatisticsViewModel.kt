@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -67,7 +68,7 @@ data class StatisticsUiState(
 
     // Overview Tab related fields
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
-    val workdayStart: Int = 0,
+    val workDayStart: Int = 0,
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val statisticsData: StatisticsData = StatisticsData(),
 ) {
@@ -98,7 +99,7 @@ class StatisticsViewModel(
     val pagedSessions: Flow<PagingData<Session>> =
         uiState.distinctUntilChanged { old, new ->
             old.selectedLabels == new.selectedLabels &&
-                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
+                    old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
         }.flatMapLatest {
             selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
         }
@@ -116,6 +117,14 @@ class StatisticsViewModel(
         }
 
     private fun loadData() {
+        val settingsFlow = settingsRepository.settings.distinctUntilChanged { old, new ->
+            old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart
+        }
+        val uiStateFlow = uiState.distinctUntilChanged { old, new ->
+            old.selectedLabels == new.selectedLabels
+        }
+
         // on first load, selected labels are all labels
         viewModelScope.launch {
             val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
@@ -123,40 +132,42 @@ class StatisticsViewModel(
                 it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
             }
         }
+
         viewModelScope.launch {
-            settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.statisticsSettings == new.statisticsSettings &&
-                    old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart
-            }.collect { settings ->
-                _uiState.update {
-                    it.copy(
-                        firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
-                        workdayStart = settings.workdayStart,
-                        statisticsSettings = settings.statisticsSettings,
+            settingsRepository.settings.map { it.statisticsSettings }.collect {
+                _uiState.update { state ->
+                    state.copy(
+                        statisticsSettings = it,
                     )
                 }
             }
         }
 
         viewModelScope.launch {
-            uiState.distinctUntilChanged { old, new ->
-                old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart &&
-                    old.selectedLabels == new.selectedLabels
-            }.flatMapLatest { uiState ->
-                localDataRepo.selectSessionsByLabels(uiState.selectedLabels)
+            combine(settingsFlow, uiStateFlow) { settings, uiState ->
+                settings to uiState
+            }.flatMapLatest {
+                val firstDayOfWeek = DayOfWeek(it.first.firstDayOfWeek)
+                val workDayStart = it.first.workdayStart
+                _uiState.update { uiState ->
+                    uiState.copy(
+                        isLoading = true,
+                        workDayStart = workDayStart,
+                        firstDayOfWeek = firstDayOfWeek,
+                    )
+                }
+                localDataRepo.selectSessionsByLabels(it.second.selectedLabels)
                     .map { sessions ->
                         withContext(Dispatchers.Default) {
                             computeStatisticsData(
                                 sessions = sessions,
-                                firstDayOfWeek = uiState.firstDayOfWeek,
-                                workDayStart = uiState.workdayStart,
+                                firstDayOfWeek = firstDayOfWeek,
+                                workDayStart = workDayStart,
                             )
                         }
                     }
             }.collect { data ->
-                _uiState.update { it.copy(statisticsData = data) }
+                _uiState.update { it.copy(statisticsData = data, isLoading = false) }
             }
         }
     }

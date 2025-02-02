@@ -136,6 +136,14 @@ fun LocalDate.isoWeekNumber(): Int {
     return currentCalendarWeek
 }
 
+fun LocalDate.at(firstDayOfWeek: DayOfWeek): LocalDate {
+    var date = this
+    while (date.dayOfWeek != firstDayOfWeek) {
+        date = date.plus(1, DateTimeUnit.DAY)
+    }
+    return date
+}
+
 fun LocalDate.firstDayOfWeekInMonth(startDayOfWeek: DayOfWeek): LocalDate {
     val firstDayOfMonth = LocalDate(year, month, 1)
     var date = firstDayOfMonth
