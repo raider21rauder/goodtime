@@ -30,6 +30,7 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 data class SessionOverviewData(
+    // TODO: consider including the color index in this map
     val workTodayPerLabel: Map<String, Long> = emptyMap(),
     val workSessionsToday: Long = 0,
     val workToday: Long = 0,
@@ -183,19 +184,19 @@ fun computeStatisticsData(
     }
 
     val overviewData = SessionOverviewData(
-        workTodayPerLabel = workTodayPerLabel,
+        workTodayPerLabel = aggregateDataIfNeeded(workTodayPerLabel),
         workSessionsToday = workSessionsToday,
         workToday = workToday,
         breakToday = breakToday,
-        workThisWeekPerLabel = workThisWeekPerLabel,
+        workThisWeekPerLabel = aggregateDataIfNeeded(workThisWeekPerLabel),
         workSessionsThisWeek = workSessionsThisWeek,
         workThisWeek = workThisWeek,
         breakThisWeek = breakThisWeek,
-        workThisMonthPerLabel = workThisMonthPerLabel,
+        workThisMonthPerLabel = aggregateDataIfNeeded(workThisMonthPerLabel),
         workSessionsThisMonth = workSessionsThisMonth,
         workThisMonth = workThisMonth,
         breakThisMonth = breakThisMonth,
-        workTotalPerLabel = workTotalPerLabel,
+        workTotalPerLabel = aggregateDataIfNeeded(workTotalPerLabel),
         workSessionsTotal = workSessionsTotal,
         workTotal = workTotal,
         breakTotal = breakTotal,

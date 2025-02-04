@@ -42,8 +42,10 @@ robolectric = "4.14.1"
 turbine = "1.2.0"
 
 vico = "2.1.0-alpha.1"
+androidchart = "3.1.0.25"
 
 [libraries]
+androidchart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-foundation" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }

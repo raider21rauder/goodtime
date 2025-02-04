@@ -77,6 +77,14 @@ fun OverviewTab(
             onChangeOverviewDurationType,
             typeNames = typeNames,
         )
+
+        PieChartSection(
+            statisticsData.overviewData,
+            statisticsSettings.overviewDurationType,
+            onChangeOverviewDurationType,
+            typeNames = typeNames,
+            selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
+        )
     }
 
     // TODO:

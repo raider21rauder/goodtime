@@ -42,7 +42,7 @@ data class LabelData(
 )
 
 data class StatisticsHistoryUiState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
     val workdayStart: Int = 0,
     val data: HistoryChartData = HistoryChartData(),
@@ -78,8 +78,8 @@ class StatisticsHistoryViewModel(
         viewModelScope.launch {
             settingsRepository.settings.distinctUntilChanged { old, new ->
                 old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
-                        old.firstDayOfWeek == new.firstDayOfWeek &&
-                        old.workdayStart == new.workdayStart
+                    old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart
             }.collect { settings ->
                 val type = settings.historyChartSettings.intervalType
                 val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
@@ -96,9 +96,9 @@ class StatisticsHistoryViewModel(
         viewModelScope.launch {
             uiState.distinctUntilChanged { old, new ->
                 old.selectedLabels == new.selectedLabels &&
-                        old.type == new.type &&
-                        old.firstDayOfWeek == new.firstDayOfWeek &&
-                        old.workdayStart == new.workdayStart
+                    old.type == new.type &&
+                    old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart
             }.flatMapLatest {
                 localDataRepo.selectSessionsByLabels(
                     it.selectedLabels.map { label -> label.name },
@@ -114,7 +114,7 @@ class StatisticsHistoryViewModel(
                     }
                 }
             }.collect { data ->
-                _uiState.update { it.copy(data = data) }
+                _uiState.update { it.copy(data = data, isLoading = false) }
             }
         }
     }

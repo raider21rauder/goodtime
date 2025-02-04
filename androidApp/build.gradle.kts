@@ -86,6 +86,7 @@ dependencies {
 
     implementation(libs.vico.compose)
     implementation(libs.vico.compose.m3)
+    implementation(libs.androidchart)
 
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)

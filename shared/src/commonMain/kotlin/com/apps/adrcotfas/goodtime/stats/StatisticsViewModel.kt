@@ -99,7 +99,7 @@ class StatisticsViewModel(
     val pagedSessions: Flow<PagingData<Session>> =
         uiState.distinctUntilChanged { old, new ->
             old.selectedLabels == new.selectedLabels &&
-                    old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
+                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
         }.flatMapLatest {
             selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
         }
@@ -119,7 +119,7 @@ class StatisticsViewModel(
     private fun loadData() {
         val settingsFlow = settingsRepository.settings.distinctUntilChanged { old, new ->
             old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart
+                old.workdayStart == new.workdayStart
         }
         val uiStateFlow = uiState.distinctUntilChanged { old, new ->
             old.selectedLabels == new.selectedLabels

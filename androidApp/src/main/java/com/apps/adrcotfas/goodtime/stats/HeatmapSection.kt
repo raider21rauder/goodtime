@@ -84,7 +84,7 @@ fun HeatmapSection(
     val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
     val numberOfWeeks = remember {
         (startLocalDate.daysUntil(endAtEndOfWeek) / 7).let {
-            if (firstDayOfWeek != DayOfWeek.MONDAY) it + 1 else it
+            if (firstDayOfWeek != DayOfWeek.MONDAY || endLocalDate != endAtEndOfWeek) it + 1 else it
         }
     }
 
@@ -136,9 +136,7 @@ fun HeatmapSection(
                         modifier = Modifier
                             .size(cellSize),
                     )
-                    val labeledDays = mutableListOf(1, 3, 5).apply {
-                        if (firstDayOfWeek == DayOfWeek.MONDAY) add(7)
-                    }
+                    val labeledDays = mutableListOf(1, 3, 5)
 
                     daysInOrder.forEach {
                         if (labeledDays.contains(it.isoDayNumber)) {
@@ -171,12 +169,14 @@ fun HeatmapSection(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 val currentWeekStart =
-                                    startAtStartOfWeek.plus(DatePeriod(days = index * 7))
+                                    remember(index) { startAtStartOfWeek.plus(DatePeriod(days = index * 7)) }
 
-                                val monthName = currentWeekStart.month.getDisplayName(
-                                    TextStyle.SHORT,
-                                    locale,
-                                )
+                                val monthName = remember(currentWeekStart) {
+                                    currentWeekStart.month.getDisplayName(
+                                        TextStyle.SHORT,
+                                        locale,
+                                    )
+                                }
                                 if (currentWeekStart == startAtStartOfWeek || currentWeekStart == currentWeekStart.firstDayOfWeekInMonth(
                                         firstDayOfWeek,
                                     )
@@ -191,8 +191,10 @@ fun HeatmapSection(
                                 }
 
                                 daysInOrder.forEach { dayOfWeek ->
-                                    val currentDay =
-                                        currentWeekStart.at(dayOfWeek)
+                                    val currentDay = remember(
+                                        index,
+                                        dayOfWeek,
+                                    ) { currentWeekStart.at(dayOfWeek) }
                                     if (currentDay in startLocalDate..endLocalDate) {
                                         Box(modifier = Modifier.padding(cellSpacing)) {
                                             Box(
@@ -215,13 +217,7 @@ fun HeatmapSection(
                                                                 ?: 0f,
                                                         ),
                                                     ),
-                                            ) {
-                                                Text(
-                                                    modifier = Modifier.align(Alignment.Center),
-                                                    text = currentDay.dayOfMonth.toString(),
-                                                    style = MaterialTheme.typography.labelSmall,
-                                                )
-                                            }
+                                            )
                                         }
                                     } else {
                                         Box(
