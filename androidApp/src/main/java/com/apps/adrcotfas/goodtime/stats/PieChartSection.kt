@@ -164,7 +164,7 @@ fun PieChartSection(
                     ),
                 )
             } else {
-                var showPercentages by rememberSaveable { mutableStateOf(false) }
+                var showPercentages by rememberSaveable { mutableStateOf(true) }
                 AndroidView(
                     modifier = Modifier
                         .fillMaxSize()
@@ -174,7 +174,7 @@ fun PieChartSection(
                             isDrawHoleEnabled = true
                             holeRadius = 80f
                             transparentCircleRadius = 0f
-                            dragDecelerationFrictionCoef = 0.75f
+                            dragDecelerationFrictionCoef = 0.95f
                             isRotationEnabled = true
                             isHighlightPerTapEnabled = false
                             setHoleColor(backgroundColor)

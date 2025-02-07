@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.stats
 
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlin.test.Test
@@ -60,5 +61,37 @@ class StatisticsDataTest {
 
         val endOfNextMonth = endOfMonth.plus(DatePeriod(months = 1))
         assertEquals(endOfNextMonth, LocalDate(2025, 2, 28))
+    }
+
+    @Test
+    fun testSplitSessionByHourSingleHourSession() {
+        val endDateTime = LocalDateTime(2025, 12, 1, 12, 35)
+        val duration = 35L
+        val expected = mapOf(12 to 35L)
+        assertEquals(expected, splitSessionByHour(endDateTime, duration))
+    }
+
+    @Test
+    fun testSplitSessionByHourTwoHourSession() {
+        val endDateTime = LocalDateTime(2025, 12, 1, 12, 20)
+        val duration = 62L
+        val expected = mapOf(11 to 42L, 12 to 20L)
+        assertEquals(expected, splitSessionByHour(endDateTime, duration))
+    }
+
+    @Test
+    fun testSplitSessionByHourCrossMidnightSession() {
+        val endDateTime = LocalDateTime(2025, 12, 1, 0, 30)
+        val duration = 67L
+        val expected = mapOf(23 to 37L, 0 to 30L)
+        assertEquals(expected, splitSessionByHour(endDateTime, duration))
+    }
+
+    @Test
+    fun testSplitSessionByHourLongSession() {
+        val endDateTime = LocalDateTime(2025, 12, 1, 9, 0)
+        val duration = 150L
+        val expected = mapOf(6 to 30L, 7 to 60L, 8 to 60L)
+        assertEquals(expected, splitSessionByHour(endDateTime, duration))
     }
 }

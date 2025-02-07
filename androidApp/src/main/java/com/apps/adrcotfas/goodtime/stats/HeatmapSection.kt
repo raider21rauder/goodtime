@@ -88,7 +88,7 @@ fun HeatmapSection(
         }
     }
 
-    val cellSize = remember { (convertSpToDp(density, 11.sp.value) * 1.5f).dp }
+    val cellSize = remember { (convertSpToDp(density, 12.sp.value) * 1.5f).dp }
     val cellSpacing = remember { cellSize / 6f }
     val daysInOrder = remember { firstDayOfWeek.entriesStartingWithThis() }
 
@@ -124,12 +124,16 @@ fun HeatmapSection(
                 modifier = Modifier
                     .wrapContentSize()
                     .background(MaterialTheme.colorScheme.surface)
-                    .padding(vertical = 16.dp, horizontal = cellSize),
+                    .padding(
+                        top = 16.dp,
+                        bottom = 16.dp,
+                        start = cellSize,
+                        end = 32.dp,
+                    ),
             ) {
                 Column(
                     modifier = Modifier
-                        .wrapContentHeight()
-                        .padding(horizontal = cellSpacing),
+                        .wrapContentHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
@@ -229,7 +233,7 @@ fun HeatmapSection(
                                 }
                             }
                         }
-                        item { Spacer(modifier = Modifier.size(cellSize / 2)) }
+                        item { Spacer(modifier = Modifier.size(cellSize / 3)) }
                     }
                 }
             }

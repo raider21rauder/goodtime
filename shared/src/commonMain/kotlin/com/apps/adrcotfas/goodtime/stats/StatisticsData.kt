@@ -24,7 +24,11 @@ import com.apps.adrcotfas.goodtime.data.model.Session
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -96,8 +100,11 @@ fun computeStatisticsData(
     val heatmapData = mutableMapOf<LocalDate, Float>()
     var maxHeatMapValue = 1f
 
-    val productiveHoursOfTheDay = mutableMapOf<Int, Float>()
-    var maxProductiveHourOfTheDay = 1f
+    val productiveHoursOfTheDay = mutableMapOf<Int, Float>().apply {
+        for (i in 0..23) {
+            this[i] = 0f
+        }
+    }
 
     val oneYearAgoMillis = oneYearAgoLocalDate.toEpochMilliseconds()
 
@@ -119,21 +126,17 @@ fun computeStatisticsData(
         val date = session.adjustedDateTime.date
 
         if (session.isWork) {
-            // TODO: extract productive hours computation to separate to function
             if (today - session.adjustedTimestamp < oneYearAgoMillis) {
                 heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
                 maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
 
                 val weight = calculateSessionWeight(session.timestamp, today)
-                productiveHoursOfTheDay[session.dateTime.hour] =
-                    (
-                        productiveHoursOfTheDay[session.adjustedDateTime.hour]
-                            ?: 0f
-                        ) + session.duration * weight
-                maxProductiveHourOfTheDay = maxOf(
-                    maxProductiveHourOfTheDay,
-                    productiveHoursOfTheDay[session.dateTime.hour] ?: 0f,
-                )
+
+                val currentSplitByHour = splitSessionByHour(session.dateTime, session.duration)
+                currentSplitByHour.forEach { (hour, value) ->
+                    productiveHoursOfTheDay[hour] =
+                        (productiveHoursOfTheDay[hour] ?: 0f) + value * weight
+                }
             }
 
             if (session.adjustedTimestamp >= today) {
@@ -142,14 +145,12 @@ fun computeStatisticsData(
                     (workTodayPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsToday++
             }
-            // TODO: consider end of this week
             if (session.adjustedTimestamp >= startOfThisWeek) {
                 workThisWeek += session.duration
                 workThisWeekPerLabel[session.label] =
                     (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsThisWeek++
             }
-            // TODO: consider end of this month
             if (session.adjustedTimestamp >= startOfThisMonth) {
                 workThisMonth += session.duration
                 workThisMonthPerLabel[session.label] =
@@ -179,6 +180,7 @@ fun computeStatisticsData(
         heatmapData[it.key] = (it.value / maxHeatMapValue).coerceIn(0f, 1f)
     }
 
+    val maxProductiveHourOfTheDay = productiveHoursOfTheDay.values.maxOrNull() ?: 1f
     productiveHoursOfTheDay.forEach {
         productiveHoursOfTheDay[it.key] = (it.value / maxProductiveHourOfTheDay).coerceIn(0f, 1f)
     }
@@ -207,6 +209,28 @@ fun computeStatisticsData(
         heatmapData = heatmapData,
         productiveHoursOfTheDay = productiveHoursOfTheDay,
     )
+}
+
+fun splitSessionByHour(dateTime: LocalDateTime, durationMinutes: Long): Map<Int, Long> {
+    val timezone = TimeZone.currentSystemDefault()
+    val result = mutableMapOf<Int, Long>()
+    var remainingDuration = durationMinutes
+    var currentDateTime =
+        dateTime.toInstant(timezone).minus(durationMinutes.minutes).toLocalDateTime(timezone)
+
+    while (remainingDuration > 0) {
+        val currentHour = currentDateTime.hour
+        val minutesInCurrentHour = 60 - currentDateTime.minute
+        val minutesToAdd = minOf(remainingDuration, minutesInCurrentHour.toLong())
+
+        result[currentHour] = (result[currentHour] ?: 0) + minutesToAdd
+
+        remainingDuration -= minutesToAdd
+        currentDateTime =
+            currentDateTime.toInstant(timezone).plus(minutesToAdd.minutes).toLocalDateTime(timezone)
+    }
+
+    return result
 }
 
 /**

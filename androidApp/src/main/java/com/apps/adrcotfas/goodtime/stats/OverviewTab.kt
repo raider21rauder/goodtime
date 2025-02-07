@@ -36,10 +36,12 @@ import java.time.format.TextStyle
 @Composable
 fun OverviewTab(
     firstDayOfWeek: DayOfWeek,
+    workDayStart: Int,
     statisticsSettings: StatisticsSettings,
     statisticsData: StatisticsData,
     onChangeOverviewType: (OverviewType) -> Unit,
     onChangeOverviewDurationType: (OverviewDurationType) -> Unit,
+    onChangePieChartOverviewType: (OverviewDurationType) -> Unit,
     historyChartViewModel: StatisticsHistoryViewModel,
 ) {
     val context = LocalContext.current
@@ -66,9 +68,22 @@ fun OverviewTab(
 
         HistorySection(historyChartViewModel)
 
+        ProductiveTimeSection(
+            statisticsData.productiveHoursOfTheDay,
+            workDayStart,
+        )
+
         HeatmapSection(
             firstDayOfWeek,
             data = statisticsData.heatmapData,
+        )
+
+        PieChartSection(
+            statisticsData.overviewData,
+            statisticsSettings.pieChartViewType,
+            onChangePieChartOverviewType,
+            typeNames = typeNames,
+            selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
         )
 
         WorkBreakRatioSection(
@@ -77,20 +92,8 @@ fun OverviewTab(
             onChangeOverviewDurationType,
             typeNames = typeNames,
         )
-
-        PieChartSection(
-            statisticsData.overviewData,
-            statisticsSettings.overviewDurationType,
-            onChangeOverviewDurationType,
-            typeNames = typeNames,
-            selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
-        )
     }
 
     // TODO:
     // Weekly or daily goal with progress bar (e.g. 5 hours per day or 35 hours per week)
-
-    // History - same as old version but with minutes/ hours on the Y axis
-    // Permit selection of multiple labels and display as area chart
-    // Pie chart -> Same as before but use legend and "Others" for small slices
 }

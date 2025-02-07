@@ -116,7 +116,7 @@ fun WorkBreakRatioSection(
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(12.dp),
+                    .height(6.dp),
                 progress = { workPercentage.toFloat() / 100 },
                 drawStopIndicator = {},
             )

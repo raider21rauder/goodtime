@@ -161,6 +161,7 @@ fun StatisticsScreen(
                     when (type) {
                         TabType.Overview -> OverviewTab(
                             firstDayOfWeek = uiState.firstDayOfWeek,
+                            workDayStart = uiState.workDayStart,
                             statisticsSettings = uiState.statisticsSettings,
                             statisticsData = uiState.statisticsData,
                             onChangeOverviewType = {
@@ -168,6 +169,9 @@ fun StatisticsScreen(
                             },
                             onChangeOverviewDurationType = {
                                 viewModel.setOverviewDurationType(it)
+                            },
+                            onChangePieChartOverviewType = {
+                                viewModel.setPieChartViewType(it)
                             },
                             historyChartViewModel = historyViewModel,
                         )
