@@ -84,11 +84,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     val colors =
         uiState.selectedLabels.map {
-            if (it.name == Label.DEFAULT_LABEL_NAME) {
-                primaryColor
-            } else {
-                MaterialTheme.localColorsPalette.colors[it.colorIndex.toInt()]
-            }
+            MaterialTheme.localColorsPalette.colors[it.colorIndex.toInt()]
         }.plus(MaterialTheme.localColorsPalette.colors[Label.OTHERS_LABEL_COLOR_INDEX])
 
     val context = LocalContext.current

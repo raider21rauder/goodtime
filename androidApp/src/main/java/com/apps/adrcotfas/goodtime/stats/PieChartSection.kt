@@ -93,10 +93,6 @@ fun PieChartSection(
     val colors =
         workPerLabel.keys.map {
             when (it) {
-                Label.DEFAULT_LABEL_NAME -> {
-                    color
-                }
-
                 Label.OTHERS_LABEL_NAME -> {
                     MaterialTheme.localColorsPalette.colors[Label.OTHERS_LABEL_COLOR_INDEX]
                 }

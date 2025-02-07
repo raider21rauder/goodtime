@@ -85,6 +85,7 @@ data class StatisticsUiState(
 }
 
 // TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
+// TODO: that means that editing labels will not be reflected in the UI
 class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
