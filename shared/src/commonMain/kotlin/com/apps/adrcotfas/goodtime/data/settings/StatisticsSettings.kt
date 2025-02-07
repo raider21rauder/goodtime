@@ -41,7 +41,6 @@ enum class HistoryIntervalType {
 
 @Serializable
 data class StatisticsSettings(
-    val showBreaks: Boolean = false,
     val overviewType: OverviewType = OverviewType.TIME,
     val overviewDurationType: OverviewDurationType = OverviewDurationType.THIS_MONTH,
     val pieChartViewType: OverviewDurationType = OverviewDurationType.THIS_MONTH,

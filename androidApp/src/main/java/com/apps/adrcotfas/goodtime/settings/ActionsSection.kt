@@ -34,10 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.apps.adrcotfas.goodtime.common.ActionCard
 import com.apps.adrcotfas.goodtime.common.askForDisableBatteryOptimization
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
-import com.apps.adrcotfas.goodtime.settings.permissions.AskForPermissionCard
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
@@ -62,7 +62,7 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
                 ),
             )
             AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
-                AskForPermissionCard(
+                ActionCard(
                     cta = "Allow",
                     description = "Allow this app to run in the background",
                     onClick = { context.askForDisableBatteryOptimization() },
@@ -70,7 +70,7 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
             }
 
             AnimatedVisibility(permissionsState.shouldAskForNotificationPermission) {
-                AskForPermissionCard(
+                ActionCard(
                     cta = "Allow",
                     description = "Allow notifications",
                     onClick = {

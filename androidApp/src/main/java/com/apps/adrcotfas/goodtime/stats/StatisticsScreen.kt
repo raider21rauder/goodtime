@@ -126,8 +126,6 @@ fun StatisticsScreen(
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
-                showBreaks = uiState.statisticsSettings.showBreaks,
-                onSetShowBreaks = { viewModel.setShowBreaks(it) },
                 showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
             )
         },
@@ -229,7 +227,6 @@ fun StatisticsScreen(
                         AddEditSessionContent(
                             session = uiState.newSession,
                             labels = uiState.labels,
-                            showBreaks = uiState.statisticsSettings.showBreaks,
                             onUpdate = {
                                 viewModel.updateSessionToEdit(it)
                             },

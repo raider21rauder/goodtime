@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.settings.permissions
+package com.apps.adrcotfas.goodtime.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AskForPermissionCard(cta: String, description: String, onClick: () -> Unit) {
+fun ActionCard(cta: String, description: String, onClick: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors().copy(
             containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
@@ -69,7 +69,7 @@ fun AskForPermissionCard(cta: String, description: String, onClick: () -> Unit) 
 @Preview
 @Composable
 fun AskForPermissionCardPreview() {
-    AskForPermissionCard(
+    ActionCard(
         cta = "Allow",
         description = "Allow this app to run in the background",
         onClick = {},

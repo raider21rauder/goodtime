@@ -98,18 +98,16 @@ class StatisticsViewModel(
 
     val pagedSessions: Flow<PagingData<Session>> =
         uiState.distinctUntilChanged { old, new ->
-            old.selectedLabels == new.selectedLabels &&
-                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
+            old.selectedLabels == new.selectedLabels
         }.flatMapLatest {
-            selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
+            selectSessionsForTimelinePaged(it.selectedLabels)
         }
 
     private fun selectSessionsForTimelinePaged(
         labels: List<String>,
-        showBreaks: Boolean,
     ): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
-            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks)
+            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks = true)
         }.flow.map { value ->
             value.map {
                 it.toExternal()
@@ -229,7 +227,6 @@ class StatisticsViewModel(
                 localDataRepo.deleteSessionsExcept(
                     uiState.value.unselectedSessions,
                     uiState.value.selectedLabels,
-                    uiState.value.statisticsSettings.showBreaks,
                 )
             } else {
                 localDataRepo.deleteSessions(uiState.value.selectedSessions)
@@ -296,18 +293,11 @@ class StatisticsViewModel(
                         label,
                         uiState.value.unselectedSessions,
                         uiState.value.selectedLabels,
-                        uiState.value.statisticsSettings.showBreaks,
                     )
                 } else {
                     localDataRepo.updateSessionsLabelByIds(label, uiState.value.selectedSessions)
                 }
             }
-        }
-    }
-
-    fun setShowBreaks(show: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.updateStatisticsSettings { it.copy(showBreaks = show) }
         }
     }
 

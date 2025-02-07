@@ -63,7 +63,6 @@ import java.time.format.TextStyle
 fun AddEditSessionContent(
     session: Session,
     labels: List<Label>,
-    showBreaks: Boolean,
     onOpenDatePicker: () -> Unit,
     onOpenTimePicker: () -> Unit,
     onOpenLabelSelector: () -> Unit,
@@ -94,27 +93,25 @@ fun AddEditSessionContent(
             monthNames,
         )
 
-        if (showBreaks) {
-            Row(
-                modifier = Modifier.padding(start = 68.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                FilterChip(
-                    onClick = { onUpdate(session.copy(isWork = true)) },
-                    label = {
-                        Text("Work")
-                    },
-                    selected = session.isWork,
-                )
+        Row(
+            modifier = Modifier.padding(start = 68.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            FilterChip(
+                onClick = { onUpdate(session.copy(isWork = true)) },
+                label = {
+                    Text("Work")
+                },
+                selected = session.isWork,
+            )
 
-                FilterChip(
-                    onClick = { onUpdate(session.copy(isWork = false, interruptions = 0)) },
-                    label = {
-                        Text("Break")
-                    },
-                    selected = !session.isWork,
-                )
-            }
+            FilterChip(
+                onClick = { onUpdate(session.copy(isWork = false, interruptions = 0)) },
+                label = {
+                    Text("Break")
+                },
+                selected = !session.isWork,
+            )
         }
 
         EditableNumberListItem(
