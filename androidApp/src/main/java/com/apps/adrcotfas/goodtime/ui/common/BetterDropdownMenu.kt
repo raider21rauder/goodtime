@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -65,6 +66,7 @@ fun BetterDropdownMenu(
 
 @Composable
 fun BetterDropdownMenu(
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     expanded: Boolean,
     value: String,
     dropdownMenuOptions: List<String>,
@@ -101,11 +103,11 @@ fun BetterDropdownMenu(
                         modifier = paddingModifier,
                         text = it,
                         style = if (it == value) {
-                            MaterialTheme.typography.bodyMedium.copy(
+                            textStyle.copy(
                                 color = MaterialTheme.colorScheme.primary,
                             )
                         } else {
-                            MaterialTheme.typography.bodyMedium
+                            textStyle
                         },
                     )
                 },
@@ -120,6 +122,7 @@ fun BetterDropdownMenu(
 
 @Composable
 fun DropdownMenuBox(
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     value: String,
     options: List<String>,
     onDismissRequest: () -> Unit,
@@ -138,7 +141,7 @@ fun DropdownMenuBox(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
         ) {
-            Text(text = value, style = MaterialTheme.typography.bodyMedium)
+            Text(text = value, style = textStyle)
             Spacer(modifier = Modifier.width(24.dp))
             Icon(
                 imageVector = Icons.Default.ExpandMore,
@@ -146,6 +149,7 @@ fun DropdownMenuBox(
             )
         }
         BetterDropdownMenu(
+            textStyle = textStyle,
             expanded = expanded,
             value = value,
             onDismissRequest = {

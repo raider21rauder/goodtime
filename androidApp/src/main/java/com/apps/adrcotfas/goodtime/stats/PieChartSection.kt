@@ -118,7 +118,7 @@ fun PieChartSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
@@ -136,6 +136,7 @@ fun PieChartSection(
                 ),
             )
             DropdownMenuBox(
+                textStyle = MaterialTheme.typography.bodySmall,
                 value = typeNames[overviewDurationType]!!,
                 options = typeNames.values.toList(),
                 onDismissRequest = {},
@@ -147,7 +148,7 @@ fun PieChartSection(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(256.dp)
+                .height(224.dp)
                 .align(Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.Center,
         ) {

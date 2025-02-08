@@ -116,7 +116,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
@@ -135,6 +135,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             )
 
             DropdownMenuBox(
+                textStyle = MaterialTheme.typography.bodySmall,
                 value = type.prettyName(),
                 options = prettyNames<HistoryIntervalType>(),
                 onDismissRequest = {},
@@ -147,7 +148,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
         AggregatedHistoryChart(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp),
+                .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp),
             modelProducer = modelProducer,
             colors = colors,
         )
@@ -199,20 +200,27 @@ private fun AggregatedHistoryChart(
                 rememberColumnCartesianLayer(
                     columnProvider =
                     ColumnCartesianLayer.ColumnProvider.series(
-                        colors.map { color ->
-                            rememberLineComponent(fill = fill(color), thickness = 18.dp)
+                        colors.mapIndexed { index, color ->
+                            rememberLineComponent(
+                                fill = fill(color),
+                                thickness = 12.dp,
+                            )
                         },
                     ),
-                    columnCollectionSpacing = 18.dp,
+                    columnCollectionSpacing = 24.dp,
                     mergeMode = { ColumnCartesianLayer.MergeMode.stacked() },
                 ),
                 startAxis = VerticalAxis.rememberStart(
+                    label = rememberAxisLabelComponent(
+                        textSize = MaterialTheme.typography.labelSmall.fontSize,
+                    ),
                     valueFormatter = startAxisValueFormatter,
                     itemPlacer = startAxisItemPlacer,
                 ),
                 bottomAxis = HorizontalAxis.rememberBottom(
                     guideline = null,
                     label = rememberAxisLabelComponent(
+                        textSize = MaterialTheme.typography.labelSmall.fontSize,
                         lineCount = 2,
                         textAlignment = Layout.Alignment.ALIGN_CENTER,
                     ),

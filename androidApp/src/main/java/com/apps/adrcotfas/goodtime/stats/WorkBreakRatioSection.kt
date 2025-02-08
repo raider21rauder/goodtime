@@ -66,7 +66,7 @@ fun WorkBreakRatioSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(top = 8.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
@@ -84,6 +84,7 @@ fun WorkBreakRatioSection(
                 ),
             )
             DropdownMenuBox(
+                textStyle = MaterialTheme.typography.bodySmall,
                 value = typeNames[overviewDurationType]!!,
                 options = typeNames.values.toList(),
                 onDismissRequest = {},
@@ -116,7 +117,7 @@ fun WorkBreakRatioSection(
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(6.dp),
+                    .height(10.dp),
                 progress = { workPercentage.toFloat() / 100 },
                 drawStopIndicator = {},
             )

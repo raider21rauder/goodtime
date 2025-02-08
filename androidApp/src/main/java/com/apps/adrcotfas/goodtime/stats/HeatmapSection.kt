@@ -49,7 +49,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.common.at
 import com.apps.adrcotfas.goodtime.common.convertSpToDp
@@ -83,12 +82,15 @@ fun HeatmapSection(
     val startAtStartOfWeek = remember { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
     val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
     val numberOfWeeks = remember {
-        (startLocalDate.daysUntil(endAtEndOfWeek) / 7).let {
-            if (firstDayOfWeek != DayOfWeek.MONDAY || endLocalDate != endAtEndOfWeek) it + 1 else it
+        if (startLocalDate.daysUntil(endAtEndOfWeek) % 7 == 0) {
+            52
+        } else {
+            53
         }
     }
 
-    val cellSize = remember { (convertSpToDp(density, 12.sp.value) * 1.5f).dp }
+    val fontSizeStyle = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Thin)
+    val cellSize = remember { (convertSpToDp(density, fontSizeStyle.fontSize.value) * 1.5f).dp }
     val cellSpacing = remember { cellSize / 6f }
     val daysInOrder = remember { firstDayOfWeek.entriesStartingWithThis() }
 
@@ -97,7 +99,7 @@ fun HeatmapSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -233,7 +235,6 @@ fun HeatmapSection(
                                 }
                             }
                         }
-                        item { Spacer(modifier = Modifier.size(cellSize / 3)) }
                     }
                 }
             }

@@ -53,7 +53,7 @@ fun OverviewSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
@@ -71,6 +71,7 @@ fun OverviewSection(
                 ),
             )
             DropdownMenuBox(
+                textStyle = MaterialTheme.typography.bodySmall,
                 value = type.prettyName(),
                 options = prettyNames<OverviewType>(),
                 onDismissRequest = {},
@@ -83,7 +84,7 @@ fun OverviewSection(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
+                .padding(vertical = 24.dp)
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
@@ -129,14 +130,14 @@ fun OverviewTypeSection(
     ) {
         Text(
             valueWork,
-            style = MaterialTheme.typography.labelLarge.copy(
+            style = MaterialTheme.typography.labelMedium.copy(
                 color = colorWork,
                 textAlign = TextAlign.Center,
             ),
         )
         Text(
             title,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelSmall,
         )
     }
 }

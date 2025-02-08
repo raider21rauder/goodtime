@@ -26,7 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -35,11 +34,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.DayOfWeek
-
-data class LabelData(
-    val name: String,
-    val colorIndex: Long,
-)
 
 data class StatisticsHistoryUiState(
     val isLoading: Boolean = true,
@@ -62,16 +56,17 @@ class StatisticsHistoryViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
-            _uiState.update {
-                it.copy(
-                    selectedLabels = labels.map { label ->
-                        LabelData(
-                            name = label.name,
-                            colorIndex = label.colorIndex,
-                        )
-                    },
-                )
+            localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
+                _uiState.update {
+                    it.copy(
+                        selectedLabels = labels.map { label ->
+                            LabelData(
+                                name = label.name,
+                                colorIndex = label.colorIndex,
+                            )
+                        },
+                    )
+                }
             }
         }
 

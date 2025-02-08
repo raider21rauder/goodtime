@@ -18,12 +18,14 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.Time.currentDateTime
 import com.apps.adrcotfas.goodtime.common.isoWeekNumber
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
@@ -48,7 +50,11 @@ fun OverviewTab(
     val locale = remember { context.resources.configuration.locales[0] }
     val currentDateTime = remember { currentDateTime() }
 
-    Column(Modifier.verticalScroll(rememberScrollState())) {
+    Column(
+        Modifier
+            .padding(top = 8.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
         val typeNames = mapOf(
             OverviewDurationType.TODAY to "Today", // TODO: extract to strings
             OverviewDurationType.THIS_WEEK to "Week ${currentDateTime.date.isoWeekNumber()}",

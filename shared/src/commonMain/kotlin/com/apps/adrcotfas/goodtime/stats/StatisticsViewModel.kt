@@ -85,7 +85,6 @@ data class StatisticsUiState(
 }
 
 // TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
-// TODO: that means that editing labels will not be reflected in the UI
 class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
@@ -126,9 +125,10 @@ class StatisticsViewModel(
 
         // on first load, selected labels are all labels
         viewModelScope.launch {
-            val labels = localDataRepo.selectLabelsByArchived(isArchived = false).first()
-            _uiState.update {
-                it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
+            localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
+                _uiState.update {
+                    it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
+                }
             }
         }
 
