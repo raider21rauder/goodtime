@@ -51,7 +51,6 @@ fun BackupScreen(
     viewModel: BackupViewModel = koinInject(),
     activityResultLauncherManager: RestoreActivityResultLauncherManager = koinInject(),
     onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -109,7 +108,6 @@ fun BackupScreen(
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "Backup and restore",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,

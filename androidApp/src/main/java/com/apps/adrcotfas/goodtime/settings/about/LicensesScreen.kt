@@ -33,14 +33,12 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 @Composable
 fun LicensesScreen(
     onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
 ) {
     val listState = rememberLazyListState()
 
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "Open Source licenses",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,

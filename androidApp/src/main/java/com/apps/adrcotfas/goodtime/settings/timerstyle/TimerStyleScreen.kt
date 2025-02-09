@@ -74,7 +74,6 @@ import kotlin.time.Duration.Companion.minutes
 fun TimerStyleScreen(
     viewModel: SettingsViewModel = koinViewModel(),
     onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
@@ -86,7 +85,6 @@ fun TimerStyleScreen(
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "Timer style",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,

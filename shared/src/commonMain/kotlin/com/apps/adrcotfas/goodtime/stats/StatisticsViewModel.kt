@@ -84,7 +84,6 @@ data class StatisticsUiState(
             }
 }
 
-// TODO: VieModel is not cleared / https://issuetracker.google.com/issues/390201791
 class StatisticsViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,

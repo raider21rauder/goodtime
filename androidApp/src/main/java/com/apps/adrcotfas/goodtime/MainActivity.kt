@@ -22,54 +22,63 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
-import com.apps.adrcotfas.goodtime.bl.isActive
-import com.apps.adrcotfas.goodtime.bl.isFinished
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.di.injectLogger
-import com.apps.adrcotfas.goodtime.main.Destination
+import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
+import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
+import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
+import com.apps.adrcotfas.goodtime.main.AboutDest
+import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
+import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
+import com.apps.adrcotfas.goodtime.main.BackupDest
+import com.apps.adrcotfas.goodtime.main.GeneralSettingsDest
+import com.apps.adrcotfas.goodtime.main.LabelsDest
+import com.apps.adrcotfas.goodtime.main.LicensesDest
+import com.apps.adrcotfas.goodtime.main.MainDest
+import com.apps.adrcotfas.goodtime.main.MainScreen
 import com.apps.adrcotfas.goodtime.main.MainViewModel
-import com.apps.adrcotfas.goodtime.main.bottomNavigationItems
+import com.apps.adrcotfas.goodtime.main.NotificationSettingsDest
+import com.apps.adrcotfas.goodtime.main.OnboardingDest
+import com.apps.adrcotfas.goodtime.main.SettingsDest
+import com.apps.adrcotfas.goodtime.main.StatsDest
+import com.apps.adrcotfas.goodtime.main.TimerStyleDest
+import com.apps.adrcotfas.goodtime.main.TimerUiState
+import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
+import com.apps.adrcotfas.goodtime.settings.SettingsScreen
+import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
+import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
+import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
+import com.apps.adrcotfas.goodtime.settings.general.GeneralSettingsScreen
+import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
+import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
+import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class MainActivity : ComponentActivity(), KoinComponent {
 
     private val log: Logger by injectLogger("MainActivity")
-
     private val notificationManager: NotificationArchManager by inject()
-
-    private var fullScreenJob: Job? = null
+    private val viewModel: MainViewModel by viewModel<MainViewModel>()
+    private val onboardingViewModel: OnboardingViewModel by viewModel<OnboardingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +90,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val onboardingViewModel = koinViewModel<OnboardingViewModel>()
             val onboardingState by onboardingViewModel.onboardingState.collectAsStateWithLifecycle()
 
             // TODO: add loading/splash screen
@@ -89,24 +97,13 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 return@setContent
             }
 
-            val viewModel =
-                koinViewModel<MainViewModel>(viewModelStoreOwner = LocalActivity.current as ComponentActivity)
-            val coroutineScope = rememberCoroutineScope()
-
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val workSessionIsInProgress by viewModel.timerUiState.map { it.workSessionIsInProgress() }
-                .collectAsStateWithLifecycle(false)
-            val isActive by viewModel.timerUiState.map { it.timerState.isActive }
-                .collectAsStateWithLifecycle(false)
-            val isFinished by viewModel.timerUiState.map { it.timerState.isFinished }
-                .collectAsStateWithLifecycle(false)
-
-            val fullscreenMode = uiState.isMainScreen && uiState.fullscreenMode && isActive
-            var hideBottomBarWhenActive by remember(fullscreenMode) {
-                mutableStateOf(fullscreenMode)
-            }
-
             val isDarkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
+
+            val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle(TimerUiState())
+            val workSessionIsInProgress = timerUiState.workSessionIsInProgress()
+            val isActive = timerUiState.isActive
+            val isFinished = timerUiState.isFinished
 
             toggleKeepScreenOn(isActive)
             if (notificationManager.isNotificationPolicyAccessGranted()) {
@@ -117,31 +114,21 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 }
             }
 
-            var currentDestination by rememberSaveable { mutableStateOf(Destination.Main.route) }
-
-            val isMainDestination =
-                bottomNavigationItems.find { it.route == currentDestination } != null
-            viewModel.setIsMainScreen(currentDestination == Destination.Main.route)
-            val showNavigation = isMainDestination.xor(hideBottomBarWhenActive)
-
-            LaunchedEffect(isFinished) {
-                if (isFinished && currentDestination != Destination.Main.route) {
-                    currentDestination = Destination.Main.route
+            val considerDarkTheme = remember(onboardingState.finished) {
+                if (!onboardingState.finished) {
+                    false
+                } else {
+                    isDarkTheme
+                }
+            }
+            val startDestination = remember(onboardingState.finished) {
+                if (onboardingState.finished) {
+                    MainDest
+                } else {
+                    OnboardingDest
                 }
             }
 
-            LaunchedEffect(fullscreenMode) {
-                fullscreenMode.let {
-                    toggleFullscreen(it)
-                    if (!it) fullScreenJob?.cancel()
-                }
-            }
-
-            val considerDarkTheme = if (!onboardingState.finished) {
-                false
-            } else {
-                isDarkTheme
-            }
             DisposableEffect(considerDarkTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
@@ -157,39 +144,85 @@ class MainActivity : ComponentActivity(), KoinComponent {
             }
 
             ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.dynamicColor) {
-                val interactionSource = remember { MutableInteractionSource() }
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                        ) {
-                            if (fullscreenMode) {
-                                fullScreenJob?.cancel()
-                                fullScreenJob = coroutineScope.launch {
-                                    toggleFullscreen(false)
-                                    hideBottomBarWhenActive = false
-                                    executeDelayed(3000) {
-                                        toggleFullscreen(true)
-                                        hideBottomBarWhenActive = true
-                                    }
-                                }
-                            }
-                        },
+                val navController = rememberNavController()
+                navController.addOnDestinationChangedListener { _, destination, _ ->
+                    val isMainScreen = destination.route == MainDest.route
+                    viewModel.setIsMainScreen(isMainScreen)
+                }
+
+                LaunchedEffect(isFinished) {
+                    val isMainScreen = navController.currentDestination?.route == MainDest.route
+                    if (isFinished && !isMainScreen) navController.navigate(MainDest)
+                }
+                NavHost(
+                    navController = navController,
+                    startDestination = startDestination,
                 ) {
-                    if (!onboardingState.finished) {
+                    composable<OnboardingDest> {
                         OnboardingScreen()
-                    } else {
-                        NavigationScaffold(
-                            currentDestination = currentDestination,
-                            showNavigation = showNavigation,
-                            onNavigationChange = { newDestination ->
-                                if (newDestination != currentDestination) {
-                                    currentDestination = newDestination
-                                }
+                    }
+                    composable<MainDest> { MainScreen(navController = navController) }
+                    composable<LabelsDest> {
+                        LabelsScreen(
+                            onNavigateToLabel = navController::navigate,
+                            onNavigateToArchivedLabels = {
+                                navController.navigate(ArchivedLabelsDest)
                             },
+                            onNavigateBack = navController::popBackStack,
                         )
+                    }
+                    composable<AddEditLabelDest> { backStackEntry ->
+                        val addEditLabelDest = backStackEntry.toRoute<AddEditLabelDest>()
+                        AddEditLabelScreen(
+                            labelName = addEditLabelDest.name,
+                            onNavigateBack = navController::popBackStack,
+                        )
+                    }
+                    composable<ArchivedLabelsDest> {
+                        ArchivedLabelsScreen(onNavigateBack = navController::popBackStack)
+                    }
+                    composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
+                    composable<SettingsDest> {
+                        SettingsScreen(
+                            onNavigateToGeneralSettings = {
+                                navController.navigate(
+                                    GeneralSettingsDest,
+                                )
+                            },
+                            onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
+                            onNavigateToNotifications = {
+                                navController.navigate(
+                                    NotificationSettingsDest,
+                                )
+                            },
+                            onNavigateBack = navController::popBackStack,
+                        )
+                    }
+                    composable<GeneralSettingsDest> {
+                        GeneralSettingsScreen(onNavigateBack = navController::popBackStack)
+                    }
+                    composable<TimerStyleDest> {
+                        TimerStyleScreen(onNavigateBack = navController::popBackStack)
+                    }
+                    composable<NotificationSettingsDest> {
+                        NotificationsScreen(onNavigateBack = navController::popBackStack)
+                    }
+
+                    composable<BackupDest> {
+                        BackupScreen(onNavigateBack = navController::popBackStack)
+                    }
+                    composable<AboutDest> {
+                        AboutScreen(
+                            onNavigateToLicenses = {
+                                navController.navigate(
+                                    LicensesDest,
+                                )
+                            },
+                            onNavigateBack = navController::popBackStack,
+                        )
+                    }
+                    composable<LicensesDest> {
+                        LicensesScreen(onNavigateBack = navController::popBackStack)
                     }
                 }
             }
@@ -202,27 +235,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
         } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
-    }
-
-    private fun toggleFullscreen(enabled: Boolean) {
-        val windowInsetsController =
-            WindowCompat.getInsetsController(window, window.decorView)
-
-        if (enabled) {
-            windowInsetsController.apply {
-                hide(WindowInsetsCompat.Type.systemBars())
-                systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
-        }
-    }
-}
-
-private suspend fun executeDelayed(delay: Long, block: () -> Unit) {
-    coroutineScope {
-        delay(delay)
-        block()
     }
 }
 

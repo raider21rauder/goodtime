@@ -40,8 +40,8 @@ import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.BookOpen
-import compose.icons.evaicons.outline.Email
 import compose.icons.evaicons.outline.Github
+import compose.icons.evaicons.outline.PaperPlane
 import compose.icons.evaicons.outline.Star
 import org.koin.compose.koinInject
 
@@ -50,8 +50,7 @@ import org.koin.compose.koinInject
 fun AboutScreen(
     onNavigateToLicenses: () -> Unit,
     isLicensesSelected: Boolean = false,
-    onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
+    onNavigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -60,7 +59,6 @@ fun AboutScreen(
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "About and feedback",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
@@ -104,7 +102,7 @@ fun AboutScreen(
             )
             IconListItem(
                 title = "Feedback",
-                icon = { Icon(EvaIcons.Outline.Email, contentDescription = "Feedback") },
+                icon = { Icon(EvaIcons.Outline.PaperPlane, contentDescription = "Feedback") },
                 onClick = { sendFeedback(context) },
             )
             IconListItem(
@@ -120,10 +118,10 @@ fun AboutScreen(
 
 const val GOOGLE_PLAY_URL =
     "https://play.google.com/store/apps/details?id=com.apps.adrcotfas.goodtime"
-const val REPO_URL = "https://github.com/adrcotfas/Goodtime"
+const val REPO_URL = "https://github.com/adrcotfas/goodtime"
 
 @Preview
 @Composable
 fun AboutScreenPreview() {
-    AboutScreen(onNavigateToLicenses = {}, onNavigateBack = { false }, showTopBar = true)
+    AboutScreen(onNavigateToLicenses = {}, onNavigateBack = { })
 }

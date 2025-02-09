@@ -15,7 +15,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.main
+package com.apps.adrcotfas.goodtime.main.finishedsession
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -31,15 +31,21 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,15 +53,80 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.WIGGLE_ROOM_MILLIS
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.common.TextBox
+import com.apps.adrcotfas.goodtime.main.TimerUiState
+import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FinishedSessionSheet(
+    viewModel: FinishedSessionViewModel = koinViewModel(),
+    timerUiState: TimerUiState,
+    onNext: (Boolean) -> Unit,
+    onReset: (Boolean) -> Unit,
+    onUpdateNotes: (String) -> Unit,
+    onHideSheet: () -> Unit,
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
+    val finishedSessionSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val hideFinishedSessionSheet = {
+        coroutineScope.launch { finishedSessionSheetState.hide() }.invokeOnCompletion {
+            if (!finishedSessionSheetState.isVisible) {
+                onHideSheet()
+            }
+        }
+    }
+
+    val isBreak = rememberSaveable { timerUiState.timerType.isBreak }
+    var updateWorkTime by rememberSaveable { mutableStateOf(false) }
+    var notes by rememberSaveable { mutableStateOf("") }
+
+    ModalBottomSheet(
+        onDismissRequest = {
+            onReset(updateWorkTime)
+            onUpdateNotes(notes)
+            onHideSheet()
+        },
+        dragHandle = {
+            DragHandle(
+                buttonText = if (isBreak) "Start work" else "Start break",
+                onClose = {
+                    onReset(updateWorkTime)
+                    onUpdateNotes(notes)
+                    hideFinishedSessionSheet()
+                },
+                onClick = {
+                    onNext(updateWorkTime)
+                    onUpdateNotes(notes)
+                    hideFinishedSessionSheet()
+                },
+                isEnabled = true,
+            )
+        },
+        sheetState = finishedSessionSheetState,
+    ) {
+        FinishedSessionContent(
+            timerUiState = timerUiState,
+            historyUiState = uiState,
+            addIdleMinutes = updateWorkTime,
+            onChangeAddIdleMinutes = { updateWorkTime = it },
+            notes = notes,
+            onNotesChanged = { notes = it },
+        )
+    }
+}
 
 // TODO: add a landscape mode too with the two cards side by side
 @Composable
@@ -89,7 +160,8 @@ fun FinishedSessionContent(
     )
 }
 
-@Composable private fun FinishedSessionContent(
+@Composable
+private fun FinishedSessionContent(
     timerUiState: TimerUiState,
     historyUiState: HistoryUiState,
     elapsedRealtime: Long,

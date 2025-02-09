@@ -25,19 +25,24 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitDragOrCancellation
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitTouchSlopOrCancellation
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,8 +57,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.bl.isBreak
+import androidx.navigation.NavController
+import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isWork
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
@@ -62,28 +71,38 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControl
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberDialControlState
+import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
-import com.apps.adrcotfas.goodtime.ui.common.DragHandle
+import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
+private var fullScreenJob: Job? = null
+
 @Composable
 fun MainScreen(
+    navController: NavController,
     viewModel: MainViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
     settingsViewModel: SettingsViewModel = koinViewModel(),
 ) {
-    val mainUiState by viewModel.uiState.collectAsStateWithLifecycle(MainUiState())
-    if (mainUiState.isLoading) return
+    val activity = LocalActivity.current as ComponentActivity
+    val coroutineScope = rememberCoroutineScope()
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(MainUiState())
+    if (uiState.isLoading) return
     InitTimerStyle(settingsViewModel)
 
     val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle(TimerUiState())
-    val historyUiState by viewModel.historyUiState.collectAsStateWithLifecycle(HistoryUiState())
 
-    val timerStyle = mainUiState.timerStyle
+    val timerStyle = uiState.timerStyle
     val label = timerUiState.label
+    val labelColor = MaterialTheme.localColorsPalette.colors[label.label.colorIndex.toInt()]
 
     val configuration = LocalConfiguration.current
     val dialControlState = rememberDialControlState(
@@ -111,7 +130,7 @@ fun MainScreen(
 
     val yOffset = remember { Animatable(0f) }
     ScreensaverMode(
-        screensaverMode = mainUiState.screensaverMode,
+        screensaverMode = uiState.screensaverMode,
         isActive = timerUiState.isActive,
         screenWidth = configuration.screenWidth,
         yOffset = yOffset,
@@ -138,7 +157,6 @@ fun MainScreen(
     )
 
     dialControlState.updateEnabledOptions(disabledOptions)
-
     val gestureModifier = dialControlState.let {
         Modifier
             .pointerInput(it) {
@@ -161,13 +179,9 @@ fun MainScreen(
             }
     }
 
-    val alphaModifier = Modifier.graphicsLayer {
-        alpha = if (dialControlState.isDragging) 0.38f else 1f
-    }
-
     val backgroundColor by animateColorAsState(
-        if (mainUiState.isDarkTheme(isSystemInDarkTheme()) &&
-            mainUiState.trueBlackMode &&
+        if (uiState.isDarkTheme(isSystemInDarkTheme()) &&
+            uiState.trueBlackMode &&
             timerUiState.isActive
         ) {
             Color.Black
@@ -177,98 +191,141 @@ fun MainScreen(
         label = "main background color",
     )
 
-    AnimatedVisibility(timerUiState.isReady, enter = fadeIn(), exit = fadeOut()) {
-        Box(
-            modifier = Modifier
-                .background(backgroundColor)
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            val modifier = Modifier.offset {
-                if (configuration.isPortrait) {
-                    IntOffset(
-                        0,
-                        yOffset.value.roundToInt(),
+    val interactionSource = remember { MutableInteractionSource() }
+    val isActive by viewModel.timerUiState.map { it.timerState.isActive }
+        .collectAsStateWithLifecycle(false)
+
+    val fullscreenMode = uiState.isMainScreen && uiState.fullscreenMode && isActive
+    var hideBottomBarWhenActive by remember(fullscreenMode) {
+        mutableStateOf(fullscreenMode)
+    }
+
+    var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
+
+    AnimatedVisibility(
+        timerUiState.isReady,
+        enter = fadeIn(),
+        exit = fadeOut(),
+    ) {
+        LaunchedEffect(fullscreenMode) {
+            fullscreenMode.let {
+                toggleFullscreen(activity, it)
+                if (!it) fullScreenJob?.cancel()
+            }
+        }
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .consumeWindowInsets(innerPadding)
+                    .padding(bottom = innerPadding.calculateBottomPadding())
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                    ) {
+                        if (fullscreenMode) {
+                            fullScreenJob?.cancel()
+                            fullScreenJob = coroutineScope.launch {
+                                toggleFullscreen(activity, false)
+                                hideBottomBarWhenActive = false
+                                executeDelayed(3000) {
+                                    toggleFullscreen(activity, true)
+                                    hideBottomBarWhenActive = true
+                                }
+                            }
+                        }
+                    },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .background(backgroundColor)
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    val modifier = Modifier.offset {
+                        if (configuration.isPortrait) {
+                            IntOffset(
+                                0,
+                                yOffset.value.roundToInt(),
+                            )
+                        } else {
+                            IntOffset(yOffset.value.roundToInt(), 0)
+                        }
+                    }
+
+                    val alphaModifier = Modifier.graphicsLayer {
+                        alpha = if (dialControlState.isDragging) 0.38f else 1f
+                    }
+                    MainTimerView(
+                        modifier = alphaModifier.then(modifier),
+                        state = dialControlState,
+                        gestureModifier = gestureModifier,
+                        timerUiState = timerUiState,
+                        timerStyle = timerStyle,
+                        domainLabel = label,
+                        onStart = viewModel::startTimer,
+                        onToggle = viewModel::toggleTimer,
                     )
-                } else {
-                    IntOffset(yOffset.value.roundToInt(), 0)
+                    DialControl(
+                        modifier = modifier,
+                        state = dialControlState,
+                        dialContent = { region ->
+                            DialControlButton(
+                                disabled = dialControlState.isDisabled(region),
+                                selected = region == dialControlState.selectedOption,
+                                region = region,
+                            )
+                        },
+                    )
+                    BottomAppBar(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        hide = hideBottomBarWhenActive,
+                        onShowSheet = { showNavigationSheet = true },
+                        labelColor = labelColor,
+                        navController = navController,
+                    )
                 }
             }
-
-            MainTimerView(
-                modifier = alphaModifier.then(modifier),
-                state = dialControlState,
-                gestureModifier = gestureModifier,
-                timerUiState = timerUiState,
-                timerStyle = timerStyle,
-                domainLabel = label,
-                onStart = viewModel::startTimer,
-                onToggle = viewModel::toggleTimer,
-            )
-            DialControl(
-                modifier = modifier,
-                state = dialControlState,
-                dialContent = { region ->
-                    DialControlButton(
-                        disabled = dialControlState.isDisabled(region),
-                        selected = region == dialControlState.selectedOption,
-                        region = region,
-                    )
-                },
-            )
         }
     }
 
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by rememberSaveable(timerUiState.isFinished) { mutableStateOf(timerUiState.isFinished) }
-
-    val hideSheet = {
-        scope.launch { sheetState.hide() }.invokeOnCompletion {
-            if (!sheetState.isVisible) {
-                showBottomSheet = false
-            }
-        }
+    if (showNavigationSheet) {
+        BottomNavigationSheet(
+            onHideSheet = { showNavigationSheet = false },
+            navController = navController,
+        )
     }
 
-    if (showBottomSheet) {
-        var updateWorkTime by rememberSaveable { mutableStateOf(false) }
-        val isBreak = timerUiState.timerType.isBreak
+    var showFinishedSessionSheet by rememberSaveable(timerUiState.isFinished) {
+        mutableStateOf(timerUiState.isFinished)
+    }
+    if (showFinishedSessionSheet) {
+        FinishedSessionSheet(
+            timerUiState = timerUiState,
+            onHideSheet = { showFinishedSessionSheet = false },
+            onNext = viewModel::next,
+            onReset = viewModel::resetTimer,
+            onUpdateNotes = viewModel::updateNotesForLastCompletedSession,
+        )
+    }
+}
 
-        var notes by rememberSaveable { mutableStateOf("") }
+private fun toggleFullscreen(activity: ComponentActivity, enabled: Boolean) {
+    val windowInsetsController =
+        WindowCompat.getInsetsController(activity.window, activity.window.decorView)
 
-        ModalBottomSheet(
-            onDismissRequest = {
-                viewModel.resetTimer(updateWorkTime = updateWorkTime)
-                viewModel.updateNotesForLastCompletedSession(notes)
-                showBottomSheet = false
-            },
-            dragHandle = {
-                DragHandle(
-                    buttonText = if (isBreak) "Start work" else "Start break",
-                    onClose = {
-                        viewModel.resetTimer(updateWorkTime = updateWorkTime)
-                        viewModel.updateNotesForLastCompletedSession(notes)
-                        hideSheet()
-                    },
-                    onClick = {
-                        viewModel.next(updateWorkTime = updateWorkTime)
-                        viewModel.updateNotesForLastCompletedSession(notes)
-                        hideSheet()
-                    },
-                    isEnabled = true,
-                )
-            },
-            sheetState = sheetState,
-        ) {
-            FinishedSessionContent(
-                timerUiState = timerUiState,
-                historyUiState = historyUiState,
-                addIdleMinutes = updateWorkTime,
-                onChangeAddIdleMinutes = { updateWorkTime = it },
-                notes = notes,
-                onNotesChanged = { notes = it },
-            )
+    if (enabled) {
+        windowInsetsController.apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    } else {
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+    }
+}
+
+private suspend fun executeDelayed(delay: Long, block: () -> Unit) {
+    coroutineScope {
+        delay(delay)
+        block()
     }
 }

@@ -17,7 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.labels.main
 
-import androidx.activity.compose.BackHandler
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -36,10 +37,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -49,46 +46,38 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
-import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.data.model.isDefault
-import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
-import com.apps.adrcotfas.goodtime.labels.archived.ARCHIVED_LABELS_SCREEN_DESTINATION_ID
-import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
-import com.apps.adrcotfas.goodtime.main.MainViewModel
+import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
-import com.apps.adrcotfas.goodtime.ui.common.navigateToDetail
 import com.apps.adrcotfas.goodtime.ui.dragContainer
 import com.apps.adrcotfas.goodtime.ui.rememberDragDropState
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Archive
 import compose.icons.evaicons.outline.Plus
-import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
-// TODO: consider sub-labels?
-// not here but it can be part of the stats screen; the only precondition can be the name of the labels,
-// for example group together according to a prefix, e.g. "Work/Label1", "Work/Label2", "Work/Label3" etc.
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LabelsScreen(
-    viewModel: LabelsViewModel = koinViewModel(),
-    mainViewModel: MainViewModel = koinViewModel(),
+    onNavigateToLabel: (Any) -> Unit,
+    onNavigateToArchivedLabels: () -> Unit,
+    onNavigateBack: () -> Unit,
+    viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
 ) {
-    val isDynamicTheme by mainViewModel.uiState.map { it.dynamicColor }
-        .collectAsStateWithLifecycle(initialValue = false)
+    // TODO: remove selection feature from this screen
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
     val labels = uiState.unarchivedLabels
     val activeLabelName = uiState.activeLabelName
     val defaultLabelName = stringResource(id = R.string.label_default)
+    val isDynamicTheme = uiState.isDynamicColor
 
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     var labelToDelete by remember { mutableStateOf("") }
@@ -111,157 +100,100 @@ fun LabelsScreen(
     }
 
     val showFab = listState.isScrollingUp()
-    val navigator = rememberListDetailPaneScaffoldNavigator<String>()
 
-    BackHandler(navigator.canNavigateBack()) {
-        navigator.navigateBack()
-    }
-
-    val configuration = LocalConfiguration.current
-    val isPortrait = configuration.isPortrait
-
-    LaunchedEffect(Unit) {
-        if (navigator.scaffoldDirective.maxHorizontalPartitions > 1) {
-            navigator.navigateToDetail(activeLabelName)
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = "Labels",
+                onNavigateBack = { onNavigateBack() },
+                actions = {
+                    ArchivedLabelsButton(uiState.archivedLabelCount) {
+                        onNavigateToArchivedLabels()
+                    }
+                },
+                showSeparator = listState.canScrollBackward,
+            )
+        },
+        floatingActionButton = {
+            AnimatedVisibility(
+                enter = slideInVertically(initialOffsetY = { it * 2 }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { it * 2 }) + fadeOut(),
+                visible = showFab,
+            ) {
+                LargeFloatingActionButton(
+                    shape = CircleShape,
+                    onClick = {
+                        onNavigateToLabel(AddEditLabelDest(name = ""))
+                    },
+                ) {
+                    Icon(EvaIcons.Outline.Plus, "Localized description")
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+    ) { paddingValues ->
+        LazyColumn(
+            state = listState,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = paddingValues.calculateTopPadding()),
+        ) {
+            itemsIndexed(
+                labels,
+                key = { _, item -> item.name },
+            ) { index, label ->
+                DraggableItem(dragDropState, index) { isDragging ->
+                    LabelListItem(
+                        label = label,
+                        isActive = label.name == activeLabelName,
+                        isActiveColor = if (isDynamicTheme) {
+                            MaterialTheme.colorScheme.secondaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.secondaryContainer.copy(
+                                alpha = 0.2f,
+                            )
+                        },
+                        isDragging = isDragging,
+                        dragModifier = Modifier.dragContainer(
+                            dragDropState = dragDropState,
+                            key = label.name,
+                            onDragFinished = { viewModel.rearrangeLabelsToDisk() },
+                        ),
+                        onActivate = {
+                            if (activeLabelName != label.name) {
+                                viewModel.setActiveLabel(label.name)
+                            }
+                        },
+                        onEdit = {
+                            onNavigateToLabel(AddEditLabelDest(label.name))
+                        },
+                        onDuplicate = {
+                            viewModel.duplicateLabel(
+                                if (label.isDefault()) defaultLabelName else label.name,
+                                label.isDefault(),
+                            )
+                        },
+                        onArchive = { viewModel.setArchived(label.name, true) },
+                        onDelete = {
+                            labelToDelete = label.name
+                            showDeleteConfirmationDialog = true
+                        },
+                    )
+                }
+            }
+        }
+        if (showDeleteConfirmationDialog) {
+            ConfirmationDialog(
+                title = "Delete $labelToDelete?",
+                subtitle = "Deleting this label will remove it from associated completed sessions.",
+                onConfirm = {
+                    viewModel.deleteLabel(labelToDelete)
+                    showDeleteConfirmationDialog = false
+                },
+                onDismiss = { showDeleteConfirmationDialog = false },
+            )
         }
     }
-
-    ListDetailPaneScaffold(
-        directive = navigator.scaffoldDirective,
-        value = navigator.scaffoldValue,
-        listPane = {
-            AnimatedPane {
-                Scaffold(
-                    topBar = {
-                        TopBar(
-                            title = "Labels",
-                            actions = {
-                                ArchivedLabelsButton(uiState.archivedLabelCount) {
-                                    navigator.navigateToDetail(ARCHIVED_LABELS_SCREEN_DESTINATION_ID)
-                                }
-                            },
-                            showSeparator = listState.canScrollBackward,
-                        )
-                    },
-                    floatingActionButton = {
-                        AnimatedVisibility(
-                            enter = slideInVertically(initialOffsetY = { it * 2 }) + fadeIn(),
-                            exit = slideOutVertically(targetOffsetY = { it * 2 }) + fadeOut(),
-                            visible = showFab,
-                        ) {
-                            LargeFloatingActionButton(
-                                shape = CircleShape,
-                                onClick = {
-                                    navigator.navigateToDetail("")
-                                },
-                            ) {
-                                Icon(EvaIcons.Outline.Plus, "Localized description")
-                            }
-                        }
-                    },
-                    floatingActionButtonPosition = FabPosition.Center,
-                ) { paddingValues ->
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = paddingValues.calculateTopPadding()),
-                    ) {
-                        itemsIndexed(
-                            labels,
-                            key = { _, item -> item.name },
-                        ) { index, label ->
-                            DraggableItem(dragDropState, index) { isDragging ->
-                                LabelListItem(
-                                    label = label,
-                                    isActive = label.name == activeLabelName,
-                                    isActiveColor = if (isDynamicTheme) {
-                                        MaterialTheme.colorScheme.secondaryContainer
-                                    } else {
-                                        MaterialTheme.colorScheme.secondaryContainer.copy(
-                                            alpha = 0.2f,
-                                        )
-                                    },
-                                    isDragging = isDragging,
-                                    dragModifier = Modifier.dragContainer(
-                                        dragDropState = dragDropState,
-                                        key = label.name,
-                                        onDragFinished = { viewModel.rearrangeLabelsToDisk() },
-                                    ),
-                                    onActivate = {
-                                        if (activeLabelName != label.name) {
-                                            viewModel.setActiveLabel(label.name)
-                                            if (!isPortrait) {
-                                                navigator.navigateToDetail(label.name)
-                                            }
-                                        }
-                                    },
-                                    onEdit = {
-                                        navigator.navigateToDetail(label.name)
-                                    },
-                                    onDuplicate = {
-                                        viewModel.duplicateLabel(
-                                            if (label.isDefault()) defaultLabelName else label.name,
-                                            label.isDefault(),
-                                        )
-                                    },
-                                    onArchive = { viewModel.setArchived(label.name, true) },
-                                    onDelete = {
-                                        labelToDelete = label.name
-                                        showDeleteConfirmationDialog = true
-                                    },
-                                )
-                            }
-                        }
-                    }
-                    if (showDeleteConfirmationDialog) {
-                        ConfirmationDialog(
-                            title = "Delete $labelToDelete?",
-                            subtitle = "Deleting this label will remove it from associated completed sessions.",
-                            onConfirm = {
-                                viewModel.deleteLabel(labelToDelete)
-                                showDeleteConfirmationDialog = false
-                            },
-                            onDismiss = { showDeleteConfirmationDialog = false },
-                        )
-                    }
-                }
-            }
-        },
-        detailPane = {
-            AnimatedPane {
-                navigator.currentDestination?.content?.let {
-                    if (it == ARCHIVED_LABELS_SCREEN_DESTINATION_ID) {
-                        ArchivedLabelsScreen(
-                            onNavigateBack = {
-                                if (isPortrait) {
-                                    navigator.navigateBack()
-                                } else {
-                                    navigator.navigateToDetail(uiState.activeLabelName)
-                                }
-                            },
-                            showTopBar = isPortrait,
-                        )
-                    } else {
-                        AddEditLabelScreen(
-                            labelName = it,
-                            onSave = {
-                                if (isPortrait) {
-                                    navigator.navigateBack()
-                                } else {
-                                    navigator.navigateToDetail(uiState.activeLabelName)
-                                }
-                            },
-                            showNavigationIcon = isPortrait,
-                            onNavigateBack = {
-                                navigator.navigateBack()
-                            },
-                        )
-                    }
-                }
-            }
-        },
-    )
 }
 
 @Composable

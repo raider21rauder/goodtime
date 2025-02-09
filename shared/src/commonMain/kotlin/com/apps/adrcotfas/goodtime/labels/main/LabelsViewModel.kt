@@ -28,14 +28,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+// TODO: split another viewmodel from this for AddEditLabel
 data class LabelsUiState(
     val isLoading: Boolean = true,
+    val isDynamicColor: Boolean = false,
     val labels: List<Label> = emptyList(),
     val activeLabelName: String = Label.DEFAULT_LABEL_NAME,
     val archivedLabelCount: Int = 0,
@@ -79,22 +80,26 @@ class LabelsViewModel(
             it.copy(
                 defaultLabelDisplayName = defaultLabelName,
                 labelToEdit = labelToEdit,
-                newLabel = labelToEdit ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
+                newLabel = labelToEdit
+                    ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
             )
         }
     }
 
     private fun loadData() {
         viewModelScope.launch {
-            settingsRepository.settings.map { settings -> settings.labelName }
-                .combine(repo.selectAllLabels()) { activeLabelName, labels ->
-                    activeLabelName to labels
-                }.distinctUntilChanged()
-                .collect { (activeLabelName, labels) ->
+            settingsRepository.settings.distinctUntilChanged { old, new ->
+                old.labelName == new.labelName &&
+                    old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor
+            }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
+                activeLabelName to labels
+            }.distinctUntilChanged()
+                .collect { (settings, labels) ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            activeLabelName = activeLabelName,
+                            activeLabelName = settings.labelName,
+                            isDynamicColor = settings.uiSettings.useDynamicColor,
                             labels = labels,
                             archivedLabelCount = labels.filter { label -> label.isArchived }.size,
                         )

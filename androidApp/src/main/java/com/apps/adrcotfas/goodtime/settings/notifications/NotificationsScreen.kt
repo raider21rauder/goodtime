@@ -58,7 +58,6 @@ import org.koin.compose.koinInject
 fun NotificationsScreen(
     viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
     onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -75,7 +74,6 @@ fun NotificationsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "Notifications",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,

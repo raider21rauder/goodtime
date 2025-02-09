@@ -163,10 +163,17 @@ fun IconListItem(
     onClick: () -> Unit,
 ) {
     val modifier = Modifier.padding(vertical = 4.dp)
+    val colors = if (isSelected) {
+        ListItemDefaults.selectedColors()
+    } else {
+        ListItemDefaults.enabledColors()
+    }
 
     ListItem(
-        modifier = Modifier.clickable(onClick = onClick).then(modifier),
-        colors = if (isSelected) ListItemDefaults.selectedColors() else ListItemDefaults.enabledColors(),
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .then(modifier),
+        colors = colors,
         headlineContent = { Text(text = title) },
         supportingContent = {
             subtitle?.let {

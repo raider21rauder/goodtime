@@ -75,7 +75,6 @@ import java.time.format.TextStyle
 fun GeneralSettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
     onNavigateBack: () -> Boolean,
-    showTopBar: Boolean,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -106,7 +105,6 @@ fun GeneralSettingsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                isVisible = showTopBar,
                 title = "General settings",
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = scrollState.canScrollBackward,

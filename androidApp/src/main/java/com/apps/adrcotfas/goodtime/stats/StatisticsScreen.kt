@@ -81,6 +81,7 @@ private enum class TabType {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsScreen(
+    onNavigateBack: () -> Unit,
     viewModel: StatisticsViewModel = koinViewModel(),
     historyViewModel: StatisticsHistoryViewModel = koinViewModel(),
 ) {
@@ -112,6 +113,7 @@ fun StatisticsScreen(
     Scaffold(
         topBar = {
             StatisticsScreenTopBar(
+                onNavigateBack = onNavigateBack,
                 onAddButtonClick = { viewModel.onAddEditSession() },
                 onLabelButtonClick = {
                     if (uiState.showSelectionUi) {

@@ -31,7 +31,6 @@ import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.bl.isRunning
-import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
@@ -48,12 +47,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlin.math.max
 
 data class TimerUiState(
@@ -99,17 +92,10 @@ data class MainUiState(
     }
 }
 
-data class HistoryUiState(
-    val todayWorkMinutes: Long = 0,
-    val todayBreakMinutes: Long = 0,
-    val todayInterruptedMinutes: Long = 0,
-)
-
 class MainViewModel(
     private val timerManager: TimerManager,
     private val timeProvider: TimeProvider,
     private val settingsRepo: SettingsRepository,
-    private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
 
     val timerUiState = timerManager.timerData.flatMapLatest {
@@ -125,17 +111,12 @@ class MainViewModel(
                 flow { emitUiState(it) }
             }
         }
-    }
+    } // .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.onStart {
         loadData()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MainUiState())
-
-    private val _historyUiState = MutableStateFlow(HistoryUiState())
-    val historyUiState = _historyUiState.onStart {
-        loadHistoryState()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HistoryUiState())
 
     private fun loadData() {
         viewModelScope.launch {
@@ -152,44 +133,6 @@ class MainViewModel(
                             fullscreenMode = uiSettings.fullscreenMode,
                             trueBlackMode = uiSettings.trueBlackModePossible(),
                             dndDuringWork = uiSettings.dndDuringWork,
-                        )
-                    }
-                }
-        }
-    }
-
-    private fun toMillisOfToday(workdayStart: Int): Long {
-        val hour = workdayStart / 3600
-        val minute = (workdayStart % 3600) / 60
-        val second = workdayStart % 60
-
-        val instant = Instant.fromEpochMilliseconds(timeProvider.now())
-        val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-
-        val timeAtSecondOfDay = LocalDateTime(dateTime.date, LocalTime(hour, minute, second))
-        val instant2 = timeAtSecondOfDay.toInstant(TimeZone.currentSystemDefault())
-        return instant2.toEpochMilliseconds()
-    }
-
-    private fun loadHistoryState() {
-        viewModelScope.launch {
-            settingsRepo.settings.map { it.workdayStart }.distinctUntilChanged()
-                .map { toMillisOfToday(it) }.flatMapLatest {
-                    localDataRepo.selectAllSessions()
-                    localDataRepo.selectSessionsAfter(it)
-                }.collect { sessions ->
-                    val (todayWorkSessions, todayBreakSessions) =
-                        sessions.partition { session -> session.isWork }
-
-                    val todayWorkMinutes = todayWorkSessions.sumOf { it.duration }
-                    val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
-                    val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
-
-                    _historyUiState.update {
-                        it.copy(
-                            todayWorkMinutes = todayWorkMinutes,
-                            todayBreakMinutes = todayBreakMinutes,
-                            todayInterruptedMinutes = todayInterruptedMinutes,
                         )
                     }
                 }

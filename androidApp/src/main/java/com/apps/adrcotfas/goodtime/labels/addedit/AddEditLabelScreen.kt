@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.labels.addedit
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -90,11 +92,9 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditLabelScreen(
-    viewModel: LabelsViewModel = koinViewModel(),
+    viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
     labelName: String,
-    showNavigationIcon: Boolean,
     onNavigateBack: () -> Unit,
-    onSave: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -120,11 +120,7 @@ fun AddEditLabelScreen(
     Scaffold(
         topBar = {
             TopBar(
-                onNavigateBack = if (showNavigationIcon) {
-                    onNavigateBack
-                } else {
-                    null
-                },
+                onNavigateBack = onNavigateBack,
                 icon = Icons.Default.Close,
                 actions = {
                     if (isDefaultLabel && !label.isSameAs(Label.defaultLabel())) {
@@ -151,7 +147,7 @@ fun AddEditLabelScreen(
                             isEditMode,
                             viewModel::updateLabel,
                             viewModel::addLabel,
-                            onSave,
+                            onNavigateBack,
                         )
                     }
                 },

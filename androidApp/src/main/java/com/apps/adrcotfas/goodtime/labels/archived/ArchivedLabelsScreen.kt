@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.labels.archived
 
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -60,14 +62,11 @@ import compose.icons.evaicons.outline.Trash
 import compose.icons.evaicons.outline.Undo
 import org.koin.androidx.compose.koinViewModel
 
-const val ARCHIVED_LABELS_SCREEN_DESTINATION_ID = "goodtime.productivity.archivedLabels"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchivedLabelsScreen(
     onNavigateBack: () -> Unit,
-    viewModel: LabelsViewModel = koinViewModel(),
-    showTopBar: Boolean,
+    viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val labels = uiState.archivedLabels
@@ -81,7 +80,7 @@ fun ArchivedLabelsScreen(
         topBar = {
             TopBar(
                 title = "Archived labels",
-                onNavigateBack = if (showTopBar) onNavigateBack else null,
+                onNavigateBack = onNavigateBack,
                 showSeparator = listState.canScrollBackward,
             )
         },

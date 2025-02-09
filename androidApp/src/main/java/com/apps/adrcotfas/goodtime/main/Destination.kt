@@ -17,38 +17,46 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Label
-import androidx.compose.material.icons.automirrored.outlined.Label
-import androidx.compose.ui.graphics.vector.ImageVector
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Fill
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.fill.Home
-import compose.icons.evaicons.fill.PieChart
-import compose.icons.evaicons.fill.Settings
-import compose.icons.evaicons.outline.Home
-import compose.icons.evaicons.outline.PieChart
-import compose.icons.evaicons.outline.Settings
+import kotlinx.serialization.Serializable
 
-sealed class Destination(val route: String, val label: String, val icon: ImageVector?, val selectedIcon: ImageVector? = null) {
-    data object Main : Destination("main", "Home", icon = EvaIcons.Outline.Home, selectedIcon = EvaIcons.Fill.Home)
-    data object Labels : Destination("labels", "Labels", icon = Icons.AutoMirrored.Outlined.Label, selectedIcon = Icons.AutoMirrored.Filled.Label)
-    data object ArchivedLabels : Destination("archivedLabels", "Archived labels", null)
-    data object Stats : Destination("stats", "Statistics", icon = EvaIcons.Outline.PieChart, selectedIcon = EvaIcons.Fill.PieChart)
-    data object Settings : Destination("settings", "Settings", icon = EvaIcons.Outline.Settings, selectedIcon = EvaIcons.Fill.Settings)
+@Serializable
+data object OnboardingDest
 
-    data object GeneralSettings : Destination("generalSettings", "General Settings", null)
-    data object TimerStyle : Destination("timerStyle", "Timer Style", null)
-    data object NotificationSettings : Destination("notificationSettings", "Notifications", null)
-    data object Backup : Destination("backup", "Backup", null)
-    data object About : Destination("about", "About", null)
-    data object Licenses : Destination("licenses", "Open Source Licenses", null)
-}
+@Serializable
+data object MainDest
 
-val bottomNavigationItems = listOf(
-    Destination.Main,
-    Destination.Labels,
-    Destination.Stats,
-    Destination.Settings,
-)
+val MainDest.route: String
+    get() = MainDest::class.java.name
+
+@Serializable
+data object LabelsDest
+
+@Serializable
+data class AddEditLabelDest(val name: String)
+
+@Serializable
+data object ArchivedLabelsDest
+
+@Serializable
+data object StatsDest
+
+@Serializable
+data object SettingsDest
+
+@Serializable
+data object GeneralSettingsDest
+
+@Serializable
+data object TimerStyleDest
+
+@Serializable
+data object NotificationSettingsDest
+
+@Serializable
+data object BackupDest
+
+@Serializable
+data object AboutDest
+
+@Serializable
+data object LicensesDest
