@@ -112,7 +112,7 @@ class MainViewModel(
                 flow { emitUiState(it) }
             }
         }
-    } //TODO: .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+    } // TODO: .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.onStart {

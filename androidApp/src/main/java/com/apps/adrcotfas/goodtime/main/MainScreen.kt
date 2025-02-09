@@ -62,14 +62,13 @@ import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_B
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.bl.isActive
-import com.apps.adrcotfas.goodtime.bl.isWork
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialConfig
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControl
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
-import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
-import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberDialControlState
+import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberCustomDialControlState
+import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -102,58 +101,15 @@ fun MainScreen(
     val labelColor = MaterialTheme.localColorsPalette.colors[label.label.colorIndex.toInt()]
 
     val configuration = LocalConfiguration.current
-    val dialControlState = rememberDialControlState(
-        options = DialRegion.entries,
+
+    val dialControlState = rememberCustomDialControlState(
         config = DialConfig(size = configuration.screenWidth),
-        onSelected = {
-            when (it) {
-                DialRegion.TOP -> {
-                    viewModel.addOneMinute()
-                }
-
-                DialRegion.RIGHT -> {
-                    viewModel.skip()
-                }
-
-                DialRegion.BOTTOM -> {
-                    viewModel.resetTimer()
-                }
-
-                else -> {
-                }
-            }
-        },
+        onTop = viewModel::addOneMinute,
+        onRight = viewModel::skip,
+        onBottom = viewModel::resetTimer,
     )
 
-    val yOffset = remember { Animatable(0f) }
-    ScreensaverMode(
-        screensaverMode = uiState.screensaverMode,
-        isActive = timerUiState.isActive,
-        screenWidth = configuration.screenWidth,
-        yOffset = yOffset,
-    )
-
-    val thereIsNoBreakBudget =
-        timerUiState.breakBudgetMinutes == 0L
-    val isCountUpWithoutBreaks = !label.profile.isCountdown && !label.profile.isBreakEnabled
-
-    val disabledOptions = listOfNotNull(
-        DialRegion.LEFT,
-        if (!label.profile.isCountdown) {
-            DialRegion.TOP
-        } else {
-            null
-        },
-        if ((!label.profile.isCountdown && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
-            isCountUpWithoutBreaks
-        ) {
-            DialRegion.RIGHT
-        } else {
-            null
-        },
-    )
-
-    dialControlState.updateEnabledOptions(disabledOptions)
+    dialControlState.updateEnabledOptions(timerUiState)
     val gestureModifier = dialControlState.let {
         Modifier
             .pointerInput(it) {
@@ -175,6 +131,14 @@ fun MainScreen(
                 }
             }
     }
+
+    val yOffset = remember { Animatable(0f) }
+    ScreensaverMode(
+        screensaverMode = uiState.screensaverMode,
+        isActive = timerUiState.isActive,
+        screenWidth = configuration.screenWidth,
+        yOffset = yOffset,
+    )
 
     val backgroundColor by animateColorAsState(
         if (uiState.isDarkTheme(isSystemInDarkTheme()) &&
