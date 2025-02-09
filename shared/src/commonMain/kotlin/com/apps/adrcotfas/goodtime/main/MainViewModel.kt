@@ -31,14 +31,17 @@ import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.bl.isRunning
+import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
+import com.apps.adrcotfas.goodtime.stats.LabelData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -86,6 +89,7 @@ data class MainUiState(
     val trueBlackMode: Boolean = true,
     val dndDuringWork: Boolean = false,
     val isMainScreen: Boolean = true,
+    val labels: List<LabelData> = emptyList(),
 ) {
     fun isDarkTheme(isSystemInDarkTheme: Boolean): Boolean {
         return darkThemePreference == ThemePreference.DARK ||
@@ -97,6 +101,7 @@ class MainViewModel(
     private val timerManager: TimerManager,
     private val timeProvider: TimeProvider,
     private val settingsRepo: SettingsRepository,
+    private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
 
     val timerUiState = timerManager.timerData.flatMapLatest {
@@ -123,7 +128,11 @@ class MainViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
             settingsRepo.settings.map { Pair(it.timerStyle, it.uiSettings) }.distinctUntilChanged()
-                .collect { (timerStyle, uiSettings) ->
+                .combine(
+                    localDataRepo.selectLabelsByArchived(isArchived = false),
+                ) { (timerStyle, uiSettings), labels ->
+                    Triple(timerStyle, uiSettings, labels)
+                }.collect { (timerStyle, uiSettings, labels) ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -134,6 +143,7 @@ class MainViewModel(
                             fullscreenMode = uiSettings.fullscreenMode,
                             trueBlackMode = uiSettings.trueBlackModePossible(),
                             dndDuringWork = uiSettings.dndDuringWork,
+                            labels = labels.map { label -> LabelData(label.name, label.colorIndex) },
                         )
                     }
                 }
@@ -213,6 +223,12 @@ class MainViewModel(
                     currentScreenWidth = screenWidth,
                 )
             }
+        }
+    }
+
+    fun setActiveLabel(labelName: String) {
+        viewModelScope.launch {
+            settingsRepo.activateLabelWithName(labelName)
         }
     }
 }

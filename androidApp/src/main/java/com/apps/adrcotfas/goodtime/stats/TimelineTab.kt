@@ -63,7 +63,7 @@ fun TimelineTab(
     isSelectAllEnabled: Boolean,
     selectedSessions: List<Long>,
     unselectedSessions: List<Long>,
-    labels: List<Label>,
+    labels: List<LabelData>,
     onClick: (Session) -> Unit,
     onLongClick: (Session) -> Unit,
     listState: LazyListState,

@@ -59,6 +59,7 @@ fun BottomAppBar(
     hide: Boolean,
     labelColor: Color,
     onShowSheet: () -> Unit,
+    onLabelClick: () -> Unit,
     navController: NavController,
 ) {
     AnimatedVisibility(
@@ -87,10 +88,7 @@ fun BottomAppBar(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = {
-                // TODO: open a select dialog instead but have a button to go to Labels
-                navController.navigate(LabelsDest)
-            }) {
+            IconButton(onClick = onLabelClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,
                     contentDescription = "Labels",

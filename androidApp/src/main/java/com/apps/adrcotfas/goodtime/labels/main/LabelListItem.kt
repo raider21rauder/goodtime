@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime.labels.main
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,7 +25,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.DragIndicator
 import androidx.compose.material3.DropdownMenuItem
@@ -41,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,12 +63,9 @@ import compose.icons.evaicons.outline.Trash
 @Composable
 fun LabelListItem(
     label: Label,
-    isActive: Boolean,
     isDragging: Boolean,
-    isActiveColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     @SuppressLint("ModifierParameter")
     dragModifier: Modifier,
-    onActivate: () -> Unit,
     onEdit: () -> Unit,
     onDuplicate: () -> Unit,
     onArchive: () -> Unit,
@@ -81,138 +75,119 @@ fun LabelListItem(
     val labelName =
         if (label.isDefault()) stringResource(id = R.string.label_default) else label.name
 
-    Crossfade(targetState = isActive, label = "Active label crossfade") { active ->
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .clickable { onActivate() }
-                .let {
-                    if (active) {
-                        it.background(isActiveColor)
-                    } else {
-                        it
-                    }
-                }
-                .let {
-                    if (isDragging) {
-                        it.background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
-                        )
-                    } else {
-                        it
-                    }
-                }
-                .padding(4.dp),
-        ) {
-            Icon(
-                modifier = dragModifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    onClick = {},
-                ),
-                imageVector = Icons.Filled.DragIndicator,
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                contentDescription = "Drag indicator for $labelName",
-            )
-            Icon(
-                modifier = Modifier
-                    .padding(8.dp),
-                imageVector = if (active) {
-                    Icons.AutoMirrored.Filled.Label
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .clickable { onEdit() }
+            .let {
+                if (isDragging) {
+                    it.background(
+                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
+                    )
                 } else {
-                    Icons.AutoMirrored.Outlined.Label
-                },
-                contentDescription = (
-                    if (active) {
-                        "Active label"
-                    } else {
-                        "Inactive label"
-                    }
-                    ) + ": $labelName",
-                tint = MaterialTheme.localColorsPalette.colors[label.colorIndex.toInt()],
-            )
-            Text(
-                modifier = Modifier.weight(1f),
-                text = labelName,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyLarge,
-            )
-
-            if (label.isDefault()) {
-                IconButton(onClick = {
-                    onEdit()
-                }) {
-                    Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+                    it
                 }
-            } else {
-                var dropDownMenuExpanded by remember { mutableStateOf(false) }
-                Box {
-                    IconButton(onClick = { dropDownMenuExpanded = true }) {
-                        Icon(
-                            EvaIcons.Outline.MoreVertical,
-                            contentDescription = "More about $labelName",
-                        )
-                    }
-                    BetterDropdownMenu(
-                        expanded = dropDownMenuExpanded,
-                        onDismissRequest = { dropDownMenuExpanded = false },
-                    ) {
-                        val paddingModifier = Modifier.padding(end = 32.dp)
-                        DropdownMenuItem(
-                            modifier = firstMenuItemModifier,
-                            text = { Text(modifier = paddingModifier, text = "Edit") },
-                            onClick = {
-                                onEdit()
-                                dropDownMenuExpanded = false
-                            },
-                            leadingIcon = {
-                                Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
-                            },
-                        )
-                        DropdownMenuItem(
-                            text = { Text(modifier = paddingModifier, text = "Duplicate") },
-                            onClick = {
-                                onDuplicate()
-                                dropDownMenuExpanded = false
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    EvaIcons.Outline.Copy,
-                                    contentDescription = "Duplicate $labelName",
-                                )
-                            },
-                        )
-                        SubtleHorizontalDivider()
-                        DropdownMenuItem(
-                            text = { Text(modifier = paddingModifier, text = "Archive") },
-                            onClick = {
-                                onArchive()
-                                dropDownMenuExpanded = false
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    EvaIcons.Outline.Archive,
-                                    contentDescription = "Archive $labelName",
-                                )
-                            },
-                        )
-                        DropdownMenuItem(
-                            modifier = lastMenuItemModifier,
-                            text = { Text(modifier = paddingModifier, text = "Delete") },
-                            onClick = {
-                                onDelete()
-                                dropDownMenuExpanded = false
-                            },
-                            leadingIcon = {
-                                Icon(
-                                    EvaIcons.Outline.Trash,
-                                    contentDescription = "Delete $labelName",
-                                )
-                            },
-                        )
-                    }
+            }
+            .padding(4.dp),
+    ) {
+        Icon(
+            modifier = dragModifier.clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {},
+            ),
+            imageVector = Icons.Filled.DragIndicator,
+            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            contentDescription = "Drag indicator for $labelName",
+        )
+        Icon(
+            modifier = Modifier
+                .padding(8.dp),
+            imageVector = Icons.AutoMirrored.Outlined.Label,
+            contentDescription = labelName,
+            tint = MaterialTheme.localColorsPalette.colors[label.colorIndex.toInt()],
+        )
+        Text(
+            modifier = Modifier.weight(1f),
+            text = labelName,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+
+        if (label.isDefault()) {
+            IconButton(onClick = {
+                onEdit()
+            }) {
+                Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+            }
+        } else {
+            var dropDownMenuExpanded by remember { mutableStateOf(false) }
+            Box {
+                IconButton(onClick = { dropDownMenuExpanded = true }) {
+                    Icon(
+                        EvaIcons.Outline.MoreVertical,
+                        contentDescription = "More about $labelName",
+                    )
+                }
+                BetterDropdownMenu(
+                    expanded = dropDownMenuExpanded,
+                    onDismissRequest = { dropDownMenuExpanded = false },
+                ) {
+                    val paddingModifier = Modifier.padding(end = 32.dp)
+                    DropdownMenuItem(
+                        modifier = firstMenuItemModifier,
+                        text = { Text(modifier = paddingModifier, text = "Edit") },
+                        onClick = {
+                            onEdit()
+                            dropDownMenuExpanded = false
+                        },
+                        leadingIcon = {
+                            Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+                        },
+                    )
+                    DropdownMenuItem(
+                        text = { Text(modifier = paddingModifier, text = "Duplicate") },
+                        onClick = {
+                            onDuplicate()
+                            dropDownMenuExpanded = false
+                        },
+                        leadingIcon = {
+                            Icon(
+                                EvaIcons.Outline.Copy,
+                                contentDescription = "Duplicate $labelName",
+                            )
+                        },
+                    )
+                    SubtleHorizontalDivider()
+                    DropdownMenuItem(
+                        text = { Text(modifier = paddingModifier, text = "Archive") },
+                        onClick = {
+                            onArchive()
+                            dropDownMenuExpanded = false
+                        },
+                        leadingIcon = {
+                            Icon(
+                                EvaIcons.Outline.Archive,
+                                contentDescription = "Archive $labelName",
+                            )
+                        },
+                    )
+                    DropdownMenuItem(
+                        modifier = lastMenuItemModifier,
+                        text = { Text(modifier = paddingModifier, text = "Delete") },
+                        onClick = {
+                            onDelete()
+                            dropDownMenuExpanded = false
+                        },
+                        leadingIcon = {
+                            Icon(
+                                EvaIcons.Outline.Trash,
+                                contentDescription = "Delete $labelName",
+                            )
+                        },
+                    )
                 }
             }
         }
@@ -228,10 +203,8 @@ fun LabelCardPreview() {
             useDefaultTimeProfile = false,
             timerProfile = TimerProfile(sessionsBeforeLongBreak = 4),
         ),
-        isActive = true,
         isDragging = false,
         dragModifier = Modifier,
-        onActivate = {},
         onEdit = {},
         onDuplicate = {},
         onArchive = {},

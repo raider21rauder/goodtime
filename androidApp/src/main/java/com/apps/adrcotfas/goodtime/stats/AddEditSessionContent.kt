@@ -62,7 +62,7 @@ import java.time.format.TextStyle
 @Composable
 fun AddEditSessionContent(
     session: Session,
-    labels: List<Label>,
+    labels: List<LabelData>,
     onOpenDatePicker: () -> Unit,
     onOpenTimePicker: () -> Unit,
     onOpenLabelSelector: () -> Unit,

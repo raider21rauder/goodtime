@@ -62,6 +62,7 @@ import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_B
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.bl.isActive
+import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialConfig
@@ -167,8 +168,8 @@ fun MainScreen(
     var hideBottomBarWhenActive by remember(fullscreenMode) {
         mutableStateOf(fullscreenMode)
     }
-
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
+    var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
 
     AnimatedVisibility(
         timerUiState.isReady,
@@ -248,6 +249,7 @@ fun MainScreen(
                         modifier = Modifier.align(Alignment.BottomCenter),
                         hide = hideBottomBarWhenActive,
                         onShowSheet = { showNavigationSheet = true },
+                        onLabelClick = { showSelectLabelDialog = true },
                         labelColor = labelColor,
                         badgeItemCount = settingsBadgeItemCount,
                         navController = navController,
@@ -275,6 +277,29 @@ fun MainScreen(
             onNext = viewModel::next,
             onReset = viewModel::resetTimer,
             onUpdateNotes = viewModel::updateNotesForLastCompletedSession,
+        )
+    }
+
+    if (showSelectLabelDialog) {
+        SelectLabelDialog(
+            title = "Select label",
+            singleSelection = true,
+            labels = uiState.labels,
+            onDismiss = { showSelectLabelDialog = false },
+            onConfirm = { selectedLabels ->
+                if (selectedLabels.isNotEmpty()) {
+                    val first = selectedLabels.first()
+                    if (first != label.label.name) {
+                        viewModel.setActiveLabel(first)
+                    }
+                }
+                showSelectLabelDialog = false
+            },
+            extraButtonText = "Edit labels",
+            onExtraButtonClick = {
+                navController.navigate(LabelsDest)
+                showSelectLabelDialog = false
+            },
         )
     }
 }

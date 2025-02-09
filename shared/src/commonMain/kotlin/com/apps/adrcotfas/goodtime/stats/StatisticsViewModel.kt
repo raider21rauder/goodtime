@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -50,7 +49,7 @@ import kotlinx.datetime.DayOfWeek
 
 data class StatisticsUiState(
     val isLoading: Boolean = true,
-    val labels: List<Label> = emptyList(),
+    val labels: List<LabelData> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
 
     // Selection UI related fields
@@ -126,7 +125,15 @@ class StatisticsViewModel(
         viewModelScope.launch {
             localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
                 _uiState.update {
-                    it.copy(labels = labels, selectedLabels = labels.map { label -> label.name })
+                    it.copy(
+                        labels = labels.map { label ->
+                            LabelData(
+                                label.name,
+                                label.colorIndex,
+                            )
+                        },
+                        selectedLabels = labels.map { label -> label.name },
+                    )
                 }
             }
         }

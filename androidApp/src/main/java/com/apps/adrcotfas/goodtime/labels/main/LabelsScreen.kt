@@ -35,7 +35,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,13 +70,11 @@ fun LabelsScreen(
     onNavigateBack: () -> Unit,
     viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
 ) {
-    // TODO: remove selection feature from this screen
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
     val labels = uiState.unarchivedLabels
     val activeLabelName = uiState.activeLabelName
     val defaultLabelName = stringResource(id = R.string.label_default)
-    val isDynamicTheme = uiState.isDynamicColor
 
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     var labelToDelete by remember { mutableStateOf("") }
@@ -145,25 +142,12 @@ fun LabelsScreen(
                 DraggableItem(dragDropState, index) { isDragging ->
                     LabelListItem(
                         label = label,
-                        isActive = label.name == activeLabelName,
-                        isActiveColor = if (isDynamicTheme) {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer.copy(
-                                alpha = 0.2f,
-                            )
-                        },
                         isDragging = isDragging,
                         dragModifier = Modifier.dragContainer(
                             dragDropState = dragDropState,
                             key = label.name,
                             onDragFinished = { viewModel.rearrangeLabelsToDisk() },
                         ),
-                        onActivate = {
-                            if (activeLabelName != label.name) {
-                                viewModel.setActiveLabel(label.name)
-                            }
-                        },
                         onEdit = {
                             onNavigateToLabel(AddEditLabelDest(label.name))
                         },

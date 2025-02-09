@@ -148,12 +148,6 @@ class LabelsViewModel(
         }
     }
 
-    fun setActiveLabel(labelName: String) {
-        viewModelScope.launch {
-            settingsRepository.activateLabelWithName(labelName)
-        }
-    }
-
     fun rearrangeLabel(fromIndex: Int, toIndex: Int) {
         _uiState.update {
             it.copy(
