@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.labels.addedit
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -92,7 +90,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditLabelScreen(
-    viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
+    viewModel: LabelsViewModel = koinViewModel(),
     labelName: String,
     onNavigateBack: () -> Unit,
 ) {

@@ -111,6 +111,9 @@ interface SessionDao {
         considerBreaks: Boolean,
     ): PagingSource<Int, LocalSession>
 
+    @Query("SELECT COUNT(*) FROM localSession WHERE timestamp >= :todayStart")
+    fun selectNumberOfSessionsToday(todayStart: Long): Flow<Int>
+
     @Query("DELETE FROM localSession WHERE id IN (:ids)")
     suspend fun delete(ids: List<Long>)
 

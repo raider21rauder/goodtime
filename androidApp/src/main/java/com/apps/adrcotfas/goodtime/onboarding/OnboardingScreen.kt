@@ -67,7 +67,7 @@ private val lightGray = Color(0xFFDEDEDE)
 private val darkGray = Color(0xFF4C4546)
 
 @Composable
-fun OnboardingScreen(viewModel: OnboardingViewModel = koinViewModel()) {
+fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     val pages = OnboardingPage.pages
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()

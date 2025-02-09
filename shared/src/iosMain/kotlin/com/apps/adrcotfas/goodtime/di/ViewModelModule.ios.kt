@@ -18,9 +18,9 @@
 package com.apps.adrcotfas.goodtime.di
 
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
-import com.apps.adrcotfas.goodtime.main.MainViewModel
+import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
-import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
@@ -30,10 +30,10 @@ import org.koin.dsl.module
 
 actual val viewModelModule: Module = module {
     singleOf(::MainViewModel)
+    singleOf(::TimerViewModel)
     singleOf(::FinishedSessionViewModel)
     singleOf(::LabelsViewModel)
     singleOf(::SettingsViewModel)
     singleOf(::StatisticsViewModel)
     singleOf(::StatisticsHistoryViewModel)
-    singleOf(::OnboardingViewModel)
 }

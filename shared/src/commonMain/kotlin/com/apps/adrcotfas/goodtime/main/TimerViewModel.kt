@@ -31,6 +31,7 @@ import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.bl.isRunning
+import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -43,6 +44,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -52,6 +54,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 import kotlin.math.max
+import kotlin.time.Duration.Companion.seconds
 
 data class TimerUiState(
     val isReady: Boolean = false,
@@ -66,10 +69,6 @@ data class TimerUiState(
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetMinutes: Long = 0,
 ) {
-    fun workSessionIsInProgress(): Boolean {
-        return timerState.isActive && timerType == TimerType.WORK
-    }
-
     val displayTime = max(baseTime, 0)
 
     val isRunning = timerState.isRunning
@@ -79,7 +78,7 @@ data class TimerUiState(
     val isFinished = timerState == TimerState.FINISHED
 }
 
-data class MainUiState(
+data class TimerMainUiState(
     val isLoading: Boolean = false,
     val timerStyle: TimerStyleData = TimerStyleData(),
     val darkThemePreference: ThemePreference = ThemePreference.SYSTEM,
@@ -90,39 +89,37 @@ data class MainUiState(
     val dndDuringWork: Boolean = false,
     val isMainScreen: Boolean = true,
     val labels: List<LabelData> = emptyList(),
-) {
-    fun isDarkTheme(isSystemInDarkTheme: Boolean): Boolean {
-        return darkThemePreference == ThemePreference.DARK ||
-            (darkThemePreference == ThemePreference.SYSTEM && isSystemInDarkTheme)
-    }
-}
+    val sessionCountToday: Int = 0,
+    val startOfToday: Long = 0,
+)
 
-class MainViewModel(
+class TimerViewModel(
     private val timerManager: TimerManager,
     private val timeProvider: TimeProvider,
     private val settingsRepo: SettingsRepository,
     private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
 
-    val timerUiState = timerManager.timerData.flatMapLatest {
-        when (it.state) {
-            TimerState.RUNNING, TimerState.PAUSED -> flow {
-                while (true) {
-                    emitUiState(it)
-                    delay(1000)
+    val timerUiState =
+        timerManager.timerData.flatMapLatest {
+            when (it.state) {
+                TimerState.RUNNING, TimerState.PAUSED -> flow {
+                    while (true) {
+                        emitUiState(it)
+                        delay(1000)
+                    }
+                }
+
+                else -> {
+                    flow { emitUiState(it) }
                 }
             }
+        } // .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
-            else -> {
-                flow { emitUiState(it) }
-            }
-        }
-    } // TODO: .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
-
-    private val _uiState = MutableStateFlow(MainUiState())
+    private val _uiState = MutableStateFlow(TimerMainUiState())
     val uiState = _uiState.onStart {
         loadData()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MainUiState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerMainUiState())
 
     private fun loadData() {
         viewModelScope.launch {
@@ -143,10 +140,33 @@ class MainViewModel(
                             fullscreenMode = uiSettings.fullscreenMode,
                             trueBlackMode = uiSettings.trueBlackModePossible(),
                             dndDuringWork = uiSettings.dndDuringWork,
-                            labels = labels.map { label -> LabelData(label.name, label.colorIndex) },
+                            labels = labels.map { label ->
+                                LabelData(
+                                    label.name,
+                                    label.colorIndex,
+                                )
+                            },
                         )
                     }
                 }
+        }
+        // TODO: merge this and the one above
+        viewModelScope.launch {
+            settingsRepo.settings.map { it.isMainScreen }.distinctUntilChanged()
+                .collect { isMainScreen ->
+                    _uiState.update {
+                        it.copy(isMainScreen = isMainScreen)
+                    }
+                }
+        }
+        viewModelScope.launch {
+            uiState.map { it.startOfToday }.flatMapLatest { startOfToday ->
+                localDataRepo.selectNumberOfSessionsToday(startOfToday)
+            }.distinctUntilChanged().collect { sessionCountToday ->
+                _uiState.update {
+                    it.copy(sessionCountToday = sessionCountToday)
+                }
+            }
         }
     }
 
@@ -173,12 +193,6 @@ class MainViewModel(
 
     fun addOneMinute() {
         timerManager.addOneMinute()
-    }
-
-    fun setIsMainScreen(isMainScreen: Boolean) {
-        _uiState.update {
-            it.copy(isMainScreen = isMainScreen)
-        }
     }
 
     private suspend fun FlowCollector<TimerUiState>.emitUiState(
@@ -229,6 +243,17 @@ class MainViewModel(
     fun setActiveLabel(labelName: String) {
         viewModelScope.launch {
             settingsRepo.activateLabelWithName(labelName)
+        }
+    }
+
+    fun refreshStartOfToday() {
+        viewModelScope.launch {
+            val startOfToday =
+                Time.startOfTodayMillis() + settingsRepo.settings.map { it.workdayStart }
+                    .first().seconds.inWholeMilliseconds
+            _uiState.update {
+                it.copy(startOfToday = startOfToday)
+            }
         }
     }
 }

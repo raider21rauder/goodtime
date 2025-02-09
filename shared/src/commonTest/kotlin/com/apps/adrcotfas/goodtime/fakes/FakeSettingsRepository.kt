@@ -152,6 +152,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setIsMainScreen(isMainScreen: Boolean) {
+        _settings.emit(
+            _settings.value.copy(isMainScreen = isMainScreen),
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),

@@ -108,19 +108,6 @@ fun MainNavigationSheet(
             onClick = navigateToStats,
         )
         IconListItem(
-            title = "Settings",
-            icon = {
-                BadgedBoxWithCount(modifier = modifier, count = settingsBadgeItemCount) {
-                    Icon(
-                        imageVector = EvaIcons.Outline.Settings,
-                        contentDescription = "Settings",
-                    )
-                }
-            },
-            onClick = navigateToSettings,
-        )
-        SubtleHorizontalDivider()
-        IconListItem(
             title = "Backup and restore",
             icon = {
                 Icon(
@@ -132,6 +119,19 @@ fun MainNavigationSheet(
             onClick = {
                 navigateToBackup()
             },
+        )
+        SubtleHorizontalDivider()
+        IconListItem(
+            title = "Settings",
+            icon = {
+                BadgedBoxWithCount(modifier = modifier, count = settingsBadgeItemCount) {
+                    Icon(
+                        imageVector = EvaIcons.Outline.Settings,
+                        contentDescription = "Settings",
+                    )
+                }
+            },
+            onClick = navigateToSettings,
         )
         IconListItem(
             title = "About and feedback",

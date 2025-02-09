@@ -48,4 +48,5 @@ interface SettingsRepository {
     suspend fun activateDefaultLabel()
     suspend fun setLastInsertedSessionId(id: Long)
     suspend fun setOnboardingFinished(finished: Boolean)
+    suspend fun setIsMainScreen(isMainScreen: Boolean)
 }

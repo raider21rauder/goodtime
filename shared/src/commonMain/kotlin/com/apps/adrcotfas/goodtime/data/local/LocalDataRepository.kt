@@ -53,6 +53,8 @@ interface LocalDataRepository {
         showBreaks: Boolean,
     ): PagingSource<Int, LocalSession>
 
+    fun selectNumberOfSessionsToday(todayStart: Long): Flow<Int>
+
     suspend fun deleteSessions(ids: List<Long>)
     suspend fun deleteSessionsExcept(
         unselectedIds: List<Long>,

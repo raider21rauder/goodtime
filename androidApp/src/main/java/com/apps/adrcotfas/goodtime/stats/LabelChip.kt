@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.automirrored.outlined.Label
@@ -117,13 +118,13 @@ fun SmallLabelChip(
         Modifier
             .wrapContentWidth()
             .widthIn(min = 32.dp)
-            .clip(MaterialTheme.shapes.extraSmall)
+            .clip(RoundedCornerShape(6.0.dp))
             .background(color.copy(alpha = 0.15f)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 5.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = labelName,

@@ -33,7 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -54,7 +54,7 @@ fun AboutScreen(
 ) {
     val context = LocalContext.current
 
-    val onboardingViewModel = koinInject<OnboardingViewModel>()
+    val mainViewModel = koinInject<MainViewModel>()
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
@@ -97,7 +97,7 @@ fun AboutScreen(
                 title = "App Intro",
                 icon = { Icon(Icons.Outlined.Flag, contentDescription = "App Intro") },
                 onClick = {
-                    onboardingViewModel.setOnboardingFinished(false)
+                    mainViewModel.setOnboardingFinished(false)
                 },
             )
             IconListItem(

@@ -66,6 +66,7 @@ class SettingsRepositoryImpl(
         val notificationPermissionStateKey = intPreferencesKey("notificationPermissionStateKey")
         val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
         val onboardingFinishedKey = booleanPreferencesKey("onboardingFinishedKey")
+        val isMainScreenKey = booleanPreferencesKey("isMainScreenKey")
     }
 
     override val settings: Flow<AppSettings> = dataStore.data
@@ -126,6 +127,7 @@ class SettingsRepositoryImpl(
                     ?: default.lastInsertedSessionId,
                 onboardingFinished = it[Keys.onboardingFinishedKey]
                     ?: default.onboardingFinished,
+                isMainScreen = it[Keys.isMainScreenKey] ?: default.isMainScreen,
             )
         }.catch {
             log.e("Error parsing settings", it)
@@ -257,5 +259,9 @@ class SettingsRepositoryImpl(
 
     override suspend fun setOnboardingFinished(finished: Boolean) {
         dataStore.edit { it[Keys.onboardingFinishedKey] = finished }
+    }
+
+    override suspend fun setIsMainScreen(isMainScreen: Boolean) {
+        dataStore.edit { it[Keys.isMainScreenKey] = isMainScreen }
     }
 }

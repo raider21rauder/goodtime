@@ -55,6 +55,7 @@ data class AppSettings(
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
     val onboardingFinished: Boolean = false,
+    val isMainScreen: Boolean = true,
 )
 
 enum class NotificationPermissionState {
@@ -94,6 +95,11 @@ enum class ThemePreference {
     SYSTEM,
     LIGHT,
     DARK,
+}
+
+fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean {
+    return this == ThemePreference.DARK ||
+        (this == ThemePreference.SYSTEM && isSystemInDarkTheme)
 }
 
 @Serializable

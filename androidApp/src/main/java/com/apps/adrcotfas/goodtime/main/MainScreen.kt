@@ -59,12 +59,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
+import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialConfig
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControl
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
@@ -87,14 +89,21 @@ private var fullScreenJob: Job? = null
 @Composable
 fun MainScreen(
     navController: NavController,
-    viewModel: MainViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
+    viewModel: TimerViewModel = koinViewModel(),
 ) {
     val activity = LocalActivity.current as ComponentActivity
     val coroutineScope = rememberCoroutineScope()
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle(MainUiState())
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
     if (uiState.isLoading) return
     InitTimerStyle(viewModel)
+
+    LifecycleResumeEffect(Unit) {
+        viewModel.refreshStartOfToday()
+        onPauseOrDispose {
+            // do nothing
+        }
+    }
 
     val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle(TimerUiState())
 
@@ -143,7 +152,7 @@ fun MainScreen(
     )
 
     val backgroundColor by animateColorAsState(
-        if (uiState.isDarkTheme(isSystemInDarkTheme()) &&
+        if (uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme()) &&
             uiState.trueBlackMode &&
             timerUiState.isActive
         ) {
@@ -251,6 +260,7 @@ fun MainScreen(
                         onShowSheet = { showNavigationSheet = true },
                         onLabelClick = { showSelectLabelDialog = true },
                         labelColor = labelColor,
+                        sessionCountToday = uiState.sessionCountToday,
                         badgeItemCount = settingsBadgeItemCount,
                         navController = navController,
                     )

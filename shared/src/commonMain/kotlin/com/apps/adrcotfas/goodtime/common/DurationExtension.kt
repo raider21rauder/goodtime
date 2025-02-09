@@ -40,7 +40,7 @@ fun Duration.formatOverview(): String {
     val remMin = this.inWholeMinutes % 1.hours.inWholeMinutes
 
     return when {
-        this.inWholeMinutes == 0L -> "0 min"
+        this.inWholeMinutes == 0L -> "0min"
         else -> buildString {
             if (hours != 0L) append("${hours}h ")
             if (remMin != 0L) append("${remMin}min")

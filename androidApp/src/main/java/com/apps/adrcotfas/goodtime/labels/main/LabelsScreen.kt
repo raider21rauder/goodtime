@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.labels.main
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -68,7 +66,7 @@ fun LabelsScreen(
     onNavigateToLabel: (Any) -> Unit,
     onNavigateToArchivedLabels: () -> Unit,
     onNavigateBack: () -> Unit,
-    viewModel: LabelsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
+    viewModel: LabelsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return

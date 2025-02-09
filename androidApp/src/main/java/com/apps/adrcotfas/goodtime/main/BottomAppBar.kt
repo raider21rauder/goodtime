@@ -58,6 +58,7 @@ fun BottomAppBar(
     badgeItemCount: Int,
     hide: Boolean,
     labelColor: Color,
+    sessionCountToday: Int,
     onShowSheet: () -> Unit,
     onLabelClick: () -> Unit,
     navController: NavController,
@@ -69,7 +70,6 @@ fun BottomAppBar(
         exit = fadeOut(),
     ) {
         // TODO: consider camera cutouts when in landscape
-        // TODO: add badge for actions
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -106,9 +106,8 @@ fun BottomAppBar(
                             MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.18f),
                         ),
                 ) {
-                    // TODO: current stats of the day
                     Text(
-                        text = "0",
+                        text = sessionCountToday.toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.align(Alignment.Center),
                     )

@@ -37,12 +37,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,6 +69,7 @@ import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
+import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
@@ -81,10 +80,8 @@ import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import com.apps.adrcotfas.goodtime.ui.timerFontAzeretMap
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.ShoppingBag
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.minutes
 
 // TODO add another status indicator for the break budget. imagine a bag with a number [ (bag) 3' ]
 // TODO: top indicators should have the same size as the label chip
@@ -205,8 +202,6 @@ fun CurrentStatusSection(
         BreakBudgetIndicator(
             showBreakBudget = showBreakBudget && !isCountdown,
             breakBudget = breakBudget,
-            color = statusColor,
-            backgroundColor = statusBackgroundColor,
         )
     }
 }
@@ -319,9 +314,10 @@ fun StreakIndicator(
 fun BreakBudgetIndicator(
     showBreakBudget: Boolean,
     breakBudget: Long,
-    color: Color,
-    backgroundColor: Color,
 ) {
+    val color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.55f)
+    val backgroundColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+
     AnimatedVisibility(
         showBreakBudget,
         enter = fadeIn() + expandHorizontally(),
@@ -336,22 +332,21 @@ fun BreakBudgetIndicator(
                 .height(imageSize)
                 .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
-                .padding(horizontal = 8.dp),
+                .padding(5.dp),
         ) {
             Row(
                 modifier = Modifier.align(Alignment.Center),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Icon(
-                    modifier = Modifier.size(imageSize * 0.65f),
-                    imageVector = EvaIcons.Outline.ShoppingBag,
-                    contentDescription = "Selected Color",
-                    tint = color,
+                Image(
+                    colorFilter = ColorFilter.tint(color),
+                    painter = painterResource(R.drawable.ic_break),
+                    contentDescription = "",
                 )
-                Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = "$breakBudget'",
-                    style = MaterialTheme.typography.labelLarge.copy(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    text = breakBudget.minutes.formatOverview(),
+                    style = MaterialTheme.typography.labelMedium.copy(
                         color = color,
                         fontWeight = FontWeight.Bold,
                     ),

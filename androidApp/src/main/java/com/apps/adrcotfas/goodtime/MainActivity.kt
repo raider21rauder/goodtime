@@ -38,10 +38,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
+import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
+import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.AboutDest
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
@@ -51,16 +53,14 @@ import com.apps.adrcotfas.goodtime.main.LabelsDest
 import com.apps.adrcotfas.goodtime.main.LicensesDest
 import com.apps.adrcotfas.goodtime.main.MainDest
 import com.apps.adrcotfas.goodtime.main.MainScreen
-import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.main.NotificationSettingsDest
 import com.apps.adrcotfas.goodtime.main.OnboardingDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerStyleDest
-import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.main.route
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
-import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
@@ -81,7 +81,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
     private val log: Logger by injectLogger("MainActivity")
     private val notificationManager: NotificationArchManager by inject()
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
-    private val onboardingViewModel: OnboardingViewModel by viewModel<OnboardingViewModel>()
 
     @SuppressLint("UnrememberedGetBackStackEntry")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +93,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val onboardingState by onboardingViewModel.onboardingState.collectAsStateWithLifecycle()
+            val onboardingState by viewModel.uiState.collectAsStateWithLifecycle()
 
             // TODO: add loading/splash screen
             if (onboardingState.loading) {
@@ -102,12 +101,10 @@ class MainActivity : ComponentActivity(), KoinComponent {
             }
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val isDarkTheme = uiState.isDarkTheme(isSystemInDarkTheme())
-
-            val timerUiState by viewModel.timerUiState.collectAsStateWithLifecycle(TimerUiState())
-            val workSessionIsInProgress = timerUiState.workSessionIsInProgress()
-            val isActive = timerUiState.isActive
-            val isFinished = timerUiState.isFinished
+            val isDarkTheme = uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme())
+            val workSessionIsInProgress = uiState.isWorkSessionInProgress
+            val isActive = uiState.isActive
+            val isFinished = uiState.isFinished
 
             toggleKeepScreenOn(isActive)
             if (notificationManager.isNotificationPolicyAccessGranted()) {
@@ -118,15 +115,15 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 }
             }
 
-            val considerDarkTheme = remember(onboardingState.finished) {
-                if (!onboardingState.finished) {
+            val considerDarkTheme = remember(onboardingState.onboardingFinished) {
+                if (!onboardingState.onboardingFinished) {
                     false
                 } else {
                     isDarkTheme
                 }
             }
-            val startDestination = remember(onboardingState.finished) {
-                if (onboardingState.finished) {
+            val startDestination = remember(onboardingState.onboardingFinished) {
+                if (onboardingState.onboardingFinished) {
                     MainDest
                 } else {
                     OnboardingDest
@@ -147,7 +144,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                 onDispose {}
             }
 
-            ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.dynamicColor) {
+            ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.isDynamicColor) {
                 val navController = rememberNavController()
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     val isMainScreen = destination.route == MainDest.route
@@ -167,23 +164,31 @@ class MainActivity : ComponentActivity(), KoinComponent {
                     }
                     composable<MainDest> { MainScreen(navController = navController) }
                     composable<LabelsDest> {
+                        val backStackEntry = remember { navController.getBackStackEntry(LabelsDest) }
+                        val viewModel = koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
                         LabelsScreen(
                             onNavigateToLabel = navController::navigate,
                             onNavigateToArchivedLabels = {
                                 navController.navigate(ArchivedLabelsDest)
                             },
                             onNavigateBack = navController::popBackStack,
+                            viewModel = viewModel,
                         )
                     }
-                    composable<AddEditLabelDest> { backStackEntry ->
-                        val addEditLabelDest = backStackEntry.toRoute<AddEditLabelDest>()
+                    composable<AddEditLabelDest> {
+                        val backStackEntry = remember { navController.getBackStackEntry(LabelsDest) }
+                        val viewModel = koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
+                        val addEditLabelDest = it.toRoute<AddEditLabelDest>()
                         AddEditLabelScreen(
                             labelName = addEditLabelDest.name,
                             onNavigateBack = navController::popBackStack,
+                            viewModel = viewModel,
                         )
                     }
                     composable<ArchivedLabelsDest> {
-                        ArchivedLabelsScreen(onNavigateBack = navController::popBackStack)
+                        val backStackEntry = remember { navController.getBackStackEntry(LabelsDest) }
+                        val viewModel = koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
+                        ArchivedLabelsScreen(onNavigateBack = navController::popBackStack, viewModel = viewModel)
                     }
                     composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
                     composable<SettingsDest> {

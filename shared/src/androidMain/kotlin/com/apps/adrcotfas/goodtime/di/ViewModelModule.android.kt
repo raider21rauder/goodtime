@@ -19,9 +19,9 @@ package com.apps.adrcotfas.goodtime.di
 
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
-import com.apps.adrcotfas.goodtime.main.MainViewModel
+import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
-import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
@@ -39,11 +39,11 @@ actual val viewModelModule: Module = module {
     single(named(scopeName)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
 
     viewModelOf(::MainViewModel)
+    viewModelOf(::TimerViewModel)
     viewModelOf(::FinishedSessionViewModel)
     viewModelOf(::LabelsViewModel)
     viewModelOf(::SettingsViewModel)
     viewModel { BackupViewModel(get(), get(named(scopeName))) }
     viewModelOf(::StatisticsViewModel)
     viewModelOf(::StatisticsHistoryViewModel)
-    viewModelOf(::OnboardingViewModel)
 }

@@ -119,6 +119,10 @@ internal class LocalDataRepositoryImpl(
         return sessionDao.selectSessionsForTimelinePaged(labels, showBreaks)
     }
 
+    override fun selectNumberOfSessionsToday(todayStart: Long): Flow<Int> {
+        return sessionDao.selectNumberOfSessionsToday(todayStart)
+    }
+
     override suspend fun deleteSessions(ids: List<Long>) {
         sessionDao.delete(ids)
     }
