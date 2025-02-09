@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
@@ -61,6 +62,7 @@ import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
+import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
@@ -69,6 +71,7 @@ import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
+import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -80,6 +83,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private val onboardingViewModel: OnboardingViewModel by viewModel<OnboardingViewModel>()
 
+    @SuppressLint("UnrememberedGetBackStackEntry")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
@@ -183,7 +187,12 @@ class MainActivity : ComponentActivity(), KoinComponent {
                     }
                     composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
                     composable<SettingsDest> {
+                        val backStackEntry =
+                            remember { navController.getBackStackEntry(SettingsDest) }
+                        val viewModel: SettingsViewModel =
+                            koinViewModel(viewModelStoreOwner = backStackEntry)
                         SettingsScreen(
+                            viewModel = viewModel,
                             onNavigateToGeneralSettings = {
                                 navController.navigate(
                                     GeneralSettingsDest,
@@ -199,13 +208,34 @@ class MainActivity : ComponentActivity(), KoinComponent {
                         )
                     }
                     composable<GeneralSettingsDest> {
-                        GeneralSettingsScreen(onNavigateBack = navController::popBackStack)
+                        val backStackEntry =
+                            remember { navController.getBackStackEntry(SettingsDest) }
+                        val viewModel: SettingsViewModel =
+                            koinViewModel(viewModelStoreOwner = backStackEntry)
+                        GeneralSettingsScreen(
+                            viewModel = viewModel,
+                            onNavigateBack = navController::popBackStack,
+                        )
                     }
                     composable<TimerStyleDest> {
-                        TimerStyleScreen(onNavigateBack = navController::popBackStack)
+                        val backStackEntry =
+                            remember { navController.getBackStackEntry(SettingsDest) }
+                        val viewModel: SettingsViewModel =
+                            koinViewModel(viewModelStoreOwner = backStackEntry)
+                        TimerStyleScreen(
+                            viewModel = viewModel,
+                            onNavigateBack = navController::popBackStack,
+                        )
                     }
                     composable<NotificationSettingsDest> {
-                        NotificationsScreen(onNavigateBack = navController::popBackStack)
+                        val backStackEntry =
+                            remember { navController.getBackStackEntry(SettingsDest) }
+                        val viewModel: SettingsViewModel =
+                            koinViewModel(viewModelStoreOwner = backStackEntry)
+                        NotificationsScreen(
+                            viewModel = viewModel,
+                            onNavigateBack = navController::popBackStack,
+                        )
                     }
 
                     composable<BackupDest> {

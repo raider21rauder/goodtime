@@ -27,17 +27,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.common.screenWidth
-import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.main.MainViewModel
 import com.apps.adrcotfas.goodtime.ui.timerTextAzeretStyle
 import kotlin.math.abs
 import kotlin.math.floor
 
 @Composable
-fun InitTimerStyle(viewModel: SettingsViewModel) {
+fun InitTimerStyle(viewModel: MainViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
 
-    val timerStyle = uiState.settings.timerStyle
+    val timerStyle = uiState.timerStyle
     val configuration = LocalConfiguration.current
 
     val screenWidth = configuration.screenWidth

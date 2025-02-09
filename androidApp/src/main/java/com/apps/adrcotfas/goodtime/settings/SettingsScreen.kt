@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.settings
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -40,7 +38,6 @@ import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.ColorPalette
 import compose.icons.evaicons.outline.Settings
 import kotlinx.coroutines.flow.map
-import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +46,7 @@ fun SettingsScreen(
     onNavigateToGeneralSettings: () -> Unit,
     onNavigateToTimerStyle: () -> Unit,
     onNavigateToNotifications: () -> Unit,
-    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
+    viewModel: SettingsViewModel,
 ) {
     val notificationPermissionState by viewModel.uiState.map { it.settings.notificationPermissionState }
         .collectAsStateWithLifecycle(initialValue = NotificationPermissionState.NOT_ASKED)

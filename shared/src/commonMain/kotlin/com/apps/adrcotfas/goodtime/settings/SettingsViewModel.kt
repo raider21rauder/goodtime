@@ -33,7 +33,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.isoDayNumber
-import kotlin.math.floor
 
 data class SettingsUiState(
     val isLoading: Boolean = true,
@@ -46,7 +45,6 @@ data class SettingsUiState(
 )
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
-
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState = _uiState.onStart {
         loadData()
@@ -252,19 +250,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
             val state =
                 if (granted) NotificationPermissionState.GRANTED else NotificationPermissionState.DENIED
             settingsRepository.setNotificationPermissionState(state)
-        }
-    }
-
-    fun initTimerStyle(maxSize: Float, screenWidth: Float) {
-        viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(
-                    minSize = floor(maxSize / 1.5f),
-                    maxSize = maxSize,
-                    fontSize = floor(maxSize * 0.9f),
-                    currentScreenWidth = screenWidth,
-                )
-            }
         }
     }
 

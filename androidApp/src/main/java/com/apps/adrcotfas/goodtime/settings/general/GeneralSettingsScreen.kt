@@ -23,7 +23,6 @@ import android.os.Build
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,14 +65,13 @@ import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GeneralSettingsScreen(
-    viewModel: SettingsViewModel = koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity),
+    viewModel: SettingsViewModel,
     onNavigateBack: () -> Boolean,
 ) {
     val context = LocalContext.current

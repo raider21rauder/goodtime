@@ -47,6 +47,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.floor
 import kotlin.math.max
 
 data class TimerUiState(
@@ -111,7 +112,7 @@ class MainViewModel(
                 flow { emitUiState(it) }
             }
         }
-    } // .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
+    } //TODO: .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState = _uiState.onStart {
@@ -200,5 +201,18 @@ class MainViewModel(
 
     fun updateNotesForLastCompletedSession(notes: String) {
         timerManager.updateNotesForLastCompletedSession(notes = notes)
+    }
+
+    fun initTimerStyle(maxSize: Float, screenWidth: Float) {
+        viewModelScope.launch {
+            settingsRepo.updateTimerStyle {
+                it.copy(
+                    minSize = floor(maxSize / 1.5f),
+                    maxSize = maxSize,
+                    fontSize = floor(maxSize * 0.9f),
+                    currentScreenWidth = screenWidth,
+                )
+            }
+        }
     }
 }

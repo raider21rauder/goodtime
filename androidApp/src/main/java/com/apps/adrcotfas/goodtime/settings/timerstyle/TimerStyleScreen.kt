@@ -64,15 +64,13 @@ import com.apps.adrcotfas.goodtime.ui.common.dashedBorder
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import com.apps.adrcotfas.goodtime.ui.palette
 import com.apps.adrcotfas.goodtime.ui.timerFontWeights
-import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 
-// TODO: Try to find a workaround until this is fixed: https://issuetracker.google.com/issues/372044241
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerStyleScreen(
-    viewModel: SettingsViewModel = koinViewModel(),
+    viewModel: SettingsViewModel,
     onNavigateBack: () -> Boolean,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
