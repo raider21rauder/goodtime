@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
 import com.apps.adrcotfas.goodtime.common.getVersionName
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import compose.icons.EvaIcons
@@ -69,6 +70,7 @@ private fun IconListItem(
 
 @Composable
 fun MainNavigationSheet(
+    settingsBadgeItemCount: Int,
     navigateToLabels: () -> Unit,
     navigateToStats: () -> Unit,
     navigateToSettings: () -> Unit,
@@ -108,11 +110,12 @@ fun MainNavigationSheet(
         IconListItem(
             title = "Settings",
             icon = {
-                Icon(
-                    modifier = modifier,
-                    imageVector = EvaIcons.Outline.Settings,
-                    contentDescription = "Settings",
-                )
+                BadgedBoxWithCount(modifier = modifier, count = settingsBadgeItemCount) {
+                    Icon(
+                        imageVector = EvaIcons.Outline.Settings,
+                        contentDescription = "Settings",
+                    )
+                }
             },
             onClick = navigateToSettings,
         )

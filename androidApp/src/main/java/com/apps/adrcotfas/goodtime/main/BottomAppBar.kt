@@ -46,6 +46,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
@@ -54,6 +55,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomAppBar(
     modifier: Modifier,
+    badgeItemCount: Int,
     hide: Boolean,
     labelColor: Color,
     onShowSheet: () -> Unit,
@@ -77,10 +79,12 @@ fun BottomAppBar(
             IconButton(
                 onClick = onShowSheet,
             ) {
-                Icon(
-                    imageVector = EvaIcons.Outline.Menu2,
-                    contentDescription = "Open app menu",
-                )
+                BadgedBoxWithCount(count = badgeItemCount) {
+                    Icon(
+                        imageVector = EvaIcons.Outline.Menu2,
+                        contentDescription = "Open app menu",
+                    )
+                }
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = {
@@ -121,6 +125,7 @@ fun BottomAppBar(
 fun BottomNavigationSheet(
     navController: NavController,
     onHideSheet: () -> Unit,
+    settingsBadgeItemCount: Int,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -137,21 +142,28 @@ fun BottomNavigationSheet(
         sheetState = sheetState,
         dragHandle = null,
     ) {
-        MainNavigationSheet(navigateToLabels = {
-            navController.navigate(LabelsDest)
-            hideNavigationSheet()
-        }, navigateToStats = {
-            navController.navigate(StatsDest)
-            hideNavigationSheet()
-        }, navigateToSettings = {
-            navController.navigate(SettingsDest)
-            hideNavigationSheet()
-        }, navigateToBackup = {
-            navController.navigate(BackupDest)
-            hideNavigationSheet()
-        }, navigateToAbout = {
-            navController.navigate(AboutDest)
-            hideNavigationSheet()
-        })
+        MainNavigationSheet(
+            settingsBadgeItemCount = settingsBadgeItemCount,
+            navigateToLabels = {
+                navController.navigate(LabelsDest)
+                hideNavigationSheet()
+            },
+            navigateToStats = {
+                navController.navigate(StatsDest)
+                hideNavigationSheet()
+            },
+            navigateToSettings = {
+                navController.navigate(SettingsDest)
+                hideNavigationSheet()
+            },
+            navigateToBackup = {
+                navController.navigate(BackupDest)
+                hideNavigationSheet()
+            },
+            navigateToAbout = {
+                navController.navigate(AboutDest)
+                hideNavigationSheet()
+            },
+        )
     }
 }

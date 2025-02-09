@@ -70,6 +70,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberCustomDialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
+import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import kotlinx.coroutines.Job
@@ -151,6 +152,12 @@ fun MainScreen(
         },
         label = "main background color",
     )
+
+    val permissionsState = getPermissionsState()
+    val settingsBadgeItemCount = listOf(
+        permissionsState.shouldAskForNotificationPermission,
+        permissionsState.shouldAskForBatteryOptimizationRemoval,
+    ).count { state -> state }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isActive by viewModel.timerUiState.map { it.timerState.isActive }
@@ -242,6 +249,7 @@ fun MainScreen(
                         hide = hideBottomBarWhenActive,
                         onShowSheet = { showNavigationSheet = true },
                         labelColor = labelColor,
+                        badgeItemCount = settingsBadgeItemCount,
                         navController = navController,
                     )
                 }
@@ -253,6 +261,7 @@ fun MainScreen(
         BottomNavigationSheet(
             onHideSheet = { showNavigationSheet = false },
             navController = navController,
+            settingsBadgeItemCount = settingsBadgeItemCount,
         )
     }
 
