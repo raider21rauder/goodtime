@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -41,11 +39,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,13 +52,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntOffset
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
@@ -76,24 +68,16 @@ import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
-
-private var fullScreenJob: Job? = null
 
 @Composable
 fun MainScreen(
     navController: NavController,
+    onSurfaceClick: () -> Unit,
+    hideBottomBar: Boolean,
     viewModel: TimerViewModel = koinViewModel(),
 ) {
-    val activity = LocalActivity.current as ComponentActivity
-    val coroutineScope = rememberCoroutineScope()
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
     if (uiState.isLoading) return
     InitTimerStyle(viewModel)
@@ -154,7 +138,8 @@ fun MainScreen(
     val backgroundColor by animateColorAsState(
         if (uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme()) &&
             uiState.trueBlackMode &&
-            timerUiState.isActive
+            timerUiState.isActive &&
+            hideBottomBar
         ) {
             Color.Black
         } else {
@@ -170,13 +155,7 @@ fun MainScreen(
     ).count { state -> state }
 
     val interactionSource = remember { MutableInteractionSource() }
-    val isActive by viewModel.timerUiState.map { it.timerState.isActive }
-        .collectAsStateWithLifecycle(false)
 
-    val fullscreenMode = uiState.isMainScreen && uiState.fullscreenMode && isActive
-    var hideBottomBarWhenActive by remember(fullscreenMode) {
-        mutableStateOf(fullscreenMode)
-    }
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
     var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -185,32 +164,18 @@ fun MainScreen(
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        LaunchedEffect(fullscreenMode) {
-            fullscreenMode.let {
-                toggleFullscreen(activity, it)
-                if (!it) fullScreenJob?.cancel()
-            }
-        }
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Surface(
                 modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor)
                     .consumeWindowInsets(innerPadding)
                     .padding(bottom = innerPadding.calculateBottomPadding())
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
                     ) {
-                        if (fullscreenMode) {
-                            fullScreenJob?.cancel()
-                            fullScreenJob = coroutineScope.launch {
-                                toggleFullscreen(activity, false)
-                                hideBottomBarWhenActive = false
-                                executeDelayed(3000) {
-                                    toggleFullscreen(activity, true)
-                                    hideBottomBarWhenActive = true
-                                }
-                            }
-                        }
+                        onSurfaceClick()
                     },
             ) {
                 Box(
@@ -256,7 +221,7 @@ fun MainScreen(
                     )
                     BottomAppBar(
                         modifier = Modifier.align(Alignment.BottomCenter),
-                        hide = hideBottomBarWhenActive,
+                        hide = hideBottomBar,
                         onShowSheet = { showNavigationSheet = true },
                         onLabelClick = { showSelectLabelDialog = true },
                         labelColor = labelColor,
@@ -311,26 +276,5 @@ fun MainScreen(
                 showSelectLabelDialog = false
             },
         )
-    }
-}
-
-private fun toggleFullscreen(activity: ComponentActivity, enabled: Boolean) {
-    val windowInsetsController =
-        WindowCompat.getInsetsController(activity.window, activity.window.decorView)
-
-    if (enabled) {
-        windowInsetsController.apply {
-            hide(WindowInsetsCompat.Type.systemBars())
-            systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
-    } else {
-        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
-    }
-}
-
-private suspend fun executeDelayed(delay: Long, block: () -> Unit) {
-    coroutineScope {
-        delay(delay)
-        block()
     }
 }

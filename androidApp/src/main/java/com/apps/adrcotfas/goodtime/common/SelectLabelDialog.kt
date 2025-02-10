@@ -74,7 +74,7 @@ fun SelectLabelDialog(
             Modifier
                 .padding(horizontal = 16.dp)
                 .background(
-                    shape = MaterialTheme.shapes.large,
+                    shape = MaterialTheme.shapes.extraLarge,
                     color = MaterialTheme.colorScheme.surface,
                 ),
         ) {
