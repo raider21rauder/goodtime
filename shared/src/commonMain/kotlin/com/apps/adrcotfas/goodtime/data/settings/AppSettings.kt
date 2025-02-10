@@ -116,16 +116,7 @@ data class TimerStyleData(
     val showBreakBudget: Boolean = true,
 ) {
 
-    fun inUseFontSize(): Float {
-        return if (minutesOnly) {
-            fontSize * MINUTES_ONLY_FONT_SIZE_FACTOR
-        } else {
-            fontSize
-        }
-    }
-    companion object {
-        const val MINUTES_ONLY_FONT_SIZE_FACTOR = 1.75f
-    }
+    fun inUseFontSize() = fontSize
 }
 
 @Serializable
