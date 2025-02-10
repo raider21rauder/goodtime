@@ -44,6 +44,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -64,6 +66,7 @@ fun BottomAppBar(
     onLabelClick: () -> Unit,
     navController: NavController,
 ) {
+    val haptic = LocalHapticFeedback.current
     AnimatedVisibility(
         modifier = modifier,
         visible = !hide,
@@ -79,7 +82,10 @@ fun BottomAppBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                onClick = onShowSheet,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    onShowSheet()
+                },
             ) {
                 BadgedBoxWithCount(count = badgeItemCount) {
                     Icon(
@@ -89,7 +95,10 @@ fun BottomAppBar(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onLabelClick) {
+            IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                onLabelClick()
+            }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,
                     contentDescription = "Labels",
@@ -97,6 +106,7 @@ fun BottomAppBar(
                 )
             }
             IconButton(onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 navController.navigate(StatsDest)
             }) {
                 Box(

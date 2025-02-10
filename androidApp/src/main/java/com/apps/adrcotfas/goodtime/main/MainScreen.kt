@@ -48,9 +48,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -96,6 +98,7 @@ fun MainScreen(
     val labelColor = MaterialTheme.localColorsPalette.colors[label.label.colorIndex.toInt()]
 
     val configuration = LocalConfiguration.current
+    val haptic = LocalHapticFeedback.current
 
     val dialControlState = rememberCustomDialControlState(
         config = DialConfig(size = configuration.screenWidth),
@@ -111,6 +114,7 @@ fun MainScreen(
                 awaitEachGesture {
                     val down = awaitFirstDown(requireUnconsumed = false)
                     it.onDown()
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     var change =
                         awaitTouchSlopOrCancellation(pointerId = down.id) { change, _ ->
                             change.consume()
@@ -205,8 +209,14 @@ fun MainScreen(
                         timerUiState = timerUiState,
                         timerStyle = timerStyle,
                         domainLabel = label,
-                        onStart = viewModel::startTimer,
-                        onToggle = viewModel::toggleTimer,
+                        onStart = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            viewModel.startTimer()
+                        },
+                        onToggle = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            viewModel.toggleTimer()
+                        },
                     )
                     DialControl(
                         modifier = modifier,
