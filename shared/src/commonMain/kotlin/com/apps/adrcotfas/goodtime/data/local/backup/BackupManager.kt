@@ -125,7 +125,7 @@ class BackupManager(
     private suspend fun createCsvBackup(tmpFilePath: String) {
         withContext(defaultDispatcher) {
             fileSystem.sink(tmpFilePath.toPath()).buffer().use { sink ->
-                sink.writeUtf8("start,end,duration,label,notes,work,archived\n")
+                sink.writeUtf8("end,duration,interruptions,label,notes,is_break,is_archived\n")
                 localDataRepository.selectAllSessions().first().forEach { session ->
                     val labelName =
                         if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label
@@ -134,8 +134,8 @@ class BackupManager(
                             "${session.duration}," +
                             "${session.interruptions}," +
                             "$labelName," +
-                            "${session.notes ?: ""}," +
-                            "${session.isWork}," +
+                            "${session.notes}," +
+                            "${!session.isWork}," +
                             "${session.isArchived}\n",
                     )
                 }
@@ -153,12 +153,12 @@ class BackupManager(
                             if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label
                         sink.writeUtf8(
                             "{" +
-                                "\"timestamp\":${session.timestamp.formatToIso8601()}," +
+                                "\"end\":${session.timestamp.formatToIso8601()}," +
                                 "\"duration\":${session.duration}," +
                                 "\"interruptions\":${session.interruptions}," +
                                 "\"label\":\"${labelName}\"," +
-                                "\"notes\":\"${session.notes ?: ""}\"," +
-                                "\"work\":${session.isWork}," +
+                                "\"notes\":\"${session.notes}\"," +
+                                "\"is_break\":${!session.isWork}," +
                                 "\"archived\":${session.isArchived}}",
                         )
                         if (index < localDataRepository.selectAllSessions().first().size - 1) {
