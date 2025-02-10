@@ -77,7 +77,7 @@ fun WorkBreakRatioSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Work/break ratio",
+                "Focus/break ratio",
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,

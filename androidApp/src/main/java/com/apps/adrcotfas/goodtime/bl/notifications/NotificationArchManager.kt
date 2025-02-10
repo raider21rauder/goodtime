@@ -56,9 +56,9 @@ class NotificationArchManager(private val context: Context, private val activity
         val stateText = if (timerType.isWork) {
             if (running) {
                 // TODO: extract strings
-                "Work session in progress"
+                "Focus session in progress"
             } else {
-                "Work session paused"
+                "Focus session paused"
             }
         } else {
             "Break in progress"
@@ -123,7 +123,7 @@ class NotificationArchManager(private val context: Context, private val activity
             val nextActionTitle = if (timerType == TimerType.WORK) {
                 "Start break"
             } else {
-                "Start work"
+                "Start focus"
             }
             val nextAction = createNotificationAction(
                 title = nextActionTitle,
@@ -147,7 +147,7 @@ class NotificationArchManager(private val context: Context, private val activity
         val labelName = data.getLabelName()
 
         val mainStateText = if (timerType == TimerType.WORK) {
-            "Work session finished"
+            "Focus session finished"
         } else {
             "Break finished"
         }
@@ -172,7 +172,7 @@ class NotificationArchManager(private val context: Context, private val activity
                 if (timerType == TimerType.WORK && data.label.profile.isBreakEnabled) {
                     "Start break"
                 } else {
-                    "Start work"
+                    "Start focus"
                 }
             val nextAction = createNotificationAction(
                 title = nextActionTitle,

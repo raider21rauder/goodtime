@@ -202,7 +202,7 @@ fun EditableNumberListItem(
 @Composable
 fun EditableNumberListItemPreview() {
     EditableNumberListItem(
-        title = "Work duration",
+        title = "Focus time",
         value = 25,
         onValueChange = {},
         enableSwitch = true,

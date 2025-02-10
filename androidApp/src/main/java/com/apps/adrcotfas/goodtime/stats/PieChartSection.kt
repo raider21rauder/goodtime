@@ -129,7 +129,7 @@ fun PieChartSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Work distribution",
+                "Focus distribution",
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,

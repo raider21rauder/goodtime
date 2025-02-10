@@ -483,7 +483,7 @@ fun LabelSectionPreview() {
     ApplicationTheme {
         LabelSection(
             showLabel = true,
-            labelName = "Work",
+            labelName = "Focus",
             color = MaterialTheme.localColorsPalette.colors[13],
         )
     }

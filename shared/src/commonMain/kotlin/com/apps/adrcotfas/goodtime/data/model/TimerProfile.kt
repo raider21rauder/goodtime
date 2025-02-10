@@ -22,7 +22,7 @@ import kotlin.time.Duration.Companion.minutes
 
 data class TimerProfile(
     val isCountdown: Boolean = true,
-    /** Work duration in minutes; invalid for isCountdown false */
+    /** Work(focus) duration in minutes; invalid for isCountdown false */
     val workDuration: Int = DEFAULT_WORK_DURATION,
     /** Break duration in minutes */
     val isBreakEnabled: Boolean = true,

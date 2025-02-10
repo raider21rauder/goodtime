@@ -100,7 +100,7 @@ fun AddEditSessionContent(
             FilterChip(
                 onClick = { onUpdate(session.copy(isWork = true)) },
                 label = {
-                    Text("Work")
+                    Text("Focus")
                 },
                 selected = session.isWork,
             )

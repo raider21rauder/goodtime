@@ -383,7 +383,7 @@ private fun ButtonsRow(
 @Composable
 fun NotificationSoundPickerDialogPreview() {
     NotificationSoundPickerDialogContent(
-        title = "Work finished notification sound",
+        title = "Focus complete sound",
         selectedItem = SoundData("Mallet", "Mallet"),
         onSelected = {},
         onSave = {},

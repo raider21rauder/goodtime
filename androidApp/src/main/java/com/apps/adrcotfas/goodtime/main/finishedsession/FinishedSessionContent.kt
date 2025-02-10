@@ -101,7 +101,7 @@ fun FinishedSessionSheet(
         },
         dragHandle = {
             DragHandle(
-                buttonText = if (isBreak) "Start work" else "Start break",
+                buttonText = if (isBreak) "Start focus" else "Start break",
                 onClose = {
                     onReset(updateWorkTime)
                     onUpdateNotes(notes)
@@ -179,7 +179,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) "Break finished" else "Work finished",
+            text = if (isBreak) "Break finished" else "Focus finished",
             style = MaterialTheme.typography.displaySmall,
         )
         CurrentSessionCard(
@@ -235,7 +235,7 @@ private fun CurrentSessionCard(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        if (isBreak) "Break" else "Work",
+                        if (isBreak) "Break" else "Focus",
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
@@ -289,7 +289,7 @@ private fun CurrentSessionCard(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        "Consider idle time as extra work",
+                        "Consider idle time as extra focus",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -328,7 +328,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            "Work",
+                            "Focus",
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(

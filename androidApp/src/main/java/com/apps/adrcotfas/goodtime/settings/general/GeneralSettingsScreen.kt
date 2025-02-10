@@ -129,7 +129,8 @@ fun GeneralSettingsScreen(
                 )
             }
             BetterListItem(
-                title = "Workday start",
+                title = "Custom start of day",
+                subtitle = "Defines when the day begins for statistics.",
                 trailing = secondsOfDayToTimerFormat(
                     uiState.settings.workdayStart,
                     DateFormat.is24HourFormat(context),

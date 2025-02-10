@@ -96,13 +96,13 @@ fun NotificationsScreen(
             SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = "Notifications")
             BetterListItem(
-                title = "Work finished sound",
+                title = "Focus complete sound",
                 subtitle = notificationSoundName(workRingTone),
                 onClick = { viewModel.setShowSelectWorkSoundPicker(true) },
             )
 
             BetterListItem(
-                title = "Break finished sound",
+                title = "Break complete sound",
                 subtitle = notificationSoundName(breakRingTone),
                 onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
             )
@@ -145,7 +145,7 @@ fun NotificationsScreen(
                 viewModel.setInsistentNotification(it)
             }
             CheckboxListItem(
-                title = "Auto start work",
+                title = "Auto start focus",
                 subtitle = "Start the work session after a break without user interaction",
                 checked = settings.autoStartWork,
             ) {
@@ -162,7 +162,7 @@ fun NotificationsScreen(
 
         if (uiState.showSelectWorkSoundPicker) {
             NotificationSoundPickerDialog(
-                title = "Work finished sound",
+                title = "Focus complete sound",
                 selectedItem = candidateRingTone ?: workRingTone,
                 onSelected = {
                     viewModel.setNotificationSoundCandidate(Json.encodeToString(it))
@@ -173,7 +173,7 @@ fun NotificationsScreen(
         }
         if (uiState.showSelectBreakSoundPicker) {
             NotificationSoundPickerDialog(
-                title = "Break finished sound",
+                title = "Break complete sound",
                 selectedItem = candidateRingTone ?: breakRingTone,
                 onSelected = {
                     viewModel.setNotificationSoundCandidate(Json.encodeToString(it))
