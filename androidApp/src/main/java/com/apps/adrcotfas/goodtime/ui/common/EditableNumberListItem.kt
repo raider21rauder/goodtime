@@ -66,7 +66,6 @@ fun EditableNumberListItem(
     minValue: Int = 1,
     maxValue: Int = 90,
     enabled: Boolean = true,
-    autofocus: Boolean = false,
     restoreValueOnClearFocus: Boolean = true,
     icon: (@Composable () -> Unit)? = null,
     onValueChange: (Int) -> Unit,
@@ -170,9 +169,6 @@ fun EditableNumberListItem(
                         }
                     },
             )
-            LaunchedEffect(autofocus) {
-                if (textFieldValue.text.isEmpty()) focusRequester.requestFocus()
-            }
         },
         leadingContent = {
             if (enableSwitch) {
