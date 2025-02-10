@@ -94,10 +94,4 @@ class MainViewModel(
             settingsRepository.setOnboardingFinished(finished)
         }
     }
-
-    fun setIsMainScreen(isMainScreen: Boolean) {
-        viewModelScope.launch {
-            settingsRepository.setIsMainScreen(isMainScreen)
-        }
-    }
 }
