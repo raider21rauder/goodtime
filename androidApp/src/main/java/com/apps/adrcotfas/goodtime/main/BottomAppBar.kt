@@ -44,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
@@ -103,12 +104,15 @@ fun BottomAppBar(
                         .size(32.dp)
                         .clip(CircleShape)
                         .background(
-                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.18f),
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
                         ),
                 ) {
                     Text(
                         text = sessionCountToday.toString(),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }
