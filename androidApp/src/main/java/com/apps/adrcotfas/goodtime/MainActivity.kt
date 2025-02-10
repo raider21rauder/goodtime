@@ -25,7 +25,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -93,7 +97,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private var fullScreenJob: Job? = null
 
-    @SuppressLint("UnrememberedGetBackStackEntry")
+    @SuppressLint("UnrememberedGetBackStackEntry", "UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
@@ -190,122 +194,133 @@ class MainActivity : ComponentActivity(), KoinComponent {
                     val shouldNavigate = navController.currentDestination?.route != MainDest.route
                     if (isFinished && shouldNavigate) navController.navigate(MainDest)
                 }
-                NavHost(
-                    navController = navController,
-                    startDestination = startDestination,
-                ) {
-                    composable<OnboardingDest> { OnboardingScreen() }
-                    composable<MainDest> {
-                        MainScreen(
-                            onSurfaceClick = onSurfaceClick,
-                            hideBottomBar = hideBottomBar,
-                            navController = navController,
-                        )
-                    }
-                    composable<LabelsDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(LabelsDest) }
-                        val viewModel =
-                            koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
-                        LabelsScreen(
-                            onNavigateToLabel = navController::navigate,
-                            onNavigateToArchivedLabels = {
-                                navController.navigate(ArchivedLabelsDest)
-                            },
-                            onNavigateBack = navController::popBackStack,
-                            viewModel = viewModel,
-                        )
-                    }
-                    composable<AddEditLabelDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(LabelsDest) }
-                        val viewModel =
-                            koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
-                        val addEditLabelDest = it.toRoute<AddEditLabelDest>()
-                        AddEditLabelScreen(
-                            labelName = addEditLabelDest.name,
-                            onNavigateBack = navController::popBackStack,
-                            viewModel = viewModel,
-                        )
-                    }
-                    composable<ArchivedLabelsDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(LabelsDest) }
-                        val viewModel =
-                            koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
-                        ArchivedLabelsScreen(
-                            onNavigateBack = navController::popBackStack,
-                            viewModel = viewModel,
-                        )
-                    }
-                    composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
-                    composable<SettingsDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(SettingsDest) }
-                        val viewModel: SettingsViewModel =
-                            koinViewModel(viewModelStoreOwner = backStackEntry)
-                        SettingsScreen(
-                            viewModel = viewModel,
-                            onNavigateToGeneralSettings = {
-                                navController.navigate(
-                                    GeneralSettingsDest,
-                                )
-                            },
-                            onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
-                            onNavigateToNotifications = {
-                                navController.navigate(
-                                    NotificationSettingsDest,
-                                )
-                            },
-                            onNavigateBack = navController::popBackStack,
-                        )
-                    }
-                    composable<GeneralSettingsDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(SettingsDest) }
-                        val viewModel: SettingsViewModel =
-                            koinViewModel(viewModelStoreOwner = backStackEntry)
-                        GeneralSettingsScreen(
-                            viewModel = viewModel,
-                            onNavigateBack = navController::popBackStack,
-                        )
-                    }
-                    composable<TimerStyleDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(SettingsDest) }
-                        val viewModel: SettingsViewModel =
-                            koinViewModel(viewModelStoreOwner = backStackEntry)
-                        TimerStyleScreen(
-                            viewModel = viewModel,
-                            onNavigateBack = navController::popBackStack,
-                        )
-                    }
-                    composable<NotificationSettingsDest> {
-                        val backStackEntry =
-                            remember { navController.getBackStackEntry(SettingsDest) }
-                        val viewModel: SettingsViewModel =
-                            koinViewModel(viewModelStoreOwner = backStackEntry)
-                        NotificationsScreen(
-                            viewModel = viewModel,
-                            onNavigateBack = navController::popBackStack,
-                        )
-                    }
+                Scaffold {
+                    NavHost(
+                        navController = navController,
+                        startDestination = startDestination,
+                        popExitTransition = {
+                            scaleOut(
+                                targetScale = 0.9f,
+                                transformOrigin = TransformOrigin(pivotFractionX = 0.5f, pivotFractionY = 0.5f),
+                            )
+                        },
+                        popEnterTransition = {
+                            EnterTransition.None
+                        },
+                    ) {
+                        composable<OnboardingDest> { OnboardingScreen() }
+                        composable<MainDest> {
+                            MainScreen(
+                                onSurfaceClick = onSurfaceClick,
+                                hideBottomBar = hideBottomBar,
+                                navController = navController,
+                            )
+                        }
+                        composable<LabelsDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(LabelsDest) }
+                            val viewModel =
+                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
+                            LabelsScreen(
+                                onNavigateToLabel = navController::navigate,
+                                onNavigateToArchivedLabels = {
+                                    navController.navigate(ArchivedLabelsDest)
+                                },
+                                onNavigateBack = navController::popBackStack,
+                                viewModel = viewModel,
+                            )
+                        }
+                        composable<AddEditLabelDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(LabelsDest) }
+                            val viewModel =
+                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
+                            val addEditLabelDest = it.toRoute<AddEditLabelDest>()
+                            AddEditLabelScreen(
+                                labelName = addEditLabelDest.name,
+                                onNavigateBack = navController::popBackStack,
+                                viewModel = viewModel,
+                            )
+                        }
+                        composable<ArchivedLabelsDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(LabelsDest) }
+                            val viewModel =
+                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
+                            ArchivedLabelsScreen(
+                                onNavigateBack = navController::popBackStack,
+                                viewModel = viewModel,
+                            )
+                        }
+                        composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
+                        composable<SettingsDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(SettingsDest) }
+                            val viewModel: SettingsViewModel =
+                                koinViewModel(viewModelStoreOwner = backStackEntry)
+                            SettingsScreen(
+                                viewModel = viewModel,
+                                onNavigateToGeneralSettings = {
+                                    navController.navigate(
+                                        GeneralSettingsDest,
+                                    )
+                                },
+                                onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
+                                onNavigateToNotifications = {
+                                    navController.navigate(
+                                        NotificationSettingsDest,
+                                    )
+                                },
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
+                        composable<GeneralSettingsDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(SettingsDest) }
+                            val viewModel: SettingsViewModel =
+                                koinViewModel(viewModelStoreOwner = backStackEntry)
+                            GeneralSettingsScreen(
+                                viewModel = viewModel,
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
+                        composable<TimerStyleDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(SettingsDest) }
+                            val viewModel: SettingsViewModel =
+                                koinViewModel(viewModelStoreOwner = backStackEntry)
+                            TimerStyleScreen(
+                                viewModel = viewModel,
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
+                        composable<NotificationSettingsDest> {
+                            val backStackEntry =
+                                remember { navController.getBackStackEntry(SettingsDest) }
+                            val viewModel: SettingsViewModel =
+                                koinViewModel(viewModelStoreOwner = backStackEntry)
+                            NotificationsScreen(
+                                viewModel = viewModel,
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
 
-                    composable<BackupDest> {
-                        BackupScreen(onNavigateBack = navController::popBackStack)
-                    }
-                    composable<AboutDest> {
-                        AboutScreen(
-                            onNavigateToLicenses = {
-                                navController.navigate(
-                                    LicensesDest,
-                                )
-                            },
-                            onNavigateBack = navController::popBackStack,
-                        )
-                    }
-                    composable<LicensesDest> {
-                        LicensesScreen(onNavigateBack = navController::popBackStack)
+                        composable<BackupDest> {
+                            BackupScreen(onNavigateBack = navController::popBackStack)
+                        }
+                        composable<AboutDest> {
+                            AboutScreen(
+                                onNavigateToLicenses = {
+                                    navController.navigate(
+                                        LicensesDest,
+                                    )
+                                },
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
+                        composable<LicensesDest> {
+                            LicensesScreen(onNavigateBack = navController::popBackStack)
+                        }
                     }
                 }
             }
