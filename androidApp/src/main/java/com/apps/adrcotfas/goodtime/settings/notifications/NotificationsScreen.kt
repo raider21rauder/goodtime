@@ -41,11 +41,9 @@ import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
@@ -84,16 +82,6 @@ fun NotificationsScreen(
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            CompactPreferenceGroupTitle(text = "Productivity Reminder")
-            val reminderSettings = settings.productivityReminderSettings
-            ProductivityReminderListItem(
-                firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
-                selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
-                reminderSecondOfDay = reminderSettings.secondOfDay,
-                onSelectDay = viewModel::onToggleProductivityReminderDay,
-                onReminderTimeClick = { viewModel.setShowTimePicker(true) },
-            )
-            SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = "Notifications")
             BetterListItem(
                 title = "Focus complete sound",

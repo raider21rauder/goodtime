@@ -44,9 +44,6 @@ data object StatsDest
 data object SettingsDest
 
 @Serializable
-data object GeneralSettingsDest
-
-@Serializable
 data object TimerStyleDest
 
 @Serializable

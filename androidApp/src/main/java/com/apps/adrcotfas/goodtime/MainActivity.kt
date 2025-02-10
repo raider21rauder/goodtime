@@ -58,7 +58,6 @@ import com.apps.adrcotfas.goodtime.main.AboutDest
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
 import com.apps.adrcotfas.goodtime.main.BackupDest
-import com.apps.adrcotfas.goodtime.main.GeneralSettingsDest
 import com.apps.adrcotfas.goodtime.main.LabelsDest
 import com.apps.adrcotfas.goodtime.main.LicensesDest
 import com.apps.adrcotfas.goodtime.main.MainDest
@@ -76,7 +75,6 @@ import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
-import com.apps.adrcotfas.goodtime.settings.general.GeneralSettingsScreen
 import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
@@ -260,27 +258,12 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 koinViewModel(viewModelStoreOwner = backStackEntry)
                             SettingsScreen(
                                 viewModel = viewModel,
-                                onNavigateToGeneralSettings = {
-                                    navController.navigate(
-                                        GeneralSettingsDest,
-                                    )
-                                },
                                 onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
                                 onNavigateToNotifications = {
                                     navController.navigate(
                                         NotificationSettingsDest,
                                     )
                                 },
-                                onNavigateBack = navController::popBackStack,
-                            )
-                        }
-                        composable<GeneralSettingsDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(SettingsDest) }
-                            val viewModel: SettingsViewModel =
-                                koinViewModel(viewModelStoreOwner = backStackEntry)
-                            GeneralSettingsScreen(
-                                viewModel = viewModel,
                                 onNavigateBack = navController::popBackStack,
                             )
                         }

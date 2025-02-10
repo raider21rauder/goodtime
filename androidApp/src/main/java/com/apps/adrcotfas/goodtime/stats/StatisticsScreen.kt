@@ -141,7 +141,12 @@ fun StatisticsScreen(
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             } else {
-                Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
+                Column(
+                    modifier = Modifier.padding(
+                        top = paddingValues.calculateTopPadding(),
+                        bottom = paddingValues.calculateBottomPadding(),
+                    ),
+                ) {
                     AnimatedVisibility(!uiState.showSelectionUi) {
                         SecondaryTabRow(
                             selectedTabIndex = type.ordinal,

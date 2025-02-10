@@ -17,6 +17,12 @@
  */
 package com.apps.adrcotfas.goodtime.settings
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import android.text.format.DateFormat
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,29 +31,84 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
+import com.apps.adrcotfas.goodtime.common.findActivity
+import com.apps.adrcotfas.goodtime.common.getAppLanguage
+import com.apps.adrcotfas.goodtime.common.prettyName
+import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
+import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
+import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
+import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
+import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
+import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
+import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
+import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
+import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.ColorPalette
-import compose.icons.evaicons.outline.Settings
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.isoDayNumber
+import org.koin.compose.koinInject
+import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToGeneralSettings: () -> Unit,
     onNavigateToTimerStyle: () -> Unit,
     onNavigateToNotifications: () -> Unit,
     viewModel: SettingsViewModel,
 ) {
+    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val settings = uiState.settings
+    val locale = context.resources.configuration.locales[0]
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+    val notificationManager = koinInject<NotificationArchManager>()
+    var isNotificationPolicyAccessGranted by remember { mutableStateOf(notificationManager.isNotificationPolicyAccessGranted()) }
+    var isNotificationPolicyAccessRequested by remember { mutableStateOf(false) }
+    LaunchedEffect(lifecycleState) {
+        when (lifecycleState) {
+            Lifecycle.State.RESUMED -> {
+                isNotificationPolicyAccessGranted =
+                    notificationManager.isNotificationPolicyAccessGranted()
+                if (isNotificationPolicyAccessRequested && isNotificationPolicyAccessGranted) {
+                    viewModel.setDndDuringWork(true)
+                }
+            }
+
+            else -> {
+                // do nothing
+            }
+        }
+    }
+
     val notificationPermissionState by viewModel.uiState.map { it.settings.notificationPermissionState }
         .collectAsStateWithLifecycle(initialValue = NotificationPermissionState.NOT_ASKED)
 
@@ -65,7 +126,10 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
                 .verticalScroll(listState),
         ) {
             ActionSection(
@@ -74,21 +138,23 @@ fun SettingsScreen(
                     viewModel.setNotificationPermissionGranted(granted)
                 },
             )
-            IconListItem(
-                title = "General settings",
-                icon = {
-                    Icon(
-                        EvaIcons.Outline.Settings,
-                        contentDescription = "General settings",
-                    )
-                },
-                onClick = onNavigateToGeneralSettings,
+
+            CompactPreferenceGroupTitle(text = "Productivity Reminder")
+            val reminderSettings = settings.productivityReminderSettings
+            ProductivityReminderListItem(
+                firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
+                reminderSecondOfDay = reminderSettings.secondOfDay,
+                onSelectDay = viewModel::onToggleProductivityReminderDay,
+                onReminderTimeClick = { viewModel.setShowTimePicker(true) },
             )
+            SubtleHorizontalDivider()
             IconListItem(
                 title = "Timer style",
                 icon = {
                     Icon(
-                        EvaIcons.Outline.ColorPalette,
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        imageVector = EvaIcons.Outline.ColorPalette,
                         contentDescription = "Timer style",
                     )
                 },
@@ -98,12 +164,132 @@ fun SettingsScreen(
                 title = "Notifications",
                 icon = {
                     Icon(
-                        EvaIcons.Outline.Bell,
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        imageVector = EvaIcons.Outline.Bell,
                         contentDescription = "Notifications",
                     )
                 },
                 onClick = onNavigateToNotifications,
             )
+            SubtleHorizontalDivider()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val activity = context.findActivity()
+                BetterListItem(
+                    title = "Language",
+                    trailing = context.getAppLanguage(),
+                    onClick = {
+                        val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                        intent.data = Uri.fromParts("package", activity?.packageName, null)
+                        activity?.startActivity(intent)
+                    },
+                )
+            }
+            BetterListItem(
+                title = "Custom start of day",
+                subtitle = "Defines when the day begins for statistics.",
+                trailing = secondsOfDayToTimerFormat(
+                    uiState.settings.workdayStart,
+                    DateFormat.is24HourFormat(context),
+                ),
+                onClick = {
+                    viewModel.setShowWorkdayStartPicker(true)
+                },
+            )
+            DropdownMenuListItem(
+                title = "Start of the week",
+                value = DayOfWeek.of(uiState.settings.firstDayOfWeek)
+                    .getDisplayName(TextStyle.FULL, locale),
+                dropdownMenuOptions = firstDayOfWeekOptions.map {
+                    it.getDisplayName(
+                        TextStyle.FULL,
+                        locale,
+                    )
+                },
+                onDropdownMenuItemSelected = {
+                    viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
+                },
+            )
+
+            DropdownMenuListItem(
+                title = "Theme",
+                // TODO: use localized strings instead
+                value = uiState.settings.uiSettings.themePreference.prettyName(),
+                dropdownMenuOptions = prettyNames<ThemePreference>(),
+                onDropdownMenuItemSelected = {
+                    viewModel.setThemeOption(ThemePreference.entries[it])
+                },
+            )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                CheckboxListItem(
+                    title = "Use Dynamic Color",
+                    checked = uiState.settings.uiSettings.useDynamicColor,
+                ) {
+                    viewModel.setUseDynamicColor(it)
+                }
+            }
+
+            SubtleHorizontalDivider()
+            CompactPreferenceGroupTitle(text = "During work sessions")
+            CheckboxListItem(
+                title = "Fullscreen mode",
+                checked = uiState.settings.uiSettings.fullscreenMode,
+            ) {
+                viewModel.setFullscreenMode(it)
+            }
+            CheckboxListItem(
+                title = "True black mode",
+                checked = uiState.settings.uiSettings.trueBlackMode,
+                enabled = uiState.settings.uiSettings.fullscreenMode,
+            ) {
+                viewModel.setTrueBlackMode(it)
+            }
+            CheckboxListItem(
+                title = "Keep the screen on",
+                checked = uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setKeepScreenOn(it)
+            }
+            CheckboxListItem(
+                title = "Screensaver mode",
+                checked = uiState.settings.uiSettings.screensaverMode,
+                enabled = uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setScreensaverMode(it)
+            }
+            CheckboxListItem(
+                title = "Do not disturb mode",
+                subtitle = if (isNotificationPolicyAccessGranted) null else "Click to grant permission",
+                checked = uiState.settings.uiSettings.dndDuringWork,
+            ) {
+                if (isNotificationPolicyAccessGranted) {
+                    viewModel.setDndDuringWork(it)
+                } else {
+                    isNotificationPolicyAccessRequested = true
+                    requestDndPolicyAccess(context.findActivity()!!)
+                }
+            }
+        }
+        if (uiState.showWorkdayStartPicker) {
+            val workdayStart = LocalTime.fromSecondOfDay(uiState.settings.workdayStart)
+            val timePickerState = rememberTimePickerState(
+                initialHour = workdayStart.hour,
+                initialMinute = workdayStart.minute,
+                is24Hour = DateFormat.is24HourFormat(context),
+            )
+            TimePicker(
+                onDismiss = { viewModel.setShowWorkdayStartPicker(false) },
+                onConfirm = {
+                    viewModel.setWorkDayStart(timePickerState.toSecondOfDay())
+                    viewModel.setShowWorkdayStartPicker(false)
+                },
+                timePickerState = timePickerState,
+            )
         }
     }
+}
+
+private fun requestDndPolicyAccess(activity: ComponentActivity) {
+    val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+    activity.startActivity(intent)
 }
