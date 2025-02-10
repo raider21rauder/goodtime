@@ -23,17 +23,20 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextDecoration
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 
+private const val MAX_CHARS = 256
 @Composable
 fun TextBox(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    maxLength: Int = MAX_CHARS,
 ) {
     Box(modifier = modifier) {
         BasicTextField(
@@ -48,7 +51,9 @@ fun TextBox(
             singleLine = false,
             value = value,
             onValueChange = {
-                onValueChange(it)
+                if (it.length <= maxLength) {
+                    onValueChange(it)
+                }
             },
         )
         if (value.isEmpty()) {
