@@ -39,25 +39,27 @@ fun IconButtonWithBadge(
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        BadgedBox(
-            badge = {
-                Badge(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                ) {
-                    Text(
-                        count.let {
-                            if (it > 9) {
-                                "9+"
-                            } else {
-                                it.toString()
-                            }
-                        },
-                    )
-                }
-            },
-        ) {
-            IconButton(onClick = onClick, content = icon)
-        }
+        IconButton(onClick = onClick, content = {
+            BadgedBox(
+                badge = {
+                    Badge(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary,
+                    ) {
+                        Text(
+                            count.let {
+                                if (it > 9) {
+                                    "9+"
+                                } else {
+                                    it.toString()
+                                }
+                            },
+                        )
+                    }
+                },
+            ) {
+                icon()
+            }
+        })
     }
 }
