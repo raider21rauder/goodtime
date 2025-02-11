@@ -45,6 +45,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -78,66 +79,77 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
+    Scaffold { padding ->
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFFAFAFA))
-                .align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .padding(bottom = padding.calculateBottomPadding()),
         ) {
-            HorizontalPager(
-                state = pagerState,
-            ) { page ->
-                OnboardingPage(
-                    title = stringResource(pages[page].title),
-                    description = stringResource(pages[page].description),
-                    image = {
-                        Image(
-                            painter = painterResource(id = pages[page].image),
-                            contentDescription = stringResource(pages[page].title),
-                        )
-                    },
-                )
-            }
-        }
-
-        val isLastPage = pagerState.currentPage == pages.lastIndex
-
-        FloatingActionButton(
-            modifier = Modifier.align(Alignment.BottomEnd).padding(32.dp).size(72.dp),
-            containerColor = lightGray,
-            contentColor = darkGray,
-            elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-            shape = CircleShape,
-            onClick = {
-                if (isLastPage) {
-                    viewModel.setOnboardingFinished(true)
-                } else {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                }
-            },
-        ) {
-            Crossfade(isLastPage, label = "onboarding button") {
-                if (it) {
-                    Icon(Icons.Filled.Check, contentDescription = "Finish")
-                } else {
-                    Icon(
-                        Icons.AutoMirrored.Default.ArrowForward,
-                        contentDescription = "Finish",
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFFAFAFA))
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                HorizontalPager(
+                    state = pagerState,
+                ) { page ->
+                    OnboardingPage(
+                        title = stringResource(pages[page].title),
+                        description = stringResource(pages[page].description),
+                        image = {
+                            Image(
+                                painter = painterResource(id = pages[page].image),
+                                contentDescription = stringResource(pages[page].title),
+                            )
+                        },
                     )
                 }
             }
-        }
 
-        OnboardingPageIndicator(
-            modifier = Modifier.align(Alignment.BottomCenter).padding(32.dp),
-            pageCount = pages.size,
-            currentPage = pagerState.currentPage,
-        )
+            val isLastPage = pagerState.currentPage == pages.lastIndex
+
+            FloatingActionButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(32.dp)
+                    .size(72.dp),
+                containerColor = lightGray,
+                contentColor = darkGray,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
+                shape = CircleShape,
+                onClick = {
+                    if (isLastPage) {
+                        viewModel.setOnboardingFinished(true)
+                    } else {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    }
+                },
+            ) {
+                Crossfade(isLastPage, label = "onboarding button") {
+                    if (it) {
+                        Icon(Icons.Filled.Check, contentDescription = "Finish")
+                    } else {
+                        Icon(
+                            Icons.AutoMirrored.Default.ArrowForward,
+                            contentDescription = "Finish",
+                        )
+                    }
+                }
+            }
+
+            OnboardingPageIndicator(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(32.dp),
+                pageCount = pages.size,
+                currentPage = pagerState.currentPage,
+            )
+        }
     }
 }
 
