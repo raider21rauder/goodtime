@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.em
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
-import com.apps.adrcotfas.goodtime.ui.timerTextAzeretStyle
+import com.apps.adrcotfas.goodtime.ui.timerTextRobotoStyle
 import kotlin.math.abs
 import kotlin.math.floor
 
@@ -44,7 +44,7 @@ fun InitTimerStyle(viewModel: TimerViewModel) {
 
     if (timerStyle.fontSize == 0f || abs(screenWidth.value - timerStyle.currentScreenWidth) > 64) {
         val maxContainerWidth = screenWidth * 0.75f
-        val timerTextSize = findMaxFontSize(timerTextAzeretStyle, maxContainerWidth)
+        val timerTextSize = findMaxFontSize(timerTextRobotoStyle, maxContainerWidth)
         viewModel.initTimerStyle(
             maxSize = timerTextSize.em.value,
             screenWidth = screenWidth.value,

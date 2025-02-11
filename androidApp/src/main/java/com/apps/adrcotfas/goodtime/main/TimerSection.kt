@@ -79,7 +79,7 @@ import com.apps.adrcotfas.goodtime.stats.SmallLabelChip
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
-import com.apps.adrcotfas.goodtime.ui.timerFontAzeretMap
+import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.minutes
 
@@ -441,7 +441,7 @@ fun TimerTextView(
         text = millis.formatMilliseconds(timerStyle.minutesOnly),
         style = TextStyle(
             fontSize = timerStyle.inUseFontSize().em,
-            fontFamily = timerFontAzeretMap[timerStyle.fontWeight],
+            fontFamily = timerFontRobotoMap[timerStyle.fontWeight],
             color = color,
         ),
     )

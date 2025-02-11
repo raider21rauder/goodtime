@@ -55,16 +55,18 @@ fun timerFontWith(resId: Int, weight: Int): FontFamily {
         Font(
             resId = resId,
             weight = FontWeight(weight),
-            variationSettings = FontVariation.Settings((FontVariation.weight(weight))),
+            variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
         ),
     )
 }
 
-val timerFontWeights = listOf(100, 200, 300)
-val timerFontAzeretMap =
-    timerFontWeights.associateWith { weight -> timerFontWith(R.font.azeret_mono, weight) }
+val timerFontWeights = listOf(100, 200, 300, 400)
 
-val timerTextAzeretStyle = TextStyle(
-    fontFamily = timerFontAzeretMap[100],
+// TODO: remove unused glyphs from the font
+val timerFontRobotoMap =
+    timerFontWeights.associateWith { weight -> timerFontWith(R.font.roboto_mono, weight) }
+
+val timerTextRobotoStyle = TextStyle(
+    fontFamily = timerFontRobotoMap[100],
     fontSize = 60.em,
 )
