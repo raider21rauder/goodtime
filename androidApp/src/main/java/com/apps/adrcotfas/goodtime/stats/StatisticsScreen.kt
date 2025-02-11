@@ -62,7 +62,6 @@ import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
@@ -207,13 +206,7 @@ fun StatisticsScreen(
                 val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
                 val scope = rememberCoroutineScope()
 
-                val hideSheet = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            viewModel.clearAddEditSession()
-                        }
-                    }
-                }
+                val hideSheet = { viewModel.clearAddEditSession() }
 
                 if (uiState.showAddSession) {
                     ModalBottomSheet(

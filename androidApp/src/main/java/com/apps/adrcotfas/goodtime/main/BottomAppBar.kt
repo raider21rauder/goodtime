@@ -39,7 +39,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,7 +52,6 @@ import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
-import kotlinx.coroutines.launch
 
 @Composable
 fun BottomAppBar(
@@ -138,15 +136,7 @@ fun BottomNavigationSheet(
     onHideSheet: () -> Unit,
     settingsBadgeItemCount: Int,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val hideNavigationSheet = {
-        coroutineScope.launch { sheetState.hide() }.invokeOnCompletion {
-            if (!sheetState.isVisible) {
-                onHideSheet()
-            }
-        }
-    }
 
     ModalBottomSheet(
         onDismissRequest = onHideSheet,
@@ -157,23 +147,23 @@ fun BottomNavigationSheet(
             settingsBadgeItemCount = settingsBadgeItemCount,
             navigateToLabels = {
                 navController.navigate(LabelsDest)
-                hideNavigationSheet()
+                onHideSheet()
             },
             navigateToStats = {
                 navController.navigate(StatsDest)
-                hideNavigationSheet()
+                onHideSheet()
             },
             navigateToSettings = {
                 navController.navigate(SettingsDest)
-                hideNavigationSheet()
+                onHideSheet()
             },
             navigateToBackup = {
                 navController.navigate(BackupDest)
-                hideNavigationSheet()
+                onHideSheet()
             },
             navigateToAbout = {
                 navController.navigate(AboutDest)
-                hideNavigationSheet()
+                onHideSheet()
             },
         )
     }
