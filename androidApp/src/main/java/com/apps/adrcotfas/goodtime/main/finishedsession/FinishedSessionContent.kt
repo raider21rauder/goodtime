@@ -179,7 +179,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) "Break finished" else "Focus finished",
+            text = if (isBreak) "Break complete" else "Focus complete",
             style = MaterialTheme.typography.displaySmall,
         )
         CurrentSessionCard(
