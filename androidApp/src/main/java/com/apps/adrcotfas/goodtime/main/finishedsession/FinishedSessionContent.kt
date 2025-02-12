@@ -59,6 +59,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.WIGGLE_ROOM_MILLIS
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.common.TextBox
+import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import kotlinx.coroutines.delay
@@ -179,7 +180,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) "Break complete" else "Focus complete",
+            text = if (isBreak) "Break complete" else "Session complete",
             style = MaterialTheme.typography.displaySmall,
         )
         CurrentSessionCard(
@@ -239,8 +240,8 @@ private fun CurrentSessionCard(
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
-                        "${timerUiState.completedMinutes} min",
-                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                        timerUiState.completedMinutes.minutes.formatOverview(),
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     )
                 }
 
@@ -254,8 +255,8 @@ private fun CurrentSessionCard(
                         ) {
                             Text("Interruptions", style = MaterialTheme.typography.labelSmall)
                             Text(
-                                "$interruptions min",
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                                interruptions.minutes.formatOverview(),
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                             )
                         }
                     }
@@ -268,8 +269,8 @@ private fun CurrentSessionCard(
                         ) {
                             Text("Idle", style = MaterialTheme.typography.labelSmall)
                             Text(
-                                "$idleMinutes min",
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                                idleMinutes.minutes.formatOverview(),
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                             )
                         }
                     }
@@ -332,8 +333,8 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
-                            "${historyUiState.todayWorkMinutes} min",
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                            historyUiState.todayWorkMinutes.minutes.formatOverview(),
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                         )
                     }
                     Column(
@@ -346,8 +347,8 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
-                            "${historyUiState.todayBreakMinutes} min",
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                            historyUiState.todayBreakMinutes.minutes.formatOverview(),
+                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                         )
                     }
                     if (historyUiState.todayInterruptedMinutes > 0) {
@@ -361,8 +362,8 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(
-                                "${historyUiState.todayInterruptedMinutes} min",
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
+                                historyUiState.todayInterruptedMinutes.minutes.formatOverview(),
+                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                             )
                         }
                     }
