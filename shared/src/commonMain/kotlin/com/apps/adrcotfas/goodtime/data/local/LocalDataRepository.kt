@@ -34,7 +34,7 @@ interface LocalDataRepository {
         newLabel: String,
         unselectedIds: List<Long>,
         selectedLabels: List<String>,
-        considerBreaks: Boolean = false,
+        considerBreaks: Boolean = true,
     )
 
     fun selectAllSessions(): Flow<List<Session>>
@@ -59,7 +59,7 @@ interface LocalDataRepository {
     suspend fun deleteSessionsExcept(
         unselectedIds: List<Long>,
         selectedLabels: List<String>,
-        considerBreaks: Boolean = false,
+        considerBreaks: Boolean = true,
     )
 
     suspend fun deleteAllSessions()
