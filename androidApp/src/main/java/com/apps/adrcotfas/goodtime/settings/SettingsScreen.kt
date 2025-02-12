@@ -286,6 +286,23 @@ fun SettingsScreen(
                 timePickerState = timePickerState,
             )
         }
+        if (uiState.showTimePicker) {
+            val reminderTime =
+                LocalTime.fromSecondOfDay(settings.productivityReminderSettings.secondOfDay)
+            val timePickerState = rememberTimePickerState(
+                initialHour = reminderTime.hour,
+                initialMinute = reminderTime.minute,
+                is24Hour = DateFormat.is24HourFormat(context),
+            )
+            TimePicker(
+                onDismiss = { viewModel.setShowTimePicker(false) },
+                onConfirm = {
+                    viewModel.setReminderTime(timePickerState.toSecondOfDay())
+                    viewModel.setShowTimePicker(false)
+                },
+                timePickerState = timePickerState,
+            )
+        }
     }
 }
 
