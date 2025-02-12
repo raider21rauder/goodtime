@@ -53,7 +53,7 @@ val LabelsUiState.archivedLabels: List<Label>
     get() = labels.filter { it.isArchived }
 
 fun LabelsUiState.labelNameIsValid(): Boolean {
-    val name = newLabel.name
+    val name = newLabel.name.trim()
     return name.isNotEmpty() && !existingLabelNames.map { labels -> labels.lowercase() }
         .minus(labelToEdit?.name?.lowercase())
         .contains(name.lowercase()) && name.lowercase() != defaultLabelDisplayName.lowercase()
@@ -110,13 +110,13 @@ class LabelsViewModel(
 
     fun addLabel(label: Label) {
         viewModelScope.launch {
-            repo.insertLabel(label)
+            repo.insertLabel(label.copy(name = label.name.trim()))
         }
     }
 
     fun updateLabel(labelName: String, label: Label) {
         viewModelScope.launch {
-            repo.updateLabel(labelName, label)
+            repo.updateLabel(labelName, label.copy(name = label.name.trim()))
             val isRenamingActiveLabel =
                 labelName == _uiState.value.activeLabelName && labelName != label.name
             if (isRenamingActiveLabel) {

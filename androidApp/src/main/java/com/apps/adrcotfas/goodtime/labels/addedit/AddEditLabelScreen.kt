@@ -94,7 +94,6 @@ import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-// TODO: fix bug not allowing spaces in the label name
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditLabelScreen(
@@ -175,7 +174,7 @@ fun AddEditLabelScreen(
                     isAddingNewLabel = !isEditMode,
                     labelName = labelNameToDisplay,
                     onValueChange = {
-                        val newLabelName = it.trim()
+                        val newLabelName = it
                         viewModel.setNewLabel(
                             uiState.newLabel.copy(name = newLabelName),
                         )
