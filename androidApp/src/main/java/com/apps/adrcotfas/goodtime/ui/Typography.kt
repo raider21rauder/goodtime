@@ -60,7 +60,7 @@ fun timerFontWith(resId: Int, weight: Int): FontFamily {
     )
 }
 
-val timerFontWeights = listOf(100, 200, 300, 400)
+val timerFontWeights = listOf(100, 200, 300)
 
 // TODO: remove unused glyphs from the font
 val timerFontRobotoMap =
