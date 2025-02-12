@@ -29,6 +29,7 @@ interface LabelDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(label: LocalLabel): Long
 
+    // TODO: should use Upsert here
     @Query(
         """
         UPDATE localLabel SET

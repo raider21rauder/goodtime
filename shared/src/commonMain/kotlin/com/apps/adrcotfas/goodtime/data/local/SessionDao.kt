@@ -31,6 +31,7 @@ interface SessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(session: LocalSession): Long
 
+    // TODO: should use Upsert here
     @Query(
         """
         UPDATE localSession
