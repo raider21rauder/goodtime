@@ -76,10 +76,10 @@ data class ProductivityReminderSettings(
 data class UiSettings(
     val themePreference: ThemePreference = ThemePreference.DARK,
     val useDynamicColor: Boolean = false,
-    val fullscreenMode: Boolean = true,
+    val fullscreenMode: Boolean = false,
     val trueBlackMode: Boolean = true,
     val keepScreenOn: Boolean = true,
-    val screensaverMode: Boolean = true,
+    val screensaverMode: Boolean = false,
     val dndDuringWork: Boolean = false,
 ) {
     fun trueBlackModePossible(): Boolean {
