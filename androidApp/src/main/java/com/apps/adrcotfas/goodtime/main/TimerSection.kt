@@ -435,7 +435,6 @@ fun TimerTextView(
     Text(
         modifier = Modifier
             .then(modifier)
-            .padding(vertical = 8.dp)
             .graphicsLayer(scaleX = scale, scaleY = scale, alpha = alpha.value)
             .then(clickableModifier),
         text = millis.formatMilliseconds(timerStyle.minutesOnly),
