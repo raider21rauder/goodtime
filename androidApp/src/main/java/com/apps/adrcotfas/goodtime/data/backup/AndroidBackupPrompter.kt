@@ -26,7 +26,6 @@ import com.apps.adrcotfas.goodtime.ActivityProvider
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.nio.file.Files
@@ -35,9 +34,7 @@ import java.nio.file.StandardCopyOption
 
 class RestoreActivityResultLauncherManager(
     private val context: Context,
-    private val coroutineScope: CoroutineScope = CoroutineScope(
-        Dispatchers.IO,
-    ),
+    private val coroutineScope: CoroutineScope,
 ) {
     private var importActivityResultLauncher: ManagedActivityResultLauncher<String, Uri?>? = null
     private var importedFilePath: String? = null

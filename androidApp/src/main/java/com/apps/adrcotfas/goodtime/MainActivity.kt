@@ -47,6 +47,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
+import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.di.injectLogger
@@ -64,6 +65,7 @@ import com.apps.adrcotfas.goodtime.main.MainDest
 import com.apps.adrcotfas.goodtime.main.MainScreen
 import com.apps.adrcotfas.goodtime.main.NotificationSettingsDest
 import com.apps.adrcotfas.goodtime.main.OnboardingDest
+import com.apps.adrcotfas.goodtime.main.ProDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerStyleDest
@@ -303,6 +305,9 @@ class MainActivity : ComponentActivity(), KoinComponent {
                         }
                         composable<LicensesDest> {
                             LicensesScreen(onNavigateBack = navController::popBackStack)
+                        }
+                        composable<ProDest> {
+                            ProScreen(onNavigateBack = navController::popBackStack)
                         }
                     }
                 }

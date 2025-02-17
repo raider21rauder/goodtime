@@ -31,7 +31,6 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.notifications.toSoundData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.map
@@ -47,8 +46,8 @@ data class SoundPlayerData(
 
 class SoundPlayer(
     private val context: Context,
-    readFromSettingsScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-    private val playerScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+    ioScope: CoroutineScope,
+    private val playerScope: CoroutineScope,
     private val settingsRepo: SettingsRepository,
     private val logger: Logger,
 ) {
@@ -73,7 +72,7 @@ class SoundPlayer(
         } catch (e: NoSuchMethodException) {
             logger.e(e) { "Failed to get method setLooping" }
         }
-        readFromSettingsScope.launch {
+        ioScope.launch {
             settingsRepo.settings.map { settings ->
                 SoundPlayerData(
                     workSoundUri = settings.workFinishedSound,

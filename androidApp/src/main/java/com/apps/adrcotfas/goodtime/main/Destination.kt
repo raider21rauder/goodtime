@@ -57,3 +57,6 @@ data object AboutDest
 
 @Serializable
 data object LicensesDest
+
+@Serializable
+data object ProDest

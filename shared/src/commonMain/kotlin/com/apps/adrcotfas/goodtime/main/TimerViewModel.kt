@@ -91,6 +91,7 @@ data class TimerMainUiState(
     val labels: List<LabelData> = emptyList(),
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
+    val isPro: Boolean = false,
 )
 
 class TimerViewModel(
@@ -124,31 +125,38 @@ class TimerViewModel(
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            settingsRepo.settings.map { Pair(it.timerStyle, it.uiSettings) }.distinctUntilChanged()
-                .combine(
-                    localDataRepo.selectLabelsByArchived(isArchived = false),
-                ) { (timerStyle, uiSettings), labels ->
-                    Triple(timerStyle, uiSettings, labels)
-                }.collect { (timerStyle, uiSettings, labels) ->
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            timerStyle = timerStyle,
-                            darkThemePreference = uiSettings.themePreference,
-                            dynamicColor = uiSettings.useDynamicColor,
-                            screensaverMode = uiSettings.screenSaverModePossible(),
-                            fullscreenMode = uiSettings.fullscreenMode,
-                            trueBlackMode = uiSettings.trueBlackModePossible(),
-                            dndDuringWork = uiSettings.dndDuringWork,
-                            labels = labels.map { label ->
-                                LabelData(
-                                    label.name,
-                                    label.colorIndex,
-                                )
-                            },
-                        )
-                    }
+            settingsRepo.settings.distinctUntilChanged { old, new ->
+                old.timerStyle == new.timerStyle &&
+                    old.uiSettings == new.uiSettings &&
+                    old.isPro == new.isPro
+            }.combine(
+                localDataRepo.selectLabelsByArchived(isArchived = false),
+            ) { settings, labels ->
+                settings to labels
+            }.collect {
+                val settings = it.first
+                val uiSettings = settings.uiSettings
+                val labels = it.second
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        timerStyle = settings.timerStyle,
+                        darkThemePreference = uiSettings.themePreference,
+                        dynamicColor = uiSettings.useDynamicColor,
+                        screensaverMode = uiSettings.screenSaverModePossible(),
+                        fullscreenMode = uiSettings.fullscreenMode,
+                        trueBlackMode = uiSettings.trueBlackModePossible(),
+                        dndDuringWork = uiSettings.dndDuringWork,
+                        isPro = settings.isPro,
+                        labels = labels.map { label ->
+                            LabelData(
+                                label.name,
+                                label.colorIndex,
+                            )
+                        },
+                    )
                 }
+            }
         }
         // TODO: merge this and the one above
         viewModelScope.launch {

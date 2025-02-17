@@ -58,10 +58,10 @@ import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.WIGGLE_ROOM_MILLIS
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
-import com.apps.adrcotfas.goodtime.common.TextBox
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
+import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

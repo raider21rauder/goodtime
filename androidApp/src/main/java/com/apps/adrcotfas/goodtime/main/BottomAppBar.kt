@@ -31,13 +31,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +45,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
+import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
@@ -126,45 +123,5 @@ fun BottomAppBar(
                 }
             }
         }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BottomNavigationSheet(
-    navController: NavController,
-    onHideSheet: () -> Unit,
-    settingsBadgeItemCount: Int,
-) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
-    ModalBottomSheet(
-        onDismissRequest = onHideSheet,
-        sheetState = sheetState,
-        dragHandle = null,
-    ) {
-        MainNavigationSheet(
-            settingsBadgeItemCount = settingsBadgeItemCount,
-            navigateToLabels = {
-                navController.navigate(LabelsDest)
-                onHideSheet()
-            },
-            navigateToStats = {
-                navController.navigate(StatsDest)
-                onHideSheet()
-            },
-            navigateToSettings = {
-                navController.navigate(SettingsDest)
-                onHideSheet()
-            },
-            navigateToBackup = {
-                navController.navigate(BackupDest)
-                onHideSheet()
-            },
-            navigateToAbout = {
-                navController.navigate(AboutDest)
-                onHideSheet()
-            },
-        )
     }
 }

@@ -46,11 +46,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
-import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
+import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
+import com.apps.adrcotfas.goodtime.ui.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.dragContainer
 import com.apps.adrcotfas.goodtime.ui.rememberDragDropState

@@ -211,4 +211,8 @@ internal class LocalDataRepositoryImpl(
     override suspend fun deleteAllLabels() {
         labelDao.deleteAll()
     }
+
+    override suspend fun archiveAllButDefault() {
+        labelDao.archiveAllButDefault()
+    }
 }

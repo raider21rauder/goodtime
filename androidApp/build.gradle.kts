@@ -19,12 +19,26 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    flavorDimensions += "distribution"
+    productFlavors {
+        create("google") {
+            dimension = "distribution"
+            buildConfigField("boolean", "IS_FDROID", "false")
+        }
+        create("fdroid") {
+            dimension = "distribution"
+            buildConfigField("boolean", "IS_FDROID", "true")
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -35,7 +49,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
-            applicationIdSuffix = ".debug"
             isDebuggable = true
         }
     }
@@ -87,4 +100,6 @@ dependencies {
 
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
+
+    "googleImplementation"(libs.billing.ktx)
 }

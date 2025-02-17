@@ -25,9 +25,6 @@ import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.stats.StatisticsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -35,15 +32,12 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val viewModelModule: Module = module {
-    val scopeName = "viewModelScope"
-    single(named(scopeName)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
-
     viewModelOf(::MainViewModel)
     viewModelOf(::TimerViewModel)
     viewModelOf(::FinishedSessionViewModel)
     viewModelOf(::LabelsViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModel { BackupViewModel(get(), get(named(scopeName))) }
+    viewModel { BackupViewModel(get(), get(named(IO_SCOPE))) }
     viewModelOf(::StatisticsViewModel)
     viewModelOf(::StatisticsHistoryViewModel)
 }

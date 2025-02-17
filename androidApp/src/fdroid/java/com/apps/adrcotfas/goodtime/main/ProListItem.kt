@@ -15,30 +15,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.apps.adrcotfas.goodtime.common
+package com.apps.adrcotfas.goodtime.main
 
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Heart
 
 @Composable
-fun BadgedBoxWithCount(modifier: Modifier = Modifier, count: Int, content: @Composable () -> Unit) {
-    BadgedBox(
-        modifier = modifier,
-        badge = {
-            if (count > 0) {
-                Badge(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
-                ) {
-                    Text(text = count.toString())
-                }
-            }
+fun ProListItem(subtitle: String? = null, centered: Boolean = false, onClick: () -> Unit) {
+    IconTextButton(
+        title = "Support development",
+        subtitle = subtitle,
+        icon = {
+            Icon(
+                imageVector = EvaIcons.Outline.Heart,
+                contentDescription = "Support development",
+            )
         },
-    ) {
-        content()
-    }
+        isFilled = true,
+        centered = centered,
+    ) { onClick() }
 }

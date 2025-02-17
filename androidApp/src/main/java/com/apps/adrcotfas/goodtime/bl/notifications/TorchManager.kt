@@ -24,7 +24,6 @@ import android.hardware.camera2.CameraManager
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
@@ -41,8 +40,8 @@ data class TorchManagerData(
  */
 class TorchManager(
     context: Context,
-    readFromSettingsScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-    private val playerScope: CoroutineScope = CoroutineScope(Dispatchers.Default),
+    ioScope: CoroutineScope,
+    private val playerScope: CoroutineScope,
     private val settingsRepo: SettingsRepository,
     private val logger: Logger,
 ) {
@@ -61,7 +60,7 @@ class TorchManager(
                 break
             }
         }
-        readFromSettingsScope.launch {
+        ioScope.launch {
             settingsRepo.settings.map {
                 TorchManagerData(
                     enabled = it.enableTorch,

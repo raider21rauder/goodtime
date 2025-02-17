@@ -44,11 +44,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
+import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
 import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier

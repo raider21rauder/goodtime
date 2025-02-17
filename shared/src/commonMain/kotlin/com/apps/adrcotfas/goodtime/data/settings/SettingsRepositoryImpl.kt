@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class SettingsRepositoryImpl(
@@ -43,6 +42,7 @@ class SettingsRepositoryImpl(
     private val json = Json { ignoreUnknownKeys = true }
 
     private object Keys {
+        val isProKey = booleanPreferencesKey("isProKey")
         val productivityReminderSettingsKey =
             stringPreferencesKey("productivityReminderSettingsKey")
         val uiSettingsKey = stringPreferencesKey("uiSettingsKey")
@@ -80,6 +80,7 @@ class SettingsRepositoryImpl(
         }.map {
             val default = AppSettings()
             AppSettings(
+                isPro = it[Keys.isProKey] ?: default.isPro,
                 productivityReminderSettings = it[Keys.productivityReminderSettingsKey]?.let { p ->
                     json.decodeFromString<ProductivityReminderSettings>(p)
                 } ?: default.productivityReminderSettings,
@@ -263,5 +264,9 @@ class SettingsRepositoryImpl(
 
     override suspend fun setIsMainScreen(isMainScreen: Boolean) {
         dataStore.edit { it[Keys.isMainScreenKey] = isMainScreen }
+    }
+
+    override suspend fun setPro(isPro: Boolean) {
+        dataStore.edit { it[Keys.isProKey] = isPro }
     }
 }

@@ -17,7 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -25,19 +25,22 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Label
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults.colors
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.common.BadgedBoxWithCount
+import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.getVersionName
+import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
+import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -46,74 +49,107 @@ import compose.icons.evaicons.outline.PieChart
 import compose.icons.evaicons.outline.Settings
 import compose.icons.evaicons.outline.Sync
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun IconListItem(
-    title: String,
-    subtitle: String? = null,
-    icon: @Composable () -> Unit,
-    onClick: () -> Unit,
+fun MainNavigationSheet(
+    navController: NavController,
+    onHideSheet: () -> Unit,
+    settingsBadgeItemCount: Int,
+    showPro: Boolean,
 ) {
-    ListItem(
-        modifier = Modifier
-            .clickable(onClick = onClick),
-        colors = colors(containerColor = Color.Transparent),
-        headlineContent = { Text(text = title) },
-        supportingContent = {
-            subtitle?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.bodySmall,
-                )
-            }
-        },
-        leadingContent = icon,
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    ModalBottomSheet(
+        onDismissRequest = onHideSheet,
+        sheetState = sheetState,
+        dragHandle = null,
+    ) {
+        MainNavigationSheetContent(
+            settingsBadgeItemCount = settingsBadgeItemCount,
+            showPro = showPro,
+            navigateToLabels = {
+                navController.navigate(LabelsDest)
+                onHideSheet()
+            },
+            navigateToStats = {
+                navController.navigate(StatsDest)
+                onHideSheet()
+            },
+            navigateToSettings = {
+                navController.navigate(SettingsDest)
+                onHideSheet()
+            },
+            navigateToBackup = {
+                navController.navigate(BackupDest)
+                onHideSheet()
+            },
+            navigateToAbout = {
+                navController.navigate(AboutDest)
+                onHideSheet()
+            },
+            navigateToPro = {
+                navController.navigate(ProDest)
+                onHideSheet()
+            },
+        )
+    }
 }
 
 @Composable
-fun MainNavigationSheet(
+fun MainNavigationSheetContent(
     settingsBadgeItemCount: Int,
+    showPro: Boolean,
     navigateToLabels: () -> Unit,
     navigateToStats: () -> Unit,
     navigateToSettings: () -> Unit,
     navigateToBackup: () -> Unit,
     navigateToAbout: () -> Unit,
+    navigateToPro: () -> Unit,
 ) {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.padding(vertical = 16.dp).verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 16.dp)
+            .animateContentSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
     ) {
-        val modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-        IconListItem(
+        Text(
+            modifier = Modifier.padding(16.dp),
+            text = "Goodtime Productivity",
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+        )
+
+        if (showPro) {
+            ProListItem { navigateToPro() }
+        }
+        IconTextButton(
             title = "Labels",
             icon = {
                 Icon(
-                    modifier = modifier,
                     imageVector = Icons.AutoMirrored.Outlined.Label,
                     contentDescription = "Labels",
                 )
             },
             onClick = navigateToLabels,
         )
-        IconListItem(
+
+        IconTextButton(
             title = "Statistics",
             icon = {
                 Icon(
-                    modifier = modifier,
                     imageVector = EvaIcons.Outline.PieChart,
                     contentDescription = "Statistics",
                 )
             },
             onClick = navigateToStats,
         )
-        IconListItem(
+        IconTextButton(
             title = "Backup and restore",
             icon = {
                 Icon(
-                    modifier = modifier,
                     imageVector = EvaIcons.Outline.Sync,
                     contentDescription = "Backup and restore",
                 )
@@ -123,10 +159,10 @@ fun MainNavigationSheet(
             },
         )
         SubtleHorizontalDivider()
-        IconListItem(
+        IconTextButton(
             title = "Settings",
             icon = {
-                BadgedBoxWithCount(modifier = modifier, count = settingsBadgeItemCount) {
+                BadgedBoxWithCount(count = settingsBadgeItemCount) {
                     Icon(
                         imageVector = EvaIcons.Outline.Settings,
                         contentDescription = "Settings",
@@ -135,12 +171,11 @@ fun MainNavigationSheet(
             },
             onClick = navigateToSettings,
         )
-        IconListItem(
+        IconTextButton(
             title = "About and feedback",
-            subtitle = "Goodtime Productivity ${context.getVersionName()}",
+            subtitle = "v${context.getVersionName()}",
             icon = {
                 Icon(
-                    modifier = modifier,
                     imageVector = EvaIcons.Outline.Info,
                     contentDescription = "About and feedback",
                 )

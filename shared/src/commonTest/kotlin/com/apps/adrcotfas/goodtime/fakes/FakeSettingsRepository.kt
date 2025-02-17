@@ -158,6 +158,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setPro(isPro: Boolean) {
+        _settings.emit(
+            _settings.value.copy(isPro = true),
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),

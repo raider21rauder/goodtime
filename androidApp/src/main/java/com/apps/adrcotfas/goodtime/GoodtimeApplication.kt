@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime
 
 import android.app.Application
 import android.content.Context
+import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.EventListener
@@ -34,10 +35,13 @@ import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
 import com.apps.adrcotfas.goodtime.data.backup.RestoreActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.di.IO_SCOPE
+import com.apps.adrcotfas.goodtime.di.WORKER_SCOPE
 import com.apps.adrcotfas.goodtime.di.getWith
 import com.apps.adrcotfas.goodtime.di.insertKoin
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
@@ -55,7 +59,10 @@ class GoodtimeApplication : Application() {
                 single<Context> { this@GoodtimeApplication }
                 single(createdAtStart = true) { ActivityProvider(this@GoodtimeApplication) }
                 single<RestoreActivityResultLauncherManager> {
-                    RestoreActivityResultLauncherManager(get())
+                    RestoreActivityResultLauncherManager(
+                        get(),
+                        coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+                    )
                 }
 
                 single<BackupPrompter> {
@@ -92,6 +99,8 @@ class GoodtimeApplication : Application() {
                 single {
                     SoundPlayer(
                         context = get(),
+                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
                         settingsRepo = get(),
                         logger = getWith("SoundPlayer"),
                     )
@@ -99,12 +108,15 @@ class GoodtimeApplication : Application() {
                 single {
                     VibrationPlayer(
                         context = get(),
+                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
                         settingsRepo = get(),
                     )
                 }
                 single {
                     TorchManager(
                         context = get(),
+                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
                         settingsRepo = get(),
                         logger = getWith("TorchManager"),
                     )
@@ -117,10 +129,13 @@ class GoodtimeApplication : Application() {
                     )
                 }
             },
+            flavorModule,
         )
         val reminderHelper = get<ReminderHelper>()
         applicationScope.launch {
             reminderHelper.init()
         }
+        val billing = get<BillingAbstract>()
+        billing.init()
     }
 }

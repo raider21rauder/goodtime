@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
+import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -69,6 +69,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
+import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
@@ -245,10 +246,11 @@ fun MainScreen(
     }
 
     if (showNavigationSheet) {
-        BottomNavigationSheet(
+        MainNavigationSheet(
             onHideSheet = { showNavigationSheet = false },
             navController = navController,
             settingsBadgeItemCount = settingsBadgeItemCount,
+            showPro = BuildConfig.IS_FDROID || !uiState.isPro,
         )
     }
 

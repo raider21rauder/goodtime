@@ -52,11 +52,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.apps.adrcotfas.goodtime.common.ConfirmationDialog
-import com.apps.adrcotfas.goodtime.common.IconButtonWithBadge
-import com.apps.adrcotfas.goodtime.common.SelectLabelDialog
+import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
+import com.apps.adrcotfas.goodtime.ui.common.IconButtonWithBadge
+import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime

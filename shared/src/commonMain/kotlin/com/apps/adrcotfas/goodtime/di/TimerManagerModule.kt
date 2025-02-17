@@ -23,6 +23,7 @@ import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val timerManagerModule = module {
@@ -34,6 +35,7 @@ val timerManagerModule = module {
             get<TimeProvider>(),
             get<FinishedSessionsHandler>(),
             getWith("TimerManager"),
+            coroutineScope = get(named(IO_SCOPE)),
         )
     }
 }

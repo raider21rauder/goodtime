@@ -50,14 +50,21 @@ import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
+const val WORKER_SCOPE = "worker_scope"
+const val MAIN_SCOPE = "main_scope"
+const val IO_SCOPE = "io_scope"
+
 private val coroutineScopeModule = module {
-    single<CoroutineScope> { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
+    single<CoroutineScope>(named(WORKER_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
+    single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
+    single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
 }
 
-fun insertKoin(appModule: Module): KoinApplication {
+fun insertKoin(appModule: Module, flavorModule: Module): KoinApplication {
     return startKoin {
         modules(
             appModule,
+            flavorModule,
             coroutineScopeModule,
             platformModule,
             coreModule,
@@ -69,9 +76,6 @@ fun insertKoin(appModule: Module): KoinApplication {
 }
 
 expect fun isDebug(): Boolean
-private val String.withPrefixIfDebug
-    get() = if (isDebug()) "### $this" else this
-
 expect val platformModule: Module
 
 private val coreModule = module {
@@ -81,16 +85,15 @@ private val coreModule = module {
                 logWriterList = listOf(platformLogWriter()),
                 minSeverity = if (isDebug()) Severity.Verbose else Severity.Info,
             ),
-            tag = "Goodtime".withPrefixIfDebug,
+            tag = "Goodtime",
         )
-    factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag.withPrefixIfDebug) else baseLogger }
+    factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
 
     single<LocalDataRepository> {
         LocalDataRepositoryImpl(
             get<ProductivityDatabase>().sessionsDao(),
             get<ProductivityDatabase>().labelsDao(),
-            // TODO: extract coroutine scopes used in DI
-            CoroutineScope(SupervisorJob() + Dispatchers.IO),
+            get<CoroutineScope>(named(IO_SCOPE)),
         )
     }
     single<SettingsRepository> {
@@ -105,7 +108,7 @@ private val coreModule = module {
 
     single<FinishedSessionsHandler> {
         FinishedSessionsHandler(
-            get<CoroutineScope>(),
+            get<CoroutineScope>(named(IO_SCOPE)),
             get<LocalDataRepository>(),
             get<SettingsRepository>(),
             getWith("FinishedSessionsHandler"),

@@ -77,4 +77,5 @@ interface LocalDataRepository {
     fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>>
     suspend fun deleteLabel(name: String)
     suspend fun deleteAllLabels()
+    suspend fun archiveAllButDefault()
 }

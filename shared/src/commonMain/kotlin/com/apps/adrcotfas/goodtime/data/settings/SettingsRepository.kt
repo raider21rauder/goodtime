@@ -49,4 +49,5 @@ interface SettingsRepository {
     suspend fun setLastInsertedSessionId(id: Long)
     suspend fun setOnboardingFinished(finished: Boolean)
     suspend fun setIsMainScreen(isMainScreen: Boolean)
+    suspend fun setPro(isPro: Boolean)
 }

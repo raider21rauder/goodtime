@@ -61,7 +61,7 @@ fun CompactPreferenceGroupTitle(modifier: Modifier = Modifier, text: String) {
 
 @Composable
 fun SubtleHorizontalDivider() {
-    HorizontalDivider(color = DividerDefaults.color.copy(alpha = 0.38f))
+    HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f))
 }
 
 @Composable

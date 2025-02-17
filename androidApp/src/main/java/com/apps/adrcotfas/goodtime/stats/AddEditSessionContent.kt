@@ -46,10 +46,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
-import com.apps.adrcotfas.goodtime.common.TextBox
-import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
+import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Clock

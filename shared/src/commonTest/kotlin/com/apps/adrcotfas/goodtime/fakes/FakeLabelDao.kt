@@ -109,4 +109,14 @@ class FakeLabelDao : LabelDao {
     override suspend fun deleteAll() {
         labels.value = labels.value.filter { it.name == Label.DEFAULT_LABEL_NAME }
     }
+
+    override suspend fun archiveAllButDefault() {
+        labels.value = labels.value.map {
+            if (it.name != Label.DEFAULT_LABEL_NAME) {
+                it.copy(isArchived = true)
+            } else {
+                it
+            }
+        }
+    }
 }

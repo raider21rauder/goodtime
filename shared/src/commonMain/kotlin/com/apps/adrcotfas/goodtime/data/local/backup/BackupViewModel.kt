@@ -19,8 +19,6 @@ package com.apps.adrcotfas.goodtime.data.local.backup
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -37,7 +35,7 @@ data class BackupUiState(
 
 class BackupViewModel(
     private val backupManager: BackupManager,
-    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
+    private val coroutineScope: CoroutineScope,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BackupUiState())

@@ -23,6 +23,9 @@ import android.os.Build
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -52,6 +55,7 @@ import com.apps.adrcotfas.goodtime.common.prettyName
 import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
+import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.labels.utils.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
@@ -60,7 +64,7 @@ import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.SwitchListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
@@ -130,7 +134,8 @@ fun SettingsScreen(
                     top = paddingValues.calculateTopPadding(),
                     bottom = paddingValues.calculateBottomPadding(),
                 )
-                .verticalScroll(listState),
+                .verticalScroll(listState)
+                .animateContentSize(),
         ) {
             ActionSection(
                 notificationPermissionState = notificationPermissionState,
@@ -148,7 +153,6 @@ fun SettingsScreen(
                 onSelectDay = viewModel::onToggleProductivityReminderDay,
                 onReminderTimeClick = { viewModel.setShowTimePicker(true) },
             )
-            SubtleHorizontalDivider()
             IconListItem(
                 title = "Timer style",
                 icon = {
@@ -171,7 +175,6 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToNotifications,
             )
-            SubtleHorizontalDivider()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val activity = context.findActivity()
                 BetterListItem(
@@ -229,7 +232,14 @@ fun SettingsScreen(
                 }
             }
 
-            SubtleHorizontalDivider()
+            // TODO: implement this
+            SwitchListItem(
+                title = "Show session counter",
+                subtitle = "Show today's number of completed sessions",
+                checked = true,
+            ) {
+            }
+
             CompactPreferenceGroupTitle(text = "During work sessions")
             CheckboxListItem(
                 title = "Fullscreen mode",
@@ -237,12 +247,20 @@ fun SettingsScreen(
             ) {
                 viewModel.setFullscreenMode(it)
             }
-            CheckboxListItem(
-                title = "True black mode",
-                checked = uiState.settings.uiSettings.trueBlackMode,
-                enabled = uiState.settings.uiSettings.fullscreenMode,
+            AnimatedVisibility(
+                uiState.settings.uiSettings.useDynamicColor &&
+                    uiState.settings.uiSettings.themePreference.isDarkTheme(
+                        isSystemInDarkTheme(),
+                    ),
             ) {
-                viewModel.setTrueBlackMode(it)
+                CheckboxListItem(
+                    title = "True black mode",
+                    subtitle = "Use true black for the background",
+                    checked = uiState.settings.uiSettings.trueBlackMode,
+                    enabled = uiState.settings.uiSettings.fullscreenMode,
+                ) {
+                    viewModel.setTrueBlackMode(it)
+                }
             }
             CheckboxListItem(
                 title = "Keep the screen on",

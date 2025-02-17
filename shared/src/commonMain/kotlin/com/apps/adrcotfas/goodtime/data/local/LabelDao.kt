@@ -69,7 +69,10 @@ interface LabelDao {
     suspend fun updateIsArchived(isArchived: Boolean, name: String)
 
     @Transaction
-    suspend fun insertLabelAndBulkRearrange(label: LocalLabel, labelsToUpdate: List<Pair<String, Long>>) {
+    suspend fun insertLabelAndBulkRearrange(
+        label: LocalLabel,
+        labelsToUpdate: List<Pair<String, Long>>,
+    ) {
         insert(label)
         labelsToUpdate.forEach { (name, newOrderIndex) ->
             updateOrderIndex(newOrderIndex.toInt(), name)
@@ -97,4 +100,7 @@ interface LabelDao {
 
     @Query("DELETE FROM localLabel WHERE name != 'PRODUCTIVITY_DEFAULT_LABEL'")
     suspend fun deleteAll()
+
+    @Query("UPDATE localLabel SET isArchived = true WHERE name != 'PRODUCTIVITY_DEFAULT_LABEL'")
+    suspend fun archiveAllButDefault()
 }

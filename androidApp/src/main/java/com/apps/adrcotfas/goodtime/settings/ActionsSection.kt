@@ -27,20 +27,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import com.apps.adrcotfas.goodtime.common.ActionCard
 import com.apps.adrcotfas.goodtime.common.askForDisableBatteryOptimization
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
+import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
-import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 
 @Composable
 fun ActionSection(notificationPermissionState: NotificationPermissionState, onNotificationPermissionGranted: (Boolean) -> Unit) {
@@ -88,8 +84,6 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
                     },
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            SubtleHorizontalDivider()
         }
     }
 }

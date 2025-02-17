@@ -25,7 +25,6 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -37,13 +36,13 @@ data class VibrationData(
 class VibrationPlayer(
     context: Context,
     private val settingsRepo: SettingsRepository,
-    readFromSettingsScope: CoroutineScope = CoroutineScope(Dispatchers.IO),
+    ioScope: CoroutineScope,
 ) {
 
     private var data: VibrationData = VibrationData(3, false)
 
     init {
-        readFromSettingsScope.launch {
+        ioScope.launch {
             settingsRepo.settings.map {
                 VibrationData(
                     it.vibrationStrength,

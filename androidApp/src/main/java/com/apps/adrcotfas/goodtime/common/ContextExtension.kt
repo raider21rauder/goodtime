@@ -95,3 +95,10 @@ fun Context.isIgnoringBatteryOptimizations(): Boolean {
 fun Context.areNotificationsEnabled(): Boolean {
     return NotificationManagerCompat.from(this).areNotificationsEnabled()
 }
+
+fun Context.openUrl(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url)
+    }
+    startActivity(intent)
+}
