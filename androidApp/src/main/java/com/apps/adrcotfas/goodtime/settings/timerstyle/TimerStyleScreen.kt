@@ -57,6 +57,7 @@ import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -64,6 +65,9 @@ import com.apps.adrcotfas.goodtime.ui.common.dashedBorder
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import com.apps.adrcotfas.goodtime.ui.palette
 import com.apps.adrcotfas.goodtime.ui.timerFontWeights
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Unlock
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 
@@ -71,12 +75,15 @@ import kotlin.time.Duration.Companion.minutes
 @Composable
 fun TimerStyleScreen(
     viewModel: SettingsViewModel,
+    onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isPro = uiState.settings.isPro
+
     if (uiState.isLoading) return
 
-    val timerStyle = uiState.settings.timerStyle
+    val timerStyle = if (isPro) uiState.settings.timerStyle else uiState.lockedTimerStyle
 
     val listState = rememberScrollState()
 
@@ -92,7 +99,7 @@ fun TimerStyleScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(top = paddingValues.calculateTopPadding(), bottom = paddingValues.calculateBottomPadding())
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
@@ -101,6 +108,17 @@ fun TimerStyleScreen(
             var sessionsBeforeLongBreak by rememberSaveable { mutableIntStateOf(4) }
             var streak by rememberSaveable { mutableIntStateOf(1) }
             var timerType by rememberSaveable { mutableStateOf(TimerType.WORK) }
+
+            if (!isPro) {
+                ActionCard(icon = {
+                    Icon(
+                        imageVector = EvaIcons.Outline.Unlock,
+                        contentDescription = "Unlock Premium",
+                    )
+                }, description = "Unlock Premium to save timer style") {
+                    onNavigateToPro()
+                }
+            }
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 SliderListItem(

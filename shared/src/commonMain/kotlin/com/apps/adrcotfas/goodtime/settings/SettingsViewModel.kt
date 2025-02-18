@@ -23,6 +23,7 @@ import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
+import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -37,6 +38,7 @@ import kotlinx.datetime.isoDayNumber
 data class SettingsUiState(
     val isLoading: Boolean = true,
     val settings: AppSettings = AppSettings(),
+    val lockedTimerStyle: TimerStyleData = TimerStyleData(),
     val showTimePicker: Boolean = false,
     val showWorkdayStartPicker: Boolean = false,
     val showSelectWorkSoundPicker: Boolean = false,
@@ -58,6 +60,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
                     it.copy(
                         isLoading = false,
                         settings = settings,
+                        lockedTimerStyle = settings.timerStyle,
                     )
                 }
             }
@@ -253,52 +256,90 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
+    // Timer style settings bellow
+
     fun setTimerWeight(weight: Int) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(fontWeight = weight)
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(fontWeight = weight)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(fontWeight = weight))
+                }
             }
         }
     }
 
     fun setTimerSize(size: Float) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(
-                    fontSize = size,
-                )
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(
+                        fontSize = size,
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(fontSize = size))
+                }
             }
         }
     }
 
     fun setTimerMinutesOnly(enabled: Boolean) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(minutesOnly = enabled)
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(minutesOnly = enabled)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(minutesOnly = enabled))
+                }
             }
         }
     }
 
     fun setShowStatus(showStatus: Boolean) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(showStatus = showStatus)
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(showStatus = showStatus)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(showStatus = showStatus))
+                }
             }
         }
     }
 
     fun setShowStreak(showStreak: Boolean) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(showStreak = showStreak)
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(showStreak = showStreak)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(showStreak = showStreak))
+                }
             }
         }
     }
 
     fun setShowLabel(showLabel: Boolean) {
         viewModelScope.launch {
-            settingsRepository.updateTimerStyle {
-                it.copy(showLabel = showLabel)
+            if (uiState.value.settings.isPro) {
+                settingsRepository.updateTimerStyle {
+                    it.copy(showLabel = showLabel)
+                }
+            } else {
+                _uiState.update {
+                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(showLabel = showLabel))
+                }
             }
         }
     }

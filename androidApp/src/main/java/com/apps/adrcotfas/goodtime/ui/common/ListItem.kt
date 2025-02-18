@@ -83,7 +83,7 @@ fun BetterListItem(
     title: String,
     subtitle: String? = null,
     trailing: String,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
 ) {
     BetterListItem(
@@ -106,6 +106,7 @@ fun BetterListItem(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String? = null,
+    leading: @Composable (() -> Unit)? = null,
     trailing: @Composable (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     enabled: Boolean = true,
@@ -120,6 +121,7 @@ fun BetterListItem(
             internalModifier
         },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
+        leadingContent = leading,
         headlineContent = { Text(text = title) },
         supportingContent = {
             subtitle?.let {
@@ -249,12 +251,17 @@ fun CheckboxListItem(
     enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    BetterListItem(
-        modifier = modifier.toggleable(
+    val toggleableModifier = if (enabled) {
+        modifier.toggleable(
             value = checked,
             onValueChange = { onCheckedChange(!checked) },
             role = Role.Checkbox,
-        ),
+        )
+    } else {
+        modifier
+    }
+    BetterListItem(
+        modifier = toggleableModifier,
         title = title,
         subtitle = subtitle,
         trailing = {
@@ -265,7 +272,7 @@ fun CheckboxListItem(
             )
         },
         enabled = enabled,
-        onClick = { onCheckedChange(!checked) },
+        onClick = if (enabled) { { onCheckedChange.invoke(!checked) } } else null,
     )
 }
 

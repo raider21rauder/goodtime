@@ -60,6 +60,7 @@ fun DragHandle(startButton: @Composable () -> Unit, endButton: @Composable () ->
 fun DragHandle(
     onClose: () -> Unit,
     buttonText: String,
+    buttonIcon: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     isEnabled: Boolean,
 ) {
@@ -71,7 +72,10 @@ fun DragHandle(
         },
         endButton = {
             Button(onClick = onClick, enabled = isEnabled) {
-                Text(text = buttonText)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start), verticalAlignment = Alignment.CenterVertically) {
+                    buttonIcon?.let { it() }
+                    Text(text = buttonText)
+                }
             }
         },
     )
@@ -80,5 +84,5 @@ fun DragHandle(
 @Preview
 @Composable
 fun DragHandlePreview() {
-    DragHandle({}, "Save", {}, true)
+    DragHandle({}, "Save", null, {}, true)
 }

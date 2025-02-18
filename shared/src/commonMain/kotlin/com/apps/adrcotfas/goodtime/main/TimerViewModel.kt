@@ -38,6 +38,7 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.stats.LabelData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -101,6 +102,7 @@ class TimerViewModel(
     private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val timerUiState =
         timerManager.timerData.flatMapLatest {
             when (it.state) {

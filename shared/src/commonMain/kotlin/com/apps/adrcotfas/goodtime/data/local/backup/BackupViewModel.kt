@@ -18,13 +18,20 @@
 package com.apps.adrcotfas.goodtime.data.local.backup
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class BackupUiState(
+    val isPro: Boolean = false,
     val isBackupInProgress: Boolean = false,
     val isCsvBackupInProgress: Boolean = false,
     val isJsonBackupInProgress: Boolean = false,
@@ -35,11 +42,23 @@ data class BackupUiState(
 
 class BackupViewModel(
     private val backupManager: BackupManager,
+    private val settingsRepository: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BackupUiState())
-    val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.onStart { loadData() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BackupUiState())
+
+    private fun loadData() {
+        viewModelScope.launch {
+            settingsRepository.settings.map { it.isPro }.distinctUntilChanged().collect { isPro ->
+                _uiState.update {
+                    it.copy(isPro = isPro)
+                }
+            }
+        }
+    }
 
     fun backup() {
         coroutineScope.launch {

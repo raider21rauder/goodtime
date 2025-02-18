@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 
 // TODO: split another viewmodel from this for AddEditLabel
 data class LabelsUiState(
+    val isPro: Boolean = true,
     val isLoading: Boolean = true,
     val isDynamicColor: Boolean = false,
     val labels: List<Label> = emptyList(),
@@ -90,7 +91,8 @@ class LabelsViewModel(
         viewModelScope.launch {
             settingsRepository.settings.distinctUntilChanged { old, new ->
                 old.labelName == new.labelName &&
-                    old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor
+                    old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
+                    old.isPro == new.isPro
             }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
                 activeLabelName to labels
             }.distinctUntilChanged()
@@ -98,6 +100,7 @@ class LabelsViewModel(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
+                            isPro = settings.isPro,
                             activeLabelName = settings.labelName,
                             isDynamicColor = settings.uiSettings.useDynamicColor,
                             labels = labels,

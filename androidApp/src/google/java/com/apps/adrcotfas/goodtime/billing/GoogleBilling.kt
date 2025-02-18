@@ -37,6 +37,7 @@ import com.android.billingclient.api.QueryPurchasesParams
 import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -46,11 +47,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlin.math.floor
 
 class GoogleBilling(
     context: Context,
@@ -428,8 +431,22 @@ class GoogleBilling(
      * Reset the state of the app when a refund is made.
      */
     private suspend fun resetPreferencesOnRefund() {
-        // TODO: reset pro features
+        resetTimerStyle()
+        settingsRepository.setEnableTorch(false)
+        settingsRepository.setInsistentNotification(false)
+        settingsRepository.activateDefaultLabel()
         dataRepository.archiveAllButDefault()
+    }
+
+    private suspend fun resetTimerStyle() {
+        val oldTimerStyle = settingsRepository.settings.first().timerStyle
+        val newTimerStyle = TimerStyleData(
+            minSize = oldTimerStyle.minSize,
+            maxSize = oldTimerStyle.maxSize,
+            fontSize = floor(oldTimerStyle.maxSize * 0.9f),
+            currentScreenWidth = oldTimerStyle.currentScreenWidth,
+        )
+        settingsRepository.updateTimerStyle { newTimerStyle }
     }
 
     companion object {

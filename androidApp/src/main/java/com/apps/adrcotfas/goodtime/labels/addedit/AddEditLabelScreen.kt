@@ -91,6 +91,9 @@ import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Unlock
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -99,6 +102,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AddEditLabelScreen(
     viewModel: LabelsViewModel = koinViewModel(),
     labelName: String,
+    onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -181,7 +185,11 @@ fun AddEditLabelScreen(
                     },
                     showError = !uiState.labelNameIsValid(),
                 )
-                ColorSelectRow(selectedIndex = label.colorIndex.toInt()) {
+                ColorSelectRow(
+                    enabled = uiState.isPro,
+                    selectedIndex = label.colorIndex.toInt(),
+                    onNavigateToPro = onNavigateToPro,
+                ) {
                     viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -443,23 +451,62 @@ private fun LabelNameRow(
 }
 
 @Composable
-private fun ColorSelectRow(selectedIndex: Int, onClick: (Int) -> Unit) {
+private fun ColorSelectRow(
+    enabled: Boolean,
+    selectedIndex: Int,
+    onNavigateToPro: () -> Unit,
+    onClick: (Int) -> Unit,
+) {
     val colors = MaterialTheme.localColorsPalette.colors
     val listState = rememberLazyListState(selectedIndex)
 
-    LazyRow(
-        state = listState,
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        itemsIndexed(colors) { index, color ->
-            LabelColorPickerItem(
-                color = color,
-                isSelected = index == selectedIndex,
-                onClick = {
-                    onClick(index)
-                },
-            )
+    Box(modifier = Modifier.wrapContentSize()) {
+        LazyRow(
+            modifier = Modifier
+                .align(Alignment.Center)
+                .height(48.dp),
+            state = listState,
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            itemsIndexed(colors) { index, color ->
+                LabelColorPickerItem(
+                    color = color,
+                    isSelected = index == selectedIndex,
+                    onClick = {
+                        if (enabled) {
+                            onClick(index)
+                        }
+                    },
+                )
+            }
+        }
+        if (!enabled) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = MaterialTheme.colorScheme.background.copy(
+                            alpha = 0.38f,
+                        ),
+                    )
+                    .align(Alignment.Center),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Button(
+                    onClick = onNavigateToPro,
+                ) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Unlock,
+                            contentDescription = null,
+                        )
+                        Text(text = "Unlock colors")
+                    }
+                }
+            }
         }
     }
 }

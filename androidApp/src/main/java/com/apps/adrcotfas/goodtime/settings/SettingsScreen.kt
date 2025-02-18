@@ -64,7 +64,6 @@ import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
-import com.apps.adrcotfas.goodtime.ui.common.SwitchListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay

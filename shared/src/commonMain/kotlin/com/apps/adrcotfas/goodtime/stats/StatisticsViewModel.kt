@@ -49,6 +49,7 @@ import kotlinx.datetime.DayOfWeek
 
 data class StatisticsUiState(
     val isLoading: Boolean = true,
+    val isPro: Boolean = false,
     val labels: List<LabelData> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
 
@@ -115,7 +116,8 @@ class StatisticsViewModel(
     private fun loadData() {
         val settingsFlow = settingsRepository.settings.distinctUntilChanged { old, new ->
             old.firstDayOfWeek == new.firstDayOfWeek &&
-                old.workdayStart == new.workdayStart
+                old.workdayStart == new.workdayStart &&
+                old.isPro == new.isPro
         }
         val uiStateFlow = uiState.distinctUntilChanged { old, new ->
             old.selectedLabels == new.selectedLabels
@@ -152,11 +154,13 @@ class StatisticsViewModel(
             combine(settingsFlow, uiStateFlow) { settings, uiState ->
                 settings to uiState
             }.flatMapLatest {
+                val isPro = it.first.isPro
                 val firstDayOfWeek = DayOfWeek(it.first.firstDayOfWeek)
                 val workDayStart = it.first.workdayStart
                 _uiState.update { uiState ->
                     uiState.copy(
                         isLoading = true,
+                        isPro = isPro,
                         workDayStart = workDayStart,
                         firstDayOfWeek = firstDayOfWeek,
                     )

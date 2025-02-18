@@ -44,7 +44,6 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,6 +59,9 @@ import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.toLocalTime
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Lock
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
@@ -204,8 +206,6 @@ fun StatisticsScreen(
                 }
 
                 val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                val scope = rememberCoroutineScope()
-
                 val hideSheet = { viewModel.clearAddEditSession() }
 
                 if (uiState.showAddSession) {
@@ -215,7 +215,17 @@ fun StatisticsScreen(
                         dragHandle = {
                             DragHandle(
                                 buttonText = "Save",
-                                isEnabled = uiState.canSave,
+                                isEnabled = uiState.canSave && uiState.isPro,
+                                buttonIcon = if (uiState.isPro) {
+                                    null
+                                } else {
+                                    {
+                                        Icon(
+                                            imageVector = EvaIcons.Outline.Lock,
+                                            contentDescription = "Unlock Premium",
+                                        )
+                                    }
+                                },
                                 onClose = { hideSheet() },
                                 onClick = {
                                     viewModel.saveSession()

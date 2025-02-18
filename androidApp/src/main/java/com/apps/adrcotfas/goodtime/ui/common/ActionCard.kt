@@ -19,11 +19,14 @@ package com.apps.adrcotfas.goodtime.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,9 +35,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Heart
 
 @Composable
-fun ActionCard(cta: String, description: String, onClick: () -> Unit) {
+fun ActionCard(
+    icon: (@Composable () -> Unit)? = null,
+    cta: String? = null,
+    description: String,
+    onClick: () -> Unit,
+) {
     Card(
         colors = CardDefaults.cardColors().copy(
             containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
@@ -51,16 +62,28 @@ fun ActionCard(cta: String, description: String, onClick: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            icon?.let {
+                Box(
+                    modifier = Modifier.size(48.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    it()
+                }
+            }
             Text(
-                modifier = Modifier.padding(12.dp).weight(1f),
+                modifier = Modifier
+                    .padding(12.dp)
+                    .weight(1f),
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
             )
-            TextButton(
-                onClick = onClick,
-                modifier = Modifier.padding(horizontal = 4.dp),
-            ) {
-                Text(text = cta)
+            cta?.let {
+                TextButton(
+                    onClick = onClick,
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                ) {
+                    Text(text = cta)
+                }
             }
         }
     }
@@ -71,6 +94,21 @@ fun ActionCard(cta: String, description: String, onClick: () -> Unit) {
 fun AskForPermissionCardPreview() {
     ActionCard(
         cta = "Allow",
+        description = "Allow this app to run in the background",
+        onClick = {},
+    )
+}
+
+@Preview
+@Composable
+fun ActionCardWithIcon() {
+    ActionCard(
+        icon = {
+            Icon(
+                imageVector = EvaIcons.Outline.Heart,
+                contentDescription = "Support development",
+            )
+        },
         description = "Allow this app to run in the background",
         onClick = {},
     )

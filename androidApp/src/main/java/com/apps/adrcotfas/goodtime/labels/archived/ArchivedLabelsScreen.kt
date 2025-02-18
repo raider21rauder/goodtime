@@ -98,6 +98,7 @@ fun ArchivedLabelsScreen(
                             labelToDelete = label.name
                             showDeleteConfirmationDialog = true
                         },
+                        enableUnarchive = uiState.isPro,
                         onLastItemUnarchive = if (labels.size == 1) {
                             onNavigateBack
                         } else {
@@ -128,6 +129,7 @@ fun ArchivedLabelsScreen(
 @Composable
 fun ArchivedLabelListItem(
     modifier: Modifier,
+    enableUnarchive: Boolean,
     label: Label,
     onUnarchive: () -> Unit,
     onDelete: () -> Unit,
@@ -167,6 +169,7 @@ fun ArchivedLabelListItem(
             ) {
                 val paddingModifier = Modifier.padding(end = 32.dp)
                 DropdownMenuItem(
+                    enabled = enableUnarchive,
                     modifier = firstMenuItemModifier,
                     text = { Text(modifier = paddingModifier, text = "Unarchive") },
                     onClick = {

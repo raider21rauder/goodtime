@@ -37,7 +37,7 @@ actual val viewModelModule: Module = module {
     viewModelOf(::FinishedSessionViewModel)
     viewModelOf(::LabelsViewModel)
     viewModelOf(::SettingsViewModel)
-    viewModel { BackupViewModel(get(), get(named(IO_SCOPE))) }
+    viewModel { BackupViewModel(get(), get(), get(named(IO_SCOPE))) }
     viewModelOf(::StatisticsViewModel)
     viewModelOf(::StatisticsHistoryViewModel)
 }

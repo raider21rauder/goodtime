@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -40,9 +41,13 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.backup.RestoreActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CircularProgressListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Unlock
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +55,7 @@ import org.koin.compose.koinInject
 fun BackupScreen(
     viewModel: BackupViewModel = koinInject(),
     activityResultLauncherManager: RestoreActivityResultLauncherManager = koinInject(),
+    onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
     val context = LocalContext.current
@@ -121,15 +127,28 @@ fun BackupScreen(
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
+            if (!uiState.isPro) {
+                ActionCard(icon = {
+                    Icon(
+                        imageVector = EvaIcons.Outline.Unlock,
+                        contentDescription = "Unlock Premium",
+                    )
+                }, description = "Unlock Premium to access features") {
+                    onNavigateToPro()
+                }
+            }
+
             CircularProgressListItem(
                 title = "Export backup",
                 subtitle = "The file can be imported back",
+                enabled = uiState.isPro,
                 showProgress = uiState.isBackupInProgress,
             ) {
                 viewModel.backup()
             }
             CircularProgressListItem(
                 title = "Restore backup",
+                enabled = uiState.isPro,
                 showProgress = uiState.isRestoreInProgress,
             ) {
                 viewModel.restore()
@@ -137,12 +156,14 @@ fun BackupScreen(
             SubtleHorizontalDivider()
             CircularProgressListItem(
                 title = "Export CSV",
+                enabled = uiState.isPro,
                 showProgress = uiState.isCsvBackupInProgress,
             ) {
                 viewModel.backupToCsv()
             }
             CircularProgressListItem(
                 title = "Export JSON",
+                enabled = uiState.isPro,
                 showProgress = uiState.isJsonBackupInProgress,
             ) {
                 viewModel.backupToJson()

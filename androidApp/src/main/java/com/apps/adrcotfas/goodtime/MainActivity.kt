@@ -201,7 +201,10 @@ class MainActivity : ComponentActivity(), KoinComponent {
                         popExitTransition = {
                             scaleOut(
                                 targetScale = 0.9f,
-                                transformOrigin = TransformOrigin(pivotFractionX = 0.5f, pivotFractionY = 0.5f),
+                                transformOrigin = TransformOrigin(
+                                    pivotFractionX = 0.5f,
+                                    pivotFractionY = 0.5f,
+                                ),
                             )
                         },
                         popEnterTransition = {
@@ -226,6 +229,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 onNavigateToArchivedLabels = {
                                     navController.navigate(ArchivedLabelsDest)
                                 },
+                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
                                 viewModel = viewModel,
                             )
@@ -238,6 +242,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                             val addEditLabelDest = it.toRoute<AddEditLabelDest>()
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
+                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
                                 viewModel = viewModel,
                             )
@@ -276,6 +281,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 koinViewModel(viewModelStoreOwner = backStackEntry)
                             TimerStyleScreen(
                                 viewModel = viewModel,
+                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
                             )
                         }
@@ -286,12 +292,16 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 koinViewModel(viewModelStoreOwner = backStackEntry)
                             NotificationsScreen(
                                 viewModel = viewModel,
+                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
                             )
                         }
 
                         composable<BackupDest> {
-                            BackupScreen(onNavigateBack = navController::popBackStack)
+                            BackupScreen(
+                                onNavigateToPro = { navController.navigate(ProDest) },
+                                onNavigateBack = navController::popBackStack,
+                            )
                         }
                         composable<AboutDest> {
                             AboutScreen(
