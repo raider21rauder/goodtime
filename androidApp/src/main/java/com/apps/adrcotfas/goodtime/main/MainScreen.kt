@@ -269,9 +269,10 @@ fun MainScreen(
 
     if (showSelectLabelDialog) {
         SelectLabelDialog(
-            title = "Select label",
+            title = "Select active label",
             singleSelection = true,
             labels = uiState.labels,
+            initialSelectedLabels = listOf(timerUiState.label.label.name),
             onDismiss = { showSelectLabelDialog = false },
             onConfirm = { selectedLabels ->
                 if (selectedLabels.isNotEmpty()) {

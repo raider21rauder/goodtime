@@ -105,7 +105,7 @@ fun SelectLabelDialog(
                             label.name,
                             label.colorIndex,
                             selected = selectedLabels.contains(label.name),
-                            showIcon = !singleSelection,
+                            showIcon = true,
                         ) {
                             if (singleSelection) {
                                 onConfirm(listOf(label.name))
