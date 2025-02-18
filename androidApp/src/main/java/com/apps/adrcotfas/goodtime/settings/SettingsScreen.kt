@@ -232,14 +232,6 @@ fun SettingsScreen(
                 }
             }
 
-            // TODO: implement this
-            SwitchListItem(
-                title = "Show session counter",
-                subtitle = "Show today's number of completed sessions",
-                checked = true,
-            ) {
-            }
-
             CompactPreferenceGroupTitle(text = "During work sessions")
             CheckboxListItem(
                 title = "Fullscreen mode",
