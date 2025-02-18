@@ -27,13 +27,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,9 +43,6 @@ import androidx.compose.ui.window.DialogProperties
 import com.apps.adrcotfas.goodtime.common.rememberMutableStateListOf
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.stats.LabelData
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Edit
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -59,8 +53,7 @@ fun SelectLabelDialog(
     onDismiss: () -> Unit,
     labels: List<LabelData>,
     initialSelectedLabels: List<String> = emptyList(),
-    extraButtonText: String? = null,
-    onExtraButtonClick: (() -> Unit)? = null,
+    buttons: @Composable (() -> Unit)? = null,
 ) {
     val selectedLabels = rememberMutableStateListOf(*initialSelectedLabels.toTypedArray())
 
@@ -121,35 +114,23 @@ fun SelectLabelDialog(
                         }
                     }
                 }
-                val hasExtraButton = onExtraButtonClick != null && extraButtonText != null
-                if (!singleSelection || hasExtraButton) {
-                    Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(32.dp))
+                if (!singleSelection) {
                     Row(
                         modifier = Modifier
                             .height(40.dp)
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                     ) {
-                        if (hasExtraButton) {
-                            FilledTonalButton(onClick = onExtraButtonClick!!) {
-                                Icon(
-                                    imageVector = EvaIcons.Outline.Edit,
-                                    contentDescription = extraButtonText,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(extraButtonText!!)
-                            }
-                        } else {
-                            TextButton(onClick = onDismiss) { Text(stringResource(id = android.R.string.cancel)) }
-                            TextButton(onClick = { onConfirm(selectedLabels) }) {
-                                Text(
-                                    stringResource(id = android.R.string.ok),
-                                )
-                            }
+                        TextButton(onClick = onDismiss) { Text(stringResource(id = android.R.string.cancel)) }
+                        TextButton(onClick = { onConfirm(selectedLabels) }) {
+                            Text(
+                                stringResource(id = android.R.string.ok),
+                            )
                         }
                     }
-                } else {
-                    Spacer(modifier = Modifier.height(16.dp))
+                } else if (buttons != null) {
+                    buttons()
                 }
             }
         }
