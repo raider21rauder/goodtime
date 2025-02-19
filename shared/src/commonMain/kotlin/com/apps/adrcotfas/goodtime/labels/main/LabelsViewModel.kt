@@ -23,7 +23,6 @@ import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.labels.utils.generateUniqueNameForDuplicate
-import com.apps.adrcotfas.goodtime.ui.lightPalette
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -33,32 +32,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-// TODO: split another viewmodel from this for AddEditLabel
 data class LabelsUiState(
-    val isPro: Boolean = true,
     val isLoading: Boolean = true,
-    val isDynamicColor: Boolean = false,
+    val isPro: Boolean = true,
     val labels: List<Label> = emptyList(),
     val activeLabelName: String = Label.DEFAULT_LABEL_NAME,
     val archivedLabelCount: Int = 0,
-
-    val defaultLabelDisplayName: String = "",
-    val labelToEdit: Label? = null, // this does not change after initialization
-    val newLabel: Label = Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
 )
-
-val LabelsUiState.existingLabelNames: List<String>
-    get() = labels.map { label -> label.name }
 
 val LabelsUiState.archivedLabels: List<Label>
     get() = labels.filter { it.isArchived }
-
-fun LabelsUiState.labelNameIsValid(): Boolean {
-    val name = newLabel.name.trim()
-    return name.isNotEmpty() && !existingLabelNames.map { labels -> labels.lowercase() }
-        .minus(labelToEdit?.name?.lowercase())
-        .contains(name.lowercase()) && name.lowercase() != defaultLabelDisplayName.lowercase()
-}
 
 val LabelsUiState.unarchivedLabels: List<Label>
     get() = labels.filter { !it.isArchived }
@@ -73,25 +56,10 @@ class LabelsViewModel(
         loadData()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LabelsUiState())
 
-    fun init(labelToEditName: String? = null, defaultLabelName: String) {
-        val labelToEdit = labelToEditName?.let { name ->
-            uiState.value.labels.find { label -> label.name == name }
-        }
-        _uiState.update {
-            it.copy(
-                defaultLabelDisplayName = defaultLabelName,
-                labelToEdit = labelToEdit,
-                newLabel = labelToEdit
-                    ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
-            )
-        }
-    }
-
     private fun loadData() {
         viewModelScope.launch {
             settingsRepository.settings.distinctUntilChanged { old, new ->
                 old.labelName == new.labelName &&
-                    old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
                     old.isPro == new.isPro
             }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
                 activeLabelName to labels
@@ -102,32 +70,11 @@ class LabelsViewModel(
                             isLoading = false,
                             isPro = settings.isPro,
                             activeLabelName = settings.labelName,
-                            isDynamicColor = settings.uiSettings.useDynamicColor,
                             labels = labels,
                             archivedLabelCount = labels.filter { label -> label.isArchived }.size,
                         )
                     }
                 }
-        }
-    }
-
-    fun addLabel(label: Label) {
-        viewModelScope.launch {
-            repo.insertLabel(label.copy(name = label.name.trim()))
-        }
-    }
-
-    fun updateLabel(labelName: String, label: Label) {
-        viewModelScope.launch {
-            repo.updateLabel(labelName, label.copy(name = label.name.trim()))
-            val isRenamingActiveLabel =
-                labelName == _uiState.value.activeLabelName && labelName != label.name
-            if (isRenamingActiveLabel) {
-                settingsRepository.activateLabelWithName(label.name)
-            }
-            _uiState.update {
-                it.copy(labelToEdit = label)
-            }
         }
     }
 
@@ -206,12 +153,6 @@ class LabelsViewModel(
                     Pair(label.name, index.toLong())
                 },
             )
-        }
-    }
-
-    fun setNewLabel(newLabel: Label) {
-        _uiState.update {
-            it.copy(newLabel = newLabel)
         }
     }
 }

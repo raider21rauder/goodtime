@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -79,6 +80,9 @@ import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Edit
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
 
@@ -296,17 +300,27 @@ fun MainScreen(
                     modifier = Modifier
                         .height(40.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.End),
                 ) {
                     TextButton(onClick = {
                         navController.navigate(LabelsDest)
                         showSelectLabelDialog = false
                     }) { Text("Edit labels") }
                     FilledTonalButton(onClick = {
-                        //TODO: create new viewmodel for AddEditLabelScreen
                         navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
                         showSelectLabelDialog = false
-                    }) { Text("Edit active label") }
+                    }) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = EvaIcons.Outline.Edit,
+                                contentDescription = null,
+                            )
+                            Text("Edit active label")
+                        }
+                    }
                 }
             },
         )

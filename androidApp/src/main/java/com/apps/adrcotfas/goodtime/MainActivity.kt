@@ -235,16 +235,11 @@ class MainActivity : ComponentActivity(), KoinComponent {
                             )
                         }
                         composable<AddEditLabelDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(LabelsDest) }
-                            val viewModel =
-                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
                             val addEditLabelDest = it.toRoute<AddEditLabelDest>()
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
                                 onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
-                                viewModel = viewModel,
                             )
                         }
                         composable<ArchivedLabelsDest> {
@@ -257,7 +252,11 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 viewModel = viewModel,
                             )
                         }
-                        composable<StatsDest> { StatisticsScreen(onNavigateBack = navController::popBackStack) }
+                        composable<StatsDest> {
+                            StatisticsScreen(
+                                onNavigateBack = navController::popBackStack,
+                            )
+                        }
                         composable<SettingsDest> {
                             val backStackEntry =
                                 remember { navController.getBackStackEntry(SettingsDest) }

@@ -51,6 +51,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -84,8 +85,8 @@ import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
 import com.apps.adrcotfas.goodtime.data.model.isDefault
-import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
-import com.apps.adrcotfas.goodtime.labels.main.labelNameIsValid
+import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
+import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -100,7 +101,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditLabelScreen(
-    viewModel: LabelsViewModel = koinViewModel(),
+    viewModel: AddEditLabelViewModel = koinViewModel(),
     labelName: String,
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Unit,
@@ -116,6 +117,8 @@ fun AddEditLabelScreen(
         val defaultLabelName = context.getString(R.string.label_default)
         viewModel.init(labelName, defaultLabelName)
     }
+
+    if (uiState.isLoading) return
 
     val label = uiState.newLabel
     val isDefaultLabel = label.isDefault()
@@ -164,221 +167,219 @@ fun AddEditLabelScreen(
             )
         },
     ) { paddingValues ->
-        AnimatedVisibility(!uiState.isLoading) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = paddingValues.calculateTopPadding())
-                    .verticalScroll(listState)
-                    .background(MaterialTheme.colorScheme.background)
-                    .imePadding(),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = paddingValues.calculateTopPadding())
+                .verticalScroll(listState)
+                .background(MaterialTheme.colorScheme.background)
+                .imePadding(),
+        ) {
+            LabelNameRow(
+                isDefaultLabel = isDefaultLabel,
+                isAddingNewLabel = !isEditMode,
+                labelName = labelNameToDisplay,
+                onValueChange = {
+                    val newLabelName = it
+                    viewModel.setNewLabel(
+                        uiState.newLabel.copy(name = newLabelName),
+                    )
+                },
+                showError = !uiState.labelNameIsValid(),
+            )
+            ColorSelectRow(
+                enabled = uiState.isPro,
+                selectedIndex = label.colorIndex.toInt(),
+                onNavigateToPro = onNavigateToPro,
             ) {
-                LabelNameRow(
-                    isDefaultLabel = isDefaultLabel,
-                    isAddingNewLabel = !isEditMode,
-                    labelName = labelNameToDisplay,
-                    onValueChange = {
-                        val newLabelName = it
-                        viewModel.setNewLabel(
-                            uiState.newLabel.copy(name = newLabelName),
+                viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (!isDefaultLabel) {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
+                    },
+                    headlineContent = {
+                        Text("Follow default time profile")
+                    },
+                    trailingContent = {
+                        Switch(
+                            checked = followDefault,
+                            onCheckedChange = {
+                                viewModel.setNewLabel(label.copy(useDefaultTimeProfile = it))
+                            },
                         )
                     },
-                    showError = !uiState.labelNameIsValid(),
                 )
-                ColorSelectRow(
-                    enabled = uiState.isPro,
-                    selectedIndex = label.colorIndex.toInt(),
-                    onNavigateToPro = onNavigateToPro,
-                ) {
-                    viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                if (!isDefaultLabel) {
-                    ListItem(
-                        modifier = Modifier.clickable {
-                            viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
-                        },
-                        headlineContent = {
-                            Text("Follow default time profile")
-                        },
-                        trailingContent = {
-                            Switch(
-                                checked = followDefault,
-                                onCheckedChange = {
-                                    viewModel.setNewLabel(label.copy(useDefaultTimeProfile = it))
-                                },
-                            )
-                        },
-                    )
-                }
-                AnimatedVisibility(isDefaultLabel || !followDefault) {
-                    Column {
-                        TimerTypeRow(isCountDown = isCountDown, onCountDownEnabled = {
-                            viewModel.setNewLabel(
-                                label.copy(
-                                    timerProfile = label.timerProfile.copy(isCountdown = it),
-                                ),
-                            )
-                        })
-                        if (isCountDown) {
-                            Column {
-                                EditableNumberListItem(
-                                    title = "Focus time",
-                                    value = label.timerProfile.workDuration,
-                                    onValueChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(workDuration = it),
-                                            ),
-                                        )
-                                    },
-                                )
-                                EditableNumberListItem(
-                                    title = "Break time",
-                                    value = label.timerProfile.breakDuration,
-                                    onValueChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(breakDuration = it),
-                                            ),
-                                        )
-                                    },
-                                    enableSwitch = true,
-                                    switchValue = isBreakEnabled,
-                                    onSwitchChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(
-                                                    isBreakEnabled = it,
-                                                ),
-                                            ),
-                                        )
-                                    },
-                                )
-                                EditableNumberListItem(
-                                    title = "Long break time",
-                                    value = label.timerProfile.longBreakDuration,
-                                    onValueChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(
-                                                    longBreakDuration = it,
-                                                ),
-                                            ),
-                                        )
-                                    },
-                                    enabled = isBreakEnabled,
-                                    enableSwitch = true,
-                                    switchValue = isLongBreakEnabled,
-                                    onSwitchChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(
-                                                    isLongBreakEnabled = it,
-                                                ),
-                                            ),
-                                        )
-                                    },
-                                )
-                                EditableNumberListItem(
-                                    title = "Sessions before long break",
-                                    value = label.timerProfile.sessionsBeforeLongBreak,
-                                    minValue = 2,
-                                    maxValue = 8,
-                                    enabled = isBreakEnabled && isLongBreakEnabled,
-                                    onValueChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(
-                                                    sessionsBeforeLongBreak = it,
-                                                ),
-                                            ),
-                                        )
-                                    },
-                                )
-                            }
-                        } else {
-                            Column {
-                                val toggleBreak = {
+            }
+            AnimatedVisibility(isDefaultLabel || !followDefault) {
+                Column {
+                    TimerTypeRow(isCountDown = isCountDown, onCountDownEnabled = {
+                        viewModel.setNewLabel(
+                            label.copy(
+                                timerProfile = label.timerProfile.copy(isCountdown = it),
+                            ),
+                        )
+                    })
+                    if (isCountDown) {
+                        Column {
+                            EditableNumberListItem(
+                                title = "Focus time",
+                                value = label.timerProfile.workDuration,
+                                onValueChange = {
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(isBreakEnabled = !isBreakEnabled),
+                                            timerProfile = label.timerProfile.copy(workDuration = it),
                                         ),
                                     )
-                                }
-                                ListItem(
-                                    modifier = Modifier.toggleable(
-                                        value = isBreakEnabled,
-                                        onValueChange = { toggleBreak() },
+                                },
+                            )
+                            EditableNumberListItem(
+                                title = "Break time",
+                                value = label.timerProfile.breakDuration,
+                                onValueChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(breakDuration = it),
+                                        ),
+                                    )
+                                },
+                                enableSwitch = true,
+                                switchValue = isBreakEnabled,
+                                onSwitchChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(
+                                                isBreakEnabled = it,
+                                            ),
+                                        ),
+                                    )
+                                },
+                            )
+                            EditableNumberListItem(
+                                title = "Long break time",
+                                value = label.timerProfile.longBreakDuration,
+                                onValueChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(
+                                                longBreakDuration = it,
+                                            ),
+                                        ),
+                                    )
+                                },
+                                enabled = isBreakEnabled,
+                                enableSwitch = true,
+                                switchValue = isLongBreakEnabled,
+                                onSwitchChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(
+                                                isLongBreakEnabled = it,
+                                            ),
+                                        ),
+                                    )
+                                },
+                            )
+                            EditableNumberListItem(
+                                title = "Sessions before long break",
+                                value = label.timerProfile.sessionsBeforeLongBreak,
+                                minValue = 2,
+                                maxValue = 8,
+                                enabled = isBreakEnabled && isLongBreakEnabled,
+                                onValueChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(
+                                                sessionsBeforeLongBreak = it,
+                                            ),
+                                        ),
+                                    )
+                                },
+                            )
+                        }
+                    } else {
+                        Column {
+                            val toggleBreak = {
+                                viewModel.setNewLabel(
+                                    label.copy(
+                                        timerProfile = label.timerProfile.copy(isBreakEnabled = !isBreakEnabled),
                                     ),
-                                    headlineContent = {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.spacedBy(
-                                                8.dp,
-                                                Alignment.Start,
-                                            ),
-                                        ) {
-                                            Text("Enable break budget")
-                                            val tooltipState =
-                                                rememberTooltipState(isPersistent = true)
-                                            val coroutineScope = rememberCoroutineScope()
-                                            TooltipBox(
-                                                positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-                                                tooltip = {
-                                                    PlainTooltip(
-                                                        shape = MaterialTheme.shapes.small,
-                                                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                                                        contentColor = MaterialTheme.colorScheme.onSurface,
-                                                    ) {
-                                                        Text(
-                                                            modifier = Modifier.padding(8.dp),
-                                                            text = "Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.\nTake breaks whenever you like.",
-                                                        )
-                                                    }
-                                                },
-                                                state = tooltipState,
-                                            ) {
-                                                IconButton(onClick = {
-                                                    coroutineScope.launch {
-                                                        tooltipState.show()
-                                                    }
-                                                }) {
-                                                    Icon(
-                                                        imageVector = Icons.Outlined.Info,
-                                                        contentDescription = "Enabled",
-                                                        tint = MaterialTheme.colorScheme.primary,
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    },
-                                    trailingContent = {
-                                        Checkbox(
-                                            checked = isBreakEnabled,
-                                            onCheckedChange = null,
-                                        )
-                                    },
-                                )
-                                SliderListItem(
-                                    title = "Focus/break ratio",
-                                    min = 2,
-                                    max = 6,
-                                    enabled = isBreakEnabled,
-                                    value = label.timerProfile.workBreakRatio,
-                                    showValue = true,
-                                    onValueChange = {
-                                        viewModel.setNewLabel(
-                                            label.copy(
-                                                timerProfile = label.timerProfile.copy(
-                                                    workBreakRatio = it,
-                                                ),
-                                            ),
-                                        )
-                                    },
                                 )
                             }
+                            ListItem(
+                                modifier = Modifier.toggleable(
+                                    value = isBreakEnabled,
+                                    onValueChange = { toggleBreak() },
+                                ),
+                                headlineContent = {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(
+                                            8.dp,
+                                            Alignment.Start,
+                                        ),
+                                    ) {
+                                        Text("Enable break budget")
+                                        val tooltipState =
+                                            rememberTooltipState(isPersistent = true)
+                                        val coroutineScope = rememberCoroutineScope()
+                                        TooltipBox(
+                                            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+                                            tooltip = {
+                                                PlainTooltip(
+                                                    shape = MaterialTheme.shapes.small,
+                                                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                                                    contentColor = MaterialTheme.colorScheme.onSurface,
+                                                ) {
+                                                    Text(
+                                                        modifier = Modifier.padding(8.dp),
+                                                        text = "Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.\nTake breaks whenever you like.",
+                                                    )
+                                                }
+                                            },
+                                            state = tooltipState,
+                                        ) {
+                                            IconButton(onClick = {
+                                                coroutineScope.launch {
+                                                    tooltipState.show()
+                                                }
+                                            }) {
+                                                Icon(
+                                                    imageVector = Icons.Outlined.Info,
+                                                    contentDescription = "Enabled",
+                                                    tint = MaterialTheme.colorScheme.primary,
+                                                )
+                                            }
+                                        }
+                                    }
+                                },
+                                trailingContent = {
+                                    Checkbox(
+                                        checked = isBreakEnabled,
+                                        onCheckedChange = null,
+                                    )
+                                },
+                            )
+                            SliderListItem(
+                                title = "Focus/break ratio",
+                                min = 2,
+                                max = 6,
+                                enabled = isBreakEnabled,
+                                value = label.timerProfile.workBreakRatio,
+                                showValue = true,
+                                onValueChange = {
+                                    viewModel.setNewLabel(
+                                        label.copy(
+                                            timerProfile = label.timerProfile.copy(
+                                                workBreakRatio = it,
+                                            ),
+                                        ),
+                                    )
+                                },
+                            )
                         }
                     }
                 }
@@ -495,10 +496,13 @@ private fun ColorSelectRow(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Button(
+                FilledTonalButton(
                     onClick = onNavigateToPro,
                 ) {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start), verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Icon(
                             imageVector = EvaIcons.Outline.Unlock,
                             contentDescription = null,

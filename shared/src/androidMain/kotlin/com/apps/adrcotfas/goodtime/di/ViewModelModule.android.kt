@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.di
 
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
@@ -36,6 +37,7 @@ actual val viewModelModule: Module = module {
     viewModelOf(::TimerViewModel)
     viewModelOf(::FinishedSessionViewModel)
     viewModelOf(::LabelsViewModel)
+    viewModelOf(::AddEditLabelViewModel)
     viewModelOf(::SettingsViewModel)
     viewModel { BackupViewModel(get(), get(), get(named(IO_SCOPE))) }
     viewModelOf(::StatisticsViewModel)

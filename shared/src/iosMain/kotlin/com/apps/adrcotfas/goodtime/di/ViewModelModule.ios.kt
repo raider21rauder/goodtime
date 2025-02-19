@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.di
 
+import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionViewModel
@@ -33,6 +34,7 @@ actual val viewModelModule: Module = module {
     singleOf(::TimerViewModel)
     singleOf(::FinishedSessionViewModel)
     singleOf(::LabelsViewModel)
+    singleOf(::AddEditLabelViewModel)
     singleOf(::SettingsViewModel)
     singleOf(::StatisticsViewModel)
     singleOf(::StatisticsHistoryViewModel)
