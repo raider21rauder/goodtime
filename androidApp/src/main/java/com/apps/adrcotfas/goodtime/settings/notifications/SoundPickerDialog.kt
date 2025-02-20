@@ -60,6 +60,7 @@ import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.getFileName
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
@@ -192,7 +193,12 @@ private fun NotificationSoundPickerDialogContent(
 
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     item(key = "user sounds") {
-                        PreferenceGroupTitle(modifier = Modifier.animateItem(), text = "Your sounds")
+                        PreferenceGroupTitle(
+                            modifier = Modifier.animateItem(),
+                            text = stringResource(
+                                R.string.settings_your_sounds,
+                            ),
+                        )
                     }
                     items(userItems.toList(), key = { "user" + it.uriString }) { item ->
                         val isSelected = selectedItem == item
@@ -207,15 +213,23 @@ private fun NotificationSoundPickerDialogContent(
                         }
                     }
                     item(key = "add custom sound") {
-                        AddCustomSoundButton(modifier = Modifier.animateItem(), onAddUserSound = onAddSoundClick)
+                        AddCustomSoundButton(
+                            modifier = Modifier.animateItem(),
+                            onAddUserSound = onAddSoundClick,
+                        )
                     }
                     item(key = "system sounds") {
-                        PreferenceGroupTitle(modifier = Modifier.animateItem(), text = "System sounds")
+                        PreferenceGroupTitle(
+                            modifier = Modifier.animateItem(),
+                            text = stringResource(
+                                R.string.settings_system_sounds,
+                            ),
+                        )
                     }
                     item(key = "silent") {
                         NotificationSoundItem(
                             modifier = Modifier.animateItem(),
-                            name = "Silent",
+                            name = stringResource(R.string.settings_silent),
                             isSilent = true,
                             isSelected = selectedItem.uriString == Uri.EMPTY.toString(),
                         ) {
@@ -286,10 +300,10 @@ fun NotificationSoundItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
-                            contentDescription = "Delete sound",
+                            contentDescription = stringResource(R.string.settings_delete_sound),
                         )
                     },
-                    text = { Text(modifier = paddingModifier, text = "Remove") },
+                    text = { Text(modifier = paddingModifier, text = stringResource(R.string.settings_remove)) },
                     onClick = {
                         onRemove()
                         dropDownMenuExpanded = false
@@ -344,7 +358,7 @@ fun AddCustomSoundButton(modifier: Modifier = Modifier, onAddUserSound: () -> Un
             tint = MaterialTheme.colorScheme.primary,
         )
         Text(
-            text = "Add custom sound",
+            text = stringResource(R.string.settings_add_custom_sound),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f),
         )

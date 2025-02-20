@@ -24,16 +24,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.Time.currentDateTime
 import com.apps.adrcotfas.goodtime.common.isoWeekNumber
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.StatisticsSettings
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.history.HistorySection
 import kotlinx.datetime.DayOfWeek
-import java.time.format.TextStyle
 
 @Composable
 fun OverviewTab(
@@ -46,23 +47,20 @@ fun OverviewTab(
     onChangePieChartOverviewType: (OverviewDurationType) -> Unit,
     historyChartViewModel: StatisticsHistoryViewModel,
 ) {
-    val context = LocalContext.current
-    val locale = remember { context.resources.configuration.locales[0] }
     val currentDateTime = remember { currentDateTime() }
-
     Column(
         Modifier
             .padding(top = 8.dp)
             .verticalScroll(rememberScrollState()),
     ) {
         val typeNames = mapOf(
-            OverviewDurationType.TODAY to "Today", // TODO: extract to strings
-            OverviewDurationType.THIS_WEEK to "Week ${currentDateTime.date.isoWeekNumber()}",
-            OverviewDurationType.THIS_MONTH to currentDateTime.month.getDisplayName(
-                TextStyle.FULL,
-                locale,
+            OverviewDurationType.TODAY to stringResource(R.string.stats_today),
+            OverviewDurationType.THIS_WEEK to stringResource(
+                R.string.stats_week,
+                currentDateTime.date.isoWeekNumber(),
             ),
-            OverviewDurationType.TOTAL to "Total",
+            OverviewDurationType.THIS_MONTH to stringArrayResource(R.array.time_months_of_the_year)[currentDateTime.month.ordinal],
+            OverviewDurationType.TOTAL to stringResource(R.string.stats_total),
         )
 
         OverviewSection(
@@ -99,7 +97,4 @@ fun OverviewTab(
             typeNames = typeNames,
         )
     }
-
-    // TODO:
-    // Weekly or daily goal with progress bar (e.g. 5 hours per day or 35 hours per week)
 }

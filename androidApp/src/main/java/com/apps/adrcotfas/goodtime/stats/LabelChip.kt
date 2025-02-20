@@ -42,8 +42,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 
 @Composable
@@ -66,7 +66,7 @@ fun LabelChip(
     showIcon: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val defaultLabelName = stringResource(id = R.string.label_default)
+    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
     val transparentColor = color.copy(alpha = 0.1f)
 
@@ -110,7 +110,7 @@ fun SmallLabelChip(
     name: String,
     color: Color,
 ) {
-    val defaultLabelName = stringResource(id = R.string.label_default)
+    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
 
     Row(

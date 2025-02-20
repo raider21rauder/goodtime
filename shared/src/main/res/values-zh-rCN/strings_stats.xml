@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="stats_title">统计</string>
+    <string name="stats_overview">概览</string>
+    <string name="stats_timeline">时间表</string>
+    <string name="stats_today">今日</string>
+    <string name="stats_week">Week %1$s</string>
+    <string name="stats_total">总计</string>
+    <string-array name="stats_overview_type_options">
+        <item>时段</item>
+        <item>时间</item>
+    </string-array>
+    <string name="stats_history_title">历史记录</string>
+    <string-array name="stats_history_interval_type_options">
+        <item>天</item>
+        <item>周</item>
+        <item>月</item>
+        <item>季数</item>
+        <item>年</item>
+    </string-array>
+    <string name="stats_productive_hours">生产时间</string>
+    <string name="stats_heatmap">热图</string>
+    <string name="stats_focus_distribution">焦点分布</string>
+    <string name="stats_focus_break_ratio">焦点/断点比率</string>
+    <string name="stats_add_session">添加会话</string>
+    <string name="stats_focus">聚焦点</string>
+    <string name="stats_break">断开</string>
+    <string name="stats_duration">期限</string>
+    <string name="stats_time">时间</string>
+    <string name="stats_label">标签</string>
+    <string name="stats_delete_selected_sessions">删除选定的会话吗？</string>
+    <string name="stats_change_label_of_selected_sessions">更改选定会话的标签？</string>
+    <string name="stats_add_notes">添加备注</string>
+    <string name="stats_select_all">选择所有</string>
+    <string name="stats_no_items">没有项目</string>
+</resources>

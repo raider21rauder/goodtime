@@ -26,6 +26,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 
@@ -39,7 +41,7 @@ fun LicensesScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Open Source licenses",
+                title = stringResource(R.string.about_open_source_licenses),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )

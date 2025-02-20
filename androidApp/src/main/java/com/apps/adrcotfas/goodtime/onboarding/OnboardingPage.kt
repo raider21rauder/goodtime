@@ -19,7 +19,8 @@ package com.apps.adrcotfas.goodtime.onboarding
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.apps.adrcotfas.goodtime.R
+import com.apps.adrcotfas.goodtime.R as AndroidR
+import com.apps.adrcotfas.goodtime.shared.R as Mr
 
 data class OnboardingPage(
     @StringRes val title: Int,
@@ -29,19 +30,19 @@ data class OnboardingPage(
     companion object {
         val pages = listOf(
             OnboardingPage(
-                title = R.string.intro_title_1,
-                description = R.string.intro_description_1,
-                image = R.drawable.intro1,
+                title = Mr.string.intro1_title,
+                description = Mr.string.intro1_desc1,
+                image = AndroidR.drawable.intro1,
             ),
             OnboardingPage(
-                title = R.string.intro_title_2,
-                description = R.string.intro_description_2,
-                image = R.drawable.intro2,
+                title = Mr.string.intro2_title,
+                description = Mr.string.intro2_desc1,
+                image = AndroidR.drawable.intro2,
             ),
             OnboardingPage(
-                title = R.string.intro_title_3,
-                description = R.string.intro_description_3,
-                image = R.drawable.intro3,
+                title = Mr.string.intro3_title,
+                description = Mr.string.intro3_desc1,
+                image = AndroidR.drawable.intro3,
             ),
         )
     }

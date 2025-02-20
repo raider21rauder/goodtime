@@ -44,9 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import compose.icons.EvaIcons
@@ -56,7 +59,6 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 import kotlinx.datetime.format.DayOfWeekNames
 import kotlinx.datetime.format.MonthNames
-import java.time.format.TextStyle
 
 @Composable
 fun AddEditSessionContent(
@@ -77,12 +79,22 @@ fun AddEditSessionContent(
         horizontalAlignment = Alignment.Start,
     ) {
         val context = LocalContext.current
-        val locale = context.resources.configuration.locales[0]
-
         val daysOfWeekNames =
-            DayOfWeekNames(DayOfWeek.entries.map { it.getDisplayName(TextStyle.SHORT, locale) })
+            DayOfWeekNames(
+                DayOfWeek.entries.map {
+                    stringArrayResource(R.array.time_days_of_the_week)[it.ordinal].take(
+                        3,
+                    )
+                },
+            )
         val monthNames =
-            MonthNames(Month.entries.map { it.getDisplayName(TextStyle.SHORT, locale) })
+            MonthNames(
+                Month.entries.map {
+                    stringArrayResource(R.array.time_months_of_the_year)[it.ordinal].take(
+                        3,
+                    )
+                },
+            )
 
         val (date, time) = session.timestamp.formatToPrettyDateAndTime(
             DateFormat.is24HourFormat(
@@ -99,7 +111,7 @@ fun AddEditSessionContent(
             FilterChip(
                 onClick = { onUpdate(session.copy(isWork = true)) },
                 label = {
-                    Text("Focus")
+                    Text(stringResource(R.string.stats_focus))
                 },
                 selected = session.isWork,
             )
@@ -107,14 +119,14 @@ fun AddEditSessionContent(
             FilterChip(
                 onClick = { onUpdate(session.copy(isWork = false, interruptions = 0)) },
                 label = {
-                    Text("Break")
+                    Text(stringResource(R.string.stats_break))
                 },
                 selected = !session.isWork,
             )
         }
 
         EditableNumberListItem(
-            title = "Duration",
+            title = stringResource(R.string.stats_duration),
             value = session.duration.let { if (it != 0L) it.toInt() else null },
             icon = {
                 Spacer(modifier = Modifier.width(36.dp))
@@ -124,23 +136,6 @@ fun AddEditSessionContent(
             onValueEmpty = { onValidate(!it) },
         )
 
-        // TODO: decide later if we want to show interruptions
-//        AnimatedVisibility(session.isWork) {
-//            var enableInterruptions by rememberSaveable { mutableStateOf(session.interruptions > 0) }
-//            EditableNumberListItem(
-//                minValue = 0,
-//                title = "Interruptions",
-//                value = session.interruptions.toInt(),
-//                enableSwitch = true,
-//                switchValue = enableInterruptions,
-//                onSwitchChange = {
-//                    enableInterruptions = it
-//                    onUpdate(session.copy(interruptions = if (it) session.interruptions else 0))
-//                },
-//                onValueChange = { onUpdate(session.copy(interruptions = it.toLong())) },
-//                onValueEmpty = { onValidate(!it) },
-//            )
-//        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -163,7 +158,7 @@ fun AddEditSessionContent(
                         bottom = 16.dp,
                     ),
                     imageVector = EvaIcons.Outline.Clock,
-                    contentDescription = "Time",
+                    contentDescription = stringResource(R.string.stats_time),
                 )
                 Text(
                     text = date,
@@ -199,7 +194,7 @@ fun AddEditSessionContent(
                 Icon(
                     modifier = Modifier.padding(start = 12.dp),
                     imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = "Label",
+                    contentDescription = stringResource(R.string.stats_label),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
             },
@@ -210,21 +205,25 @@ fun AddEditSessionContent(
             },
         )
         Row(
-            modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top,
         ) {
             Icon(
                 modifier = Modifier.padding(16.dp),
                 imageVector = Icons.AutoMirrored.Outlined.Notes,
-                contentDescription = "Label",
+                contentDescription = stringResource(R.string.stats_add_notes),
                 tint = MaterialTheme.colorScheme.onSurface,
             )
             TextBox(
-                modifier = Modifier.padding(top = 14.dp).weight(1f),
+                modifier = Modifier
+                    .padding(top = 14.dp)
+                    .weight(1f),
                 value = session.notes,
                 onValueChange = { onUpdate(session.copy(notes = it)) },
-                placeholder = "Add notes",
+                placeholder = stringResource(R.string.stats_add_notes),
             )
         }
     }

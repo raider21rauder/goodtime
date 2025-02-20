@@ -18,7 +18,7 @@
 package com.apps.adrcotfas.goodtime.data.local
 
 import androidx.room.RoomDatabase
-import com.apps.adrcotfas.goodtime.RobolectricTest
+import com.apps.adrcotfas.goodtime.shared.RobolectricTest
 
 expect abstract class RoomDatabaseTest() : RobolectricTest {
     fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase>

@@ -49,8 +49,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
@@ -134,7 +136,10 @@ fun StatisticsScreen(
         },
     ) { paddingValues ->
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
-        val titles = listOf("Overview", "Timeline")
+        val titles = listOf(
+            stringResource(R.string.stats_overview),
+            stringResource(R.string.stats_timeline),
+        )
 
         Crossfade(isLoading) { isLoading ->
             if (isLoading) {
@@ -320,7 +325,7 @@ fun StatisticsScreen(
                 }
                 if (showSelectLabelDialog) {
                     SelectLabelDialog(
-                        title = "Select label",
+                        title = stringResource(R.string.labels_select_label),
                         labels = uiState.labels,
                         initialSelectedLabels = persistentListOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
@@ -337,7 +342,7 @@ fun StatisticsScreen(
                 }
                 if (showSelectVisibleLabelsDialog) {
                     SelectLabelDialog(
-                        title = "Select labels",
+                        title = stringResource(R.string.labels_select_labels),
                         labels = uiState.labels,
                         initialSelectedLabels = uiState.selectedLabels,
                         onDismiss = { showSelectVisibleLabelsDialog = false },
@@ -356,7 +361,7 @@ fun StatisticsScreen(
                 }
                 if (showDeleteConfirmationDialog) {
                     ConfirmationDialog(
-                        title = "Delete selected sessions?",
+                        title = stringResource(R.string.stats_delete_selected_sessions),
                         onDismiss = { showDeleteConfirmationDialog = false },
                         onConfirm = {
                             viewModel.deleteSelectedSessions()
@@ -367,7 +372,7 @@ fun StatisticsScreen(
                 }
                 if (showEditBulkLabelDialog) {
                     SelectLabelDialog(
-                        title = "Edit label",
+                        title = stringResource(R.string.labels_edit_label),
                         labels = uiState.labels,
                         onDismiss = { showEditBulkLabelDialog = false },
                         singleSelection = true,
@@ -380,7 +385,7 @@ fun StatisticsScreen(
                 }
                 if (showEditLabelConfirmationDialog) {
                     ConfirmationDialog(
-                        title = "Change label of selected sessions?",
+                        title = stringResource(R.string.stats_change_label_of_selected_sessions),
                         onDismiss = { showEditLabelConfirmationDialog = false },
                         onConfirm = {
                             viewModel.bulkEditLabel()
@@ -400,7 +405,7 @@ fun SelectLabelButton(count: Int, onClick: () -> Unit) {
         icon = {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.Label,
-                contentDescription = "Navigate to archived labels",
+                contentDescription = stringResource(R.string.labels_select_labels),
             )
         },
         count = count,

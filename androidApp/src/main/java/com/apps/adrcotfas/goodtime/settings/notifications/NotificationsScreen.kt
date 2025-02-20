@@ -33,15 +33,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -75,7 +76,7 @@ fun NotificationsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Notifications",
+                title = stringResource(R.string.settings_notifications_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -84,26 +85,28 @@ fun NotificationsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding(), bottom = paddingValues.calculateBottomPadding())
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            CompactPreferenceGroupTitle(text = "Notifications")
             BetterListItem(
-                title = "Focus complete sound",
+                title = stringResource(R.string.settings_focus_complete_sound),
                 subtitle = notificationSoundName(workRingTone),
                 onClick = { viewModel.setShowSelectWorkSoundPicker(true) },
             )
 
             BetterListItem(
-                title = "Break complete sound",
+                title = stringResource(R.string.settings_break_complete_sound),
                 subtitle = notificationSoundName(breakRingTone),
                 onClick = { viewModel.setShowSelectBreakSoundPicker(true) },
             )
 
             CheckboxListItem(
-                title = "Override sound profile",
-                subtitle = "The notification sound behaves like an alarm",
+                title = stringResource(R.string.settings_override_sound_profile_title),
+                subtitle = stringResource(R.string.settings_override_sound_profile_desc),
                 checked = settings.overrideSoundProfile,
             ) {
                 viewModel.setOverrideSoundProfile(it)
@@ -111,7 +114,7 @@ fun NotificationsScreen(
 
             var selectedStrength = settings.vibrationStrength
             SliderListItem(
-                title = "Vibration strength",
+                title = stringResource(R.string.settings_vibration_strength),
                 value = settings.vibrationStrength,
                 min = 0,
                 max = 5,
@@ -125,41 +128,41 @@ fun NotificationsScreen(
                 ActionCard(icon = {
                     Icon(
                         imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = "Unlock Premium",
+                        contentDescription = stringResource(R.string.unlock_premium),
                     )
-                }, description = "Unlock Premium to access features") {
+                }, description = stringResource(R.string.unlock_premium_to_access_features)) {
                     onNavigateToPro()
                 }
             }
 
             if (isTorchAvailable) {
                 CheckboxListItem(
-                    title = "Torch",
+                    title = stringResource(R.string.settings_torch_title),
                     enabled = settings.isPro,
-                    subtitle = "A visual notification for silent environments",
+                    subtitle = stringResource(R.string.settings_torch_desc),
                     checked = settings.enableTorch,
                 ) {
                     viewModel.setEnableTorch(it)
                 }
             }
             CheckboxListItem(
-                title = "Insistent notification",
+                title = stringResource(R.string.settings_insistent_notification_title),
                 enabled = settings.isPro,
-                subtitle = "Repeat the notification until it's cancelled",
+                subtitle = stringResource(R.string.settings_insistent_notification_desc),
                 checked = settings.insistentNotification,
             ) {
                 viewModel.setInsistentNotification(it)
             }
             CheckboxListItem(
-                title = "Auto start focus",
-                subtitle = "Start the work session after a break without user interaction",
+                title = stringResource(R.string.settings_auto_start_focus_title),
+                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
                 checked = settings.autoStartWork,
             ) {
                 viewModel.setAutoStartWork(it)
             }
             CheckboxListItem(
-                title = "Auto start break",
-                subtitle = "Start the break session after a work session without user interaction",
+                title = stringResource(R.string.settings_auto_start_break_title),
+                subtitle = stringResource(R.string.settings_auto_start_break_desc),
                 checked = settings.autoStartBreak,
             ) {
                 viewModel.setAutoStartBreak(it)
@@ -168,7 +171,7 @@ fun NotificationsScreen(
 
         if (uiState.showSelectWorkSoundPicker) {
             NotificationSoundPickerDialog(
-                title = "Focus complete sound",
+                title = stringResource(R.string.settings_focus_complete_sound),
                 selectedItem = candidateRingTone ?: workRingTone,
                 onSelected = {
                     viewModel.setNotificationSoundCandidate(Json.encodeToString(it))
@@ -179,7 +182,7 @@ fun NotificationsScreen(
         }
         if (uiState.showSelectBreakSoundPicker) {
             NotificationSoundPickerDialog(
-                title = "Break complete sound",
+                title = stringResource(R.string.settings_break_complete_sound),
                 selectedItem = candidateRingTone ?: breakRingTone,
                 onSelected = {
                     viewModel.setNotificationSoundCandidate(Json.encodeToString(it))
@@ -211,9 +214,9 @@ fun NotificationsScreen(
 @Composable
 private fun notificationSoundName(it: SoundData) =
     if (it.isSilent) {
-        "Silent"
+        stringResource(R.string.settings_silent)
     } else if (it.name.isEmpty()) {
-        "Default notification sound"
+        stringResource(R.string.settings_default_notification_sound)
     } else {
         it.name
     }

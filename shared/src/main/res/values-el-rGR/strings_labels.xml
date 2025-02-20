@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="labels_title">Ετικέτες</string>
+    <string name="labels_default_label_name">προεπιλογή</string>
+    <string name="labels_others">άλλα</string>
+    <string name="labels_countdown">Αντίστροφη μέτρηση</string>
+    <string name="labels_count_up">Μέτρηση</string>
+    <string name="labels_focus_time">Χρόνος εστίασης</string>
+    <string name="labels_break_time">Χρόνος διακοπής</string>
+    <string name="labels_long_break">Μεγάλο διάλειμμα</string>
+    <string name="labels_sessions_before_long_break">Συνεδρίες πριν το μεγάλο διάλειμμα</string>
+    <string name="labels_enable_break_budget">Ενεργοποίηση διάλειμμα προϋπολογισμού</string>
+    <string name="labels_focus_break_ratio">Λόγος εστίασης/θραύσης</string>
+    <string name="labels_select_active_label">Επιλογή ενεργού ετικέτας</string>
+    <string name="labels_edit_labels">Επεξεργασία ετικετών</string>
+    <string name="labels_edit_active_label">Επεξεργασία ενεργής ετικέτας</string>
+    <string name="labels_break_budget_info">Διακοπή πληροφοριών προϋπολογισμού</string>
+    <string name="labels_break_budget_desc">"Το διάλειμμα του προϋπολογισμού σας αυξάνεται σύμφωνα με την επιλεγμένη αναλογία εστίασης/διάλειμμα και μειώνεται όταν διακόπτεται.\nΚάντε διαλείμματα όποτε θέλετε."</string>
+    <string name="labels_break_budget">Διακοπή προϋπολογισμού</string>
+    <string name="labels_follow_default_time_profile">Ακολουθήστε το προεπιλεγμένο προφίλ ώρας</string>
+    <string name="labels_add_label_name">Προσθήκη ονόματος ετικέτας</string>
+    <string name="labels_label_name_already_exists">Το όνομα της ετικέτας υπάρχει ήδη</string>
+    <string name="labels_archived_labels_title">Αρχειοθετημένες ετικέτα</string>
+    <string name="labels_delete">Διαγραφή %1$s?</string>
+    <string name="labels_delete_desc">Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες</string>
+    <string name="labels_more_about">Περισσότερα για</string>
+    <string name="labels_unarchive">Αποσυμπιεσμένο</string>
+    <string name="labels_select_label">Επιλέξτε ετικέτα</string>
+    <string name="labels_select_labels">Επιλογή ετικετών</string>
+    <string name="labels_edit_label">Επεξεργασία ετικέτας</string>
+</resources>

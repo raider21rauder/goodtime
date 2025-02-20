@@ -40,11 +40,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.main.ProListItem
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import org.koin.compose.koinInject
@@ -84,7 +87,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
     Scaffold(
         topBar = {
             TopBar(
-                title = "Unlock Premium",
+                title = stringResource(R.string.unlock_premium),
                 icon = Icons.Default.Close,
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
@@ -103,8 +106,8 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
-                    "One-time purchase. No subscriptions. Just better productivity.",
-                    style = MaterialTheme.typography.labelSmall,
+                    stringResource(R.string.unlock_premium_tagline),
+                    style = MaterialTheme.typography.labelSmall.copy(textAlign = TextAlign.Center),
                 )
                 ProListItem(subtitle = priceString, centered = true) {
                     onClick()
@@ -118,13 +121,14 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                 .padding(paddingValues),
         ) {
             Column(Modifier.verticalScroll(listState)) {
+                val productName = stringResource(R.string.product_name_long)
                 Text(
                     modifier = Modifier.padding(16.dp),
-                    text = "Goodtime Productivity is an indie open-source app, designed for simplicity and a great user experience — without ads, tracking, or data collection." + "\n" +
+                    text = stringResource(R.string.unlock_premium_desc1, productName) + "\n" +
                         "\n" +
-                        "If you find it useful, consider upgrading to the premium version to unlock more features." +
+                        stringResource(R.string.unlock_premium_desc2) +
                         "\n" +
-                        "Your support helps future improvements!",
+                        stringResource(R.string.unlock_premium_desc3),
                     style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
                 )
             }

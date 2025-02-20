@@ -41,10 +41,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import com.github.mikephil.charting.charts.PieChart
@@ -83,8 +83,8 @@ fun PieChartSection(
     val entries = ArrayList<PieEntry>()
     for (label in workPerLabel.keys) {
         val labelName = when (label) {
-            Label.DEFAULT_LABEL_NAME -> stringResource(R.string.label_default)
-            Label.OTHERS_LABEL_NAME -> stringResource(R.string.others)
+            Label.DEFAULT_LABEL_NAME -> stringResource(R.string.labels_default_label_name)
+            Label.OTHERS_LABEL_NAME -> stringResource(R.string.labels_others)
             else -> label
         }
         entries.add(PieEntry(workPerLabel[label]!!.toFloat(), labelName))
@@ -129,7 +129,7 @@ fun PieChartSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Focus distribution",
+                stringResource(R.string.stats_focus_distribution),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,

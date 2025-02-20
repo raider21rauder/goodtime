@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="settings_title">সেটিংস</string>
+    <string name="settings_action_required">Action required</string>
+    <string name="settings_allow_background">Allow this app to run in the background</string>
+    <string name="settings_allow_notifications">Allow notifications</string>
+    <string name="settings_allow">Allow</string>
+    <string name="settings_productivity_reminder_title">Productivity reminder</string>
+    <string name="settings_days_of_the_week">Days of the week</string>
+    <string name="settings_reminder_time">Reminder time</string>
+    <string name="settings_timer_style_title">সময়-সংরক্ষককে স্টাইল</string>
+    <string name="settings_notifications_title">বিজ্ঞপ্তিগুলি</string>
+    <string name="settings_custom_start_of_day_title">Custom start of day</string>
+    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
+    <string name="settings_start_of_the_week">Start of the week</string>
+    <string name="settings_theme">Theme</string>
+    <string-array name="settings_theme_options">
+        <item>System</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string name="settings_use_dynamic_color">Use Dynamic Color</string>
+    <string name="settings_during_work_sessions">কার্য অধিবেশন চলাকালীন</string>
+    <string name="settings_fullscreen_mode">ফুলস্ক্রিন মোড</string>
+    <string name="settings_true_black_mode_title">True black mode</string>
+    <string name="settings_true_black_mode_desc">Use true black for the background</string>
+    <string name="settings_keep_the_screen_on">স্ক্রিন খোলা রাখুন</string>
+    <string name="settings_screensaver_mode">স্ক্রিন মোড</string>
+    <string name="settings_do_not_disturb_mode">বিরক্ত করবেন না মোড</string>
+    <string name="settings_click_to_grant_permission">অনুমতি দিতে ক্লিক করুন</string>
+    <string name="settings_demo">demo</string>
+    <string name="settings_refresh_demo_label">Refresh demo label</string>
+    <string name="settings_show_status_title">Show status</string>
+    <string name="settings_show_status_desc">An icon indicating work or break</string>
+    <string name="settings_show_sessions_long_break_title">Show sessions until long break</string>
+    <string name="settings_show_sessions_long_break_desc">For countdown timers with long breaks enabled</string>
+    <string name="settings_show_label">Show label</string>
+    <string name="settings_hide_seconds">Hide seconds</string>
+    <string name="settings_focus_complete_sound">Focus complete sound</string>
+    <string name="settings_break_complete_sound">Break complete sound</string>
+    <string name="settings_silent">Silent</string>
+    <string name="settings_default_notification_sound">Default notification sound</string>
+    <string name="settings_your_sounds">Your sounds</string>
+    <string name="settings_system_sounds">System sounds</string>
+    <string name="settings_delete_sound">Delete sound</string>
+    <string name="settings_remove">Remove</string>
+    <string name="settings_add_custom_sound">Add custom sound</string>
+    <string name="settings_override_sound_profile_title">Override sound profile</string>
+    <string name="settings_override_sound_profile_desc">The notification sound behaves like an alarm</string>
+    <string name="settings_vibration_strength">Vibration strength</string>
+    <string name="settings_torch_title">Torch</string>
+    <string name="settings_torch_desc">A visual notification for silent environments</string>
+    <string name="settings_insistent_notification_title">নিরবিচ্ছিন্ন প্রজ্ঞাপন</string>
+    <string name="settings_insistent_notification_desc">বিজ্ঞপ্তি পুনরাবৃত্তি না হওয়া পর্যন্ত তা বাতিল করা হয়েছে।</string>
+    <string name="settings_auto_start_focus_title">Auto start focus</string>
+    <string name="settings_auto_start_focus_desc">পরে ব্যবহারকারীর মিথস্ক্রিয়া নিরন্তর কাজ সুসংবদ্ধের সূচনা করুন</string>
+    <string name="settings_auto_start_break_title">স্বতঃ সূচনা বিরতি</string>
+    <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="main_unlock_timer_style">Unlock Premium to save timer style</string>
+</resources>

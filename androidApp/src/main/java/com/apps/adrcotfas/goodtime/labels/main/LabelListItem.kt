@@ -43,10 +43,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.isDefault
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
@@ -73,7 +73,7 @@ fun LabelListItem(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val labelName =
-        if (label.isDefault()) stringResource(id = R.string.label_default) else label.name
+        if (label.isDefault()) stringResource(id = R.string.labels_default_label_name) else label.name
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

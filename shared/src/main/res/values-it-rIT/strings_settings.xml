@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_action_required">Azione richiesta</string>
+    <string name="settings_allow_background">Consenti a questa app di eseguire in background</string>
+    <string name="settings_allow_notifications">Consenti notifiche</string>
+    <string name="settings_allow">Consenti</string>
+    <string name="settings_productivity_reminder_title">Promemoria di produttività</string>
+    <string name="settings_days_of_the_week">Giorni della settimana</string>
+    <string name="settings_reminder_time">Orario promemoria</string>
+    <string name="settings_timer_style_title">Stile del contaminuti</string>
+    <string name="settings_notifications_title">Notifiche</string>
+    <string name="settings_custom_start_of_day_title">Inizio personalizzato del giorno</string>
+    <string name="settings_custom_start_of_day_desc">Definisce quando inizia il giorno per le statistiche.</string>
+    <string name="settings_start_of_the_week">Inizio della settimana</string>
+    <string name="settings_theme">Tema</string>
+    <string-array name="settings_theme_options">
+        <item>Sistema</item>
+        <item>Chiaro</item>
+        <item>Scuro</item>
+    </string-array>
+    <string name="settings_use_dynamic_color">Usa Colore Dinamico</string>
+    <string name="settings_during_work_sessions">Durante le sessioni di lavoro</string>
+    <string name="settings_fullscreen_mode">Modalità a schermo intero</string>
+    <string name="settings_true_black_mode_title">Modalità vera nera</string>
+    <string name="settings_true_black_mode_desc">Usa vero nero per lo sfondo</string>
+    <string name="settings_keep_the_screen_on">Mantieni lo schermo acceso</string>
+    <string name="settings_screensaver_mode">Modalità salvaschermo</string>
+    <string name="settings_do_not_disturb_mode">Modalità \"non disturbare\"</string>
+    <string name="settings_click_to_grant_permission">Premere per concedere l\'autorizzazione</string>
+    <string name="settings_demo">demo</string>
+    <string name="settings_refresh_demo_label">Aggiorna etichetta demo</string>
+    <string name="settings_show_status_title">Mostra stato</string>
+    <string name="settings_show_status_desc">Un\'icona che indica lavoro o interruzione</string>
+    <string name="settings_show_sessions_long_break_title">Mostra sessioni fino alla pausa prolungata</string>
+    <string name="settings_show_sessions_long_break_desc">Per i timer di conto alla rovescia con interruzioni lunghe abilitati</string>
+    <string name="settings_show_label">Mostra etichetta</string>
+    <string name="settings_hide_seconds">Nascondi secondi</string>
+    <string name="settings_focus_complete_sound">Fuoco suono completo</string>
+    <string name="settings_break_complete_sound">Interrompi il suono completo</string>
+    <string name="settings_silent">Silenzioso</string>
+    <string name="settings_default_notification_sound">Suono di notifica predefinito</string>
+    <string name="settings_your_sounds">I tuoi suoni</string>
+    <string name="settings_system_sounds">Suoni di sistema</string>
+    <string name="settings_delete_sound">Elimina suono</string>
+    <string name="settings_remove">Rimuovi</string>
+    <string name="settings_add_custom_sound">Aggiungi suono personalizzato</string>
+    <string name="settings_override_sound_profile_title">Sovrascrivi il profilo audio</string>
+    <string name="settings_override_sound_profile_desc">Il suono di notifica si comporta come un allarme</string>
+    <string name="settings_vibration_strength">Intensità vibrazione</string>
+    <string name="settings_torch_title">Torcia</string>
+    <string name="settings_torch_desc">Una notifica visiva per ambienti silenziosi</string>
+    <string name="settings_insistent_notification_title">Notifica insistente</string>
+    <string name="settings_insistent_notification_desc">Ripeti la notifica fino a quando non viene annullata</string>
+    <string name="settings_auto_start_focus_title">Avvia automaticamente il focus</string>
+    <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
+    <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
+    <string name="settings_auto_start_break_desc">Avvia la sessione di interruzione dopo una sessione di lavoro senza interazione utente</string>
+    <string name="main_unlock_timer_style">Sblocca Premium per salvare lo stile del timer</string>
+</resources>

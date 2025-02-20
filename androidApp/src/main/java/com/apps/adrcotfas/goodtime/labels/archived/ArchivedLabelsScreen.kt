@@ -42,11 +42,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.archivedLabels
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -77,7 +79,7 @@ fun ArchivedLabelsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Archived labels",
+                title = stringResource(R.string.labels_archived_labels_title),
                 onNavigateBack = onNavigateBack,
                 showSeparator = listState.canScrollBackward,
             )
@@ -109,8 +111,8 @@ fun ArchivedLabelsScreen(
             }
             if (showDeleteConfirmationDialog) {
                 ConfirmationDialog(
-                    title = "Delete $labelToDelete?",
-                    subtitle = "Deleting this label will remove it from associated completed sessions.",
+                    title = stringResource(R.string.labels_delete, labelToDelete),
+                    subtitle = stringResource(R.string.labels_delete_desc),
                     onConfirm = {
                         val lastLabelDeleted = labels.size == 1
                         viewModel.deleteLabel(labelToDelete)
@@ -160,7 +162,10 @@ fun ArchivedLabelListItem(
         var dropDownMenuExpanded by remember { mutableStateOf(false) }
         Box {
             IconButton(onClick = { dropDownMenuExpanded = true }) {
-                Icon(EvaIcons.Outline.MoreVertical, contentDescription = "More about $labelName")
+                Icon(
+                    EvaIcons.Outline.MoreVertical,
+                    contentDescription = "${stringResource(R.string.labels_more_about)} $labelName",
+                )
             }
 
             BetterDropdownMenu(
@@ -171,7 +176,12 @@ fun ArchivedLabelListItem(
                 DropdownMenuItem(
                     enabled = enableUnarchive,
                     modifier = firstMenuItemModifier,
-                    text = { Text(modifier = paddingModifier, text = "Unarchive") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.labels_unarchive),
+                        )
+                    },
                     onClick = {
                         onUnarchive()
                         dropDownMenuExpanded = false
@@ -180,13 +190,18 @@ fun ArchivedLabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Undo,
-                            contentDescription = "Unarchive $labelName",
+                            contentDescription = "${stringResource(R.string.labels_unarchive)} $labelName",
                         )
                     },
                 )
                 DropdownMenuItem(
                     modifier = lastMenuItemModifier,
-                    text = { Text(modifier = paddingModifier, text = "Delete") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.main_delete),
+                        )
+                    },
                     onClick = {
                         onDelete()
                         dropDownMenuExpanded = false
@@ -194,7 +209,7 @@ fun ArchivedLabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
-                            contentDescription = "Delete $labelName",
+                            contentDescription = "${stringResource(R.string.main_delete)} $labelName",
                         )
                     },
                 )

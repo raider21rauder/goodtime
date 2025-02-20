@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="settings_title">Asetukset</string>
+    <string name="settings_action_required">Toiminto vaaditaan</string>
+    <string name="settings_allow_background">Salli tämän sovelluksen suorittaa taustalla</string>
+    <string name="settings_allow_notifications">Salli ilmoitukset</string>
+    <string name="settings_allow">Salli</string>
+    <string name="settings_productivity_reminder_title">Tuottavuutta koskeva muistutus</string>
+    <string name="settings_days_of_the_week">Viikon päivät</string>
+    <string name="settings_reminder_time">Muistutuksen aika</string>
+    <string name="settings_timer_style_title">Ajastimen tyyli</string>
+    <string name="settings_notifications_title">Ilmoitukset</string>
+    <string name="settings_custom_start_of_day_title">Päivän mukautettu alku</string>
+    <string name="settings_custom_start_of_day_desc">Määrittelee milloin päivä alkaa tilastotietojen osalta.</string>
+    <string name="settings_start_of_the_week">Viikon alku</string>
+    <string name="settings_theme">Teema</string>
+    <string-array name="settings_theme_options">
+        <item>Järjestelmä</item>
+        <item>Vaalea</item>
+        <item>Tumma</item>
+    </string-array>
+    <string name="settings_use_dynamic_color">Käytä Dynaamista Väriä</string>
+    <string name="settings_during_work_sessions">Työistuntojen aikana</string>
+    <string name="settings_fullscreen_mode">Kokonäyttötila</string>
+    <string name="settings_true_black_mode_title">Tosi musta tila</string>
+    <string name="settings_true_black_mode_desc">Käytä tosi mustaa taustalle</string>
+    <string name="settings_keep_the_screen_on">Pidä näyttö päällä</string>
+    <string name="settings_screensaver_mode">Näytönsäästäjätila</string>
+    <string name="settings_do_not_disturb_mode">Älä häiritse -tila</string>
+    <string name="settings_click_to_grant_permission">Napauta myöntääkseen luvan.</string>
+    <string name="settings_demo">demo</string>
+    <string name="settings_refresh_demo_label">Päivitä demotunniste</string>
+    <string name="settings_show_status_title">Näytä tila</string>
+    <string name="settings_show_status_desc">Kuvake, joka osoittaa työtä tai taukoa</string>
+    <string name="settings_show_sessions_long_break_title">Näytä istunnot pitkään taukoon asti</string>
+    <string name="settings_show_sessions_long_break_desc">Lähtölaskenta ajastimet pitkät tauot käytössä</string>
+    <string name="settings_show_label">Näytä tunniste</string>
+    <string name="settings_hide_seconds">Piilota sekuntia</string>
+    <string name="settings_focus_complete_sound">Tarkenna kokonainen ääni</string>
+    <string name="settings_break_complete_sound">Katkaise kokonainen ääni</string>
+    <string name="settings_silent">Äänetön</string>
+    <string name="settings_default_notification_sound">Ilmoituksen oletusääni</string>
+    <string name="settings_your_sounds">Sinun äänesi</string>
+    <string name="settings_system_sounds">Järjestelmän äänet</string>
+    <string name="settings_delete_sound">Poista ääni</string>
+    <string name="settings_remove">Poista</string>
+    <string name="settings_add_custom_sound">Lisää mukautettu ääni</string>
+    <string name="settings_override_sound_profile_title">Ohita ääniprofiili</string>
+    <string name="settings_override_sound_profile_desc">Ilmoitusääni käyttäytyy kuin hälytys</string>
+    <string name="settings_vibration_strength">Värinä lujuus</string>
+    <string name="settings_torch_title">Lamppu</string>
+    <string name="settings_torch_desc">Visuaalinen ilmoitus hiljaisille ympäristöille</string>
+    <string name="settings_insistent_notification_title">Itsepintainen ilmoitus</string>
+    <string name="settings_insistent_notification_desc">Toista ilmoitus, kunnes se perutaan</string>
+    <string name="settings_auto_start_focus_title">Aloita tarkennus automaattisesti</string>
+    <string name="settings_auto_start_focus_desc">Aloita työistunto tauon jälkeen ilman käyttäjän toimenpidettä</string>
+    <string name="settings_auto_start_break_title">Aloita tauko automaattisesti</string>
+    <string name="settings_auto_start_break_desc">Aloita taukoistunto työistunnon jälkeen ilman käyttäjän vuorovaikutusta</string>
+    <string name="main_unlock_timer_style">Avaa Premium tallentaaksesi ajastimen tyylin</string>
+</resources>

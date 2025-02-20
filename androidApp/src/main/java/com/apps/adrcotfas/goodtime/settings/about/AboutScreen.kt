@@ -32,8 +32,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -59,7 +61,7 @@ fun AboutScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "About and feedback",
+                title = stringResource(R.string.about_and_feedback_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -73,18 +75,18 @@ fun AboutScreen(
                 .background(MaterialTheme.colorScheme.background),
         ) {
             IconListItem(
-                title = "Source code",
+                title = stringResource(R.string.about_source_code),
                 icon = { Icon(EvaIcons.Outline.Github, contentDescription = "GitHub") },
                 onClick = {
                     openUrl(context, REPO_URL)
                 },
             )
             IconListItem(
-                title = "Open Source Licenses",
+                title = stringResource(R.string.about_open_source_licenses),
                 icon = {
                     Icon(
                         EvaIcons.Outline.BookOpen,
-                        contentDescription = "Open Source Licenses",
+                        contentDescription = stringResource(R.string.about_open_source_licenses),
                     )
                 },
                 onClick = {
@@ -94,20 +96,20 @@ fun AboutScreen(
             )
             SubtleHorizontalDivider()
             IconListItem(
-                title = "App Intro",
-                icon = { Icon(Icons.Outlined.Flag, contentDescription = "App Intro") },
+                title = stringResource(R.string.about_app_intro),
+                icon = { Icon(Icons.Outlined.Flag, contentDescription = stringResource(R.string.about_app_intro)) },
                 onClick = {
                     mainViewModel.setOnboardingFinished(false)
                 },
             )
             IconListItem(
-                title = "Feedback",
-                icon = { Icon(EvaIcons.Outline.PaperPlane, contentDescription = "Feedback") },
+                title = stringResource(R.string.about_feedback),
+                icon = { Icon(EvaIcons.Outline.PaperPlane, contentDescription = stringResource(R.string.about_feedback)) },
                 onClick = { sendFeedback(context) },
             )
             IconListItem(
-                title = "Rate this app",
-                icon = { Icon(EvaIcons.Outline.Star, contentDescription = "Rate this app") },
+                title = stringResource(R.string.about_rate_this_app),
+                icon = { Icon(EvaIcons.Outline.Star, contentDescription = stringResource(R.string.about_rate_this_app)) },
                 onClick = {
                     openUrl(context, GOOGLE_PLAY_URL)
                 },

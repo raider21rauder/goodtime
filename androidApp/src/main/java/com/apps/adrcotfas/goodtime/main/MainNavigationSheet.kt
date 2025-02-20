@@ -35,10 +35,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.getVersionName
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
 import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
@@ -118,7 +120,7 @@ fun MainNavigationSheetContent(
     ) {
         Text(
             modifier = Modifier.padding(16.dp),
-            text = "Goodtime Productivity",
+            text = stringResource(R.string.product_name_long),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
         )
 
@@ -130,7 +132,7 @@ fun MainNavigationSheetContent(
             icon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = "Labels",
+                    contentDescription = stringResource(R.string.labels_title),
                 )
             },
             onClick = navigateToLabels,
@@ -141,7 +143,7 @@ fun MainNavigationSheetContent(
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.PieChart,
-                    contentDescription = "Statistics",
+                    contentDescription = stringResource(R.string.stats_title),
                 )
             },
             onClick = navigateToStats,
@@ -151,7 +153,7 @@ fun MainNavigationSheetContent(
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Sync,
-                    contentDescription = "Backup and restore",
+                    contentDescription = stringResource(R.string.backup_and_restore_title),
                 )
             },
             onClick = {
@@ -165,7 +167,7 @@ fun MainNavigationSheetContent(
                 BadgedBoxWithCount(count = settingsBadgeItemCount) {
                     Icon(
                         imageVector = EvaIcons.Outline.Settings,
-                        contentDescription = "Settings",
+                        contentDescription = stringResource(R.string.settings_title),
                     )
                 }
             },
@@ -177,7 +179,7 @@ fun MainNavigationSheetContent(
             icon = {
                 Icon(
                     imageVector = EvaIcons.Outline.Info,
-                    contentDescription = "About and feedback",
+                    contentDescription = stringResource(R.string.about_and_feedback_title),
                 )
             },
             onClick = {

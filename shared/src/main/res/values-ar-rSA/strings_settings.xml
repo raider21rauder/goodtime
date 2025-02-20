@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="settings_title">الاعدادات</string>
+    <string name="settings_action_required">الإجراء المطلوب</string>
+    <string name="settings_allow_background">السماح لهذا التطبيق بالتشغيل في الخلفية</string>
+    <string name="settings_allow_notifications">السماح بالإشعارات</string>
+    <string name="settings_allow">السماح</string>
+    <string name="settings_productivity_reminder_title">تذكير بالإنتاجية</string>
+    <string name="settings_days_of_the_week">أيام من الأسبوع</string>
+    <string name="settings_reminder_time">وقت التذكير</string>
+    <string name="settings_timer_style_title">بدء المؤقت</string>
+    <string name="settings_notifications_title">الإشعارات</string>
+    <string name="settings_custom_start_of_day_title">بداية مخصصة من اليوم</string>
+    <string name="settings_custom_start_of_day_desc">يحدد الوقت الذي يبدأ فيه اليوم للإحصاءات.</string>
+    <string name="settings_start_of_the_week">بداية الأسبوع</string>
+    <string name="settings_theme">السمة</string>
+    <string-array name="settings_theme_options">
+        <item>النظام</item>
+        <item>فاتح</item>
+        <item>داكن</item>
+    </string-array>
+    <string name="settings_use_dynamic_color">استخدام اللون الديناميكي</string>
+    <string name="settings_during_work_sessions">خلال جلسات العمل</string>
+    <string name="settings_fullscreen_mode">وضع الشاشة الكاملة</string>
+    <string name="settings_true_black_mode_title">الوضع الأسود الحقيقي</string>
+    <string name="settings_true_black_mode_desc">استخدم أسود حقيقي للخلفية</string>
+    <string name="settings_keep_the_screen_on">إبقاء الشاشة مفعلة</string>
+    <string name="settings_screensaver_mode">وضع شاشة التوقف</string>
+    <string name="settings_do_not_disturb_mode">وضع عدم الإزعاج</string>
+    <string name="settings_click_to_grant_permission">إضغط لمنح الاذن</string>
+    <string name="settings_demo">تجريبي</string>
+    <string name="settings_refresh_demo_label">تحديث التسمية التجريبية</string>
+    <string name="settings_show_status_title">إظهار الحالة</string>
+    <string name="settings_show_status_desc">أيقونة تشير إلى العمل أو الاستراحة</string>
+    <string name="settings_show_sessions_long_break_title">إظهار الجلسات حتى استراحة طويلة</string>
+    <string name="settings_show_sessions_long_break_desc">للتوقيتات العد التنازلي مع فترات توقف طويلة مفعلة</string>
+    <string name="settings_show_label">إظهار التسمية</string>
+    <string name="settings_hide_seconds">إخفاء الثواني</string>
+    <string name="settings_focus_complete_sound">صوت التركيز الكامل</string>
+    <string name="settings_break_complete_sound">كسر صوت كامل</string>
+    <string name="settings_silent">صامت</string>
+    <string name="settings_default_notification_sound">صوت الإشعار الافتراضي</string>
+    <string name="settings_your_sounds">الأصوات الخاصة بك</string>
+    <string name="settings_system_sounds">أصوات النظام</string>
+    <string name="settings_delete_sound">حذف الصوت</string>
+    <string name="settings_remove">إزالة</string>
+    <string name="settings_add_custom_sound">إضافة صوت مخصص</string>
+    <string name="settings_override_sound_profile_title">اعطاء الأولوية لصوت الاشعار</string>
+    <string name="settings_override_sound_profile_desc">سيعمل صوت الاشعار كأنه منبه</string>
+    <string name="settings_vibration_strength">قوة الاهتزاز</string>
+    <string name="settings_torch_title">الشعلة</string>
+    <string name="settings_torch_desc">اظهار إشعار مرئي للبيئات الصامتة</string>
+    <string name="settings_insistent_notification_title">الإشعارات بشكل متواصل </string>
+    <string name="settings_insistent_notification_desc">كرر الإشعار حتى يتم إلغاؤه</string>
+    <string name="settings_auto_start_focus_title">بدء التركيز التلقائي</string>
+    <string name="settings_auto_start_focus_desc">ابدأ الفاصل بعد جلسة عمل دون تدخل المستخدم</string>
+    <string name="settings_auto_start_break_title">بداية الانقطاع التلقائي</string>
+    <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
+    <string name="main_unlock_timer_style">فتح النسخة المميزة لحفظ نمط المؤقت</string>
+</resources>

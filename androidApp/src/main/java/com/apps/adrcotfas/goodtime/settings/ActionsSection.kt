@@ -29,12 +29,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import com.apps.adrcotfas.goodtime.common.askForDisableBatteryOptimization
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 
@@ -51,7 +53,7 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
     AnimatedVisibility(permissionsState.shouldAskForNotificationPermission || permissionsState.shouldAskForBatteryOptimizationRemoval) {
         Column {
             PreferenceGroupTitle(
-                text = "Action required",
+                text = stringResource(R.string.settings_action_required),
                 paddingValues = PaddingValues(
                     horizontal = 16.dp,
                     vertical = 8.dp,
@@ -59,16 +61,16 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
             )
             AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
                 ActionCard(
-                    cta = "Allow",
-                    description = "Allow this app to run in the background",
+                    cta = stringResource(R.string.settings_allow),
+                    description = stringResource(R.string.settings_allow_background),
                     onClick = { context.askForDisableBatteryOptimization() },
                 )
             }
 
             AnimatedVisibility(permissionsState.shouldAskForNotificationPermission) {
                 ActionCard(
-                    cta = "Allow",
-                    description = "Allow notifications",
+                    cta = stringResource(R.string.settings_allow),
+                    description = stringResource(R.string.settings_allow_notifications),
                     onClick = {
                         if (notificationPermissionState == NotificationPermissionState.DENIED && !shouldShowRequestPermissionRationale(
                                 context.findActivity()!!,

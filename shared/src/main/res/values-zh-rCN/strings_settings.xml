@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="settings_title">设置</string>
+    <string name="settings_action_required">需要采取的行动</string>
+    <string name="settings_allow_background">允许此应用在后台运行</string>
+    <string name="settings_allow_notifications">允许通知</string>
+    <string name="settings_allow">允许</string>
+    <string name="settings_productivity_reminder_title">效率提醒</string>
+    <string name="settings_days_of_the_week">一周中的天数</string>
+    <string name="settings_reminder_time">提醒时间</string>
+    <string name="settings_timer_style_title">计时器风格</string>
+    <string name="settings_notifications_title">通知</string>
+    <string name="settings_custom_start_of_day_title">自定义开始日期</string>
+    <string name="settings_custom_start_of_day_desc">定义从何时开始统计.</string>
+    <string name="settings_start_of_the_week">一周开始</string>
+    <string name="settings_theme">主题</string>
+    <string-array name="settings_theme_options">
+        <item>系统</item>
+        <item>亮色的</item>
+        <item>深色</item>
+    </string-array>
+    <string name="settings_use_dynamic_color">使用动态颜色</string>
+    <string name="settings_during_work_sessions">在工作期间</string>
+    <string name="settings_fullscreen_mode">全屏模式</string>
+    <string name="settings_true_black_mode_title">真黑色模式</string>
+    <string name="settings_true_black_mode_desc">背景使用真黑色</string>
+    <string name="settings_keep_the_screen_on">保持屏幕常亮</string>
+    <string name="settings_screensaver_mode">屏保模式</string>
+    <string name="settings_do_not_disturb_mode">勿扰模式</string>
+    <string name="settings_click_to_grant_permission">轻触来授予权限。</string>
+    <string name="settings_demo">演示模式</string>
+    <string name="settings_refresh_demo_label">刷新演示标签</string>
+    <string name="settings_show_status_title">显示状态</string>
+    <string name="settings_show_status_desc">显示工作或休息的图标</string>
+    <string name="settings_show_sessions_long_break_title">显示会话直到长课间休息。</string>
+    <string name="settings_show_sessions_long_break_desc">倒计时器启用了长课间休息。</string>
+    <string name="settings_show_label">显示标签</string>
+    <string name="settings_hide_seconds">隐藏秒</string>
+    <string name="settings_focus_complete_sound">聚焦完整的声音</string>
+    <string name="settings_break_complete_sound">打破完整的声音</string>
+    <string name="settings_silent">静音</string>
+    <string name="settings_default_notification_sound">默认通知声音</string>
+    <string name="settings_your_sounds">您的声音</string>
+    <string name="settings_system_sounds">系统声音</string>
+    <string name="settings_delete_sound">删除声音</string>
+    <string name="settings_remove">删除</string>
+    <string name="settings_add_custom_sound">添加自定义声音</string>
+    <string name="settings_override_sound_profile_title">覆盖声音配置文件</string>
+    <string name="settings_override_sound_profile_desc">通知声音就像闹钟</string>
+    <string name="settings_vibration_strength">振动强度</string>
+    <string name="settings_torch_title">火灯</string>
+    <string name="settings_torch_desc">静音环境的视觉通知</string>
+    <string name="settings_insistent_notification_title">持续通知</string>
+    <string name="settings_insistent_notification_desc">重复通知直至被取消</string>
+    <string name="settings_auto_start_focus_title">自动开始对焦</string>
+    <string name="settings_auto_start_focus_desc">休息结束后自动开始工作，不需要用户手动操作</string>
+    <string name="settings_auto_start_break_title">自动开始休息</string>
+    <string name="settings_auto_start_break_desc">工作会话结束后开始断开会话，无需用户互动</string>
+    <string name="main_unlock_timer_style">解锁高级版以节省计时器样式</string>
+</resources>

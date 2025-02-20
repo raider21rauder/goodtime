@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="unlock_premium">プレミアム版をアンロック</string>
+    <string name="unlock_premium_to_access_features">機能にアクセスするにはプレミアムをアンロック</string>
+    <string name="unlock_premium_tagline">一回の購入でサブスクリプションはありません。生産性が向上します。</string>
+    <string name="unlock_premium_desc1">%s はインディーなオープンソースアプリで、広告、トラッキング、データ収集を行わず、シンプルで優れたユーザーエクスペリエンスを実現します。</string>
+    <string name="unlock_premium_desc2">便利だとわかった場合は、プレミアムバージョンにアップグレードして、より多くの機能をアンロックすることを検討してください。</string>
+    <string name="unlock_premium_desc3">あなたのサポートは将来の改善に役立ちます！</string>
+    <string name="support_development">開発を支援する</string>
+    <string name="unlock_colors">ロック解除色</string>
+    <string name="support_donate_desc">もし役に立つと思ったら、寄付をすることを検討してください。</string>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="labels_title">Štítky</string>
+    <string name="labels_default_label_name">výchozí</string>
+    <string name="labels_others">ostatní</string>
+    <string name="labels_countdown">Odpočítávání</string>
+    <string name="labels_count_up">Počítat</string>
+    <string name="labels_focus_time">Čas zaostření</string>
+    <string name="labels_break_time">Čas přerušení</string>
+    <string name="labels_long_break">Dlouhá přestávka</string>
+    <string name="labels_sessions_before_long_break">Relace před dlouhou přestávkou</string>
+    <string name="labels_enable_break_budget">Povolit rozpočet přerušení</string>
+    <string name="labels_focus_break_ratio">Poměr zaostření/přerušení</string>
+    <string name="labels_select_active_label">Vyberte aktivní popisek</string>
+    <string name="labels_edit_labels">Upravit štítek</string>
+    <string name="labels_edit_active_label">Upravit aktivní štítek</string>
+    <string name="labels_break_budget_info">Přerušit informace o rozpočtu</string>
+    <string name="labels_break_budget_desc">"Váš rozpočet na přestávku se zvyšuje v závislosti na zvoleném poměru zaměření/přestávka a snižuje se při přerušení aplikace.\nZanechte se vždy, když se vám to líbí."</string>
+    <string name="labels_break_budget">Rozbít rozpočet</string>
+    <string name="labels_follow_default_time_profile">Sledovat výchozí časový profil</string>
+    <string name="labels_add_label_name">Přidat název štítku</string>
+    <string name="labels_label_name_already_exists">Název štítku již existuje</string>
+    <string name="labels_archived_labels_title">Archivované štítky</string>
+    <string name="labels_delete">Odstranit %1$s?</string>
+    <string name="labels_delete_desc">Smazáním tohoto štítku jej odeberete z přidružených dokončených relací.</string>
+    <string name="labels_more_about">Více o</string>
+    <string name="labels_unarchive">Zrušit archiv</string>
+    <string name="labels_select_label">Vybrat štítek</string>
+    <string name="labels_select_labels">Vybrat popisky</string>
+    <string name="labels_edit_label">Upravit štítek</string>
+</resources>

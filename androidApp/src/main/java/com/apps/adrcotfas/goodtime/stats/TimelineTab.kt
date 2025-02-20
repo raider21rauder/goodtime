@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +54,7 @@ import androidx.paging.compose.itemKey
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.enabledColors
 import com.apps.adrcotfas.goodtime.ui.common.selectedColors
 import com.apps.adrcotfas.goodtime.shared.R as SharedR
@@ -87,7 +89,7 @@ fun TimelineTab(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "No items",
+                text = stringResource(R.string.stats_no_items),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),
@@ -163,7 +165,7 @@ fun TimelineListItem(
                 Spacer(modifier = Modifier.size(4.dp))
 
                 Text(
-                    text = "${session.duration}min",
+                    text = stringResource(R.string.main_min, session.duration),
                     maxLines = 1,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

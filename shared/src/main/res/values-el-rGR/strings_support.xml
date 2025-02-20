@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="unlock_premium">Ξεκλείδωμα Premium</string>
+    <string name="unlock_premium_to_access_features">Ξεκλειδώστε το Premium για να αποκτήσετε πρόσβαση</string>
+    <string name="unlock_premium_tagline">Αγορά μιας φοράς. Χωρίς συνδρομές. Απλά καλύτερη παραγωγικότητα.</string>
+    <string name="unlock_premium_desc1">Το %s είναι μια εφαρμογή ανοιχτού κώδικα, σχεδιασμένη για απλότητα και μια μεγάλη εμπειρία χρήστη, χωρίς διαφημίσεις, παρακολούθηση ή συλλογή δεδομένων.</string>
+    <string name="unlock_premium_desc2">Αν το θεωρήσετε χρήσιμο, σκεφτείτε την αναβάθμιση στην έκδοση premium για να ξεκλειδώσετε περισσότερες λειτουργίες.</string>
+    <string name="unlock_premium_desc3">Η υποστήριξή σας βοηθά μελλοντικές βελτιώσεις!</string>
+    <string name="support_development">Ανάπτυξη υποστήριξης</string>
+    <string name="unlock_colors">Ξεκλείδωμα χρωμάτων</string>
+    <string name="support_donate_desc">Αν το βρείτε χρήσιμο, σκεφτείτε να κάνετε μια δωρεά.</string>
+</resources>

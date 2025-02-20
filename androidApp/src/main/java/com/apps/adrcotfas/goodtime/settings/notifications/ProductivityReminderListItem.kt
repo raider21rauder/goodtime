@@ -33,14 +33,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import kotlinx.datetime.DayOfWeek
-import java.time.format.TextStyle
 
 @Composable
 fun ProductivityReminderListItem(
@@ -51,15 +53,13 @@ fun ProductivityReminderListItem(
     onReminderTimeClick: () -> Unit,
 ) {
     val context = LocalContext.current
-    val locale = context.resources.configuration.locales[0]
-
     val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
     ) {
         BetterListItem(
-            title = "Days of the week",
+            title = stringResource(R.string.settings_days_of_the_week),
             supporting = {
                 Row(
                     modifier = Modifier
@@ -87,7 +87,7 @@ fun ProductivityReminderListItem(
                             onClick = { onSelectDay(day) },
                         ) {
                             Text(
-                                text = day.getDisplayName(TextStyle.SHORT, locale),
+                                text = stringArrayResource(R.array.time_days_of_the_week)[day.ordinal].take(3),
                                 maxLines = 1,
                                 style = MaterialTheme.typography.bodySmall,
                             )
@@ -98,7 +98,7 @@ fun ProductivityReminderListItem(
         )
 
         BetterListItem(
-            title = "Reminder time",
+            title = stringResource(R.string.settings_reminder_time),
             trailing = secondsOfDayToTimerFormat(
                 reminderSecondOfDay,
                 DateFormat.is24HourFormat(context),

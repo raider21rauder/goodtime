@@ -34,6 +34,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -71,19 +73,19 @@ fun StatisticsScreenTopBar(
                         }) {
                             Icon(
                                 imageVector = EvaIcons.Outline.Trash,
-                                contentDescription = "Delete",
+                                contentDescription = stringResource(R.string.main_delete),
                             )
                         }
                         IconButton(onClick = onSelectAll) {
                             Icon(
                                 imageVector = Icons.Default.SelectAll,
-                                contentDescription = "Select all",
+                                contentDescription = stringResource(R.string.stats_select_all),
                             )
                         }
                         IconButton(onClick = onLabelButtonClick) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Outlined.Label,
-                                contentDescription = "Select labels",
+                                contentDescription = stringResource(R.string.labels_edit_label),
                             )
                         }
                     },
@@ -91,7 +93,7 @@ fun StatisticsScreenTopBar(
                         IconButton(onClick = onCancel) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "Cancel",
+                                contentDescription = stringResource(R.string.main_cancel),
                             )
                         }
                     },
@@ -108,7 +110,7 @@ fun StatisticsScreenTopBar(
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add session",
+                                contentDescription = stringResource(R.string.stats_add_session),
                             )
                         }
                         SelectLabelButton(selectedLabelsCount) {
@@ -119,7 +121,7 @@ fun StatisticsScreenTopBar(
                         IconButton(onClick = onNavigateBack) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Navigate back",
+                                contentDescription = stringResource(R.string.main_navigate_back),
                             )
                         }
                     },

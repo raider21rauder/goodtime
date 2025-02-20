@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -82,9 +83,8 @@ import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.minutes
+import com.apps.adrcotfas.goodtime.shared.R as Mr
 
-// TODO add another status indicator for the break budget. imagine a bag with a number [ (bag) 3' ]
-// TODO: top indicators should have the same size as the label chip
 @Composable
 fun MainTimerView(
     modifier: Modifier,
@@ -138,7 +138,11 @@ fun MainTimerView(
                         onStart()
                     } else {
                         if (!onToggle()) {
-                            Toast.makeText(context, "Cannot pause the break", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.main_cannot_pause_the_break),
+                                Toast.LENGTH_SHORT,
+                            )
                                 .show()
                         }
                     }
@@ -255,14 +259,14 @@ fun StatusIndicator(
                 if (it) {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(R.drawable.ic_break),
-                        contentDescription = "",
+                        painter = painterResource(Mr.drawable.ic_break),
+                        contentDescription = stringResource(R.string.stats_break),
                     )
                 } else {
                     Image(
                         colorFilter = ColorFilter.tint(color),
-                        painter = painterResource(R.drawable.ic_status_goodtime),
-                        contentDescription = "",
+                        painter = painterResource(Mr.drawable.ic_status_goodtime),
+                        contentDescription = stringResource(R.string.stats_focus),
                     )
                 }
             }
@@ -340,8 +344,8 @@ fun BreakBudgetIndicator(
             ) {
                 Image(
                     colorFilter = ColorFilter.tint(color),
-                    painter = painterResource(R.drawable.ic_break),
-                    contentDescription = "",
+                    painter = painterResource(Mr.drawable.ic_break),
+                    contentDescription = stringResource(R.string.labels_break_budget),
                 )
                 Text(
                     modifier = Modifier.padding(horizontal = 4.dp),

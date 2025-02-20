@@ -44,8 +44,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,13 +57,13 @@ import com.apps.adrcotfas.goodtime.common.endOfWeekInThisWeek
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.firstDayOfWeekInMonth
 import com.apps.adrcotfas.goodtime.common.firstDayOfWeekInThisWeek
+import com.apps.adrcotfas.goodtime.shared.R
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
-import java.time.format.TextStyle
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,11 +72,7 @@ fun HeatmapSection(
     data: HeatmapData,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val context = LocalContext.current
     val density = LocalDensity.current
-
-    val locale = remember { context.resources.configuration.locales[0] }
-
     val endLocalDate = remember { Time.currentDateTime().date }
     val startLocalDate = remember { endLocalDate.minus(DatePeriod(days = 363)) }
 
@@ -111,7 +108,7 @@ fun HeatmapSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Heatmap",
+                stringResource(R.string.stats_heatmap),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,
@@ -150,7 +147,9 @@ fun HeatmapSection(
                                 modifier = Modifier
                                     .padding(cellSpacing)
                                     .height(cellSize),
-                                text = it.getDisplayName(TextStyle.SHORT, locale),
+                                text = stringArrayResource(R.array.time_days_of_the_week)[it.ordinal].take(
+                                    3,
+                                ),
                                 style = MaterialTheme.typography.labelSmall,
                             )
                         } else {
@@ -177,12 +176,10 @@ fun HeatmapSection(
                                 val currentWeekStart =
                                     remember(index) { startAtStartOfWeek.plus(DatePeriod(days = index * 7)) }
 
-                                val monthName = remember(currentWeekStart) {
-                                    currentWeekStart.month.getDisplayName(
-                                        TextStyle.SHORT,
-                                        locale,
+                                val monthName =
+                                    stringArrayResource(R.array.time_months_of_the_year)[currentWeekStart.month.ordinal].take(
+                                        3,
                                     )
-                                }
                                 if (currentWeekStart == startAtStartOfWeek || currentWeekStart == currentWeekStart.firstDayOfWeekInMonth(
                                         firstDayOfWeek,
                                     )

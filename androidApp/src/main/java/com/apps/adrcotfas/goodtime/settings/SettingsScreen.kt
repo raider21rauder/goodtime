@@ -44,6 +44,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -51,14 +53,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.common.getAppLanguage
-import com.apps.adrcotfas.goodtime.common.prettyName
-import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
@@ -76,7 +77,6 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
 import org.koin.compose.koinInject
-import java.time.format.TextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +89,6 @@ fun SettingsScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val settings = uiState.settings
-    val locale = context.resources.configuration.locales[0]
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
@@ -143,7 +142,7 @@ fun SettingsScreen(
                 },
             )
 
-            CompactPreferenceGroupTitle(text = "Productivity Reminder")
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
             val reminderSettings = settings.productivityReminderSettings
             ProductivityReminderListItem(
                 firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
@@ -153,23 +152,23 @@ fun SettingsScreen(
                 onReminderTimeClick = { viewModel.setShowTimePicker(true) },
             )
             IconListItem(
-                title = "Timer style",
+                title = stringResource(R.string.settings_timer_style_title),
                 icon = {
                     Icon(
                         modifier = Modifier.padding(vertical = 12.dp),
                         imageVector = EvaIcons.Outline.ColorPalette,
-                        contentDescription = "Timer style",
+                        contentDescription = stringResource(R.string.settings_timer_style_title),
                     )
                 },
                 onClick = onNavigateToTimerStyle,
             )
             IconListItem(
-                title = "Notifications",
+                title = stringResource(R.string.settings_notifications_title),
                 icon = {
                     Icon(
                         modifier = Modifier.padding(vertical = 12.dp),
                         imageVector = EvaIcons.Outline.Bell,
-                        contentDescription = "Notifications",
+                        contentDescription = stringResource(R.string.settings_notifications_title),
                     )
                 },
                 onClick = onNavigateToNotifications,
@@ -187,8 +186,8 @@ fun SettingsScreen(
                 )
             }
             BetterListItem(
-                title = "Custom start of day",
-                subtitle = "Defines when the day begins for statistics.",
+                title = stringResource(R.string.settings_custom_start_of_day_title),
+                subtitle = stringResource(R.string.settings_custom_start_of_day_desc),
                 trailing = secondsOfDayToTimerFormat(
                     uiState.settings.workdayStart,
                     DateFormat.is24HourFormat(context),
@@ -198,14 +197,10 @@ fun SettingsScreen(
                 },
             )
             DropdownMenuListItem(
-                title = "Start of the week",
-                value = DayOfWeek.of(uiState.settings.firstDayOfWeek)
-                    .getDisplayName(TextStyle.FULL, locale),
+                title = stringResource(R.string.settings_start_of_the_week),
+                value = stringArrayResource(R.array.time_days_of_the_week)[DayOfWeek.of(uiState.settings.firstDayOfWeek).ordinal],
                 dropdownMenuOptions = firstDayOfWeekOptions.map {
-                    it.getDisplayName(
-                        TextStyle.FULL,
-                        locale,
-                    )
+                    stringArrayResource(R.array.time_days_of_the_week)[it.ordinal]
                 },
                 onDropdownMenuItemSelected = {
                     viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
@@ -213,10 +208,9 @@ fun SettingsScreen(
             )
 
             DropdownMenuListItem(
-                title = "Theme",
-                // TODO: use localized strings instead
-                value = uiState.settings.uiSettings.themePreference.prettyName(),
-                dropdownMenuOptions = prettyNames<ThemePreference>(),
+                title = stringResource(R.string.settings_theme),
+                value = stringArrayResource(R.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
+                dropdownMenuOptions = stringArrayResource(R.array.settings_theme_options).toList(),
                 onDropdownMenuItemSelected = {
                     viewModel.setThemeOption(ThemePreference.entries[it])
                 },
@@ -224,16 +218,16 @@ fun SettingsScreen(
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 CheckboxListItem(
-                    title = "Use Dynamic Color",
+                    title = stringResource(R.string.settings_use_dynamic_color),
                     checked = uiState.settings.uiSettings.useDynamicColor,
                 ) {
                     viewModel.setUseDynamicColor(it)
                 }
             }
 
-            CompactPreferenceGroupTitle(text = "During work sessions")
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_during_work_sessions))
             CheckboxListItem(
-                title = "Fullscreen mode",
+                title = stringResource(R.string.settings_fullscreen_mode),
                 checked = uiState.settings.uiSettings.fullscreenMode,
             ) {
                 viewModel.setFullscreenMode(it)
@@ -245,8 +239,8 @@ fun SettingsScreen(
                     ),
             ) {
                 CheckboxListItem(
-                    title = "True black mode",
-                    subtitle = "Use true black for the background",
+                    title = stringResource(R.string.settings_true_black_mode_title),
+                    subtitle = stringResource(R.string.settings_true_black_mode_desc),
                     checked = uiState.settings.uiSettings.trueBlackMode,
                     enabled = uiState.settings.uiSettings.fullscreenMode,
                 ) {
@@ -254,21 +248,21 @@ fun SettingsScreen(
                 }
             }
             CheckboxListItem(
-                title = "Keep the screen on",
+                title = stringResource(R.string.settings_keep_the_screen_on),
                 checked = uiState.settings.uiSettings.keepScreenOn,
             ) {
                 viewModel.setKeepScreenOn(it)
             }
             CheckboxListItem(
-                title = "Screensaver mode",
+                title = stringResource(R.string.settings_screensaver_mode),
                 checked = uiState.settings.uiSettings.screensaverMode,
                 enabled = uiState.settings.uiSettings.keepScreenOn,
             ) {
                 viewModel.setScreensaverMode(it)
             }
             CheckboxListItem(
-                title = "Do not disturb mode",
-                subtitle = if (isNotificationPolicyAccessGranted) null else "Click to grant permission",
+                title = stringResource(R.string.settings_do_not_disturb_mode),
+                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
                 checked = uiState.settings.uiSettings.dndDuringWork,
             ) {
                 if (isNotificationPolicyAccessGranted) {

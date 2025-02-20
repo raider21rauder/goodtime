@@ -27,13 +27,13 @@ import android.os.SystemClock
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isWork
-import com.apps.adrcotfas.goodtime.shared.R as SharedR
+import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.R as AndroidR
 
 // TODO: count-up should have a stop button action
 // TODO: add break icon to break notifications
@@ -55,16 +55,15 @@ class NotificationArchManager(private val context: Context, private val activity
 
         val stateText = if (timerType.isWork) {
             if (running) {
-                // TODO: extract strings
-                "Focus session in progress"
+                context.getString(R.string.main_focus_session_in_progress)
             } else {
-                "Focus session paused"
+                context.getString(R.string.main_focus_session_paused)
             }
         } else {
-            "Break in progress"
+            context.getString(R.string.main_break_in_progress)
         }
 
-        val icon = if (timerType.isWork) SharedR.drawable.ic_status_goodtime else SharedR.drawable.ic_break
+        val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
             setSmallIcon(icon)
             setCategory(NotificationCompat.CATEGORY_PROGRESS)
@@ -87,43 +86,43 @@ class NotificationArchManager(private val context: Context, private val activity
             if (timerType == TimerType.WORK) {
                 if (running) {
                     val pauseAction = createNotificationAction(
-                        title = "Pause",
+                        title = context.getString(R.string.main_pause),
                         action = TimerService.Companion.Action.Toggle,
                     )
                     builder.addAction(pauseAction)
                     val addOneMinuteAction = createNotificationAction(
-                        title = "+1 min",
+                        title = context.getString(R.string.main_plus_1_min),
                         action = TimerService.Companion.Action.AddOneMinute,
                     )
                     builder.addAction(addOneMinuteAction)
                 } else {
                     val resumeAction = createNotificationAction(
-                        title = "Resume",
+                        title = context.getString(R.string.main_resume),
                         action = TimerService.Companion.Action.Toggle,
                     )
                     builder.addAction(resumeAction)
                     val stopAction = createNotificationAction(
-                        title = "Stop",
+                        title = context.getString(R.string.main_stop),
                         action = TimerService.Companion.Action.DoReset,
                     )
                     builder.addAction(stopAction)
                 }
             } else {
                 val stopAction = createNotificationAction(
-                    title = "Stop",
+                    title = context.getString(R.string.main_stop),
                     action = TimerService.Companion.Action.DoReset,
                 )
                 builder.addAction(stopAction)
                 val addOneMinuteAction = createNotificationAction(
-                    title = "+1 min",
+                    title = context.getString(R.string.main_plus_1_min),
                     action = TimerService.Companion.Action.AddOneMinute,
                 )
                 builder.addAction(addOneMinuteAction)
             }
             val nextActionTitle = if (timerType == TimerType.WORK) {
-                "Start break"
+                context.getString(R.string.main_start_break)
             } else {
-                "Start focus"
+                context.getString(R.string.main_start_focus)
             }
             val nextAction = createNotificationAction(
                 title = nextActionTitle,
@@ -134,7 +133,7 @@ class NotificationArchManager(private val context: Context, private val activity
             }
         } else {
             val stopAction = createNotificationAction(
-                title = "Stop",
+                title = context.getString(R.string.main_stop),
                 action = TimerService.Companion.Action.DoReset,
             )
             builder.addAction(stopAction)
@@ -147,15 +146,15 @@ class NotificationArchManager(private val context: Context, private val activity
         val labelName = data.getLabelName()
 
         val mainStateText = if (timerType == TimerType.WORK) {
-            "Focus session finished"
+            context.getString(R.string.main_focus_session_finished)
         } else {
-            "Break finished"
+            context.getString(R.string.main_break_finished)
         }
         val labelText = if (data.isDefaultLabel()) "" else "$labelName: "
         val stateText = "$labelText$mainStateText"
 
         val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-            setSmallIcon(SharedR.drawable.ic_status_goodtime)
+            setSmallIcon(R.drawable.ic_status_goodtime)
             setCategory(NotificationCompat.CATEGORY_PROGRESS)
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             setContentIntent(createOpenActivityIntent(activityClass))
@@ -167,12 +166,12 @@ class NotificationArchManager(private val context: Context, private val activity
         }
         val extender = NotificationCompat.WearableExtender()
         if (withActions) {
-            builder.setContentText("Continue?")
+            builder.setContentText(context.getString(R.string.main_continue))
             val nextActionTitle =
                 if (timerType == TimerType.WORK && data.label.profile.isBreakEnabled) {
-                    "Start break"
+                    context.getString(R.string.main_start_break)
                 } else {
-                    "Start focus"
+                    context.getString(R.string.main_start_focus)
                 }
             val nextAction = createNotificationAction(
                 title = nextActionTitle,
@@ -192,20 +191,20 @@ class NotificationArchManager(private val context: Context, private val activity
     fun notifyReminder() {
         val pendingIntent = createOpenActivityIntent(activityClass)
         val builder = NotificationCompat.Builder(context, REMINDER_CHANNEL_ID)
-            .setSmallIcon(SharedR.drawable.ic_status_goodtime)
+            .setSmallIcon(R.drawable.ic_status_goodtime)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
             .setShowWhen(false)
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
-            .setContentTitle("Productivity reminder")
-            .setContentText("It's time to be productive!")
+            .setContentTitle(context.getString(R.string.settings_productivity_reminder_title))
+            .setContentText(context.getString(R.string.main_productivity_reminder_desc))
         notificationManager.notify(REMINDER_NOTIFICATION_ID, builder.build())
     }
 
     private fun createMainNotificationChannel() {
-        val name = "Goodtime Notifications"
+        val name = context.getString(R.string.main_notifications_channel_name)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(MAIN_CHANNEL_ID, name, importance).apply {
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
@@ -218,7 +217,7 @@ class NotificationArchManager(private val context: Context, private val activity
     }
 
     private fun createReminderChannel() {
-        val name = "Goodtime Reminder Notifications"
+        val name = context.getString(R.string.main_reminder_channel_name)
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(REMINDER_CHANNEL_ID, name, importance).apply {
             setShowBadge(true)
@@ -233,10 +232,10 @@ class NotificationArchManager(private val context: Context, private val activity
         isCountDown: Boolean = true,
     ): RemoteViews {
         val content =
-            RemoteViews(context.packageName, R.layout.chronometer_notif_content)
-        content.setChronometerCountDown(R.id.chronometer, isCountDown)
-        content.setChronometer(R.id.chronometer, base, null, running)
-        content.setTextViewText(R.id.state, stateText)
+            RemoteViews(context.packageName, AndroidR.layout.chronometer_notif_content)
+        content.setChronometerCountDown(AndroidR.id.chronometer, isCountDown)
+        content.setChronometer(AndroidR.id.chronometer, base, null, running)
+        content.setTextViewText(AndroidR.id.state, stateText)
         return content
     }
 

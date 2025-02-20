@@ -35,15 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
-import com.apps.adrcotfas.goodtime.common.prettyName
-import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -71,7 +70,6 @@ import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 import java.text.DecimalFormat
-import java.time.format.TextStyle
 
 @Composable
 fun HistorySection(viewModel: StatisticsHistoryViewModel) {
@@ -95,10 +93,12 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     val modelProducer = remember { CartesianChartModelProducer() }
 
+    val daysOfTheWeekNames = stringArrayResource(R.array.time_days_of_the_week)
+    val monthsOfTheYear = stringArrayResource(R.array.time_months_of_the_year)
     val bottomAxisStrings = remember(locale) {
         BottomAxisStrings(
-            dayOfWeekNames = DayOfWeek.entries.map { it.getDisplayName(TextStyle.SHORT, locale) },
-            monthsOfYearNames = Month.entries.map { it.getDisplayName(TextStyle.SHORT, locale) },
+            dayOfWeekNames = DayOfWeek.entries.map { daysOfTheWeekNames[it.ordinal].take(3) },
+            monthsOfYearNames = Month.entries.map { monthsOfTheYear[it.ordinal].take(3) },
         )
     }
 
@@ -127,7 +127,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "History",
+                stringResource(R.string.stats_history_title),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = primaryColor,
@@ -136,8 +136,8 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
-                value = type.prettyName(),
-                options = prettyNames<HistoryIntervalType>(),
+                value = stringArrayResource(R.array.stats_history_interval_type_options)[type.ordinal],
+                options = stringArrayResource(R.array.stats_history_interval_type_options).toList(),
                 onDismissRequest = {},
                 onDropdownMenuItemSelected = {
                     viewModel.setType(HistoryIntervalType.entries[it])
@@ -167,9 +167,9 @@ private fun AggregatedHistoryChart(
     modelProducer: CartesianChartModelProducer,
     colors: List<Color>,
 ) {
-    val defaultLabelName = stringResource(id = R.string.label_default)
-    val othersLabelName = stringResource(id = R.string.others)
-    val totalLabel = stringResource(id = R.string.total)
+    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
+    val othersLabelName = stringResource(id = R.string.labels_others)
+    val totalLabel = stringResource(id = R.string.stats_total)
     val othersLabelColor = colors.last().toArgb()
 
     val scrollState = rememberVicoScrollState(
@@ -200,7 +200,7 @@ private fun AggregatedHistoryChart(
                 rememberColumnCartesianLayer(
                     columnProvider =
                     ColumnCartesianLayer.ColumnProvider.series(
-                        colors.mapIndexed { index, color ->
+                        colors.mapIndexed { _, color ->
                             rememberLineComponent(
                                 fill = fill(color),
                                 thickness = 12.dp,

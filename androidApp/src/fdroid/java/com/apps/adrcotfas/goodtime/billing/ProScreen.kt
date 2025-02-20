@@ -42,12 +42,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.openUrl
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import com.apps.adrcotfas.goodtime.shared.R as SharedR
 
 private const val PAYPAL_URL = "https://paypal.me/adrcotfas"
 private const val BTC_URL =
@@ -76,12 +78,12 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                 .padding(paddingValues)
                 .verticalScroll(listState),
         ) {
+            val productName = stringResource(R.string.product_name_long)
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "Goodtime Productivity is an indie open-source app, designed for simplicity and a great user experience — without ads, tracking, or data collection." + "\n" +
-                    "\n" +
-                    "If you find it useful, consider making a donation." + "\n" +
-                    "Your support is appreciated!",
+                text = stringResource(SharedR.string.unlock_premium_desc1, productName) + "\n" + "\n" +
+                    stringResource(SharedR.string.support_donate_desc) + "\n" +
+                    stringResource(SharedR.string.unlock_premium_desc3),
                 style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
             )
 

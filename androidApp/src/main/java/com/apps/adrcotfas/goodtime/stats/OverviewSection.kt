@@ -31,14 +31,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.formatOverview
-import com.apps.adrcotfas.goodtime.common.prettyName
-import com.apps.adrcotfas.goodtime.common.prettyNames
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import kotlin.time.Duration.Companion.minutes
 
@@ -64,7 +65,7 @@ fun OverviewSection(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                "Overview",
+                text = stringResource(R.string.stats_overview),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     color = color,
@@ -72,8 +73,8 @@ fun OverviewSection(
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
-                value = type.prettyName(),
-                options = prettyNames<OverviewType>(),
+                value = stringArrayResource(R.array.stats_overview_type_options)[type.ordinal],
+                options = stringArrayResource(R.array.stats_overview_type_options).toList(),
                 onDismissRequest = {},
                 onDropdownMenuItemSelected = {
                     onTypeChanged(OverviewType.entries[it])

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="backup_and_restore_title">Kopia zapasowa i przywracanie</string>
+    <string name="backup_export_backup">Eksportuj kopię zapasową</string>
+    <string name="backup_the_file_can_be_imported_back">Plik można zaimportować z powrotem</string>
+    <string name="backup_restore_backup">Przywróć kopię zapasową</string>
+    <string name="backup_export_csv">Eksportuj CSV</string>
+    <string name="backup_export_json">Eksportuj JSON</string>
+    <string name="backup_completed_successfully">Kopia zapasowa zakończona pomyślnie</string>
+    <string name="backup_failed_please_try_again">Kopia zapasowa nie powiodła się. Spróbuj ponownie</string>
+    <string name="backup_restore_completed_successfully">Przywracanie zakończone pomyślnie</string>
+    <string name="backup_restore_failed_please_try_again">Przywracanie nie powiodło się. Spróbuj ponownie</string>
+</resources>

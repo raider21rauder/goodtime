@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="labels_title">Tunnisteet</string>
+    <string name="labels_default_label_name">oletus</string>
+    <string name="labels_others">muut</string>
+    <string name="labels_countdown">Lähtölaskenta</string>
+    <string name="labels_count_up">Laskenta</string>
+    <string name="labels_focus_time">Kohdistus aika</string>
+    <string name="labels_break_time">Tauko aika</string>
+    <string name="labels_long_break">Pitkä tauko</string>
+    <string name="labels_sessions_before_long_break">Istunnot ennen pitkää taukoa</string>
+    <string name="labels_enable_break_budget">Ota tauko budjetti käyttöön</string>
+    <string name="labels_focus_break_ratio">Kohdistus/katkossuhde</string>
+    <string name="labels_select_active_label">Valitse aktiivinen nimi</string>
+    <string name="labels_edit_labels">Muokkaa tunnisteita</string>
+    <string name="labels_edit_active_label">Muokkaa aktiivista nimikettä</string>
+    <string name="labels_break_budget_info">Katkaise budjetin tiedot</string>
+    <string name="labels_break_budget_desc">"Taukosi budjetti kasvaa valitun fokus-/taukosuhteen mukaan ja pienenee keskeytyksen jälkeen.\nOta taukoja aina haluamaasi aikaan."</string>
+    <string name="labels_break_budget">Katkaise budjetti</string>
+    <string name="labels_follow_default_time_profile">Seuraa oletusaikaprofiilia</string>
+    <string name="labels_add_label_name">Lisää tunnisteen nimi</string>
+    <string name="labels_label_name_already_exists">Tunnisteen nimi on jo olemassa</string>
+    <string name="labels_archived_labels_title">Arkistoidut tunnisteet</string>
+    <string name="labels_delete">Poista %1$s?</string>
+    <string name="labels_delete_desc">Tämän tunnisteen poistaminen poistaa sen valmistuneista istunnoista.</string>
+    <string name="labels_more_about">Lisää aiheesta</string>
+    <string name="labels_unarchive">Poista</string>
+    <string name="labels_select_label">Valitse tunniste</string>
+    <string name="labels_select_labels">Valitse tunnisteet</string>
+    <string name="labels_edit_label">Muokkaa nimikettä</string>
+</resources>

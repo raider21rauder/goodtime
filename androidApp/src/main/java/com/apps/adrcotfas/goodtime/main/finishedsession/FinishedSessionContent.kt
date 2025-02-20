@@ -49,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,6 +61,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.main.TimerUiState
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
 import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import kotlinx.coroutines.delay
@@ -102,7 +104,13 @@ fun FinishedSessionSheet(
         },
         dragHandle = {
             DragHandle(
-                buttonText = if (isBreak) "Start focus" else "Start break",
+                buttonText = if (isBreak) {
+                    stringResource(R.string.main_start_focus)
+                } else {
+                    stringResource(
+                        R.string.main_start_break,
+                    )
+                },
                 onClose = {
                     onReset(updateWorkTime)
                     onUpdateNotes(notes)
@@ -180,7 +188,7 @@ private fun FinishedSessionContent(
     ) {
         val isBreak = timerUiState.timerType.isBreak
         Text(
-            text = if (isBreak) "Break complete" else "Session complete",
+            text = if (isBreak) stringResource(R.string.main_break_complete) else stringResource(R.string.main_session_complete),
             style = MaterialTheme.typography.displaySmall,
         )
         CurrentSessionCard(
@@ -196,7 +204,7 @@ private fun FinishedSessionContent(
                 modifier = Modifier.padding(16.dp),
                 value = notes,
                 onValueChange = onNotesChanged,
-                placeholder = "Add notes",
+                placeholder = stringResource(R.string.stats_add_notes),
             )
         }
     }
@@ -220,7 +228,7 @@ private fun CurrentSessionCard(
                 .padding(16.dp),
         ) {
             Text(
-                "This session",
+                stringResource(R.string.main_this_session),
                 style = MaterialTheme.typography.titleSmall.copy(MaterialTheme.colorScheme.primary),
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -236,7 +244,7 @@ private fun CurrentSessionCard(
                     horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
-                        if (isBreak) "Break" else "Focus",
+                        if (isBreak) stringResource(R.string.stats_break) else stringResource(R.string.stats_focus),
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
@@ -253,7 +261,7 @@ private fun CurrentSessionCard(
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.Start,
                         ) {
-                            Text("Interruptions", style = MaterialTheme.typography.labelSmall)
+                            Text(stringResource(R.string.main_interruptions), style = MaterialTheme.typography.labelSmall)
                             Text(
                                 interruptions.minutes.formatOverview(),
                                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
@@ -290,7 +298,7 @@ private fun CurrentSessionCard(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        "Consider idle time as extra focus",
+                        stringResource(R.string.main_consider_idle_time_as_extra_focus),
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }
@@ -313,7 +321,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                     .animateContentSize(),
             ) {
                 Text(
-                    "Today",
+                    stringResource(R.string.stats_today),
                     style = MaterialTheme.typography.titleSmall.copy(MaterialTheme.colorScheme.primary),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -329,7 +337,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            "Focus",
+                            stringResource(R.string.stats_focus),
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -343,7 +351,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                         horizontalAlignment = Alignment.Start,
                     ) {
                         Text(
-                            "Break",
+                            stringResource(R.string.stats_break),
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
@@ -358,7 +366,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                             horizontalAlignment = Alignment.Start,
                         ) {
                             Text(
-                                "Interruptions",
+                                stringResource(R.string.main_interruptions),
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(

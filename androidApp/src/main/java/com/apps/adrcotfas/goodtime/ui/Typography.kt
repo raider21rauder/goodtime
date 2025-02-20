@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
-import com.apps.adrcotfas.goodtime.R
+import com.apps.adrcotfas.goodtime.shared.R
 
 val bodyFontFamily = FontFamily(Font(resId = R.font.open_sans))
 

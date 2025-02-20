@@ -61,6 +61,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -78,6 +79,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
@@ -281,7 +283,7 @@ fun MainScreen(
 
     if (showSelectLabelDialog) {
         SelectLabelDialog(
-            title = "Select active label",
+            title = stringResource(R.string.labels_select_active_label),
             singleSelection = true,
             labels = uiState.labels,
             initialSelectedLabels = listOf(timerUiState.label.label.name),
@@ -305,7 +307,7 @@ fun MainScreen(
                     TextButton(onClick = {
                         navController.navigate(LabelsDest)
                         showSelectLabelDialog = false
-                    }) { Text("Edit labels") }
+                    }) { Text(stringResource(R.string.labels_edit_labels)) }
                     FilledTonalButton(onClick = {
                         navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
                         showSelectLabelDialog = false
@@ -318,7 +320,7 @@ fun MainScreen(
                                 imageVector = EvaIcons.Outline.Edit,
                                 contentDescription = null,
                             )
-                            Text("Edit active label")
+                            Text(stringResource(R.string.labels_edit_active_label))
                         }
                     }
                 }

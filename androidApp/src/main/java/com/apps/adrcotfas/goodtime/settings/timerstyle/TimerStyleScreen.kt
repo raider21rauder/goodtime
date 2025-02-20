@@ -47,6 +47,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
@@ -57,6 +58,7 @@ import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
@@ -90,7 +92,7 @@ fun TimerStyleScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Timer style",
+                title = stringResource(R.string.settings_timer_style_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -99,7 +101,10 @@ fun TimerStyleScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding(), bottom = paddingValues.calculateBottomPadding())
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                )
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
@@ -113,9 +118,9 @@ fun TimerStyleScreen(
                 ActionCard(icon = {
                     Icon(
                         imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = "Unlock Premium",
+                        contentDescription = stringResource(R.string.unlock_premium),
                     )
-                }, description = "Unlock Premium to save timer style") {
+                }, description = stringResource(R.string.main_unlock_timer_style)) {
                     onNavigateToPro()
                 }
             }
@@ -165,7 +170,7 @@ fun TimerStyleScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 16.dp),
-                        text = "demo",
+                        text = stringResource(R.string.settings_demo),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -186,7 +191,7 @@ fun TimerStyleScreen(
                     }) {
                         Icon(
                             Icons.Default.Refresh,
-                            contentDescription = "Refresh demo label",
+                            contentDescription = stringResource(R.string.settings_refresh_demo_label),
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     }
@@ -245,30 +250,30 @@ fun TimerStyleScreen(
             }
             Column {
                 CheckboxListItem(
-                    title = "Show status",
-                    subtitle = "An icon indicating work or break",
+                    title = stringResource(R.string.settings_show_status_title),
+                    subtitle = stringResource(R.string.settings_show_status_desc),
                     checked = timerStyle.showStatus,
                     onCheckedChange = {
                         viewModel.setShowStatus(it)
                     },
                 )
                 CheckboxListItem(
-                    title = "Show sessions until long break",
-                    subtitle = "For countdown timers with long breaks enabled",
+                    title = stringResource(R.string.settings_show_sessions_long_break_title),
+                    subtitle = stringResource(R.string.settings_show_sessions_long_break_desc),
                     checked = timerStyle.showStreak,
                     onCheckedChange = {
                         viewModel.setShowStreak(it)
                     },
                 )
                 CheckboxListItem(
-                    title = "Show label",
+                    title = stringResource(R.string.settings_show_label),
                     checked = timerStyle.showLabel,
                     onCheckedChange = {
                         viewModel.setShowLabel(it)
                     },
                 )
                 CheckboxListItem(
-                    title = "Hide seconds",
+                    title = stringResource(R.string.settings_hide_seconds),
                     checked = timerStyle.minutesOnly,
                     onCheckedChange = {
                         viewModel.setTimerMinutesOnly(it)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="intro1_title">"避免打扰"</string>
+    <string name="intro1_desc1">"使用本app来记录工作情况，可以让您的工作效率更高"</string>
+    <string name="intro2_title">"整理心情"</string>
+    <string name="intro2_desc1">"短暂地休息一会儿来犒劳下自己，很快回来继续工作"</string>
+    <string name="intro3_title">"开始"</string>
+    <string name="intro3_desc1">"保持专注，改掉拖延的习惯，提高你的效率。"</string>
+</resources>

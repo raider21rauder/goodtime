@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="stats_title">Tilastot</string>
+    <string name="stats_overview">Yhteenveto</string>
+    <string name="stats_timeline">Aikajana</string>
+    <string name="stats_today">Tänään</string>
+    <string name="stats_week">Viikko %1$s</string>
+    <string name="stats_total">Yhteensä</string>
+    <string-array name="stats_overview_type_options">
+        <item>Istunnot</item>
+        <item>Aika</item>
+    </string-array>
+    <string name="stats_history_title">Historia</string>
+    <string-array name="stats_history_interval_type_options">
+        <item>Päivät</item>
+        <item>Viikot</item>
+        <item>Kuukaudet</item>
+        <item>Neljännesvuosittaiset</item>
+        <item>Vuodet</item>
+    </string-array>
+    <string name="stats_productive_hours">Tuottavia tunteja</string>
+    <string name="stats_heatmap">Lämpökartta</string>
+    <string name="stats_focus_distribution">Kohdistus jakeluun</string>
+    <string name="stats_focus_break_ratio">Kohdistus/katkossuhde</string>
+    <string name="stats_add_session">Lisää istunto</string>
+    <string name="stats_focus">Kohdistus</string>
+    <string name="stats_break">Tauko</string>
+    <string name="stats_duration">Kesto</string>
+    <string name="stats_time">Aika</string>
+    <string name="stats_label">Tunniste</string>
+    <string name="stats_delete_selected_sessions">Poistetaanko valitut istuntot?</string>
+    <string name="stats_change_label_of_selected_sessions">Vaihda valittujen istuntojen nimi?</string>
+    <string name="stats_add_notes">Lisää muistiinpanoja</string>
+    <string name="stats_select_all">Valitse kaikki</string>
+    <string name="stats_no_items">Ei kohteita</string>
+</resources>

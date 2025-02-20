@@ -47,9 +47,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.IconButtonWithBadge
@@ -75,7 +75,7 @@ fun LabelsScreen(
     if (uiState.isLoading) return
     val labels = uiState.unarchivedLabels
     val activeLabelName = uiState.activeLabelName
-    val defaultLabelName = stringResource(id = R.string.label_default)
+    val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
 
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     var labelToDelete by remember { mutableStateOf("") }

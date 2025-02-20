@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Revenir en arrière</string>
+    <string name="main_cancel">Abandonner</string>
+    <string name="main_delete">Supprimer</string>
+    <string name="main_failed_to_open_url">Échec de l\'ouverture de l\'URL</string>
+    <string name="main_start_focus">Démarrer la mise au point</string>
+    <string name="main_start_break">Démarrer la pause</string>
+    <string name="main_break_complete">Pause terminée</string>
+    <string name="main_session_complete">Session terminée</string>
+    <string name="main_this_session">Cette session</string>
+    <string name="main_interruptions">Interruptions</string>
+    <string name="main_consider_idle_time_as_extra_focus">Considérer le temps d\'inactivité comme une mise au point supplémentaire</string>
+    <string name="main_open_app_menu">Ouvrir le menu de l\'application</string>
+    <string name="main_cannot_pause_the_break">Impossible de mettre en pause la pause</string>
+    <string name="main_reset_to_default">Revenir à la valeur par défaut</string>
+    <string name="main_save">Sauvegarder</string>
+    <string name="main_focus_session_in_progress">Session de mise au point en cours</string>
+    <string name="main_focus_session_paused">Session de mise au point en pause</string>
+    <string name="main_break_in_progress">Pause en cours</string>
+    <string name="main_pause">Pause</string>
+    <string name="main_resume">Reprendre</string>
+    <string name="main_stop">Arrêter</string>
+    <string name="main_focus_session_finished">Session de mise au point terminée</string>
+    <string name="main_break_finished">Pause terminée</string>
+    <string name="main_continue">Continuer ?</string>
+    <string name="main_productivity_reminder_desc">"Il est temps d'être productif!"</string>
+    <string name="main_notifications_channel_name">Notifications Goodtime</string>
+    <string name="main_reminder_channel_name">Notifications de rappel au bon moment</string>
+</resources>

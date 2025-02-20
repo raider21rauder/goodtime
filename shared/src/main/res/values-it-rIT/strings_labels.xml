@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="labels_title">Etichette</string>
+    <string name="labels_default_label_name">predefinito</string>
+    <string name="labels_others">altri</string>
+    <string name="labels_countdown">Conto Alla rovescia</string>
+    <string name="labels_count_up">Count-up</string>
+    <string name="labels_focus_time">Tempo di messa a fuoco</string>
+    <string name="labels_break_time">Tempo di pausa</string>
+    <string name="labels_long_break">Pausa lunga</string>
+    <string name="labels_sessions_before_long_break">Sessioni prima della lunga pausa</string>
+    <string name="labels_enable_break_budget">Abilita il budget di interruzione</string>
+    <string name="labels_focus_break_ratio">Rapporto Focus/break</string>
+    <string name="labels_select_active_label">Seleziona etichetta attiva</string>
+    <string name="labels_edit_labels">Modificare etichette</string>
+    <string name="labels_edit_active_label">Modifica etichetta attiva</string>
+    <string name="labels_break_budget_info">Break budget info</string>
+    <string name="labels_break_budget_desc">"Il tuo budget di pausa aumenta in base al rapporto focus/break selezionato e diminuisce quando sei interrotto.\nFai pause ogni volta che vuoi."</string>
+    <string name="labels_break_budget">Interrompi budget</string>
+    <string name="labels_follow_default_time_profile">Segui il profilo orario predefinito</string>
+    <string name="labels_add_label_name">Aggiungi nome etichetta</string>
+    <string name="labels_label_name_already_exists">Nome etichetta già esistente</string>
+    <string name="labels_archived_labels_title">Etichette archiviate</string>
+    <string name="labels_delete">Eliminare %1$s?</string>
+    <string name="labels_delete_desc">L\'eliminazione di questa etichetta la rimuoverà dalle sessioni completate associate.</string>
+    <string name="labels_more_about">Maggiori informazioni su</string>
+    <string name="labels_unarchive">Disarchivia</string>
+    <string name="labels_select_label">Seleziona etichetta</string>
+    <string name="labels_select_labels">Seleziona etichette</string>
+    <string name="labels_edit_label">Modifica etichetta</string>
+</resources>

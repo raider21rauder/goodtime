@@ -42,9 +42,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -85,7 +87,7 @@ fun BottomAppBar(
                 BadgedBoxWithCount(count = badgeItemCount) {
                     Icon(
                         imageVector = EvaIcons.Outline.Menu2,
-                        contentDescription = "Open app menu",
+                        contentDescription = stringResource(R.string.main_open_app_menu),
                     )
                 }
             }
@@ -96,7 +98,7 @@ fun BottomAppBar(
             }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = "Labels",
+                    contentDescription = stringResource(R.string.labels_title),
                     tint = labelColor,
                 )
             }

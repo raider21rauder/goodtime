@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="unlock_premium">Lås opp Premium</string>
+    <string name="unlock_premium_to_access_features">Lås opp Premium for å få tilgang til funksjoner</string>
+    <string name="unlock_premium_tagline">Engangskjøp. Ingen abonnementer. Bedre produktivitet.</string>
+    <string name="unlock_premium_desc1">%s er en indie åpen kildekode-app, designet for enkelhet og en flott brukeropplevelse - uten reklame, sporing eller datainnsamling.</string>
+    <string name="unlock_premium_desc2">Hvis du synes det er nyttig, vurder å oppgradere til premiumversjonen for å få flere egenskaper.</string>
+    <string name="unlock_premium_desc3">Din støtte hjelper til fremtidige forbedringer!</string>
+    <string name="support_development">Støtt utviklingen</string>
+    <string name="unlock_colors">Lås opp farger</string>
+    <string name="support_donate_desc">Hvis du synes det er nyttig, vurder å gi en donasjon.</string>
+</resources>

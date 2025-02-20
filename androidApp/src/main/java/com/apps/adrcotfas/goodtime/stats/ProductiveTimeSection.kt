@@ -48,14 +48,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.common.convertSpToDp
-import kotlinx.datetime.DayOfWeek
+import com.apps.adrcotfas.goodtime.shared.R
 import kotlinx.datetime.LocalTime
-import java.time.format.TextStyle
 
 private fun Int.toFormattedHour(is24HourFormat: Boolean): String {
     return if (is24HourFormat) {
@@ -85,7 +86,6 @@ fun ProductiveTimeSection(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     val context = LocalContext.current
-    val locale = remember { context.resources.configuration.locales[0] }
     val is24HourFormat = remember { DateFormat.is24HourFormat(context) }
 
     val workdayStartHour = LocalTime.fromSecondOfDay(workDayStart).hour
@@ -101,7 +101,7 @@ fun ProductiveTimeSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = "Productive hours",
+            text = stringResource(R.string.stats_productive_hours),
             style = MaterialTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Medium,
                 color = color,
@@ -127,11 +127,13 @@ fun ProductiveTimeSection(
             ) {
                 val listState = rememberLazyListState()
 
-                Row() {
+                Row {
                     // the only reason for this is to have it aligned to the Heatmap section
                     Text(
-                        modifier = Modifier.alpha(0f).padding(cellSpacing),
-                        text = DayOfWeek.MONDAY.getDisplayName(TextStyle.SHORT, locale),
+                        modifier = Modifier
+                            .alpha(0f)
+                            .padding(cellSpacing),
+                        text = stringArrayResource(R.array.time_days_of_the_week)[0].take(3),
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
                     )

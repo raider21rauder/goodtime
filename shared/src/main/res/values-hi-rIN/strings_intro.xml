@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="intro1_title">"व्याकुलता हटाए"</string>
+    <string name="intro1_desc1">"ऐप द्वारा नियंत्रित समयबद्ध सत्रों का उपयोग करते हुए अपना कार्य का पता रखें"</string>
+    <string name="intro2_title">"अपने दिमाग को स्वच्छ करें"</string>
+    <string name="intro2_desc1">"स्वयं को छोटी अवधि के विश्रामों द्वारा पुरस्कृत कर तरोताज़ा करें"</string>
+    <string name="intro3_title">"प्रारंभ करें"</string>
+    <string name="intro3_desc1">"ध्यान बढ़ाएं, विलंबन हटाएं एवम् अपनी उत्पादकता बढ़ाएं"</string>
+</resources>

@@ -100,11 +100,6 @@ class VibrationPlayer(
             }
             else -> longArrayOf()
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat))
-        } else {
-            @Suppress("DEPRECATION")
-            vibrator.vibrate(pattern, repeat)
-        }
+        vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat))
     }
 }

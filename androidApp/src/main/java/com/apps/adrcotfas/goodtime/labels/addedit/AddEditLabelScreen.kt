@@ -81,12 +81,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -114,7 +114,7 @@ fun AddEditLabelScreen(
     val listState = rememberScrollState()
 
     LaunchedEffect(labelName) {
-        val defaultLabelName = context.getString(R.string.label_default)
+        val defaultLabelName = context.getString(R.string.labels_default_label_name)
         viewModel.init(labelName, defaultLabelName)
     }
 
@@ -148,7 +148,7 @@ fun AddEditLabelScreen(
                             ),
                             onClick = { viewModel.setNewLabel(Label.defaultLabel()) },
                         ) {
-                            Text("Reset to default")
+                            Text(stringResource(R.string.main_reset_to_default))
                         }
                     }
                     if (uiState.labelToEdit != label) {
@@ -202,7 +202,7 @@ fun AddEditLabelScreen(
                         viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
                     },
                     headlineContent = {
-                        Text("Follow default time profile")
+                        Text(stringResource(R.string.labels_follow_default_time_profile))
                     },
                     trailingContent = {
                         Switch(
@@ -226,7 +226,7 @@ fun AddEditLabelScreen(
                     if (isCountDown) {
                         Column {
                             EditableNumberListItem(
-                                title = "Focus time",
+                                title = stringResource(R.string.labels_focus_time),
                                 value = label.timerProfile.workDuration,
                                 onValueChange = {
                                     viewModel.setNewLabel(
@@ -237,7 +237,7 @@ fun AddEditLabelScreen(
                                 },
                             )
                             EditableNumberListItem(
-                                title = "Break time",
+                                title = stringResource(R.string.labels_break_time),
                                 value = label.timerProfile.breakDuration,
                                 onValueChange = {
                                     viewModel.setNewLabel(
@@ -259,7 +259,7 @@ fun AddEditLabelScreen(
                                 },
                             )
                             EditableNumberListItem(
-                                title = "Long break time",
+                                title = stringResource(R.string.labels_long_break),
                                 value = label.timerProfile.longBreakDuration,
                                 onValueChange = {
                                     viewModel.setNewLabel(
@@ -284,7 +284,7 @@ fun AddEditLabelScreen(
                                 },
                             )
                             EditableNumberListItem(
-                                title = "Sessions before long break",
+                                title = stringResource(R.string.labels_sessions_before_long_break),
                                 value = label.timerProfile.sessionsBeforeLongBreak,
                                 minValue = 2,
                                 maxValue = 8,
@@ -322,7 +322,7 @@ fun AddEditLabelScreen(
                                             Alignment.Start,
                                         ),
                                     ) {
-                                        Text("Enable break budget")
+                                        Text(stringResource(R.string.labels_enable_break_budget))
                                         val tooltipState =
                                             rememberTooltipState(isPersistent = true)
                                         val coroutineScope = rememberCoroutineScope()
@@ -336,7 +336,7 @@ fun AddEditLabelScreen(
                                                 ) {
                                                     Text(
                                                         modifier = Modifier.padding(8.dp),
-                                                        text = "Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.\nTake breaks whenever you like.",
+                                                        text = stringResource(R.string.labels_break_budget_desc),
                                                     )
                                                 }
                                             },
@@ -349,7 +349,7 @@ fun AddEditLabelScreen(
                                             }) {
                                                 Icon(
                                                     imageVector = Icons.Outlined.Info,
-                                                    contentDescription = "Enabled",
+                                                    contentDescription = stringResource(R.string.labels_break_budget_info),
                                                     tint = MaterialTheme.colorScheme.primary,
                                                 )
                                             }
@@ -364,7 +364,7 @@ fun AddEditLabelScreen(
                                 },
                             )
                             SliderListItem(
-                                title = "Focus/break ratio",
+                                title = stringResource(R.string.labels_focus_break_ratio),
                                 min = 2,
                                 max = 6,
                                 enabled = isBreakEnabled,
@@ -431,7 +431,13 @@ private fun LabelNameRow(
             )
             if (labelName.isEmpty()) {
                 Text(
-                    text = if (isDefaultLabel) stringResource(R.string.label_default) else "Add label name",
+                    text = if (isDefaultLabel) {
+                        stringResource(R.string.labels_default_label_name)
+                    } else {
+                        stringResource(
+                            R.string.labels_add_label_name,
+                        )
+                    },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -439,7 +445,7 @@ private fun LabelNameRow(
         }
         AnimatedVisibility(showError && labelName.isNotEmpty()) {
             Text(
-                text = "Label name already exists",
+                text = stringResource(R.string.labels_label_name_already_exists),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )
@@ -507,7 +513,7 @@ private fun ColorSelectRow(
                             imageVector = EvaIcons.Outline.Unlock,
                             contentDescription = null,
                         )
-                        Text(text = "Unlock colors")
+                        Text(text = stringResource(R.string.unlock_colors))
                     }
                 }
             }
@@ -535,7 +541,7 @@ private fun LabelColorPickerItem(color: Color, isSelected: Boolean, onClick: () 
             ) {
                 Icon(
                     imageVector = Icons.Default.Check,
-                    contentDescription = "Selected Color",
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
@@ -552,7 +558,7 @@ private fun TimerTypeRow(isCountDown: Boolean, onCountDownEnabled: (Boolean) -> 
         FilterChip(
             onClick = { onCountDownEnabled(true) },
             label = {
-                Text("Countdown")
+                Text(stringResource(R.string.labels_countdown))
             },
             selected = isCountDown,
         )
@@ -560,7 +566,7 @@ private fun TimerTypeRow(isCountDown: Boolean, onCountDownEnabled: (Boolean) -> 
         FilterChip(
             onClick = { onCountDownEnabled(false) },
             label = {
-                Text("Count-up")
+                Text(stringResource(R.string.labels_count_up))
             },
             selected = !isCountDown,
         )
@@ -591,6 +597,6 @@ fun SaveButton(
             onSave()
         },
     ) {
-        Text("Save")
+        Text(stringResource(R.string.main_save))
     }
 }

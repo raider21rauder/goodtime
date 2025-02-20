@@ -36,11 +36,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.backup.RestoreActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CircularProgressListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
@@ -92,7 +94,13 @@ fun BackupScreen(
         uiState.backupResult?.let {
             Toast.makeText(
                 context,
-                if (it) "Backup completed successfully" else "Backup failed. Please try again",
+                if (it) {
+                    context.getString(R.string.backup_completed_successfully)
+                } else {
+                    context.getString(
+                        R.string.backup_failed_please_try_again,
+                    )
+                },
                 Toast.LENGTH_SHORT,
             ).show()
             viewModel.clearBackupError()
@@ -103,7 +111,13 @@ fun BackupScreen(
         uiState.restoreResult?.let {
             Toast.makeText(
                 context,
-                if (it) "Restore completed successfully" else "Restore failed. Please try again",
+                if (it) {
+                    context.getString(R.string.backup_restore_completed_successfully)
+                } else {
+                    context.getString(
+                        R.string.backup_restore_failed_please_try_again,
+                    )
+                },
                 Toast.LENGTH_SHORT,
             ).show()
             viewModel.clearRestoreError()
@@ -114,7 +128,7 @@ fun BackupScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Backup and restore",
+                title = stringResource(R.string.backup_and_restore_title),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -131,23 +145,23 @@ fun BackupScreen(
                 ActionCard(icon = {
                     Icon(
                         imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = "Unlock Premium",
+                        contentDescription = context.getString(R.string.unlock_premium),
                     )
-                }, description = "Unlock Premium to access features") {
+                }, description = stringResource(R.string.unlock_premium_to_access_features)) {
                     onNavigateToPro()
                 }
             }
 
             CircularProgressListItem(
-                title = "Export backup",
-                subtitle = "The file can be imported back",
+                title = stringResource(R.string.backup_export_backup),
+                subtitle = stringResource(R.string.backup_the_file_can_be_imported_back),
                 enabled = uiState.isPro,
                 showProgress = uiState.isBackupInProgress,
             ) {
                 viewModel.backup()
             }
             CircularProgressListItem(
-                title = "Restore backup",
+                title = stringResource(R.string.backup_restore_backup),
                 enabled = uiState.isPro,
                 showProgress = uiState.isRestoreInProgress,
             ) {
@@ -155,14 +169,14 @@ fun BackupScreen(
             }
             SubtleHorizontalDivider()
             CircularProgressListItem(
-                title = "Export CSV",
+                title = stringResource(R.string.backup_export_csv),
                 enabled = uiState.isPro,
                 showProgress = uiState.isCsvBackupInProgress,
             ) {
                 viewModel.backupToCsv()
             }
             CircularProgressListItem(
-                title = "Export JSON",
+                title = stringResource(R.string.backup_export_json),
                 enabled = uiState.isPro,
                 showProgress = uiState.isJsonBackupInProgress,
             ) {

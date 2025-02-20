@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">后退</string>
+    <string name="main_cancel">取消</string>
+    <string name="main_delete">删除</string>
+    <string name="main_failed_to_open_url">打开 URL 失败</string>
+    <string name="main_start_focus">开始对焦</string>
+    <string name="main_start_break">开始休息</string>
+    <string name="main_break_complete">中断完成</string>
+    <string name="main_session_complete">会话已完成</string>
+    <string name="main_this_session">本次会议</string>
+    <string name="main_interruptions">中断</string>
+    <string name="main_consider_idle_time_as_extra_focus">考虑空闲时间作为额外的重点</string>
+    <string name="main_open_app_menu">打开应用菜单</string>
+    <string name="main_cannot_pause_the_break">无法暂停休息时间</string>
+    <string name="main_reset_to_default">重置为默认值</string>
+    <string name="main_save">保存</string>
+    <string name="main_focus_session_in_progress">正在进行的焦点会议</string>
+    <string name="main_focus_session_paused">焦点会话已暂停</string>
+    <string name="main_break_in_progress">中断正在进行的会话</string>
+    <string name="main_pause">暂停</string>
+    <string name="main_resume">继续</string>
+    <string name="main_stop">停止</string>
+    <string name="main_focus_session_finished">焦点会话已完成</string>
+    <string name="main_break_finished">休息结束</string>
+    <string name="main_continue">继续？</string>
+    <string name="main_productivity_reminder_desc">"是时候提高效率了！"</string>
+    <string name="main_notifications_channel_name">Goodtime 的通知</string>
+    <string name="main_reminder_channel_name">Goodtime 的通知</string>
+</resources>

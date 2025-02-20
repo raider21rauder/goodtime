@@ -19,6 +19,8 @@ package com.apps.adrcotfas.goodtime.main
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -27,12 +29,12 @@ import compose.icons.evaicons.outline.Unlock
 @Composable
 fun ProListItem(subtitle: String? = null, centered: Boolean = false, onClick: () -> Unit) {
     IconTextButton(
-        title = "Unlock Premium",
+        title = stringResource(R.string.unlock_premium),
         subtitle = subtitle,
         icon = {
             Icon(
                 imageVector = EvaIcons.Outline.Unlock,
-                contentDescription = "Unlock Premium",
+                contentDescription = stringResource(R.string.unlock_premium),
             )
         },
         isFilled = true,

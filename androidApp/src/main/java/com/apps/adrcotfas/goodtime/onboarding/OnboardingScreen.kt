@@ -59,10 +59,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.common.isPortrait
+import com.apps.adrcotfas.goodtime.shared.R
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import com.apps.adrcotfas.goodtime.R as AndroidR
 
 private val lightGray = Color(0xFFDEDEDE)
 private val darkGray = Color(0xFF4C4546)
@@ -232,12 +233,12 @@ fun OnboardingPageIndicator(modifier: Modifier = Modifier, pageCount: Int, curre
 @Composable
 fun OnboardingPagePreview() {
     OnboardingPage(
-        title = stringResource(R.string.intro_title_1),
-        description = stringResource(R.string.intro_description_1),
+        title = stringResource(R.string.intro1_title),
+        description = stringResource(R.string.intro1_desc1),
         image = {
             Image(
-                painter = painterResource(id = R.drawable.intro1),
-                contentDescription = "Title",
+                painter = painterResource(id = AndroidR.drawable.intro1),
+                contentDescription = stringResource(R.string.intro1_title),
             )
         },
     )

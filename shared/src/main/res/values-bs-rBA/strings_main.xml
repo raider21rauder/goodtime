@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Goodtime Productivity
+    Copyright (C) 2025 Adrian Cotfas
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="main_navigate_back">Vrati se nazad</string>
+    <string name="main_cancel">Otkaži</string>
+    <string name="main_delete">Izbriši</string>
+    <string name="main_failed_to_open_url">Failed to open URL</string>
+    <string name="main_start_focus">Start focus</string>
+    <string name="main_start_break">Započni pauzu</string>
+    <string name="main_break_complete">Break complete</string>
+    <string name="main_session_complete">Session complete</string>
+    <string name="main_this_session">This session</string>
+    <string name="main_interruptions">Interruptions</string>
+    <string name="main_consider_idle_time_as_extra_focus">Consider idle time as extra focus</string>
+    <string name="main_open_app_menu">Open app menu</string>
+    <string name="main_cannot_pause_the_break">Cannot pause the break</string>
+    <string name="main_reset_to_default">Reset to default</string>
+    <string name="main_save">Pohrani</string>
+    <string name="main_focus_session_in_progress">Focus session in progress</string>
+    <string name="main_focus_session_paused">Focus session paused</string>
+    <string name="main_break_in_progress">Pauza u toku</string>
+    <string name="main_pause">Zaustavi</string>
+    <string name="main_resume">Nastavi</string>
+    <string name="main_stop">Prekini</string>
+    <string name="main_focus_session_finished">Focus session finished</string>
+    <string name="main_break_finished">Pauza završena</string>
+    <string name="main_continue">Nastaviti?</string>
+    <string name="main_productivity_reminder_desc">"Vrijeme je da se bude produktivno!"</string>
+    <string name="main_notifications_channel_name">Goodtime obavještenja</string>
+    <string name="main_reminder_channel_name">Obavještenja za Goodtime podsjetnik</string>
+</resources>
