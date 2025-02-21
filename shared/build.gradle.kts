@@ -69,6 +69,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.androidx.lifecycle.viewmodel)
             api(libs.touchlab.kermit)
+            // TODO: integrate with CrashKiOS too
+            api(libs.touchlab.kermit.bugsnag)
         }
         commonTest.dependencies {
             implementation(libs.bundles.shared.commonTest)

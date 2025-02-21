@@ -20,9 +20,11 @@ package com.apps.adrcotfas.goodtime.di
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import co.touchlab.kermit.ExperimentalKermitApi
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.StaticConfig
+import co.touchlab.kermit.bugsnag.BugsnagLogWriter
 import co.touchlab.kermit.platformLogWriter
 import com.apps.adrcotfas.goodtime.bl.FinishedSessionsHandler
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
@@ -78,11 +80,12 @@ fun insertKoin(appModule: Module, flavorModule: Module): KoinApplication {
 expect fun isDebug(): Boolean
 expect val platformModule: Module
 
+@OptIn(ExperimentalKermitApi::class)
 private val coreModule = module {
     val baseLogger =
         Logger(
             config = StaticConfig(
-                logWriterList = listOf(platformLogWriter()),
+                logWriterList = listOf(platformLogWriter(), BugsnagLogWriter()),
                 minSeverity = if (isDebug()) Severity.Verbose else Severity.Info,
             ),
             tag = "Goodtime",

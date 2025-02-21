@@ -100,6 +100,7 @@ dependencies {
 
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.bugsnag.android)
 
     "googleImplementation"(libs.billing.ktx)
 }

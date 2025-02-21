@@ -92,5 +92,7 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
+        <meta-data android:name="com.bugsnag.android.API_KEY"
+            android:value="da07c934ceaa71a43234a1baf10abacb"/>
     </application>
 </manifest>

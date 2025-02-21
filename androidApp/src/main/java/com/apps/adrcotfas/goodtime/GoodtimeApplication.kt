@@ -41,6 +41,7 @@ import com.apps.adrcotfas.goodtime.di.getWith
 import com.apps.adrcotfas.goodtime.di.insertKoin
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper
+import com.bugsnag.android.Bugsnag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -54,6 +55,7 @@ class GoodtimeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Bugsnag.start(this)
         insertKoin(
             module {
                 single<Context> { this@GoodtimeApplication }
