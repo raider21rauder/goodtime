@@ -67,9 +67,9 @@ fun ProScreen(
         onNavigateBack()
     }
 
-    productDetails?.let {
-        val offerDetails = it.oneTimePurchaseOfferDetails
-        if (activity == null || offerDetails == null) {
+    productDetails.let {
+        val offerDetails = it?.oneTimePurchaseOfferDetails
+        if (it == null || activity == null || offerDetails == null) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }

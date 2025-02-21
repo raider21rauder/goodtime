@@ -39,9 +39,10 @@ import androidx.compose.ui.unit.max
 
 @Composable
 fun DialControlButton(disabled: Boolean, selected: Boolean, region: DialRegion) {
+    if (disabled) return
     region.icon?.let {
         val animatedSize = animateFloatAsState(
-            targetValue = if (selected) 48f else 8f,
+            targetValue = if (selected) 48f else 42f,
             label = "size",
             animationSpec = spring(),
         )
@@ -53,13 +54,7 @@ fun DialControlButton(disabled: Boolean, selected: Boolean, region: DialRegion) 
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(
-                        if (disabled) {
-                            Color.Transparent
-                        } else {
-                            MaterialTheme.colorScheme.secondaryContainer
-                        },
-                    )
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
                     .size(animatedSize.value.dp),
 
             ) {

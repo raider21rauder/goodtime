@@ -78,7 +78,7 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                 .padding(paddingValues)
                 .verticalScroll(listState),
         ) {
-            val productName = stringResource(R.string.product_name_long)
+            val productName = stringResource(SharedR.string.product_name_long)
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = stringResource(SharedR.string.unlock_premium_desc1, productName) + "\n" + "\n" +
