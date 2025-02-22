@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
+import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.TimerState
@@ -33,11 +34,11 @@ import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.bl.isRunning
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
-import com.apps.adrcotfas.goodtime.stats.LabelData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
@@ -151,10 +152,7 @@ class TimerViewModel(
                         dndDuringWork = uiSettings.dndDuringWork,
                         isPro = settings.isPro,
                         labels = labels.map { label ->
-                            LabelData(
-                                label.name,
-                                label.colorIndex,
-                            )
+                            label.getLabelData()
                         },
                     )
                 }

@@ -70,13 +70,12 @@ import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
+import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.common.formatOverview
-import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.stats.SmallLabelChip
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
@@ -148,12 +147,6 @@ fun MainTimerView(
                     }
                 }
             },
-        )
-
-        LabelSection(
-            showLabel = timerStyle.showLabel,
-            labelName = label.name,
-            color = labelColor,
         )
     }
 }
@@ -332,11 +325,11 @@ fun BreakBudgetIndicator(
         }
         Box(
             modifier = Modifier
-                .padding(5.dp)
+                .padding(6.dp)
                 .height(imageSize)
                 .clip(MaterialTheme.shapes.small)
                 .background(backgroundColor)
-                .padding(5.dp),
+                .padding(6.dp),
         ) {
             Row(
                 modifier = Modifier.align(Alignment.Center),
@@ -350,9 +343,8 @@ fun BreakBudgetIndicator(
                 Text(
                     modifier = Modifier.padding(horizontal = 4.dp),
                     text = breakBudget.minutes.formatOverview(),
-                    style = MaterialTheme.typography.labelMedium.copy(
+                    style = MaterialTheme.typography.labelSmall.copy(
                         color = color,
-                        fontWeight = FontWeight.Bold,
                     ),
                 )
             }
@@ -450,16 +442,6 @@ fun TimerTextView(
     )
 }
 
-@Composable
-fun LabelSection(showLabel: Boolean, labelName: String, color: Color) {
-    Box(
-        modifier = Modifier
-            .hideUnless(labelName != Label.DEFAULT_LABEL_NAME && showLabel),
-    ) {
-        SmallLabelChip(name = labelName, color)
-    }
-}
-
 @Preview
 @Composable
 fun CurrentStatusSectionPreview() {
@@ -476,18 +458,6 @@ fun CurrentStatusSectionPreview() {
             showStatus = true,
             showStreak = true,
             showBreakBudget = true,
-        )
-    }
-}
-
-@Preview
-@Composable
-fun LabelSectionPreview() {
-    ApplicationTheme {
-        LabelSection(
-            showLabel = true,
-            labelName = "Focus",
-            color = MaterialTheme.localColorsPalette.colors[13],
         )
     }
 }

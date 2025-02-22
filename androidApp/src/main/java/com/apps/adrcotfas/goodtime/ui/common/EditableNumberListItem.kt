@@ -22,11 +22,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
@@ -173,18 +174,17 @@ fun EditableNumberListItem(
         leadingContent = {
             if (enableSwitch) {
                 Row(
-                    modifier = Modifier.toggleable(
-                        value = switchValue,
-                        onValueChange = onSwitchChange,
-                    ),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Checkbox(
-                        checked = switchValue,
-                        enabled = enabled,
-                        onCheckedChange = null,
-                    )
+                    Box(modifier = Modifier.clip(CircleShape)) {
+                        Checkbox(
+                            modifier = Modifier.padding(4.dp),
+                            checked = switchValue,
+                            enabled = enabled,
+                            onCheckedChange = onSwitchChange,
+                        )
+                    }
                     VerticalDivider(modifier = Modifier.height(32.dp), color = colors.headlineColor)
                 }
             } else if (icon != null) {

@@ -330,20 +330,6 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
-    fun setShowLabel(showLabel: Boolean) {
-        viewModelScope.launch {
-            if (uiState.value.settings.isPro) {
-                settingsRepository.updateTimerStyle {
-                    it.copy(showLabel = showLabel)
-                }
-            } else {
-                _uiState.update {
-                    it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(showLabel = showLabel))
-                }
-            }
-        }
-    }
-
     companion object {
         val firstDayOfWeekOptions = listOf(
             DayOfWeek.MONDAY,

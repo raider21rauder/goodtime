@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Label
 import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,15 +40,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.apps.adrcotfas.goodtime.bl.LabelData
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
+import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
@@ -57,7 +61,7 @@ fun BottomAppBar(
     modifier: Modifier,
     badgeItemCount: Int,
     hide: Boolean,
-    labelColor: Color,
+    labelData: LabelData,
     sessionCountToday: Int,
     onShowSheet: () -> Unit,
     onLabelClick: () -> Unit,
@@ -71,6 +75,10 @@ fun BottomAppBar(
         exit = fadeOut(),
     ) {
         // TODO: consider camera cutouts when in landscape
+
+        val isDefaultLabel = labelData.name == Label.DEFAULT_LABEL_NAME
+        val color = MaterialTheme.localColorsPalette.colors[labelData.colorIndex.toInt()]
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -92,15 +100,28 @@ fun BottomAppBar(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = {
+
+            val onNavigateToSelectLabelDialog = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 onLabelClick()
-            }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Outlined.Label,
-                    contentDescription = stringResource(R.string.labels_title),
-                    tint = labelColor,
-                )
+            }
+            if (isDefaultLabel) {
+                IconButton(onClick = onNavigateToSelectLabelDialog) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Label,
+                        contentDescription = stringResource(R.string.labels_title),
+                        tint = color,
+                    )
+                }
+            } else {
+                Row(modifier = Modifier.padding(horizontal = 4.dp)) {
+                    LabelChip(
+                        name = labelData.name,
+                        color = color,
+                        selected = true,
+                        showIcon = true,
+                    ) { onNavigateToSelectLabelDialog() }
+                }
             }
             IconButton(onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -111,14 +132,14 @@ fun BottomAppBar(
                         .size(32.dp)
                         .clip(CircleShape)
                         .background(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                         ),
                 ) {
                     Text(
                         text = sessionCountToday.toString(),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onSurface,
                         ),
                         modifier = Modifier.align(Alignment.Center),
                     )

@@ -23,10 +23,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
@@ -129,10 +131,7 @@ class StatisticsViewModel(
                 _uiState.update {
                     it.copy(
                         labels = labels.map { label ->
-                            LabelData(
-                                label.name,
-                                label.colorIndex,
-                            )
+                            label.getLabelData()
                         },
                         selectedLabels = labels.map { label -> label.name },
                     )

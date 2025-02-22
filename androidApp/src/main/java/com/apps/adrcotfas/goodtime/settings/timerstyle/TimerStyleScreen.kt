@@ -59,6 +59,7 @@ import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
@@ -247,6 +248,18 @@ fun TimerStyleScreen(
                     onStart = {},
                     onToggle = null,
                 )
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.BottomEnd),
+                ) {
+                    LabelChip(
+                        name = demoLabelNames[colorIndex],
+                        colorIndex = colorIndex.toLong(),
+                        showIcon = true,
+                        selected = true,
+                    ) { }
+                }
             }
             Column {
                 CheckboxListItem(
@@ -263,13 +276,6 @@ fun TimerStyleScreen(
                     checked = timerStyle.showStreak,
                     onCheckedChange = {
                         viewModel.setShowStreak(it)
-                    },
-                )
-                CheckboxListItem(
-                    title = stringResource(R.string.settings_show_label),
-                    checked = timerStyle.showLabel,
-                    onCheckedChange = {
-                        viewModel.setShowLabel(it)
                     },
                 )
                 CheckboxListItem(

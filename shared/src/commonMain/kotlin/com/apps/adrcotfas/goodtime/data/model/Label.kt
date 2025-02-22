@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.data.model
 
+import com.apps.adrcotfas.goodtime.bl.LabelData
 import kotlin.random.Random
 
 data class Label(
@@ -54,3 +55,5 @@ data class Label(
 }
 
 fun Label.isDefault() = name == Label.DEFAULT_LABEL_NAME
+
+fun Label.getLabelData() = LabelData(name = this.name, colorIndex = this.colorIndex)

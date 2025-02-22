@@ -68,6 +68,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.BuildConfig
+import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -249,7 +250,7 @@ fun MainScreen(
                         hide = hideBottomBar,
                         onShowSheet = { showNavigationSheet = true },
                         onLabelClick = { showSelectLabelDialog = true },
-                        labelColor = labelColor,
+                        labelData = label.getLabelData(),
                         sessionCountToday = uiState.sessionCountToday,
                         badgeItemCount = settingsBadgeItemCount,
                         navController = navController,

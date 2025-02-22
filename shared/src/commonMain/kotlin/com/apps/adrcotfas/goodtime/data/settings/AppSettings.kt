@@ -113,7 +113,6 @@ data class TimerStyleData(
     val minutesOnly: Boolean = false,
     val showStatus: Boolean = true,
     val showStreak: Boolean = true,
-    val showLabel: Boolean = true,
     val showBreakBudget: Boolean = true,
 ) {
 

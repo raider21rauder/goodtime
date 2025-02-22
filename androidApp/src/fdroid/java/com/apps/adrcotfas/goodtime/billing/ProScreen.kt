@@ -21,7 +21,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -87,17 +87,26 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                 style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
             )
 
-            FlowRow(
+            Spacer(modifier = Modifier.height(24.dp))
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
-                horizontalArrangement = Arrangement
-                    .spacedBy(
-                        space = 16.dp,
-                        alignment = Alignment.CenterHorizontally,
-                    ),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
+                Button(
+                    colors = ButtonDefaults.buttonColors().copy(containerColor = Color(0xFFFFDD00)),
+                    onClick = {
+                        context.openUrl(BUY_ME_A_COFFEE_URL)
+                    },
+                ) {
+                    Image(
+                        modifier = Modifier.height(32.dp),
+                        painter = painterResource(R.drawable.bmc_button),
+                        contentDescription = "",
+                    )
+                }
                 Button(
                     colors = ButtonDefaults.buttonColors().copy(containerColor = Color(0xFF003286)),
                     onClick = {
@@ -105,7 +114,7 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                     },
                 ) {
                     Image(
-                        modifier = Modifier.height(24.dp),
+                        modifier = Modifier.height(32.dp),
                         painter = painterResource(R.drawable.pp_button),
                         contentDescription = "",
                     )
@@ -117,20 +126,8 @@ fun ProScreen(onNavigateBack: () -> Unit) {
                     },
                 ) {
                     Image(
-                        modifier = Modifier.height(24.dp),
+                        modifier = Modifier.height(32.dp),
                         painter = painterResource(R.drawable.btc_button),
-                        contentDescription = "",
-                    )
-                }
-                Button(
-                    colors = ButtonDefaults.buttonColors().copy(containerColor = Color(0xFFFFDD00)),
-                    onClick = {
-                        context.openUrl(BUY_ME_A_COFFEE_URL)
-                    },
-                ) {
-                    Image(
-                        modifier = Modifier.height(24.dp),
-                        painter = painterResource(R.drawable.bmc_button),
                         contentDescription = "",
                     )
                 }

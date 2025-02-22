@@ -21,11 +21,17 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.duration
 import com.apps.adrcotfas.goodtime.data.model.endTime
+import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
+
+data class LabelData(
+    val name: String,
+    val colorIndex: Long,
+)
 
 data class DomainLabel(
     val label: Label = Label.defaultLabel(),
@@ -34,6 +40,8 @@ data class DomainLabel(
     fun getLabelName() = label.name
     val isCountdown = profile.isCountdown
 }
+
+fun DomainLabel.getLabelData() = this.label.getLabelData()
 
 /**
  * Data class that captures the current timer state.

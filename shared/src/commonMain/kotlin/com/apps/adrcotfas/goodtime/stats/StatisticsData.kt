@@ -241,8 +241,3 @@ fun calculateSessionWeight(sessionTimestamp: Long, todayTimestamp: Long): Float 
     val daysDifference = (todayTimestamp - sessionTimestamp).milliseconds.inWholeDays
     return (365 - daysDifference).coerceIn(0L, 365L) / 365f
 }
-
-data class LabelData(
-    val name: String,
-    val colorIndex: Long,
-)
