@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
+import android.os.SystemClock
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -87,6 +88,8 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit
 import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun MainScreen(
@@ -267,10 +270,16 @@ fun MainScreen(
         )
     }
 
-    var showFinishedSessionSheet by rememberSaveable(timerUiState.isFinished) {
+    var showFinishedSessionSheet by remember(timerUiState.isFinished) {
         mutableStateOf(timerUiState.isFinished)
     }
-    if (showFinishedSessionSheet) {
+
+    val timeSinceFinished = if (timerUiState.endTime == 0L) {
+        0
+    } else {
+        SystemClock.elapsedRealtime() - timerUiState.endTime
+    }
+    if (showFinishedSessionSheet && timeSinceFinished.milliseconds < 30.minutes) {
         FinishedSessionSheet(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
