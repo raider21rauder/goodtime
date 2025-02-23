@@ -537,13 +537,14 @@ class TimerManager(
     }
 
     fun resetStreakIfNeeded(millis: Long = timeProvider.elapsedRealtime()) {
+        log.v { "resetStreakIfNeeded" }
         if (!didLastWorkSessionFinishRecently(millis)) {
+            log.v { "reset long break data" }
             _timerData.update { it.copy(longBreakData = LongBreakData()) }
             coroutineScope.launch {
                 settingsRepo.setLongBreakData(LongBreakData())
             }
         }
-        log.v { "Streak reset" }
     }
 
     private fun shouldConsiderStreak(workEndTime: Long): Boolean {
@@ -570,6 +571,18 @@ class TimerManager(
             0,
             workEndTime - data.longBreakData.lastWorkEndTime,
         ) < maxIdleTime
+    }
+
+    fun onSendToBackground() {
+        listeners.forEach {
+            it.onEvent(Event.SendToBackground(_timerData.value.endTime))
+        }
+    }
+
+    fun onBringToForeground() {
+        listeners.forEach {
+            it.onEvent(Event.BringToForeground)
+        }
     }
 
     companion object {

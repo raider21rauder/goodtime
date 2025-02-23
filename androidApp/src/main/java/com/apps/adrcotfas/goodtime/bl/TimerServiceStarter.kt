@@ -28,6 +28,7 @@ class TimerServiceStarter(private val context: Context) : EventListener {
             is Event.AddOneMinute -> startService()
             is Event.Reset -> startService(Action.Reset)
             is Event.Finished -> startServiceWithFinished(event.autostartNextSession)
+            else -> {}
         }
     }
 

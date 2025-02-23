@@ -264,4 +264,8 @@ class TimerViewModel(
             }
         }
     }
+
+    fun forceFinish() = timerManager.finish()
+    fun onSendToBackground() = timerManager.onSendToBackground()
+    fun onBringToForeground() = timerManager.onBringToForeground()
 }

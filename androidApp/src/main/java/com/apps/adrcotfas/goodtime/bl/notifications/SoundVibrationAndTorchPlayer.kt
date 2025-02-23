@@ -47,8 +47,9 @@ class SoundVibrationAndTorchPlayer(
                 torchManager.stop()
             }
 
-            is Event.AddOneMinute -> {}
-            Event.Pause -> {}
+            else -> {
+                // do nothing
+            }
         }
     }
 }

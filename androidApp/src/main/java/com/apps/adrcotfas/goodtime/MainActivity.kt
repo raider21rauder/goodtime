@@ -42,6 +42,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -69,6 +70,7 @@ import com.apps.adrcotfas.goodtime.main.ProDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerStyleDest
+import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
@@ -84,6 +86,8 @@ import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -95,7 +99,30 @@ class MainActivity : ComponentActivity(), KoinComponent {
     private val log: Logger by injectLogger("MainActivity")
     private val notificationManager: NotificationArchManager by inject()
     private val viewModel: MainViewModel by viewModel<MainViewModel>()
+    private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
     private var fullScreenJob: Job? = null
+    private var timerStateJob: Job? = null
+
+    override fun onPause() {
+        timerViewModel.onSendToBackground()
+        timerStateJob?.cancel()
+        timerStateJob = null
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        timerViewModel.onBringToForeground()
+        timerStateJob = lifecycleScope.launch {
+            timerViewModel.timerUiState.filter { it.label.isCountdown && it.isActive }
+                .map { it.baseTime }.collect {
+                    if (it < 500) {
+                        // the app is in foreground, trigger the end of the session
+                        timerViewModel.forceFinish()
+                    }
+                }
+        }
+    }
 
     @SuppressLint("UnrememberedGetBackStackEntry", "UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -217,6 +244,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 onSurfaceClick = onSurfaceClick,
                                 hideBottomBar = hideBottomBar,
                                 navController = navController,
+                                viewModel = timerViewModel,
                             )
                         }
                         composable<LabelsDest> {

@@ -33,24 +33,44 @@ class AlarmManagerHandler(
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+    private var isForeground = true
+
     override fun onEvent(event: Event) {
-        cancelAlarm()
-        when (event) {
-            is Event.Start -> {
-                if (event.endTime == 0L) {
-                    return
+        if (event == Event.BringToForeground) {
+            isForeground = true
+            cancelAlarm()
+            return
+        }
+        if (isForeground) {
+            when (event) {
+                is Event.SendToBackground -> {
+                    isForeground = false
+                    if (event.endTime == 0L) {
+                        return
+                    }
+                    setAlarm(event.endTime)
                 }
-                setAlarm(event.endTime)
+                else -> {
+                    // do nothing
+                }
             }
+        } else {
+            cancelAlarm()
+            when (event) {
+                is Event.Start -> {
+                    if (event.endTime == 0L) {
+                        return
+                    }
+                    setAlarm(event.endTime)
+                }
 
-            is Event.AddOneMinute -> {
-                setAlarm(event.endTime)
-            }
+                is Event.AddOneMinute -> {
+                    setAlarm(event.endTime)
+                }
 
-            // TODO: consider the case with keeping the screen on
-            // and triggering a finish event when the timer is done: the alarm should be canceled
-            else -> {
-                // do nothing
+                else -> {
+                    // do nothing
+                }
             }
         }
     }
@@ -68,7 +88,9 @@ class AlarmManagerHandler(
 
     private fun cancelAlarm() {
         log.v { "Cancel the alarm, if any" }
-        alarmManager.cancel(getAlarmPendingIntent())
+        val pendingIntent = getAlarmPendingIntent()
+        alarmManager.cancel(pendingIntent)
+        pendingIntent.cancel()
     }
 
     private fun getAlarmPendingIntent(): PendingIntent {

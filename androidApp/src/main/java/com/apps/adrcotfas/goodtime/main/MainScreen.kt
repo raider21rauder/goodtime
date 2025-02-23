@@ -82,11 +82,9 @@ import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit
-import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
 
 @Composable
@@ -94,7 +92,7 @@ fun MainScreen(
     navController: NavController,
     onSurfaceClick: () -> Unit,
     hideBottomBar: Boolean,
-    viewModel: TimerViewModel = koinViewModel(),
+    viewModel: TimerViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
     if (uiState.isLoading) return
@@ -111,7 +109,6 @@ fun MainScreen(
 
     val timerStyle = uiState.timerStyle
     val label = timerUiState.label
-    val labelColor = MaterialTheme.localColorsPalette.colors[label.label.colorIndex.toInt()]
 
     val configuration = LocalConfiguration.current
     val haptic = LocalHapticFeedback.current
