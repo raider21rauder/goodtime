@@ -124,6 +124,12 @@ class MainActivity : ComponentActivity(), KoinComponent {
         }
     }
 
+    override fun onDestroy() {
+        log.d { "onDestroy" }
+        notificationManager.clearFinishedNotification()
+        super.onDestroy()
+    }
+
     @SuppressLint("UnrememberedGetBackStackEntry", "UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -26,9 +26,6 @@ import com.apps.adrcotfas.goodtime.di.injectLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-// TODO: fix the following:
-// wait for session to finish,
-// close the app and then tap continue from the notification => nothing happens
 class TimerService : Service(), KoinComponent {
 
     private val notificationManager: NotificationArchManager by inject()
