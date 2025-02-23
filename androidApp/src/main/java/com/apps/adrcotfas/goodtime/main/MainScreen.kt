@@ -68,6 +68,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.BuildConfig
+import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
@@ -274,7 +275,13 @@ fun MainScreen(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
             onNext = viewModel::next,
-            onReset = viewModel::resetTimer,
+            onReset = { updateWorkTime ->
+                if (updateWorkTime) {
+                    viewModel.resetTimer(updateWorkTime = true)
+                } else {
+                    viewModel.resetTimer(false, actionType = FinishActionType.MANUAL_DO_NOTHING)
+                }
+            },
             onUpdateNotes = viewModel::updateNotesForLastCompletedSession,
         )
     }

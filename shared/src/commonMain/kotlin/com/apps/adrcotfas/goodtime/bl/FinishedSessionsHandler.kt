@@ -64,9 +64,6 @@ class FinishedSessionsHandler(
                 }
             } catch (e: Exception) {
                 log.e { "Error updating work time at reset: $e" }
-                when (e) {
-                    !is NoSuchElementException -> throw e
-                }
             }
         }
     }
