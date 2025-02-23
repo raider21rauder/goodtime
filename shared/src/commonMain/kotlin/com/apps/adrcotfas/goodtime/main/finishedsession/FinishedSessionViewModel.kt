@@ -22,11 +22,11 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -39,6 +39,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 data class HistoryUiState(
+    val isPro: Boolean = false,
     val todayWorkMinutes: Long = 0,
     val todayBreakMinutes: Long = 0,
     val todayInterruptedMinutes: Long = 0,
@@ -54,28 +55,30 @@ class FinishedSessionViewModel(
         loadHistoryState()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HistoryUiState())
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadHistoryState() {
         viewModelScope.launch {
-            settingsRepo.settings.map { it.workdayStart }.distinctUntilChanged()
-                .map { toMillisOfToday(it) }.flatMapLatest {
-                    localDataRepo.selectAllSessions()
-                    localDataRepo.selectSessionsAfter(it)
-                }.collect { sessions ->
-                    val (todayWorkSessions, todayBreakSessions) =
-                        sessions.partition { session -> session.isWork }
+            settingsRepo.settings.distinctUntilChanged { old, new ->
+                old.workdayStart == new.workdayStart && old.isPro == new.isPro
+            }.flatMapLatest { settings ->
+                _historyUiState.update { it.copy(isPro = settings.isPro) }
+                localDataRepo.selectSessionsAfter(toMillisOfToday(settings.workdayStart))
+            }.collect { sessions ->
+                val (todayWorkSessions, todayBreakSessions) =
+                    sessions.partition { session -> session.isWork }
 
-                    val todayWorkMinutes = todayWorkSessions.sumOf { it.duration }
-                    val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
-                    val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
+                val todayWorkMinutes = todayWorkSessions.sumOf { it.duration }
+                val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
+                val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
 
-                    _historyUiState.update {
-                        it.copy(
-                            todayWorkMinutes = todayWorkMinutes,
-                            todayBreakMinutes = todayBreakMinutes,
-                            todayInterruptedMinutes = todayInterruptedMinutes,
-                        )
-                    }
+                _historyUiState.update {
+                    it.copy(
+                        todayWorkMinutes = todayWorkMinutes,
+                        todayBreakMinutes = todayBreakMinutes,
+                        todayInterruptedMinutes = todayInterruptedMinutes,
+                    )
                 }
+            }
         }
     }
 

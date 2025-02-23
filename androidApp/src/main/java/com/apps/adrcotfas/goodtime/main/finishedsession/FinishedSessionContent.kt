@@ -204,6 +204,7 @@ private fun FinishedSessionContent(
                 modifier = Modifier.padding(16.dp),
                 value = notes,
                 onValueChange = onNotesChanged,
+                enabled = historyUiState.isPro,
                 placeholder = stringResource(R.string.stats_add_notes),
             )
         }
@@ -261,7 +262,10 @@ private fun CurrentSessionCard(
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.Start,
                         ) {
-                            Text(stringResource(R.string.main_interruptions), style = MaterialTheme.typography.labelSmall)
+                            Text(
+                                stringResource(R.string.main_interruptions),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                             Text(
                                 interruptions.minutes.formatOverview(),
                                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),

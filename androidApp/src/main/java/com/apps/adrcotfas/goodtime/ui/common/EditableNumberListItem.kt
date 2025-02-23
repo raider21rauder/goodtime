@@ -65,7 +65,7 @@ fun EditableNumberListItem(
     title: String,
     value: Int?,
     minValue: Int = 1,
-    maxValue: Int = 90,
+    maxValue: Int = 240,
     enabled: Boolean = true,
     restoreValueOnClearFocus: Boolean = true,
     icon: (@Composable () -> Unit)? = null,
@@ -134,7 +134,7 @@ fun EditableNumberListItem(
                 enabled = enabled && switchValue,
                 interactionSource = interactionSource,
                 onValueChange = {
-                    if (it.text.length <= 2 && it.text.all { char -> char.isDigit() }) {
+                    if (it.text.length <= maxValue.toString().length && it.text.all { char -> char.isDigit() }) {
                         val newValue = min(max(it.text.toIntOrNull() ?: 0, minValue), maxValue)
                         val empty = it.text.isEmpty()
                         onValueEmpty(empty)
