@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"방해받지 마세요"</string>
-    <string name="intro1_desc1">"앱에서 관리되는 세션들을 사용하여 작업을 꾸준히 유지하세요"</string>
-    <string name="intro2_title">"당신의 마음을 비우세요"</string>
-    <string name="intro2_desc1">"짧은 휴식으로 스스로에게 보상하고 기분 전환하세요."</string>
+    <string name="intro1_title">"Stay Focused"</string>
+    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
+    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
+    <string name="intro2_title">"Refresh Your Mind"</string>
+    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
+    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
     <string name="intro3_title">"시작하세요"</string>
-    <string name="intro3_desc1">"집중력을 유지하고, 미루지 않고 생산성을 향상시킵니다."</string>
+    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
+    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
 </resources>

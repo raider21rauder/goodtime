@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Unikaj rozproszeń"</string>
-    <string name="intro1_desc1">"Skup się na pracy dzięki sesjom w aplikacji."</string>
-    <string name="intro2_title">"Oczyść swój umysł"</string>
-    <string name="intro2_desc1">"Nagradzaj się krótkimi przerwami i odśwież się."</string>
+    <string name="intro1_title">"Pozostaw ostrość"</string>
+    <string name="intro1_desc1">"Zwiększenie wydajności wraz z okresowymi sesjami roboczymi."</string>
+    <string name="intro1_desc2">"Wybierz pomiędzy ustrukturyzowanym odliczaniem lub elastycznym odliczaniem."</string>
+    <string name="intro2_title">"Odśwież umysł"</string>
+    <string name="intro2_desc1">"Zajmij dobrze zarobione przerwy, aby doładować i pozostać ostrym."</string>
+    <string name="intro2_desc2">"Dla odliczania timerów, kumuluj czas przerwy podczas pracy."</string>
     <string name="intro3_title">"Zaczynamy"</string>
-    <string name="intro3_desc1">"Skup się, pozbądź się prokrastynacji i popraw wydajność."</string>
+    <string name="intro3_desc1">"Śledź swoje postępy za pomocą szczegółowych statystyk."</string>
+    <string name="intro3_desc2">"Pokonaj prorakstynację i zwiększ swój cel."</string>
 </resources>

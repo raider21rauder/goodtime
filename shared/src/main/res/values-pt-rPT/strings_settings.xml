@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Lembrete de produtividade</string>
     <string name="settings_days_of_the_week">Dias da semana</string>
     <string name="settings_reminder_time">Hora do Lembrete</string>
-    <string name="settings_timer_style_title">Estilo do temporizador</string>
+    <string name="settings_timer_style_title">Personalização do temporizador</string>
     <string name="settings_notifications_title">Notificações</string>
     <string name="settings_custom_start_of_day_title">Início do dia personalizado</string>
     <string name="settings_custom_start_of_day_desc">Define quando o dia começa para as estatísticas.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Usar Cor Dinâmica</string>
     <string name="settings_during_work_sessions">Durante sessões de trabalho</string>
-    <string name="settings_fullscreen_mode">Modo ecrã inteiro</string>
+    <string name="settings_fullscreen_mode">Modo imersivo</string>
     <string name="settings_true_black_mode_title">Modo preto verdadeiro</string>
     <string name="settings_true_black_mode_desc">Usar preto verdadeiro para o fundo</string>
     <string name="settings_keep_the_screen_on">Manter ecrã ligado</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Começar a sessão de trabalho depois de uma pausa sem interação do utilizador</string>
     <string name="settings_auto_start_break_title">Começar pausa automaticamente</string>
     <string name="settings_auto_start_break_desc">Iniciar a sessão de interrupção após uma sessão de trabalho sem interação do usuário</string>
-    <string name="main_unlock_timer_style">Desbloqueie Premium para salvar o estilo do temporizador</string>
+    <string name="main_unlock_timer_style">Desbloqueie Premium para salvar a personalização do temporizador</string>
 </resources>

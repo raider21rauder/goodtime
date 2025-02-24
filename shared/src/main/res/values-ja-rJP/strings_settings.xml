@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">生産性通知</string>
     <string name="settings_days_of_the_week">週の日数</string>
     <string name="settings_reminder_time">リマインダー時間</string>
-    <string name="settings_timer_style_title">タイマースタイル</string>
+    <string name="settings_timer_style_title">タイマーのカスタマイズ</string>
     <string name="settings_notifications_title">通知</string>
     <string name="settings_custom_start_of_day_title">カスタム開始日</string>
     <string name="settings_custom_start_of_day_desc">統計情報の開始日を定義します。</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">動的な色を使用</string>
     <string name="settings_during_work_sessions">作業中</string>
-    <string name="settings_fullscreen_mode">全画面モード</string>
+    <string name="settings_fullscreen_mode">没入モード</string>
     <string name="settings_true_black_mode_title">トゥルーブラックモード</string>
     <string name="settings_true_black_mode_desc">背景に真黒を使用</string>
     <string name="settings_keep_the_screen_on">画面を表示し続ける</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">休憩の終了後、操作なしで作業セッションを開始する</string>
     <string name="settings_auto_start_break_title">自動で休憩開始</string>
     <string name="settings_auto_start_break_desc">ユーザーの操作なしで作業セッションの後に休憩セッションを開始する</string>
-    <string name="main_unlock_timer_style">プレミアムを解放してタイマースタイルを保存</string>
+    <string name="main_unlock_timer_style">プレミアムを解放してタイマーのカスタマイズを保存</string>
 </resources>

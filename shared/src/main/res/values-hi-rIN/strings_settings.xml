@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Productivity reminder</string>
     <string name="settings_days_of_the_week">Days of the week</string>
     <string name="settings_reminder_time">Reminder time</string>
-    <string name="settings_timer_style_title">घड़ी शैली</string>
+    <string name="settings_timer_style_title">Timer Customization</string>
     <string name="settings_notifications_title">अधिसूचनाएँ</string>
     <string name="settings_custom_start_of_day_title">Custom start of day</string>
     <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">कार्य सत्रों के दौरान</string>
-    <string name="settings_fullscreen_mode">पूर्ण स्क्रीन मोड</string>
+    <string name="settings_fullscreen_mode">Immersive mode</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">स्क्रीन चालू रखे</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">विश्राम के बाद स्वतः कार्य सत्र शुरू करें</string>
     <string name="settings_auto_start_break_title">विश्राम अवधि स्व-आरंभ करें</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="main_unlock_timer_style">Unlock Premium to save timer style</string>
+    <string name="main_unlock_timer_style">Unlock Premium to save timer customization</string>
 </resources>

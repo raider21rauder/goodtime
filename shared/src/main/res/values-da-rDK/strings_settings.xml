@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Produktivitet påmindelse</string>
     <string name="settings_days_of_the_week">Ugens dage</string>
     <string name="settings_reminder_time">Tidspunkt for påmindelse</string>
-    <string name="settings_timer_style_title">Timerstil</string>
+    <string name="settings_timer_style_title">Tilpasning Af Timer</string>
     <string name="settings_notifications_title">Underretninger</string>
     <string name="settings_custom_start_of_day_title">Brugerdefineret start på dagen</string>
     <string name="settings_custom_start_of_day_desc">Definerer hvornår dagen begynder for statistik.</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Start arbejdssession efter en pause uden brugerinteraktion</string>
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start pausesessionen efter en arbejdssession uden brugerinteraktion</string>
-    <string name="main_unlock_timer_style">Lås Premium op for at gemme timerestil</string>
+    <string name="main_unlock_timer_style">Oplås Premium for at gemme timertilpasning</string>
 </resources>

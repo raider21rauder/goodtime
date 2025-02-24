@@ -21,7 +21,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.Label
+import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.SelectAll
@@ -84,7 +84,7 @@ fun StatisticsScreenTopBar(
                         }
                         IconButton(onClick = onLabelButtonClick) {
                             Icon(
-                                imageVector = Icons.AutoMirrored.Default.Label,
+                                imageVector = Icons.AutoMirrored.Outlined.Label,
                                 contentDescription = stringResource(R.string.labels_edit_label),
                             )
                         }

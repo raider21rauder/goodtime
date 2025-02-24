@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">تذكير بالإنتاجية</string>
     <string name="settings_days_of_the_week">أيام من الأسبوع</string>
     <string name="settings_reminder_time">وقت التذكير</string>
-    <string name="settings_timer_style_title">بدء المؤقت</string>
+    <string name="settings_timer_style_title">تخصيص المؤقت</string>
     <string name="settings_notifications_title">الإشعارات</string>
     <string name="settings_custom_start_of_day_title">بداية مخصصة من اليوم</string>
     <string name="settings_custom_start_of_day_desc">يحدد الوقت الذي يبدأ فيه اليوم للإحصاءات.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">استخدام اللون الديناميكي</string>
     <string name="settings_during_work_sessions">خلال جلسات العمل</string>
-    <string name="settings_fullscreen_mode">وضع الشاشة الكاملة</string>
+    <string name="settings_fullscreen_mode">وضع الغمار</string>
     <string name="settings_true_black_mode_title">الوضع الأسود الحقيقي</string>
     <string name="settings_true_black_mode_desc">استخدم أسود حقيقي للخلفية</string>
     <string name="settings_keep_the_screen_on">إبقاء الشاشة مفعلة</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">ابدأ الفاصل بعد جلسة عمل دون تدخل المستخدم</string>
     <string name="settings_auto_start_break_title">بداية الانقطاع التلقائي</string>
     <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
-    <string name="main_unlock_timer_style">فتح النسخة المميزة لحفظ نمط المؤقت</string>
+    <string name="main_unlock_timer_style">فتح النسخة المميزة لحفظ تخصيص المؤقت</string>
 </resources>

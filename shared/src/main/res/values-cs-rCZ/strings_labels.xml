@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Vyberte aktivní popisek</string>
     <string name="labels_edit_labels">Upravit štítek</string>
     <string name="labels_edit_active_label">Upravit aktivní štítek</string>
-    <string name="labels_break_budget_info">Přerušit informace o rozpočtu</string>
-    <string name="labels_break_budget_desc">"Váš rozpočet na přestávku se zvyšuje v závislosti na zvoleném poměru zaměření/přestávka a snižuje se při přerušení aplikace.\nZanechte se vždy, když se vám to líbí."</string>
+    <string name="labels_break_budget_info">Získejte čas přestávky, když se zaměříte</string>
+    <string name="labels_break_budget_desc1">"Váš rozpočet na přestávku se zvyšuje v závislosti na zvoleném poměru zaměření/přerušení a po přerušení se snižuje."</string>
+    <string name="labels_break_budget_desc2">"Udělejte si přestávky, kdykoliv se vám to líbí."</string>
     <string name="labels_break_budget">Rozbít rozpočet</string>
     <string name="labels_follow_default_time_profile">Sledovat výchozí časový profil</string>
     <string name="labels_add_label_name">Přidat název štítku</string>

@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">效率提醒</string>
     <string name="settings_days_of_the_week">一周中的天数</string>
     <string name="settings_reminder_time">提醒时间</string>
-    <string name="settings_timer_style_title">计时器风格</string>
+    <string name="settings_timer_style_title">定制计时器</string>
     <string name="settings_notifications_title">通知</string>
     <string name="settings_custom_start_of_day_title">自定义开始日期</string>
     <string name="settings_custom_start_of_day_desc">定义从何时开始统计.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">使用动态颜色</string>
     <string name="settings_during_work_sessions">在工作期间</string>
-    <string name="settings_fullscreen_mode">全屏模式</string>
+    <string name="settings_fullscreen_mode">沉浸模式</string>
     <string name="settings_true_black_mode_title">真黑色模式</string>
     <string name="settings_true_black_mode_desc">背景使用真黑色</string>
     <string name="settings_keep_the_screen_on">保持屏幕常亮</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">休息结束后自动开始工作，不需要用户手动操作</string>
     <string name="settings_auto_start_break_title">自动开始休息</string>
     <string name="settings_auto_start_break_desc">工作会话结束后开始断开会话，无需用户互动</string>
-    <string name="main_unlock_timer_style">解锁高级版以节省计时器样式</string>
+    <string name="main_unlock_timer_style">解锁高级版以节省定制计时器</string>
 </resources>

@@ -227,8 +227,34 @@ fun SettingsScreen(
 
             CompactPreferenceGroupTitle(text = stringResource(R.string.settings_during_work_sessions))
             CheckboxListItem(
+                title = stringResource(R.string.settings_do_not_disturb_mode),
+                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
+                checked = uiState.settings.uiSettings.dndDuringWork,
+            ) {
+                if (isNotificationPolicyAccessGranted) {
+                    viewModel.setDndDuringWork(it)
+                } else {
+                    isNotificationPolicyAccessRequested = true
+                    requestDndPolicyAccess(context.findActivity()!!)
+                }
+            }
+            CheckboxListItem(
+                title = stringResource(R.string.settings_keep_the_screen_on),
+                checked = uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setKeepScreenOn(it)
+            }
+            CheckboxListItem(
+                title = stringResource(R.string.settings_screensaver_mode),
+                checked = uiState.settings.uiSettings.screensaverMode,
+                enabled = uiState.settings.isPro && uiState.settings.uiSettings.keepScreenOn,
+            ) {
+                viewModel.setScreensaverMode(it)
+            }
+            CheckboxListItem(
                 title = stringResource(R.string.settings_fullscreen_mode),
                 checked = uiState.settings.uiSettings.fullscreenMode,
+                enabled = uiState.settings.isPro,
             ) {
                 viewModel.setFullscreenMode(it)
             }
@@ -245,31 +271,6 @@ fun SettingsScreen(
                     enabled = uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setTrueBlackMode(it)
-                }
-            }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_keep_the_screen_on),
-                checked = uiState.settings.uiSettings.keepScreenOn,
-            ) {
-                viewModel.setKeepScreenOn(it)
-            }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_screensaver_mode),
-                checked = uiState.settings.uiSettings.screensaverMode,
-                enabled = uiState.settings.uiSettings.keepScreenOn,
-            ) {
-                viewModel.setScreensaverMode(it)
-            }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_do_not_disturb_mode),
-                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
-                checked = uiState.settings.uiSettings.dndDuringWork,
-            ) {
-                if (isNotificationPolicyAccessGranted) {
-                    viewModel.setDndDuringWork(it)
-                } else {
-                    isNotificationPolicyAccessRequested = true
-                    requestDndPolicyAccess(context.findActivity()!!)
                 }
             }
         }

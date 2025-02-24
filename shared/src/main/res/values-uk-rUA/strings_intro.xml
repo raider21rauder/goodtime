@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Уникайте відволікань"</string>
-    <string name="intro1_desc1">"Відстежуйте свою роботу використовуючи часові сесії які керуються цим додатком"</string>
-    <string name="intro2_title">"Очистіть свій розум"</string>
-    <string name="intro2_desc1">"Нагороджуйте себе короткими перервами щоб відпочити."</string>
+    <string name="intro1_title">"Залишатися в фокусі"</string>
+    <string name="intro1_desc1">"Підвищити продуктивність з часовими поясами."</string>
+    <string name="intro1_desc2">"Вибирайте структурований відлік або гнучкий таймер, що піднімається."</string>
+    <string name="intro2_title">"Оновити свій розум"</string>
+    <string name="intro2_desc1">"Зробимо добре зароблені розриви, щоб зарядити та залишатися голими."</string>
+    <string name="intro2_desc2">"Для роботи з графіком таймерів накопичуйте час і розбиратися."</string>
     <string name="intro3_title">"Розпочніть"</string>
-    <string name="intro3_desc1">"Залишайтесь сфокусованими, позбувайтеся прокрастинації та покращуйте свою продуктивність."</string>
+    <string name="intro3_desc1">"Відстежуйте свій прогрес з детальною статистикою."</string>
+    <string name="intro3_desc2">"Бити зволікання та підвищити вашу увагу."</string>
 </resources>

@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"বিক্ষিপ্ততা পরিহার"</string>
-    <string name="intro1_desc1">"কাজের গতিবিধি এই অ্যাপের সাহায্যে ঠিক রাখুন."</string>
-    <string name="intro2_title">"মন পরিস্কার করুন"</string>
-    <string name="intro2_desc1">"পুরস্কার হিসেবে একটি ছোট্ট বিরতি নিয়ে চাঙ্গা হয়ে নিন."</string>
+    <string name="intro1_title">"Stay Focused"</string>
+    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
+    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
+    <string name="intro2_title">"Refresh Your Mind"</string>
+    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
+    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
     <string name="intro3_title">"শুরু করুন"</string>
-    <string name="intro3_desc1">"মনযোগী থাকুন। বিক্ষিপ্ত চিন্তা এড়িয়ে আপনার কর্মদক্ষতা বৃদ্ধি করুন।."</string>
+    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
+    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
 </resources>

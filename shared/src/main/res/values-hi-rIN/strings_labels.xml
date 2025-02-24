@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Select active label</string>
     <string name="labels_edit_labels">वर्ग संपादित करें</string>
     <string name="labels_edit_active_label">Edit active label</string>
-    <string name="labels_break_budget_info">Break budget info</string>
-    <string name="labels_break_budget_desc">"Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.\nTake breaks whenever you like."</string>
+    <string name="labels_break_budget_info">Earn break time as you focus</string>
+    <string name="labels_break_budget_desc1">"Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted."</string>
+    <string name="labels_break_budget_desc2">"Take breaks whenever you like."</string>
     <string name="labels_break_budget">Break budget</string>
     <string name="labels_follow_default_time_profile">Follow default time profile</string>
     <string name="labels_add_label_name">Add label name</string>

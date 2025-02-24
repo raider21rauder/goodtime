@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Selecteer actief label</string>
     <string name="labels_edit_labels">Labels bewerken</string>
     <string name="labels_edit_active_label">Actief label bewerken</string>
-    <string name="labels_break_budget_info">Verwijder budget info</string>
-    <string name="labels_break_budget_desc">"Your break budget increases according to your selected focus/break ratio and decreases when you're interrupted.\nTake breaks whenever you like."</string>
+    <string name="labels_break_budget_info">Verdien pauzetijd terwijl u focus op</string>
+    <string name="labels_break_budget_desc1">"Het budget van uw pauze stijgt volgens uw geselecteerde focus/break-ratio en daalt wanneer u onderbroken bent."</string>
+    <string name="labels_break_budget_desc2">"Neem pauzes wanneer je maar wilt."</string>
     <string name="labels_break_budget">Breek budget</string>
     <string name="labels_follow_default_time_profile">Volg standaard tijdprofiel</string>
     <string name="labels_add_label_name">Label naam toevoegen</string>

@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Påminnelse om produktivitet</string>
     <string name="settings_days_of_the_week">Dagar i veckan</string>
     <string name="settings_reminder_time">Tid för påminnelse</string>
-    <string name="settings_timer_style_title">Stil på timern</string>
+    <string name="settings_timer_style_title">Anpassning av Timer</string>
     <string name="settings_notifications_title">Aviseringar</string>
     <string name="settings_custom_start_of_day_title">Anpassad start på dagen</string>
     <string name="settings_custom_start_of_day_desc">Definierar när dagen börjar för statistiken.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Använd dynamisk färg</string>
     <string name="settings_during_work_sessions">Under arbetssessioner</string>
-    <string name="settings_fullscreen_mode">Helskärmsläge</string>
+    <string name="settings_fullscreen_mode">Omslutande läge</string>
     <string name="settings_true_black_mode_title">Sann svart läge</string>
     <string name="settings_true_black_mode_desc">Använd äkta svart för bakgrunden</string>
     <string name="settings_keep_the_screen_on">Håll skärmen igång</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Starta arbetssessionen efter en paus utan användarinteraktion</string>
     <string name="settings_auto_start_break_title">Automatisk start av paus</string>
     <string name="settings_auto_start_break_desc">Starta paussessionen efter en arbetssession utan användarinteraktion</string>
-    <string name="main_unlock_timer_style">Lås upp Premium för att spara timer-stil</string>
+    <string name="main_unlock_timer_style">Lås upp Premium för att spara timeranpassning</string>
 </resources>

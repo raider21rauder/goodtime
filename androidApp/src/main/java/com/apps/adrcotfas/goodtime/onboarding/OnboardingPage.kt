@@ -24,24 +24,28 @@ import com.apps.adrcotfas.goodtime.shared.R as Mr
 
 data class OnboardingPage(
     @StringRes val title: Int,
-    @StringRes val description: Int,
+    @StringRes val description1: Int,
+    @StringRes val description2: Int,
     @DrawableRes val image: Int,
 ) {
     companion object {
         val pages = listOf(
             OnboardingPage(
                 title = Mr.string.intro1_title,
-                description = Mr.string.intro1_desc1,
+                description1 = Mr.string.intro1_desc1,
+                description2 = Mr.string.intro1_desc2,
                 image = AndroidR.drawable.intro1,
             ),
             OnboardingPage(
                 title = Mr.string.intro2_title,
-                description = Mr.string.intro2_desc1,
+                description1 = Mr.string.intro2_desc1,
+                description2 = Mr.string.intro2_desc2,
                 image = AndroidR.drawable.intro2,
             ),
             OnboardingPage(
                 title = Mr.string.intro3_title,
-                description = Mr.string.intro3_desc1,
+                description1 = Mr.string.intro3_desc1,
+                description2 = Mr.string.intro3_desc2,
                 image = AndroidR.drawable.intro3,
             ),
         )

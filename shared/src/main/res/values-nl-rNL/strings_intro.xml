@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Vermijd afleidingen"</string>
-    <string name="intro1_desc1">"Houd je werk op schema door de app sessies te laten timen."</string>
-    <string name="intro2_title">"Maak je gedachten leeg"</string>
-    <string name="intro2_desc1">"Beloon jezelf met korte pauzes om jezelf op te frissen."</string>
+    <string name="intro1_title">"Blijf gefocust"</string>
+    <string name="intro1_desc1">"Verhoog productiviteit met getimede werksessies."</string>
+    <string name="intro1_desc2">"Kies tussen een gestructureerde afteller of een flexibele opteltijd."</string>
+    <string name="intro2_title">"Ververs je geesten"</string>
+    <string name="intro2_desc1">"Neem goed verdiende pauzes om te herladen en scherp te blijven."</string>
+    <string name="intro2_desc2">"Voor optellende tijgers krijg je pauze terwijl je werkt."</string>
     <string name="intro3_title">"Aan de slag"</string>
-    <string name="intro3_desc1">"Blijf gefocust, stop met uitstellen en verbeter je productiviteit."</string>
+    <string name="intro3_desc1">"Volg uw vooruitgang met gedetailleerde statistieken."</string>
+    <string name="intro3_desc2">"Versla uitstel en verbeter je focus."</string>
 </resources>

@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Produktivitet påminnelse</string>
     <string name="settings_days_of_the_week">Dager i uken</string>
     <string name="settings_reminder_time">Påminnelses tid</string>
-    <string name="settings_timer_style_title">Timer stil</string>
+    <string name="settings_timer_style_title">Tidtaker tilpasning</string>
     <string name="settings_notifications_title">Varsler</string>
     <string name="settings_custom_start_of_day_title">Egendefinert start på dagen</string>
     <string name="settings_custom_start_of_day_desc">Definerer når dagen begynner for statistikk.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Bruk dynamisk farge</string>
     <string name="settings_during_work_sessions">Under arbeidsøkter</string>
-    <string name="settings_fullscreen_mode">Fullskjermmodus</string>
+    <string name="settings_fullscreen_mode">Fullskjermsmodus</string>
     <string name="settings_true_black_mode_title">Ekte svart modus</string>
     <string name="settings_true_black_mode_desc">Bruk ekte sort for bakgrunnen</string>
     <string name="settings_keep_the_screen_on">Hold skjermen på</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Start arbeidsøkten etter en pause uten brukerinteraksjon</string>
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start en pause økt etter en arbeidsøkt uten brukerinteraksjon</string>
-    <string name="main_unlock_timer_style">Lås opp Premium for å lagre tidtaker stil</string>
+    <string name="main_unlock_timer_style">Lås opp Premium for å lagre tidstilpasning</string>
 </resources>

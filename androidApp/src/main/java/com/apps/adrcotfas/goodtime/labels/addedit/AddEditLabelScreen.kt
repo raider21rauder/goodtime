@@ -78,6 +78,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -334,10 +335,19 @@ fun AddEditLabelScreen(
                                                     containerColor = MaterialTheme.colorScheme.surfaceContainer,
                                                     contentColor = MaterialTheme.colorScheme.onSurface,
                                                 ) {
-                                                    Text(
-                                                        modifier = Modifier.padding(8.dp),
-                                                        text = stringResource(R.string.labels_break_budget_desc),
-                                                    )
+                                                    Column(modifier = Modifier.padding(8.dp)) {
+                                                        Text(
+                                                            text = stringResource(R.string.labels_break_budget_info),
+                                                            fontWeight = FontWeight.Bold,
+                                                        )
+                                                        Spacer(modifier = Modifier.height(2.dp))
+                                                        Text(
+                                                            text = "• ${stringResource(R.string.labels_break_budget_desc1)}",
+                                                        )
+                                                        Text(
+                                                            text = "• ${stringResource(R.string.labels_break_budget_desc2)}",
+                                                        )
+                                                    }
                                                 }
                                             },
                                             state = tooltipState,

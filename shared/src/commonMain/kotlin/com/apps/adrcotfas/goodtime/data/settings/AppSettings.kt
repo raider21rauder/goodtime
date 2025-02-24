@@ -78,7 +78,7 @@ data class UiSettings(
     val themePreference: ThemePreference = ThemePreference.DARK,
     val useDynamicColor: Boolean = false,
     val fullscreenMode: Boolean = false,
-    val trueBlackMode: Boolean = true,
+    val trueBlackMode: Boolean = false,
     val keepScreenOn: Boolean = true,
     val screensaverMode: Boolean = false,
     val dndDuringWork: Boolean = false,

@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Valitse aktiivinen nimi</string>
     <string name="labels_edit_labels">Muokkaa tunnisteita</string>
     <string name="labels_edit_active_label">Muokkaa aktiivista nimikettä</string>
-    <string name="labels_break_budget_info">Katkaise budjetin tiedot</string>
-    <string name="labels_break_budget_desc">"Taukosi budjetti kasvaa valitun fokus-/taukosuhteen mukaan ja pienenee keskeytyksen jälkeen.\nOta taukoja aina haluamaasi aikaan."</string>
+    <string name="labels_break_budget_info">Ansaitse taukoaikaa kun keskityt</string>
+    <string name="labels_break_budget_desc1">"Taukosi budjetti kasvaa valitun tarkennus/taukosuhteen mukaisesti ja pienenee, kun olet keskeyttänyt."</string>
+    <string name="labels_break_budget_desc2">"Ota taukoja aina kun haluat."</string>
     <string name="labels_break_budget">Katkaise budjetti</string>
     <string name="labels_follow_default_time_profile">Seuraa oletusaikaprofiilia</string>
     <string name="labels_add_label_name">Lisää tunnisteen nimi</string>

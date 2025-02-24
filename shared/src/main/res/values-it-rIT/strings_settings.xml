@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Promemoria di produttività</string>
     <string name="settings_days_of_the_week">Giorni della settimana</string>
     <string name="settings_reminder_time">Orario promemoria</string>
-    <string name="settings_timer_style_title">Stile del contaminuti</string>
+    <string name="settings_timer_style_title">Personalizzazione Timer</string>
     <string name="settings_notifications_title">Notifiche</string>
     <string name="settings_custom_start_of_day_title">Inizio personalizzato del giorno</string>
     <string name="settings_custom_start_of_day_desc">Definisce quando inizia il giorno per le statistiche.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Usa Colore Dinamico</string>
     <string name="settings_during_work_sessions">Durante le sessioni di lavoro</string>
-    <string name="settings_fullscreen_mode">Modalità a schermo intero</string>
+    <string name="settings_fullscreen_mode">Modalità immersiva</string>
     <string name="settings_true_black_mode_title">Modalità vera nera</string>
     <string name="settings_true_black_mode_desc">Usa vero nero per lo sfondo</string>
     <string name="settings_keep_the_screen_on">Mantieni lo schermo acceso</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
     <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
     <string name="settings_auto_start_break_desc">Avvia la sessione di interruzione dopo una sessione di lavoro senza interazione utente</string>
-    <string name="main_unlock_timer_style">Sblocca Premium per salvare lo stile del timer</string>
+    <string name="main_unlock_timer_style">Sblocca Premium per salvare la personalizzazione del timer</string>
 </resources>

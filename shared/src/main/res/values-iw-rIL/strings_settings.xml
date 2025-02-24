@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Productivity reminder</string>
     <string name="settings_days_of_the_week">Days of the week</string>
     <string name="settings_reminder_time">Reminder time</string>
-    <string name="settings_timer_style_title">סגנון טיימר</string>
+    <string name="settings_timer_style_title">Timer Customization</string>
     <string name="settings_notifications_title">התראות</string>
     <string name="settings_custom_start_of_day_title">Custom start of day</string>
     <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">במהלך סשני עבודה</string>
-    <string name="settings_fullscreen_mode">מצב מסך מלא</string>
+    <string name="settings_fullscreen_mode">Immersive mode</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">השאר את המסך דלוק</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">מתחיל סשן עבודה לאחר סיום הפסקה, ללא אינטראקציה מצד המשתמש</string>
     <string name="settings_auto_start_break_title">הפעלה אוטומטית של הפסקה</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="main_unlock_timer_style">Unlock Premium to save timer style</string>
+    <string name="main_unlock_timer_style">Unlock Premium to save timer customization</string>
 </resources>

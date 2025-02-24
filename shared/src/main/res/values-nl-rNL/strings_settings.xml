@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Productiviteit herinnering</string>
     <string name="settings_days_of_the_week">Dagen van de week</string>
     <string name="settings_reminder_time">Herinnering tijd</string>
-    <string name="settings_timer_style_title">Timer stijl</string>
+    <string name="settings_timer_style_title">Timer aanpassing</string>
     <string name="settings_notifications_title">Meldingen</string>
     <string name="settings_custom_start_of_day_title">Aangepaste start van de dag</string>
     <string name="settings_custom_start_of_day_desc">Definieert wanneer de dag begint voor de statistieken.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Gebruik dynamische kleur</string>
     <string name="settings_during_work_sessions">Tijdens werksessies</string>
-    <string name="settings_fullscreen_mode">Fullscreen-modus</string>
+    <string name="settings_fullscreen_mode">Meeslepende modus</string>
     <string name="settings_true_black_mode_title">Ware zwarte modus</string>
     <string name="settings_true_black_mode_desc">Gebruik waar zwart op de achtergrond</string>
     <string name="settings_keep_the_screen_on">Houd het scherm aan</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Start de werksessie na een pauze zonder tussenkomst van de gebruiker</string>
     <string name="settings_auto_start_break_title">Auto start pauze</string>
     <string name="settings_auto_start_break_desc">Start de onderbreking sessie na een werksessie zonder gebruikersinteractie</string>
-    <string name="main_unlock_timer_style">Ontgrendel Premium om timerstijl op te slaan</string>
+    <string name="main_unlock_timer_style">Ontgrendel Premium om de timer aan te passen</string>
 </resources>

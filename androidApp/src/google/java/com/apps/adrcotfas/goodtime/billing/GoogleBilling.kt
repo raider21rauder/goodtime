@@ -432,6 +432,9 @@ class GoogleBilling(
      */
     private suspend fun resetPreferencesOnRefund() {
         resetTimerStyle()
+        settingsRepository.updateUiSettings {
+            it.copy(fullscreenMode = false, screensaverMode = false)
+        }
         settingsRepository.setEnableTorch(false)
         settingsRepository.setInsistentNotification(false)
         settingsRepository.activateDefaultLabel()

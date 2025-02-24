@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Przypomnienie o produktywności</string>
     <string name="settings_days_of_the_week">Dni tygodnia</string>
     <string name="settings_reminder_time">Czas przypomnienia</string>
-    <string name="settings_timer_style_title">Styl licznika</string>
+    <string name="settings_timer_style_title">Dostosowanie timera</string>
     <string name="settings_notifications_title">Powiadomienia</string>
     <string name="settings_custom_start_of_day_title">Niestandardowy początek dnia</string>
     <string name="settings_custom_start_of_day_desc">Określa kiedy dzień zaczyna się dla statystyk.</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Rozpocznij sesję roboczą po przerwie bez interakcji użytkownika</string>
     <string name="settings_auto_start_break_title">Automatyczne uruchamianie przerwy</string>
     <string name="settings_auto_start_break_desc">Rozpocznij sesję przerwy po sesji roboczej bez interakcji użytkownika</string>
-    <string name="main_unlock_timer_style">Odblokuj Premium, aby zapisać styl timera</string>
+    <string name="main_unlock_timer_style">Odblokuj Premium, aby zapisać dostosowanie timera</string>
 </resources>

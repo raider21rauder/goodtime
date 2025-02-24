@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Vælg aktiv etiket</string>
     <string name="labels_edit_labels">Redigér etiket</string>
     <string name="labels_edit_active_label">Rediger aktiv etiket</string>
-    <string name="labels_break_budget_info">Bryd budgetinfo</string>
-    <string name="labels_break_budget_desc">"Din pause budgettet stiger i henhold til din valgte fokus/break ratio og falder, når du afbrydes.\nTag pauser når du vil."</string>
+    <string name="labels_break_budget_info">Tjen pause tid som du fokuserer</string>
+    <string name="labels_break_budget_desc1">"Dit pause budget stiger i henhold til din valgte fokus/break ratio og falder, når du afbrydes."</string>
+    <string name="labels_break_budget_desc2">"Tag pauser, når du vil."</string>
     <string name="labels_break_budget">Bryd budget</string>
     <string name="labels_follow_default_time_profile">Følg standard tidsprofil</string>
     <string name="labels_add_label_name">Tilføj etiket navn</string>

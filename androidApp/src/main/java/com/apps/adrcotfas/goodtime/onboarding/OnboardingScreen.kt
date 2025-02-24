@@ -99,7 +99,8 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 ) { page ->
                     OnboardingPage(
                         title = stringResource(pages[page].title),
-                        description = stringResource(pages[page].description),
+                        description1 = stringResource(pages[page].description1),
+                        description2 = stringResource(pages[page].description2),
                         image = {
                             Image(
                                 painter = painterResource(id = pages[page].image),
@@ -157,7 +158,8 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
 @Composable
 fun OnboardingPage(
     title: String,
-    description: String,
+    description1: String,
+    description2: String,
     image: @Composable () -> Unit,
 ) {
     val isPortrait = LocalConfiguration.current.isPortrait
@@ -172,7 +174,7 @@ fun OnboardingPage(
         ) {
             image()
             Spacer(modifier = Modifier.padding(16.dp))
-            OnboardingPageTextSection(title, description)
+            OnboardingPageTextSection(title, description1, description2)
         }
     } else {
         Row(
@@ -184,13 +186,13 @@ fun OnboardingPage(
         ) {
             image()
             Spacer(modifier = Modifier.padding(8.dp))
-            OnboardingPageTextSection(title, description)
+            OnboardingPageTextSection(title, description1, description2)
         }
     }
 }
 
 @Composable
-fun OnboardingPageTextSection(title: String, description: String) {
+fun OnboardingPageTextSection(title: String, description1: String, description2: String) {
     Column(
         modifier = Modifier.widthIn(max = 320.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -200,8 +202,14 @@ fun OnboardingPageTextSection(title: String, description: String) {
         Text(text = title, style = MaterialTheme.typography.titleLarge, color = textColor)
         Spacer(modifier = Modifier.padding(8.dp))
         Text(
-            text = description,
-            style = MaterialTheme.typography.bodySmall.copy(textAlign = TextAlign.Center),
+            text = description1,
+            style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
+            color = textColor,
+        )
+        Spacer(modifier = Modifier.padding(4.dp))
+        Text(
+            text = description2,
+            style = MaterialTheme.typography.bodyMedium.copy(textAlign = TextAlign.Center),
             color = textColor,
         )
     }
@@ -234,7 +242,8 @@ fun OnboardingPageIndicator(modifier: Modifier = Modifier, pageCount: Int, curre
 fun OnboardingPagePreview() {
     OnboardingPage(
         title = stringResource(R.string.intro1_title),
-        description = stringResource(R.string.intro1_desc1),
+        description1 = stringResource(R.string.intro1_desc1),
+        description2 = stringResource(R.string.intro1_desc2),
         image = {
             Image(
                 painter = painterResource(id = AndroidR.drawable.intro1),

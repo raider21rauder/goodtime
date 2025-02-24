@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Напоминание о производительности</string>
     <string name="settings_days_of_the_week">Дни недели</string>
     <string name="settings_reminder_time">Время напоминания</string>
-    <string name="settings_timer_style_title">Стиль таймера</string>
+    <string name="settings_timer_style_title">Настройка таймера</string>
     <string name="settings_notifications_title">Уведомления</string>
     <string name="settings_custom_start_of_day_title">Пользовательский старт дня</string>
     <string name="settings_custom_start_of_day_desc">Определяет, когда день начинается со статистики.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Использовать динамический цвет</string>
     <string name="settings_during_work_sessions">В ходе рабочих сессий</string>
-    <string name="settings_fullscreen_mode">Полноэкранный режим</string>
+    <string name="settings_fullscreen_mode">Режим погружения</string>
     <string name="settings_true_black_mode_title">Истинный черный режим</string>
     <string name="settings_true_black_mode_desc">Использовать чёрный цвет для фона</string>
     <string name="settings_keep_the_screen_on">Держать экран включенным</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Начать рабочий сеанс после перерыва без участия пользователя</string>
     <string name="settings_auto_start_break_title">Автоматическое начало перерыва</string>
     <string name="settings_auto_start_break_desc">Запускать перерыв после рабочего сеанса без взаимодействия пользователя</string>
-    <string name="main_unlock_timer_style">Разблокировать Премиум, чтобы сохранить стиль таймера</string>
+    <string name="main_unlock_timer_style">Разблокировать Премиум для сохранения настройки таймера</string>
 </resources>

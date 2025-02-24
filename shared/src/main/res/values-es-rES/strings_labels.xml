@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Seleccionar etiqueta activa</string>
     <string name="labels_edit_labels">Editar etiquetas</string>
     <string name="labels_edit_active_label">Editar etiqueta activa</string>
-    <string name="labels_break_budget_info">Detener información del presupuesto</string>
-    <string name="labels_break_budget_desc">"Tu presupuesto para pausa aumenta de acuerdo con la relación focus/break seleccionada y disminuye cuando te interrumpimos.\ntoma rupturas cuando quieras."</string>
+    <string name="labels_break_budget_info">Gana tiempo de descanso mientras te enfocas</string>
+    <string name="labels_break_budget_desc1">"El presupuesto de ruptura aumenta de acuerdo con la relación focus/break seleccionada y disminuye cuando se interrumpe."</string>
+    <string name="labels_break_budget_desc2">"Tome las pausas cuando quiera."</string>
     <string name="labels_break_budget">Presupuesto de descanso</string>
     <string name="labels_follow_default_time_profile">Seguir perfil de tiempo por defecto</string>
     <string name="labels_add_label_name">Añadir nombre de etiqueta</string>

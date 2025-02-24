@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Rappel de productivité</string>
     <string name="settings_days_of_the_week">Jours de la semaine</string>
     <string name="settings_reminder_time">Heure de rappel</string>
-    <string name="settings_timer_style_title">Style du minuteur</string>
+    <string name="settings_timer_style_title">Personnalisation du minuteur</string>
     <string name="settings_notifications_title">Notifications</string>
     <string name="settings_custom_start_of_day_title">Début de la journée personnalisé</string>
     <string name="settings_custom_start_of_day_desc">Définit quand le jour commence pour les statistiques.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Utiliser la couleur dynamique</string>
     <string name="settings_during_work_sessions">Pendant les sessions de travail</string>
-    <string name="settings_fullscreen_mode">Mode plein écran</string>
+    <string name="settings_fullscreen_mode">Mode immersif</string>
     <string name="settings_true_black_mode_title">Mode noir vrai</string>
     <string name="settings_true_black_mode_desc">Utiliser le vrai noir pour l\'arrière-plan</string>
     <string name="settings_keep_the_screen_on">Garder l\'écran allumé</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Démarrer la session de travail après une pause sans interaction de l’utilisateur</string>
     <string name="settings_auto_start_break_title">Démarrage automatique de la pause</string>
     <string name="settings_auto_start_break_desc">Démarrer la session après une session de travail sans interaction utilisateur</string>
-    <string name="main_unlock_timer_style">Débloquez Premium pour enregistrer le style du minuteur</string>
+    <string name="main_unlock_timer_style">Débloquez Premium pour économiser la personnalisation du minuteur</string>
 </resources>

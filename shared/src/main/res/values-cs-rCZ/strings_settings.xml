@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Připomenutí produktivity</string>
     <string name="settings_days_of_the_week">Dny v týdnu</string>
     <string name="settings_reminder_time">Čas připomenutí</string>
-    <string name="settings_timer_style_title">Styl časovače</string>
+    <string name="settings_timer_style_title">Přizpůsobení časovače</string>
     <string name="settings_notifications_title">Upozornění</string>
     <string name="settings_custom_start_of_day_title">Vlastní začátek dne</string>
     <string name="settings_custom_start_of_day_desc">Definuje, kdy den začíná pro statistiky.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Použít dynamickou barvu</string>
     <string name="settings_during_work_sessions">Během pracovní sese</string>
-    <string name="settings_fullscreen_mode">Režim celé obrazovky</string>
+    <string name="settings_fullscreen_mode">Pohlcující režim</string>
     <string name="settings_true_black_mode_title">Skutečný černý režim</string>
     <string name="settings_true_black_mode_desc">Použít pravou černou barvu pro pozadí</string>
     <string name="settings_keep_the_screen_on">Nechat obrazovku zapnutou</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Začít pracovní sesi ihned po přestávce bez souhlasu uživatele</string>
     <string name="settings_auto_start_break_title">Automatický začátek pauzy</string>
     <string name="settings_auto_start_break_desc">Spustit přerušenou relaci po pracovní relaci bez interakce uživatele</string>
-    <string name="main_unlock_timer_style">Odemkněte Premium pro uložení styl časovače</string>
+    <string name="main_unlock_timer_style">Odemkněte Premium pro uložení přizpůsobení časovače</string>
 </resources>

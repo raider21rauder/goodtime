@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Επιλογή ενεργού ετικέτας</string>
     <string name="labels_edit_labels">Επεξεργασία ετικετών</string>
     <string name="labels_edit_active_label">Επεξεργασία ενεργής ετικέτας</string>
-    <string name="labels_break_budget_info">Διακοπή πληροφοριών προϋπολογισμού</string>
-    <string name="labels_break_budget_desc">"Το διάλειμμα του προϋπολογισμού σας αυξάνεται σύμφωνα με την επιλεγμένη αναλογία εστίασης/διάλειμμα και μειώνεται όταν διακόπτεται.\nΚάντε διαλείμματα όποτε θέλετε."</string>
+    <string name="labels_break_budget_info">Κερδίστε χρόνο διάλειμμα καθώς εστιάζετε</string>
+    <string name="labels_break_budget_desc1">"Το διάλειμμα του προϋπολογισμού σας αυξάνεται σύμφωνα με την επιλεγμένη αναλογία εστίασης/διάλειμμα και μειώνεται όταν διακόπτετε."</string>
+    <string name="labels_break_budget_desc2">"Πάρτε διαλείμματα όποτε σας αρέσει."</string>
     <string name="labels_break_budget">Διακοπή προϋπολογισμού</string>
     <string name="labels_follow_default_time_profile">Ακολουθήστε το προεπιλεγμένο προφίλ ώρας</string>
     <string name="labels_add_label_name">Προσθήκη ονόματος ετικέτας</string>

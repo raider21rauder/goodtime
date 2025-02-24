@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Нагадування про продуктивність</string>
     <string name="settings_days_of_the_week">Дні тижня</string>
     <string name="settings_reminder_time">Час нагадування</string>
-    <string name="settings_timer_style_title">Стиль таймеру</string>
+    <string name="settings_timer_style_title">Налаштування таймера</string>
     <string name="settings_notifications_title">Сповіщення</string>
     <string name="settings_custom_start_of_day_title">Власний початок дня</string>
     <string name="settings_custom_start_of_day_desc">Визначає, коли день починається для статистики.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Використовувати динамічний колір</string>
     <string name="settings_during_work_sessions">Під час робочих сесій</string>
-    <string name="settings_fullscreen_mode">Повноекранний режим</string>
+    <string name="settings_fullscreen_mode">Режим занурення</string>
     <string name="settings_true_black_mode_title">Справжній чорний режим</string>
     <string name="settings_true_black_mode_desc">Використовувати істинний чорний для фону</string>
     <string name="settings_keep_the_screen_on">Тримати екран увімкненим</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Початок робочого сеансу після перерви без взаємодії з користувачем</string>
     <string name="settings_auto_start_break_title">Автозапуск перерви</string>
     <string name="settings_auto_start_break_desc">Початок сеансу перерви після робочого сеансу без взаємодії з користувачем</string>
-    <string name="main_unlock_timer_style">Розблокуйте Преміум, щоб зберегти стиль таймера</string>
+    <string name="main_unlock_timer_style">Розблокуйте Преміум, щоб зберегти налаштування таймера</string>
 </resources>

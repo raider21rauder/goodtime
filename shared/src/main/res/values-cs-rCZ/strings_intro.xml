@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Nerozptylujte se"</string>
-    <string name="intro1_desc1">"Plňte svou práci pomocí časovaných sesí, které vám poskytuje aplikace."</string>
-    <string name="intro2_title">"Vyčistěte svou mysl"</string>
-    <string name="intro2_desc1">"Odměňte se krátkými přestávkami a vzpružte se tak."</string>
+    <string name="intro1_title">"Zůstat soustředěný"</string>
+    <string name="intro1_desc1">"Zvýšit produktivitu s načasovanými pracovními hodinami."</string>
+    <string name="intro1_desc2">"Vyberte si mezi strukturovaným odpočítáváním nebo flexibilním počítacím časovačem."</string>
+    <string name="intro2_title">"Aktualizovat svou mysl"</string>
+    <string name="intro2_desc1">"Udělejte si dobrodružné přestávky a zůstaňte ostřejší."</string>
+    <string name="intro2_desc2">"Pro odpočítávání časovačů nahrajte čas přestávky, jak fungujete."</string>
     <string name="intro3_title">"Pojďme na to"</string>
-    <string name="intro3_desc1">"Zůstaňte soustředěni, zbavte se prokrastinace a zlepšete svou produktivitu."</string>
+    <string name="intro3_desc1">"Sledujte svůj pokrok pomocí podrobných statistik."</string>
+    <string name="intro3_desc2">"Prohrajte otálení a zvýšte své zaměření."</string>
 </resources>

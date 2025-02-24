@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Evitar distrações"</string>
-    <string name="intro1_desc1">"Mantenha seu trabalho na linha usando sessões cronometradas pelo app."</string>
-    <string name="intro2_title">"Limpe sua mente"</string>
-    <string name="intro2_desc1">"Se recompense com curtos intervalos e fique revigorado."</string>
+    <string name="intro1_title">"Manter Focado"</string>
+    <string name="intro1_desc1">"Aumente a produtividade com sessões de trabalho cronometradas."</string>
+    <string name="intro1_desc2">"Escolha entre uma contagem regressiva estruturada ou um temporizador flexível de contagem."</string>
+    <string name="intro2_title">"Atualize sua mente"</string>
+    <string name="intro2_desc1">"Faça pausas bem ganhas para recarregar e se manter afiado."</string>
+    <string name="intro2_desc2">"Para temporizadores, acumule o tempo de pausa enquanto você trabalha."</string>
     <string name="intro3_title">"Começar"</string>
-    <string name="intro3_desc1">"Fique focado, livre-se da procrastinação e aumente sua produtividade."</string>
+    <string name="intro3_desc1">"Acompanhe seu progresso com estatísticas detalhadas."</string>
+    <string name="intro3_desc2">"Ultrapasse a procrastinação e melhorasse seu foco."</string>
 </resources>

@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberTimePickerState
@@ -40,16 +39,12 @@ import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Unlock
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.json.Json
 import org.koin.compose.koinInject
@@ -58,7 +53,6 @@ import org.koin.compose.koinInject
 @Composable
 fun NotificationsScreen(
     viewModel: SettingsViewModel,
-    onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
     val context = LocalContext.current
@@ -124,16 +118,6 @@ fun NotificationsScreen(
                 },
                 onValueChangeFinished = { vibrationPlayer.start(selectedStrength) },
             )
-            if (!settings.isPro) {
-                ActionCard(icon = {
-                    Icon(
-                        imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = stringResource(R.string.unlock_premium),
-                    )
-                }, description = stringResource(R.string.unlock_premium_to_access_features)) {
-                    onNavigateToPro()
-                }
-            }
 
             if (isTorchAvailable) {
                 CheckboxListItem(

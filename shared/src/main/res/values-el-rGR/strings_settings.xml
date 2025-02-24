@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Υπενθύμιση παραγωγικότητας</string>
     <string name="settings_days_of_the_week">Ημέρες της εβδομάδας</string>
     <string name="settings_reminder_time">Ώρα υπενθύμισης</string>
-    <string name="settings_timer_style_title">Χρονόμετρο στυλ</string>
+    <string name="settings_timer_style_title">Προσαρμογή Χρονομέτρου</string>
     <string name="settings_notifications_title">Ειδοποιήσεις</string>
     <string name="settings_custom_start_of_day_title">Προσαρμοσμένη έναρξη της ημέρας</string>
     <string name="settings_custom_start_of_day_desc">Καθορίζει πότε αρχίζει η ημέρα για τις στατιστικές.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Χρήση Δυναμικού Χρώματος</string>
     <string name="settings_during_work_sessions">Κατά τη διάρκεια των συνεδριών</string>
-    <string name="settings_fullscreen_mode">Λειτουργία πλήρους οθόνης</string>
+    <string name="settings_fullscreen_mode">Immersive λειτουργία</string>
     <string name="settings_true_black_mode_title">Αληθινή μαύρη λειτουργία</string>
     <string name="settings_true_black_mode_desc">Χρήση πραγματικού μαύρου για το φόντο</string>
     <string name="settings_keep_the_screen_on">Κράτησε την οθόνη ανοικτή</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Ξεκινήστε τη συνεδρία εργασίας μετά από ένα διάλειμμα χωρίς αλληλεπίδραση χρήστη</string>
     <string name="settings_auto_start_break_title">Αυτόματη διακοπή εκκίνησης</string>
     <string name="settings_auto_start_break_desc">Εκκίνηση συνεδρίας διακοπής μετά από μια συνεδρία εργασίας χωρίς αλληλεπίδραση χρήστη</string>
-    <string name="main_unlock_timer_style">Ξεκλειδώστε το Premium για εξοικονόμηση στυλ χρονοδιακόπτη</string>
+    <string name="main_unlock_timer_style">Ξεκλειδώστε το Premium για να εξοικονομήσετε προσαρμογή χρονοδιακόπτη</string>
 </resources>

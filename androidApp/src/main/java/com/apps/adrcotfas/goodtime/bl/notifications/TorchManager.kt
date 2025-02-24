@@ -96,13 +96,16 @@ class TorchManager(
     }
 
     fun stop() {
+        if (!data.enabled) return
         job?.cancel()
         cameraId?.let {
+            //TODO: check if camera is available before calling setTorchMode
             cameraManager.setTorchMode(it, false)
         }
     }
 }
 
+//TODO: check if camera is available before calling setTorchMode
 private suspend fun CameraManager.lightUp(listOf: List<Long>, cameraId: String) {
     listOf.forEachIndexed { index, i ->
         if (index % 2 == 0) {

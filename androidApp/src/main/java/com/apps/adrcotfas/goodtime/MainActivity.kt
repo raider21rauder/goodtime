@@ -325,7 +325,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
                                 koinViewModel(viewModelStoreOwner = backStackEntry)
                             NotificationsScreen(
                                 viewModel = viewModel,
-                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack,
                             )
                         }

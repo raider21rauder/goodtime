@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Vermeide Ablenkungen"</string>
-    <string name="intro1_desc1">"Konzentriere dich auf deine Arbeit mit automatisch verwalteten Sessions."</string>
-    <string name="intro2_title">"Bekomme einen klaren Kopf"</string>
-    <string name="intro2_desc1">"Belohne dich mit kurzen Pausen und erhole dich."</string>
+    <string name="intro1_title">"Fokussiert bleiben"</string>
+    <string name="intro1_desc1">"Steigern Sie die Produktivität mit zeitgesteuerten Arbeitssitzungen."</string>
+    <string name="intro1_desc2">"Wählen Sie zwischen einem strukturierten Countdown oder einem flexiblen Count-up-Timer."</string>
+    <string name="intro2_title">"Aktualisiere deinen Geist"</string>
+    <string name="intro2_desc1">"Nimm wohlverdiente Pausen um sich aufzuladen und scharf zu bleiben."</string>
+    <string name="intro2_desc2">"Für Count-up-Timer, sammeln Sie Pausenzeit während der Arbeit."</string>
     <string name="intro3_title">"Starte jetzt"</string>
-    <string name="intro3_desc1">"Bleib konzentriert, hör auf zu trödeln und werde produktiver."</string>
+    <string name="intro3_desc1">"Verfolgen Sie Ihren Fortschritt mit detaillierten Statistiken."</string>
+    <string name="intro3_desc2">"Schlagen Sie die Verzögerung und verbessern Sie Ihren Fokus."</string>
 </resources>

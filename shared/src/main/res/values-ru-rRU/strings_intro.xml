@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Не отвлекайтесь"</string>
-    <string name="intro1_desc1">"Выполняйте намеченные задачи, используя управляемые приложением временные сессии."</string>
-    <string name="intro2_title">"Проясните голову"</string>
-    <string name="intro2_desc1">"Награждайте себя короткими перерывами, чтобы взбодриться."</string>
+    <string name="intro1_title">"Оставаться сфокусированным"</string>
+    <string name="intro1_desc1">"Повышение производительности с временными рабочими сессиями."</string>
+    <string name="intro1_desc2">"Выберите между структурированным обратным отсчет или гибким таймером обратного отсчета."</string>
+    <string name="intro2_title">"Обновить Ваш разум"</string>
+    <string name="intro2_desc1">"Пройдите хорошо заработанные перерывы для перезарядки и оставайтесь острыми."</string>
+    <string name="intro2_desc2">"Для счетчика времени, накапливайте время перерыва при работе."</string>
     <string name="intro3_title">"Начнем"</string>
-    <string name="intro3_desc1">"Оставайтесь продуктивными, избавьтесь от прокрастинации и улучшите свою производительность."</string>
+    <string name="intro3_desc1">"Отслеживайте ваш прогресс с подробной статистикой."</string>
+    <string name="intro3_desc2">"Пройди прокрастивание и повыши свою направленность."</string>
 </resources>

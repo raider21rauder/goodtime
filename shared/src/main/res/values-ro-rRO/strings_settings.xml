@@ -25,7 +25,7 @@
     <string name="settings_productivity_reminder_title">Memento productivitate</string>
     <string name="settings_days_of_the_week">Zile ale săptămânii</string>
     <string name="settings_reminder_time">Timp de memento</string>
-    <string name="settings_timer_style_title">Stil timer</string>
+    <string name="settings_timer_style_title">Personalizare cronometru</string>
     <string name="settings_notifications_title">Notificări</string>
     <string name="settings_custom_start_of_day_title">Pornire personalizată a zilei</string>
     <string name="settings_custom_start_of_day_desc">Definește când începe ziua pentru statistici.</string>
@@ -38,7 +38,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Folosește culoarea dinamică</string>
     <string name="settings_during_work_sessions">În timpul sesiunilor de lucru</string>
-    <string name="settings_fullscreen_mode">Modul fullscreen</string>
+    <string name="settings_fullscreen_mode">Mod imersiv</string>
     <string name="settings_true_black_mode_title">Mod negru adevărat</string>
     <string name="settings_true_black_mode_desc">Folosește negru adevărat pentru fundal</string>
     <string name="settings_keep_the_screen_on">Păstrați ecranul pornit</string>
@@ -73,5 +73,5 @@
     <string name="settings_auto_start_focus_desc">Începe sesiunea de lucru după pauză fără interacțiunea utilizatorului</string>
     <string name="settings_auto_start_break_title">Auto-start pauză</string>
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>
-    <string name="main_unlock_timer_style">Deblochează Premium pentru a salva stilul cronometrului</string>
+    <string name="main_unlock_timer_style">Deblochează Premium pentru a salva personalizarea cronometrului</string>
 </resources>

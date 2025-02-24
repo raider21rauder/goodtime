@@ -31,8 +31,9 @@
     <string name="labels_select_active_label">Wybierz aktywną etykietę</string>
     <string name="labels_edit_labels">Edycja etykiet</string>
     <string name="labels_edit_active_label">Edytuj aktywną etykietę</string>
-    <string name="labels_break_budget_info">Przerwij informacje o budżecie</string>
-    <string name="labels_break_budget_desc">"Twój budżet przerwy wzrasta zgodnie z wybranym współczynnikiem ogniska/przerwy i zmniejsza się, gdy jesteś przerywany.\nZrób przerwy zawsze, gdy chcesz."</string>
+    <string name="labels_break_budget_info">Zarabiaj czas przerwy podczas skupiania się</string>
+    <string name="labels_break_budget_desc1">"Twój budżet przerwy zwiększa się zgodnie z wybranym współczynnikiem ogniska/przerwy i zmniejsza się po przerwaniu działania."</string>
+    <string name="labels_break_budget_desc2">"Zabierz przerwy zawsze, gdy chcesz."</string>
     <string name="labels_break_budget">Przerwij budżet</string>
     <string name="labels_follow_default_time_profile">Śledź domyślny profil czasu</string>
     <string name="labels_add_label_name">Dodaj nazwę etykiety</string>

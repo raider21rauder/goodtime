@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"避免打扰"</string>
-    <string name="intro1_desc1">"使用本app来记录工作情况，可以让您的工作效率更高"</string>
-    <string name="intro2_title">"整理心情"</string>
-    <string name="intro2_desc1">"短暂地休息一会儿来犒劳下自己，很快回来继续工作"</string>
+    <string name="intro1_title">"保持聚焦状态"</string>
+    <string name="intro1_desc1">"通过定时的工作会议提高生产率。"</string>
+    <string name="intro1_desc2">"选择结构化倒计时器或弹性计时器。"</string>
+    <string name="intro2_title">"刷新您的心情"</string>
+    <string name="intro2_desc1">"赚取丰厚的休息来充电和保持尖锐。"</string>
+    <string name="intro2_desc2">"计数计时器在工作时累积休息时间。"</string>
     <string name="intro3_title">"开始"</string>
-    <string name="intro3_desc1">"保持专注，改掉拖延的习惯，提高你的效率。"</string>
+    <string name="intro3_desc1">"用详细统计数据跟踪您的进度。"</string>
+    <string name="intro3_desc2">"进行拖延并加强你的焦点。"</string>
 </resources>

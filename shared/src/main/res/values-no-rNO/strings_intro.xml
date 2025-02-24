@@ -17,10 +17,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Unngå distraksjoner"</string>
-    <string name="intro1_desc1">"Hold kontroll over arbeidet ditt med tidsbestemte økter kontrollert av appen."</string>
-    <string name="intro2_title">"Tøm hjernen"</string>
-    <string name="intro2_desc1">"Belønn deg selv med korte pauser og få tilbake energien."</string>
+    <string name="intro1_title">"Hold fokus"</string>
+    <string name="intro1_desc1">"Styrke produktiviteten med timeforbruk i arbeidslivet."</string>
+    <string name="intro1_desc2">"Velg mellom en strukturert nedtelling eller en fleksibel opptellingstidslinje."</string>
+    <string name="intro2_title">"Oppdater ditt gruve"</string>
+    <string name="intro2_desc1">"Ta velfortjente pauser til å lade seg og forbli skarpe."</string>
+    <string name="intro2_desc2">"For 'count-up'er, akkumuler tid når du fungerer."</string>
     <string name="intro3_title">"Kom igang"</string>
-    <string name="intro3_desc1">"Hold focus, bli kvitt prokastinering og forbedre din produktivitet."</string>
+    <string name="intro3_desc1">"Finn fremdriften din med detaljert statistikk."</string>
+    <string name="intro3_desc2">"Slå på proffentinering og forbedre din fokus."</string>
 </resources>
