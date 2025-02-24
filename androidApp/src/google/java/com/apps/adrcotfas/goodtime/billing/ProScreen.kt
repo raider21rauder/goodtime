@@ -58,8 +58,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.main.ProListItem
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar

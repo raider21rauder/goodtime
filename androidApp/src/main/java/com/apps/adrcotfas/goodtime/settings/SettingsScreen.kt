@@ -65,6 +65,7 @@ import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
+import com.apps.adrcotfas.goodtime.ui.common.LockedCheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
@@ -244,14 +245,24 @@ fun SettingsScreen(
             ) {
                 viewModel.setKeepScreenOn(it)
             }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_screensaver_mode),
-                checked = uiState.settings.uiSettings.screensaverMode,
-                enabled = uiState.settings.isPro && uiState.settings.uiSettings.keepScreenOn,
-            ) {
-                viewModel.setScreensaverMode(it)
+            if (uiState.settings.isPro) {
+                CheckboxListItem(
+                    title = stringResource(R.string.settings_screensaver_mode),
+                    checked = uiState.settings.uiSettings.screensaverMode,
+                    enabled = uiState.settings.uiSettings.keepScreenOn,
+                ) {
+                    viewModel.setScreensaverMode(it)
+                }
+            } else {
+                LockedCheckboxListItem(
+                    title = stringResource(R.string.settings_screensaver_mode),
+                    checked = uiState.settings.uiSettings.screensaverMode,
+                    enabled = false,
+                ) {
+                    viewModel.setScreensaverMode(it)
+                }
             }
-            CheckboxListItem(
+            LockedCheckboxListItem(
                 title = stringResource(R.string.settings_fullscreen_mode),
                 checked = uiState.settings.uiSettings.fullscreenMode,
                 enabled = uiState.settings.isPro,

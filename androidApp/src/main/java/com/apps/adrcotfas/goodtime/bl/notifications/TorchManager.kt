@@ -99,13 +99,15 @@ class TorchManager(
         if (!data.enabled) return
         job?.cancel()
         cameraId?.let {
-            //TODO: check if camera is available before calling setTorchMode
-            cameraManager.setTorchMode(it, false)
+            try {
+                cameraManager.setTorchMode(it, false)
+            } catch (e: CameraAccessException) {
+                logger.e(e) { "Failed to access the camera" }
+            }
         }
     }
 }
 
-//TODO: check if camera is available before calling setTorchMode
 private suspend fun CameraManager.lightUp(listOf: List<Long>, cameraId: String) {
     listOf.forEachIndexed { index, i ->
         if (index % 2 == 0) {

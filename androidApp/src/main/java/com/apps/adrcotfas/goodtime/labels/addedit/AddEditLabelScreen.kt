@@ -57,18 +57,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -78,7 +75,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -89,6 +85,7 @@ import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
+import com.apps.adrcotfas.goodtime.ui.common.InfoDialog
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
@@ -96,7 +93,6 @@ import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,6 +125,8 @@ fun AddEditLabelScreen(
     val isCountDown = label.timerProfile.isCountdown
     val isBreakEnabled = label.timerProfile.isBreakEnabled
     val isLongBreakEnabled = label.timerProfile.isLongBreakEnabled
+
+    var showBreakBudgetInfoDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -324,45 +322,15 @@ fun AddEditLabelScreen(
                                         ),
                                     ) {
                                         Text(stringResource(R.string.labels_enable_break_budget))
-                                        val tooltipState =
-                                            rememberTooltipState(isPersistent = true)
-                                        val coroutineScope = rememberCoroutineScope()
-                                        TooltipBox(
-                                            positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
-                                            tooltip = {
-                                                PlainTooltip(
-                                                    shape = MaterialTheme.shapes.small,
-                                                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                                                    contentColor = MaterialTheme.colorScheme.onSurface,
-                                                ) {
-                                                    Column(modifier = Modifier.padding(8.dp)) {
-                                                        Text(
-                                                            text = stringResource(R.string.labels_break_budget_info),
-                                                            fontWeight = FontWeight.Bold,
-                                                        )
-                                                        Spacer(modifier = Modifier.height(2.dp))
-                                                        Text(
-                                                            text = "• ${stringResource(R.string.labels_break_budget_desc1)}",
-                                                        )
-                                                        Text(
-                                                            text = "• ${stringResource(R.string.labels_break_budget_desc2)}",
-                                                        )
-                                                    }
-                                                }
-                                            },
-                                            state = tooltipState,
-                                        ) {
-                                            IconButton(onClick = {
-                                                coroutineScope.launch {
-                                                    tooltipState.show()
-                                                }
-                                            }) {
-                                                Icon(
-                                                    imageVector = Icons.Outlined.Info,
-                                                    contentDescription = stringResource(R.string.labels_break_budget_info),
-                                                    tint = MaterialTheme.colorScheme.primary,
-                                                )
-                                            }
+
+                                        IconButton(onClick = {
+                                            showBreakBudgetInfoDialog = true
+                                        }) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Info,
+                                                contentDescription = stringResource(R.string.labels_break_budget_info),
+                                                tint = MaterialTheme.colorScheme.primary,
+                                            )
                                         }
                                     }
                                 },
@@ -393,6 +361,15 @@ fun AddEditLabelScreen(
                         }
                     }
                 }
+            }
+        }
+        if (showBreakBudgetInfoDialog) {
+            InfoDialog(
+                title = stringResource(R.string.labels_break_budget_info),
+                subtitle = "${stringResource(R.string.labels_break_budget_desc1)}\n" +
+                    stringResource(R.string.labels_break_budget_desc2),
+            ) {
+                showBreakBudgetInfoDialog = false
             }
         }
     }

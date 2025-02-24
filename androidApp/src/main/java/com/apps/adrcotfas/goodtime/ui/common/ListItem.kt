@@ -51,6 +51,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Lock
 import kotlin.math.roundToInt
 
 @Composable
@@ -264,6 +267,49 @@ fun CheckboxListItem(
         modifier = toggleableModifier,
         title = title,
         subtitle = subtitle,
+        trailing = {
+            Checkbox(
+                checked = checked,
+                enabled = enabled,
+                onCheckedChange = null,
+            )
+        },
+        enabled = enabled,
+        onClick = if (enabled) { { onCheckedChange.invoke(!checked) } } else null,
+    )
+}
+
+@Composable
+fun LockedCheckboxListItem(
+    modifier: Modifier = Modifier,
+    title: String,
+    subtitle: String? = null,
+    checked: Boolean,
+    enabled: Boolean = true,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    val toggleableModifier = if (enabled) {
+        modifier.toggleable(
+            value = checked,
+            onValueChange = { onCheckedChange(!checked) },
+            role = Role.Checkbox,
+        )
+    } else {
+        modifier
+    }
+    BetterListItem(
+        modifier = toggleableModifier,
+        title = title,
+        subtitle = subtitle,
+        leading = {
+            if (!enabled) {
+                Icon(
+                    imageVector = EvaIcons.Outline.Lock,
+                    tint = ListItemDefaults.disabledColors().disabledHeadlineColor,
+                    contentDescription = null,
+                )
+            }
+        },
         trailing = {
             Checkbox(
                 checked = checked,

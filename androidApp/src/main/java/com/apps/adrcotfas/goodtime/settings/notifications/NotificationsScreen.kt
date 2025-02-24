@@ -41,6 +41,7 @@ import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.common.LockedCheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
@@ -120,7 +121,7 @@ fun NotificationsScreen(
             )
 
             if (isTorchAvailable) {
-                CheckboxListItem(
+                LockedCheckboxListItem(
                     title = stringResource(R.string.settings_torch_title),
                     enabled = settings.isPro,
                     subtitle = stringResource(R.string.settings_torch_desc),
@@ -129,7 +130,7 @@ fun NotificationsScreen(
                     viewModel.setEnableTorch(it)
                 }
             }
-            CheckboxListItem(
+            LockedCheckboxListItem(
                 title = stringResource(R.string.settings_insistent_notification_title),
                 enabled = settings.isPro,
                 subtitle = stringResource(R.string.settings_insistent_notification_desc),
