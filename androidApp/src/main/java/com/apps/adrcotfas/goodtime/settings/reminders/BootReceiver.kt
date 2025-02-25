@@ -20,14 +20,22 @@ package com.apps.adrcotfas.goodtime.settings.reminders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.di.IO_SCOPE
 import com.apps.adrcotfas.goodtime.di.injectLogger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import org.koin.core.qualifier.named
 import java.lang.RuntimeException
 
 class BootReceiver : BroadcastReceiver(), KoinComponent {
 
     private val reminderHelper: ReminderHelper by inject()
+    private val settingsRepository: SettingsRepository by inject()
+    private val coroutineScope: CoroutineScope by inject(named(IO_SCOPE))
     private val logger by injectLogger(TAG)
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -36,6 +44,9 @@ class BootReceiver : BroadcastReceiver(), KoinComponent {
             if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
                 logger.d("onBootComplete")
                 reminderHelper.scheduleNotifications()
+                coroutineScope.launch {
+                    settingsRepository.setBreakBudgetData(BreakBudgetData())
+                }
             }
         } catch (e: RuntimeException) {
             logger.e("Could not process intent")
