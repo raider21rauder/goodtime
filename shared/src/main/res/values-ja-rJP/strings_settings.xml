@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">休憩の終了後、操作なしで作業セッションを開始する</string>
     <string name="settings_auto_start_break_title">自動で休憩開始</string>
     <string name="settings_auto_start_break_desc">ユーザーの操作なしで作業セッションの後に休憩セッションを開始する</string>
-    <string name="main_unlock_timer_style">プレミアムを解放してタイマーのカスタマイズを保存</string>
 </resources>

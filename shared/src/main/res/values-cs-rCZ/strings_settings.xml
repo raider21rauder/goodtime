@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Začít pracovní sesi ihned po přestávce bez souhlasu uživatele</string>
     <string name="settings_auto_start_break_title">Automatický začátek pauzy</string>
     <string name="settings_auto_start_break_desc">Spustit přerušenou relaci po pracovní relaci bez interakce uživatele</string>
-    <string name="main_unlock_timer_style">Odemkněte Premium pro uložení přizpůsobení časovače</string>
 </resources>

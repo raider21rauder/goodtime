@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Arbeitssitzung nach einer Pause ohne Benutzerinteraktion starten</string>
     <string name="settings_auto_start_break_title">Pause automatisch starten</string>
     <string name="settings_auto_start_break_desc">Starte die Pause Sitzung nach einer Arbeitssitzung ohne Benutzerinteraktion</string>
-    <string name="main_unlock_timer_style">Premium freischalten um Timer-Anpassung zu speichern</string>
 </resources>

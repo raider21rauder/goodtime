@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Iniciar la sesión de trabajo después de un descanso sin interacción del usuario</string>
     <string name="settings_auto_start_break_title">Inicio de descanso automático</string>
     <string name="settings_auto_start_break_desc">Iniciar la sesión de descanso después de una sesión de trabajo sin interacción del usuario</string>
-    <string name="main_unlock_timer_style">Desbloquear Premium para guardar la personalización del temporizador</string>
 </resources>

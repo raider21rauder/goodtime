@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Starta arbetssessionen efter en paus utan användarinteraktion</string>
     <string name="settings_auto_start_break_title">Automatisk start av paus</string>
     <string name="settings_auto_start_break_desc">Starta paussessionen efter en arbetssession utan användarinteraktion</string>
-    <string name="main_unlock_timer_style">Lås upp Premium för att spara timeranpassning</string>
 </resources>

@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">휴식구간이 끝나면 조작 없이 작업구간을 시작합니다</string>
     <string name="settings_auto_start_break_title">휴식 바로 시작하기</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="main_unlock_timer_style">Unlock Premium to save timer customization</string>
 </resources>

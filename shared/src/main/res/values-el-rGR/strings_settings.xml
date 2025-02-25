@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Ξεκινήστε τη συνεδρία εργασίας μετά από ένα διάλειμμα χωρίς αλληλεπίδραση χρήστη</string>
     <string name="settings_auto_start_break_title">Αυτόματη διακοπή εκκίνησης</string>
     <string name="settings_auto_start_break_desc">Εκκίνηση συνεδρίας διακοπής μετά από μια συνεδρία εργασίας χωρίς αλληλεπίδραση χρήστη</string>
-    <string name="main_unlock_timer_style">Ξεκλειδώστε το Premium για να εξοικονομήσετε προσαρμογή χρονοδιακόπτη</string>
 </resources>

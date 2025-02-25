@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Start arbeidsøkten etter en pause uten brukerinteraksjon</string>
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start en pause økt etter en arbeidsøkt uten brukerinteraksjon</string>
-    <string name="main_unlock_timer_style">Lås opp Premium for å lagre tidstilpasning</string>
 </resources>

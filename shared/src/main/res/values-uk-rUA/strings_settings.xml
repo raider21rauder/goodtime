@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Початок робочого сеансу після перерви без взаємодії з користувачем</string>
     <string name="settings_auto_start_break_title">Автозапуск перерви</string>
     <string name="settings_auto_start_break_desc">Початок сеансу перерви після робочого сеансу без взаємодії з користувачем</string>
-    <string name="main_unlock_timer_style">Розблокуйте Преміум, щоб зберегти налаштування таймера</string>
 </resources>

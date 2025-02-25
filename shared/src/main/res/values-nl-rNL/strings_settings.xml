@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Start de werksessie na een pauze zonder tussenkomst van de gebruiker</string>
     <string name="settings_auto_start_break_title">Auto start pauze</string>
     <string name="settings_auto_start_break_desc">Start de onderbreking sessie na een werksessie zonder gebruikersinteractie</string>
-    <string name="main_unlock_timer_style">Ontgrendel Premium om de timer aan te passen</string>
 </resources>

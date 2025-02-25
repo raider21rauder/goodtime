@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Démarrer la session de travail après une pause sans interaction de l’utilisateur</string>
     <string name="settings_auto_start_break_title">Démarrage automatique de la pause</string>
     <string name="settings_auto_start_break_desc">Démarrer la session après une session de travail sans interaction utilisateur</string>
-    <string name="main_unlock_timer_style">Débloquez Premium pour économiser la personnalisation du minuteur</string>
 </resources>

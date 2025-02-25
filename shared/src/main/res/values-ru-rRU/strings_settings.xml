@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Начать рабочий сеанс после перерыва без участия пользователя</string>
     <string name="settings_auto_start_break_title">Автоматическое начало перерыва</string>
     <string name="settings_auto_start_break_desc">Запускать перерыв после рабочего сеанса без взаимодействия пользователя</string>
-    <string name="main_unlock_timer_style">Разблокировать Премиум для сохранения настройки таймера</string>
 </resources>

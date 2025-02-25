@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Rozpocznij sesję roboczą po przerwie bez interakcji użytkownika</string>
     <string name="settings_auto_start_break_title">Automatyczne uruchamianie przerwy</string>
     <string name="settings_auto_start_break_desc">Rozpocznij sesję przerwy po sesji roboczej bez interakcji użytkownika</string>
-    <string name="main_unlock_timer_style">Odblokuj Premium, aby zapisać dostosowanie timera</string>
 </resources>

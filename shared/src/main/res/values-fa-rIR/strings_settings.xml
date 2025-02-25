@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">نوبت کاری را پس از استراحت بدون پرسش آغاز کن</string>
     <string name="settings_auto_start_break_title">شروع خودکار استراحت</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="main_unlock_timer_style">Unlock Premium to save timer customization</string>
 </resources>

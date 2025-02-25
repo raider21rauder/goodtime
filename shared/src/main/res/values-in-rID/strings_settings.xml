@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Mulai sesi kerja setelah istirahat tanpa interaksi pengguna</string>
     <string name="settings_auto_start_break_title">Mulai otomatis istirahat</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
-    <string name="main_unlock_timer_style">Unlock Premium to save timer customization</string>
 </resources>

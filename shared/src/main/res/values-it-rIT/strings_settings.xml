@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
     <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
     <string name="settings_auto_start_break_desc">Avvia la sessione di interruzione dopo una sessione di lavoro senza interazione utente</string>
-    <string name="main_unlock_timer_style">Sblocca Premium per salvare la personalizzazione del timer</string>
 </resources>

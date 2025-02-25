@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">ابدأ الفاصل بعد جلسة عمل دون تدخل المستخدم</string>
     <string name="settings_auto_start_break_title">بداية الانقطاع التلقائي</string>
     <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
-    <string name="main_unlock_timer_style">فتح النسخة المميزة لحفظ تخصيص المؤقت</string>
 </resources>

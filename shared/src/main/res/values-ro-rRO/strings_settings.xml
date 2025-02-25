@@ -73,5 +73,4 @@
     <string name="settings_auto_start_focus_desc">Începe sesiunea de lucru după pauză fără interacțiunea utilizatorului</string>
     <string name="settings_auto_start_break_title">Auto-start pauză</string>
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>
-    <string name="main_unlock_timer_style">Deblochează Premium pentru a salva personalizarea cronometrului</string>
 </resources>
