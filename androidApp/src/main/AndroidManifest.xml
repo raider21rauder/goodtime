@@ -37,6 +37,9 @@
     <!-- Wake up the screen when a session is finished -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove"/>
+
     <application
         android:name=".GoodtimeApplication"
         android:allowBackup="false"
@@ -92,7 +95,5 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <meta-data android:name="com.bugsnag.android.API_KEY"
-            android:value="da07c934ceaa71a43234a1baf10abacb"/>
     </application>
 </manifest>
