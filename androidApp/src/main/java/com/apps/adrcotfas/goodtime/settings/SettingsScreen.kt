@@ -284,6 +284,13 @@ fun SettingsScreen(
                     viewModel.setTrueBlackMode(it)
                 }
             }
+            CheckboxListItem(
+                title = stringResource(R.string.settings_display_over_lock_screen),
+                subtitle = stringResource(R.string.settings_display_over_lock_screen_desc),
+                checked = uiState.settings.uiSettings.showWhenLocked,
+            ) {
+                viewModel.setShowWhenLocked(it)
+            }
         }
         if (uiState.showWorkdayStartPicker) {
             val workdayStart = LocalTime.fromSecondOfDay(uiState.settings.workdayStart)

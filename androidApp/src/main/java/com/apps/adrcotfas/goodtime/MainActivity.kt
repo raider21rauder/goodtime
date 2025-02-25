@@ -135,9 +135,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            setShowWhenLocked(true)
-        }
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
@@ -152,9 +149,14 @@ class MainActivity : ComponentActivity(), KoinComponent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val isDarkTheme = uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme())
             val workSessionIsInProgress = uiState.isWorkSessionInProgress
+            val showWhenLocked = uiState.showWhenLocked
             val isActive = uiState.isActive
             val isFinished = uiState.isFinished
             var isMainScreen by rememberSaveable { mutableStateOf(true) }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                setShowWhenLocked(showWhenLocked)
+            }
 
             val fullscreenMode = isMainScreen && uiState.fullscreenMode && isActive
             LaunchedEffect(fullscreenMode) {

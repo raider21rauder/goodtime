@@ -42,6 +42,7 @@ data class MainUiState(
     val isDynamicColor: Boolean = false,
     val isMainScreen: Boolean = true,
     val fullscreenMode: Boolean = false,
+    val showWhenLocked: Boolean = false,
 )
 
 class MainViewModel(
@@ -59,7 +60,8 @@ class MainViewModel(
                     old.uiSettings.dndDuringWork == new.uiSettings.dndDuringWork &&
                     old.uiSettings.themePreference == new.uiSettings.themePreference &&
                     old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
-                    old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode
+                    old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
+                    old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked
             }.collect { settings ->
                 _uiState.update {
                     it.copy(
@@ -69,6 +71,7 @@ class MainViewModel(
                         darkThemePreference = settings.uiSettings.themePreference,
                         isDynamicColor = settings.uiSettings.useDynamicColor,
                         fullscreenMode = settings.uiSettings.fullscreenMode,
+                        showWhenLocked = settings.uiSettings.showWhenLocked,
                     )
                 }
             }

@@ -121,7 +121,7 @@ fun TimerStyleScreen(
                         imageVector = EvaIcons.Outline.Unlock,
                         contentDescription = stringResource(R.string.unlock_premium),
                     )
-                }, description = stringResource(R.string.main_unlock_timer_style)) {
+                }, description = stringResource(R.string.unlock_timer_style)) {
                     onNavigateToPro()
                 }
             }

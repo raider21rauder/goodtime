@@ -214,6 +214,14 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
+    fun setShowWhenLocked(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateUiSettings {
+                it.copy(showWhenLocked = enable)
+            }
+        }
+    }
+
     fun setWorkFinishedSound(ringtone: String) {
         viewModelScope.launch {
             settingsRepository.setWorkFinishedSound(ringtone)

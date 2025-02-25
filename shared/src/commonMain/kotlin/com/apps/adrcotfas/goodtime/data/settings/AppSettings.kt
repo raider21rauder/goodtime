@@ -82,6 +82,7 @@ data class UiSettings(
     val keepScreenOn: Boolean = true,
     val screensaverMode: Boolean = false,
     val dndDuringWork: Boolean = false,
+    val showWhenLocked: Boolean = false,
 ) {
     fun trueBlackModePossible(): Boolean {
         return fullscreenMode && trueBlackMode
