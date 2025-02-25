@@ -25,6 +25,7 @@ import android.os.Build
 import android.widget.Toast
 import com.apps.adrcotfas.goodtime.common.getVersionCode
 import com.apps.adrcotfas.goodtime.common.getVersionName
+import com.apps.adrcotfas.goodtime.shared.R
 
 fun getDeviceInfo(): String {
     val manufacturer = Build.MANUFACTURER
@@ -36,8 +37,8 @@ fun getDeviceInfo(): String {
 fun sendFeedback(context: Context) {
     val email = Intent(Intent.ACTION_SENDTO)
     email.data = Uri.Builder().scheme("mailto").build()
-    email.putExtra(Intent.EXTRA_EMAIL, arrayOf("goodtime-app@googlegroups.com"))
-    email.putExtra(Intent.EXTRA_SUBJECT, "[Goodtime Productivity] Feedback")
+    email.putExtra(Intent.EXTRA_EMAIL, arrayOf(context.getString(R.string.contact_address)))
+    email.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.feedback_title))
     email.putExtra(
         Intent.EXTRA_TEXT,
         """

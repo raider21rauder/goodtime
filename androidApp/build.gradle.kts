@@ -53,12 +53,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
-        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "19"
+        jvmTarget = "17"
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
     }
 
     androidResources {
@@ -100,7 +105,9 @@ dependencies {
 
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.bugsnag.android)
+
+    implementation(libs.acra.mail)
+    implementation(libs.acra.notification)
 
     "googleImplementation"(libs.billing.ktx)
 }

@@ -18,9 +18,3 @@ It is recommended that you disable the battery optimization for this app in orde
 In the worst case, if you still have issues, try to keep the phone plugged in and/or the screen on while working.
 
 Read more about this topic on [www.dontkillmyapp.com](https://dontkillmyapp.com/)
-
-## Sponsors  
-
-<a href="https://www.bugsnag.com/" target="_blank">
-  <img src="resources/sponsors/bugsnag_logo.png" alt="Bugsnag logo" width="156">
-</a>

@@ -41,10 +41,15 @@ import com.apps.adrcotfas.goodtime.di.getWith
 import com.apps.adrcotfas.goodtime.di.insertKoin
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper
-import com.bugsnag.android.Bugsnag
+import com.apps.adrcotfas.goodtime.shared.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import org.acra.ACRA
+import org.acra.config.mailSender
+import org.acra.config.notification
+import org.acra.data.StringFormat
+import org.acra.ktx.initAcra
 import org.koin.android.ext.android.get
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -55,7 +60,7 @@ class GoodtimeApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Bugsnag.start(this)
+        if (ACRA.isACRASenderServiceProcess()) return
         insertKoin(
             module {
                 single<Context> { this@GoodtimeApplication }
@@ -139,5 +144,31 @@ class GoodtimeApplication : Application() {
         }
         val billing = get<BillingAbstract>()
         billing.init()
+    }
+
+    override fun attachBaseContext(context: Context) {
+        super.attachBaseContext(context)
+
+        ACRA.DEV_LOGGING = true
+        initAcra {
+            buildConfigClass = BuildConfig::class.java
+            reportFormat = StringFormat.JSON
+
+            notification {
+                // required
+                title = getString(R.string.main_crash_notification_title)
+                // required
+                text = getString(R.string.main_crash_notification_desc)
+                // required
+                channelName = getString(R.string.main_crash_channel_name)
+                resSendButtonIcon = null
+                resDiscardButtonIcon = null
+            }
+            mailSender {
+                mailTo = getString(R.string.contact_address)
+                subject = getString(R.string.crash_report_title)
+                reportFileName = "crash.txt"
+            }
+        }
     }
 }

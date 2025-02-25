@@ -1,12 +1,12 @@
 [versions]
 
+acra = "5.12.0"
 android-minSdk = "26"
 android-compileSdk = "35"
 android-targetSdk = "35"
 
 agp = "8.7.3"
 billingKtx = "7.1.1"
-bugsnagAndroid = "6.12.0"
 kotlin = "2.1.0"
 kotlinxCollectionsImmutable = "0.3.8"
 ksp = "2.1.0-1.0.29"
@@ -45,6 +45,8 @@ vico = "2.1.0-alpha.1"
 androidchart = "3.1.0.25"
 
 [libraries]
+acra-mail = { module = "ch.acra:acra-mail", version.ref = "acra" }
+acra-notification = { module = "ch.acra:acra-notification", version.ref = "acra" }
 androidchart = { module = "com.github.AppDevNext:AndroidChart", version.ref = "androidchart" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-foundation" }
@@ -69,7 +71,6 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
-bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
@@ -94,7 +95,6 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 okio-fakefilesystem = { module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 touchlab-kermit-simple = { module = "co.touchlab:kermit-simple", version.ref = "kermit" }
-touchlab-kermit-bugsnag = { module = "co.touchlab:kermit-bugsnag", version.ref = "kermit" }
 mikepenz-aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "mikepenz-aboutlibraries" }
 mikepenz-aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "mikepenz-aboutlibraries" }
 
