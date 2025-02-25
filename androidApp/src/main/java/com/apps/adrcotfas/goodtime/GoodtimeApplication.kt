@@ -149,7 +149,6 @@ class GoodtimeApplication : Application() {
     override fun attachBaseContext(context: Context) {
         super.attachBaseContext(context)
 
-        ACRA.DEV_LOGGING = true
         initAcra {
             buildConfigClass = BuildConfig::class.java
             reportFormat = StringFormat.JSON
