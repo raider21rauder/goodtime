@@ -36,7 +36,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.ListItemDefaults.colors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -275,7 +274,11 @@ fun CheckboxListItem(
             )
         },
         enabled = enabled,
-        onClick = if (enabled) { { onCheckedChange.invoke(!checked) } } else null,
+        onClick = if (enabled) {
+            { onCheckedChange.invoke(!checked) }
+        } else {
+            null
+        },
     )
 }
 
@@ -297,19 +300,23 @@ fun LockedCheckboxListItem(
     } else {
         modifier
     }
+    val leading: @Composable (() -> Unit)? = if (!enabled) {
+        {
+            Icon(
+                imageVector = EvaIcons.Outline.Lock,
+                tint = ListItemDefaults.disabledColors().disabledHeadlineColor,
+                contentDescription = null,
+            )
+        }
+    } else {
+        null
+    }
+
     BetterListItem(
         modifier = toggleableModifier,
         title = title,
         subtitle = subtitle,
-        leading = {
-            if (!enabled) {
-                Icon(
-                    imageVector = EvaIcons.Outline.Lock,
-                    tint = ListItemDefaults.disabledColors().disabledHeadlineColor,
-                    contentDescription = null,
-                )
-            }
-        },
+        leading = leading,
         trailing = {
             Checkbox(
                 checked = checked,
@@ -318,7 +325,11 @@ fun LockedCheckboxListItem(
             )
         },
         enabled = enabled,
-        onClick = if (enabled) { { onCheckedChange.invoke(!checked) } } else null,
+        onClick = if (enabled) {
+            { onCheckedChange.invoke(!checked) }
+        } else {
+            null
+        },
     )
 }
 

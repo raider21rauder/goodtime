@@ -106,5 +106,5 @@ fun Context.openUrl(url: String) {
 
 fun Context.installIsOlderThan10Days(): Boolean {
     val installTime = packageManager.getPackageInfo(packageName, 0).firstInstallTime
-     return System.currentTimeMillis() - installTime > 10.days.inWholeMilliseconds
+    return System.currentTimeMillis() - installTime > 10.days.inWholeMilliseconds
 }
