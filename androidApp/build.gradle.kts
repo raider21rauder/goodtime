@@ -110,4 +110,6 @@ dependencies {
     implementation(libs.acra.notification)
 
     "googleImplementation"(libs.billing.ktx)
+    "googleImplementation"(libs.app.update.ktx)
+    "googleImplementation"(libs.review.ktx)
 }

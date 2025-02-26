@@ -26,6 +26,7 @@ import kotlinx.serialization.Serializable
 data class AppSettings(
     private val version: Int = 1,
     val isPro: Boolean = false,
+    val shouldAskForReview: Boolean = false,
     val productivityReminderSettings: ProductivityReminderSettings = ProductivityReminderSettings(),
     val uiSettings: UiSettings = UiSettings(),
     val timerStyle: TimerStyleData = TimerStyleData(),

@@ -34,6 +34,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.pm.PackageInfoCompat
 import java.io.File
+import kotlin.time.Duration.Companion.days
 
 tailrec fun Context.findActivity(): ComponentActivity? = when (this) {
     is ComponentActivity -> this
@@ -101,4 +102,9 @@ fun Context.openUrl(url: String) {
         data = Uri.parse(url)
     }
     startActivity(intent)
+}
+
+fun Context.installIsOlderThan10Days(): Boolean {
+    val installTime = packageManager.getPackageInfo(packageName, 0).firstInstallTime
+     return System.currentTimeMillis() - installTime > 10.days.inWholeMilliseconds
 }

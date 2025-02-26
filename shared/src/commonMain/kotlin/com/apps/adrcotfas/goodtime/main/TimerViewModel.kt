@@ -268,4 +268,6 @@ class TimerViewModel(
     fun forceFinish() = timerManager.finish()
     fun onSendToBackground() = timerManager.onSendToBackground()
     fun onBringToForeground() = timerManager.onBringToForeground()
+
+    fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }
 }

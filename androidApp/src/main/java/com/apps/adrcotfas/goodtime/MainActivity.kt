@@ -21,7 +21,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -47,11 +46,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
-import com.apps.adrcotfas.goodtime.di.injectLogger
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
@@ -60,6 +57,7 @@ import com.apps.adrcotfas.goodtime.main.AboutDest
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
 import com.apps.adrcotfas.goodtime.main.BackupDest
+import com.apps.adrcotfas.goodtime.main.GoodtimeMainActivity
 import com.apps.adrcotfas.goodtime.main.LabelsDest
 import com.apps.adrcotfas.goodtime.main.LicensesDest
 import com.apps.adrcotfas.goodtime.main.MainDest
@@ -72,7 +70,6 @@ import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerStyleDest
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.route
-import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
@@ -91,14 +88,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MainActivity : ComponentActivity(), KoinComponent {
+class MainActivity : GoodtimeMainActivity() {
 
-    private val log: Logger by injectLogger("MainActivity")
     private val notificationManager: NotificationArchManager by inject()
-    private val viewModel: MainViewModel by viewModel<MainViewModel>()
     private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
     private var fullScreenJob: Job? = null
     private var timerStateJob: Job? = null

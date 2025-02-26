@@ -61,6 +61,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -71,6 +72,7 @@ import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
+import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -100,6 +102,8 @@ fun MainScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
     if (uiState.isLoading) return
+    val context = LocalContext.current
+
     InitTimerStyle(viewModel)
 
     LifecycleResumeEffect(Unit) {
@@ -283,7 +287,13 @@ fun MainScreen(
         FinishedSessionSheet(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
-            onNext = viewModel::next,
+            onNext = {
+                viewModel.next()
+                // ask for in app review if the user just started a break session
+                if (context.installIsOlderThan10Days() && !timerUiState.isBreak) {
+                    viewModel.setShouldAskForReview()
+                }
+            },
             onReset = { updateWorkTime ->
                 if (updateWorkTime) {
                     viewModel.resetTimer(updateWorkTime = true)

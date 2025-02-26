@@ -43,6 +43,7 @@ data class MainUiState(
     val isMainScreen: Boolean = true,
     val fullscreenMode: Boolean = false,
     val showWhenLocked: Boolean = false,
+    val shouldAskForReview: Boolean = false,
 )
 
 class MainViewModel(
@@ -61,7 +62,8 @@ class MainViewModel(
                     old.uiSettings.themePreference == new.uiSettings.themePreference &&
                     old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
                     old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
-                    old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked
+                    old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked &&
+                    old.shouldAskForReview == new.shouldAskForReview
             }.collect { settings ->
                 _uiState.update {
                     it.copy(
@@ -72,6 +74,7 @@ class MainViewModel(
                         isDynamicColor = settings.uiSettings.useDynamicColor,
                         fullscreenMode = settings.uiSettings.fullscreenMode,
                         showWhenLocked = settings.uiSettings.showWhenLocked,
+                        shouldAskForReview = settings.shouldAskForReview,
                     )
                 }
             }
@@ -97,4 +100,7 @@ class MainViewModel(
             settingsRepository.setOnboardingFinished(finished)
         }
     }
+
+    fun resetShouldAskForReview() =
+        viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
 }

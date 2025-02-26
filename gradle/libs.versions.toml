@@ -6,6 +6,7 @@ android-compileSdk = "35"
 android-targetSdk = "35"
 
 agp = "8.7.3"
+appUpdateKtx = "2.1.0"
 billingKtx = "7.1.1"
 kotlin = "2.1.0"
 kotlinxCollectionsImmutable = "0.3.8"
@@ -27,6 +28,7 @@ androidx-datastore = "1.1.2"
 androidx-media = "1.7.0"
 androidx-documentfile = "1.0.1"
 androidx-room = "2.7.0-beta01"
+reviewKtx = "2.0.2"
 sqlite = "2.5.0-beta01"
 
 compose-icons-eva = "1.1.1"
@@ -70,8 +72,10 @@ androidx-room-runtime = { group = "androidx.room", name = "room-runtime", versio
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
+app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }

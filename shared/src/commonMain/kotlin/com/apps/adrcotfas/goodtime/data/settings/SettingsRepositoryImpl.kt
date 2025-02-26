@@ -43,6 +43,7 @@ class SettingsRepositoryImpl(
 
     private object Keys {
         val isProKey = booleanPreferencesKey("isProKey")
+        val shouldAskForReviewKey = booleanPreferencesKey("shouldAskForReview")
         val productivityReminderSettingsKey =
             stringPreferencesKey("productivityReminderSettingsKey")
         val uiSettingsKey = stringPreferencesKey("uiSettingsKey")
@@ -81,6 +82,7 @@ class SettingsRepositoryImpl(
             val default = AppSettings()
             AppSettings(
                 isPro = it[Keys.isProKey] ?: default.isPro,
+                shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
                 productivityReminderSettings = it[Keys.productivityReminderSettingsKey]?.let { p ->
                     json.decodeFromString<ProductivityReminderSettings>(p)
                 } ?: default.productivityReminderSettings,
@@ -268,5 +270,9 @@ class SettingsRepositoryImpl(
 
     override suspend fun setPro(isPro: Boolean) {
         dataStore.edit { it[Keys.isProKey] = isPro }
+    }
+
+    override suspend fun setShouldAskForReview(enable: Boolean) {
+        dataStore.edit { it[Keys.shouldAskForReviewKey] = enable }
     }
 }

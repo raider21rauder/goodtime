@@ -87,13 +87,14 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     Scaffold { padding ->
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(Color(0xFFFAFAFA))
+                .padding(bottom = padding.calculateBottomPadding()),
 
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFFFAFAFA))
                     .align(Alignment.Center).windowInsetsPadding(insets = WindowInsets.navigationBars),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,

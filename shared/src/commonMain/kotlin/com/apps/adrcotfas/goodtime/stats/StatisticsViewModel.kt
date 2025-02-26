@@ -261,6 +261,7 @@ class StatisticsViewModel(
             sessionToEditId?.let {
                 localDataRepo.updateSession(newSession.id, newSession)
             } ?: localDataRepo.insertSession(newSession)
+            settingsRepository.setShouldAskForReview(true)
         }
     }
 
@@ -328,4 +329,6 @@ class StatisticsViewModel(
             settingsRepository.updateStatisticsSettings { it.copy(pieChartViewType = type) }
         }
     }
+
+    fun setShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
 }

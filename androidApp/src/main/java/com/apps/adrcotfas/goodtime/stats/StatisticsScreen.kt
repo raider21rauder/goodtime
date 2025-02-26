@@ -52,6 +52,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
@@ -234,6 +235,10 @@ fun StatisticsScreen(
                                 onClose = { hideSheet() },
                                 onClick = {
                                     viewModel.saveSession()
+                                    // ask for in app review if the user just saved a session
+                                    if (context.installIsOlderThan10Days()) {
+                                        viewModel.setShouldAskForReview()
+                                    }
                                     hideSheet()
                                 },
                             )

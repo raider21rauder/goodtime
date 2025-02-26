@@ -50,4 +50,5 @@ interface SettingsRepository {
     suspend fun setOnboardingFinished(finished: Boolean)
     suspend fun setIsMainScreen(isMainScreen: Boolean)
     suspend fun setPro(isPro: Boolean)
+    suspend fun setShouldAskForReview(enable: Boolean)
 }
