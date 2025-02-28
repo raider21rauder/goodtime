@@ -63,7 +63,6 @@ import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
@@ -105,6 +104,7 @@ fun ProScreen(
 @Composable
 fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: () -> Unit) {
     val listState = rememberScrollState()
+    val color = MaterialTheme.colorScheme.primary
     Scaffold(
         topBar = {
             TopBar(
@@ -161,7 +161,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_labels_desc2),
                     ),
                     icon = Icons.AutoMirrored.Outlined.Label,
-                    color = MaterialTheme.localColorsPalette.colors[1],
+                    color = color,
                 )
 
                 ProFeatureListItem(
@@ -171,7 +171,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_timer_customization_desc2),
                     ),
                     icon = EvaIcons.Outline.ColorPalette,
-                    color = MaterialTheme.localColorsPalette.colors[3],
+                    color = color,
                 )
 
                 ProFeatureListItem(
@@ -180,7 +180,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_notifications_desc1),
                     ),
                     icon = EvaIcons.Outline.Bell,
-                    color = MaterialTheme.localColorsPalette.colors[5],
+                    color = color,
                 )
 
                 ProFeatureListItem(
@@ -191,7 +191,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_stats_desc3),
                     ),
                     icon = EvaIcons.Outline.PieChart,
-                    color = MaterialTheme.localColorsPalette.colors[7],
+                    color = color,
                 )
 
                 ProFeatureListItem(
@@ -201,7 +201,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_backup_desc2),
                     ),
                     icon = EvaIcons.Outline.Sync,
-                    color = MaterialTheme.localColorsPalette.colors[9],
+                    color = color,
                 )
                 ProFeatureListItem(
                     title = stringResource(R.string.feature_support_title),
@@ -209,7 +209,7 @@ fun ProScreenContent(onNavigateBack: () -> Unit, priceString: String, onClick: (
                         stringResource(R.string.feature_support_desc1),
                     ),
                     icon = EvaIcons.Outline.Heart,
-                    color = MaterialTheme.localColorsPalette.colors[11],
+                    color = color,
                 )
             }
         }

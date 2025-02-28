@@ -19,7 +19,6 @@ package com.apps.adrcotfas.goodtime.settings.about
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -50,11 +49,10 @@ fun LicensesScreen(
         LibrariesContainer(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
                 .background(MaterialTheme.colorScheme.background),
             lazyListState = listState,
+            contentPadding = paddingValues,
             showLicenseBadges = false,
-            showAuthor = true,
         )
     }
 }

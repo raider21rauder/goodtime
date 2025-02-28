@@ -1,3 +1,5 @@
+import com.mikepenz.aboutlibraries.plugin.DuplicateMode
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -73,6 +75,7 @@ android {
 
     aboutLibraries {
         configPath = "androidApp/config"
+        duplicationMode = DuplicateMode.MERGE
     }
 }
 

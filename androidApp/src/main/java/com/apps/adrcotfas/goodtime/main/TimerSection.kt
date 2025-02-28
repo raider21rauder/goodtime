@@ -30,9 +30,10 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -70,7 +71,6 @@ import androidx.compose.ui.unit.sp
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
-import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.common.formatOverview
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
@@ -94,6 +94,7 @@ fun MainTimerView(
     domainLabel: DomainLabel,
     onStart: () -> Unit,
     onToggle: (() -> Boolean)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
 
@@ -131,7 +132,7 @@ fun MainTimerView(
             timerStyle = timerStyle,
             millis = timerUiState.displayTime,
             color = labelColor,
-            onPress = {
+            onClick = {
                 onToggle?.let {
                     if (!timerUiState.isActive) {
                         onStart()
@@ -147,6 +148,7 @@ fun MainTimerView(
                     }
                 }
             },
+            onLongClick = onLongClick,
         )
     }
 }
@@ -387,6 +389,7 @@ fun FractionText(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TimerTextView(
     modifier: Modifier,
@@ -395,7 +398,8 @@ fun TimerTextView(
     color: Color,
     timerStyle: TimerStyleData,
     isPaused: Boolean,
-    onPress: (() -> Unit)? = null,
+    onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
 ) {
     val scale by animateFloatAsState(
         targetValue = if (state?.isPressed == true) 0.96f else 1f,
@@ -419,13 +423,12 @@ fun TimerTextView(
         }
     }
 
-    val clickableModifier = onPress?.let {
-        Modifier.clickable(
+    val clickableModifier = onClick?.let {
+        Modifier.combinedClickable(
             indication = null,
             interactionSource = null,
-            onClick = {
-                onPress()
-            },
+            onClick = onClick,
+            onLongClick = onLongClick,
         )
     } ?: Modifier
     Text(

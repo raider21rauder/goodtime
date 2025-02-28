@@ -68,7 +68,6 @@ class FinishedSessionsHandler(
         }
     }
 
-    // TODO: acquire a wake lock, test that it's working correctly on problematic devices especially with auto-start on
     fun saveSession(session: Session) {
         log.i { "Saving session to stats: $session" }
         coroutineScope.launch {

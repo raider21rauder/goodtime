@@ -132,7 +132,7 @@ fun BottomAppBar(
                         .size(32.dp)
                         .clip(CircleShape)
                         .background(
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.18f),
                         ),
                 ) {
                     Text(

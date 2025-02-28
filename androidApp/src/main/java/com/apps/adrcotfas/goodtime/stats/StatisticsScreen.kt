@@ -220,7 +220,7 @@ fun StatisticsScreen(
                         sheetState = sheetState,
                         dragHandle = {
                             DragHandle(
-                                buttonText = "Save",
+                                buttonText = stringResource(R.string.main_save),
                                 isEnabled = uiState.canSave && uiState.isPro,
                                 buttonIcon = if (uiState.isPro) {
                                     null
@@ -228,7 +228,7 @@ fun StatisticsScreen(
                                     {
                                         Icon(
                                             imageVector = EvaIcons.Outline.Lock,
-                                            contentDescription = "Unlock Premium",
+                                            contentDescription = stringResource(R.string.unlock_premium),
                                         )
                                     }
                                 },
