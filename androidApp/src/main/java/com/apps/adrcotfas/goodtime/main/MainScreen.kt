@@ -238,6 +238,7 @@ fun MainScreen(
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             viewModel.toggleTimer()
                         },
+                        onLongClick = { navController.navigate(SettingsDest) },
                     )
                     DialControl(
                         modifier = modifier,
