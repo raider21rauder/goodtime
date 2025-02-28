@@ -112,6 +112,7 @@ class TimerManager(
                 }
                 if (isActive && isCountdown != it.isCountdown) {
                     log.i { "restarting the timer because the profile type changed" }
+                    reset()
                     start()
                 }
             }
@@ -395,7 +396,8 @@ class TimerManager(
             return
         }
 
-        _timerData.update { it.copy(state = TimerState.FINISHED) }
+        val endTimeInMillis = timeProvider.elapsedRealtime()
+        _timerData.update { it.copy(state = TimerState.FINISHED, endTime = endTimeInMillis) }
         log.i { "Finish: $data" }
 
         updateBreakBudgetIfNeeded()
@@ -508,10 +510,8 @@ class TimerManager(
             return null
         }
 
-        val endTimeInMillis = timeProvider.elapsedRealtime()
-
         _timerData.update {
-            it.copy(completedMinutes = durationToSaveMinutes, endTime = endTimeInMillis)
+            it.copy(completedMinutes = durationToSaveMinutes)
         }
 
         val now = timeProvider.now()
