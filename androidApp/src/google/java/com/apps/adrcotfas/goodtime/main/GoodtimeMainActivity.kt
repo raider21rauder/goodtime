@@ -28,7 +28,6 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.ktx.AppUpdateResult
 import com.google.android.play.core.ktx.requestUpdateFlow
-import com.google.android.play.core.review.ReviewException
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -95,7 +94,7 @@ open class GoodtimeMainActivity : ComponentActivity(), KoinComponent {
                     viewModel.resetShouldAskForReview()
                 }
             } else {
-                log.e(task.exception as ReviewException) { "There was some problem" }
+                log.e(task.exception) { "There was some problem" }
             }
         }
     }

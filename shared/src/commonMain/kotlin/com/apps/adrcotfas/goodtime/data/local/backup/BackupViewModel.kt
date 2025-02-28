@@ -62,7 +62,7 @@ class BackupViewModel(
 
     fun backup() {
         coroutineScope.launch {
-            _uiState.update { BackupUiState(isBackupInProgress = true) }
+            _uiState.update { it.copy(isBackupInProgress = true) }
             backupManager.backup { success ->
                 _uiState.update {
                     val backupResult = if (!success) false else null
@@ -76,7 +76,7 @@ class BackupViewModel(
 
     fun backupToCsv() {
         coroutineScope.launch {
-            _uiState.update { BackupUiState(isCsvBackupInProgress = true) }
+            _uiState.update { it.copy(isCsvBackupInProgress = true) }
             backupManager.backupToCsv { success ->
                 _uiState.update {
                     val backupResult = if (!success) false else null
@@ -90,7 +90,7 @@ class BackupViewModel(
 
     fun backupToJson() {
         coroutineScope.launch {
-            _uiState.update { BackupUiState(isJsonBackupInProgress = true) }
+            _uiState.update { it.copy(isJsonBackupInProgress = true) }
             backupManager.backupToJson { success ->
                 _uiState.update {
                     val backupResult = if (!success) false else null
@@ -104,7 +104,7 @@ class BackupViewModel(
 
     fun restore() {
         coroutineScope.launch {
-            _uiState.update { BackupUiState(isRestoreInProgress = true) }
+            _uiState.update { it.copy(isRestoreInProgress = true) }
             backupManager.restore { success ->
                 _uiState.update {
                     it.copy(

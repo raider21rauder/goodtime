@@ -141,8 +141,7 @@ fun LabelsScreen(
     ) { paddingValues ->
         LazyColumn(
             state = listState,
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = paddingValues,
         ) {
             itemsIndexed(

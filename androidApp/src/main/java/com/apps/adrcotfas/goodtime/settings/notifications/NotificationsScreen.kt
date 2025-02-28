@@ -80,10 +80,7 @@ fun NotificationsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding(),
-                )
+                .padding(paddingValues)
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {

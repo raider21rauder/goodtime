@@ -70,7 +70,7 @@ fun AboutScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(paddingValues)
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {

@@ -102,10 +102,7 @@ fun TimerStyleScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding(),
-                )
+                .padding(paddingValues)
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
@@ -172,7 +169,7 @@ fun TimerStyleScreen(
                     Text(
                         modifier = Modifier.padding(start = 16.dp),
                         text = stringResource(R.string.settings_demo),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
                     IconButton(onClick = {

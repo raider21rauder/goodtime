@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.onboarding
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -26,15 +27,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -64,7 +63,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.shared.R
-import com.patrykandpatrick.vico.compose.common.insets
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import com.apps.adrcotfas.goodtime.R as AndroidR
@@ -72,6 +70,7 @@ import com.apps.adrcotfas.goodtime.R as AndroidR
 private val lightGray = Color(0xFFDEDEDE)
 private val darkGray = Color(0xFF4C4546)
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
     val pages = OnboardingPage.pages
@@ -84,18 +83,18 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
         }
     }
 
-    Scaffold { padding ->
+    Scaffold {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFFFAFAFA))
-                .padding(bottom = padding.calculateBottomPadding()),
+                .systemBarsPadding(),
 
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .align(Alignment.Center).windowInsetsPadding(insets = WindowInsets.navigationBars),
+                    .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {

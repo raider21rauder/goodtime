@@ -144,10 +144,7 @@ fun StatisticsScreen(
                 }
             } else {
                 Column(
-                    modifier = Modifier.padding(
-                        top = paddingValues.calculateTopPadding(),
-                        bottom = paddingValues.calculateBottomPadding(),
-                    ),
+                    modifier = Modifier.padding(paddingValues),
                 ) {
                     AnimatedVisibility(!uiState.showSelectionUi) {
                         SecondaryTabRow(

@@ -64,6 +64,7 @@ fun BackupScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+    val enabled = uiState.isPro
 
     val restoreBackupLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -124,7 +125,6 @@ fun BackupScreen(
         }
     }
     val listState = rememberScrollState()
-
     Scaffold(
         topBar = {
             TopBar(
@@ -137,11 +137,11 @@ fun BackupScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(paddingValues)
                 .verticalScroll(listState)
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            if (!uiState.isPro) {
+            if (!enabled) {
                 ActionCard(icon = {
                     Icon(
                         imageVector = EvaIcons.Outline.Unlock,
@@ -155,14 +155,14 @@ fun BackupScreen(
             CircularProgressListItem(
                 title = stringResource(R.string.backup_export_backup),
                 subtitle = stringResource(R.string.backup_the_file_can_be_imported_back),
-                enabled = uiState.isPro,
+                enabled = enabled,
                 showProgress = uiState.isBackupInProgress,
             ) {
                 viewModel.backup()
             }
             CircularProgressListItem(
                 title = stringResource(R.string.backup_restore_backup),
-                enabled = uiState.isPro,
+                enabled = enabled,
                 showProgress = uiState.isRestoreInProgress,
             ) {
                 viewModel.restore()
@@ -170,14 +170,14 @@ fun BackupScreen(
             SubtleHorizontalDivider()
             CircularProgressListItem(
                 title = stringResource(R.string.backup_export_csv),
-                enabled = uiState.isPro,
+                enabled = enabled,
                 showProgress = uiState.isCsvBackupInProgress,
             ) {
                 viewModel.backupToCsv()
             }
             CircularProgressListItem(
                 title = stringResource(R.string.backup_export_json),
-                enabled = uiState.isPro,
+                enabled = enabled,
                 showProgress = uiState.isJsonBackupInProgress,
             ) {
                 viewModel.backupToJson()

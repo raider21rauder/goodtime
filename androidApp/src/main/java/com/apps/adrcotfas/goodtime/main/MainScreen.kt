@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
+import android.annotation.SuppressLint
 import android.os.SystemClock
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -34,7 +35,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -93,6 +93,7 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -189,13 +190,12 @@ fun MainScreen(
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(backgroundColor)
-                    .consumeWindowInsets(innerPadding)
-                    .padding(bottom = innerPadding.calculateBottomPadding())
+                    .padding(padding)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
