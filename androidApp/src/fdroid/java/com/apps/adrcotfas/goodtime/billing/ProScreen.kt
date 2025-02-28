@@ -65,7 +65,7 @@ fun ProScreen(onNavigateBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopBar(
-                title = "Support development",
+                title = stringResource(SharedR.string.support_development),
                 icon = Icons.Default.Close,
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,

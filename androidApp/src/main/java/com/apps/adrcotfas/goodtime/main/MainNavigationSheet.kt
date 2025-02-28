@@ -128,7 +128,7 @@ fun MainNavigationSheetContent(
             ProListItem { navigateToPro() }
         }
         IconTextButton(
-            title = "Labels",
+            title = stringResource(R.string.labels_title),
             icon = {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.Label,

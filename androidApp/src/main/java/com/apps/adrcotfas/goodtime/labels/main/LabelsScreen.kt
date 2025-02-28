@@ -59,6 +59,7 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Archive
 import compose.icons.evaicons.outline.Plus
+import compose.icons.evaicons.outline.Unlock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +102,7 @@ fun LabelsScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Labels",
+                title = stringResource(R.string.labels_title),
                 onNavigateBack = { onNavigateBack() },
                 actions = {
                     ArchivedLabelsButton(uiState.archivedLabelCount) {
@@ -128,7 +129,11 @@ fun LabelsScreen(
                         }
                     },
                 ) {
-                    Icon(EvaIcons.Outline.Plus, "Add label")
+                    if (uiState.isPro) {
+                        Icon(EvaIcons.Outline.Plus, stringResource(R.string.labels_add_label))
+                    } else {
+                        Icon(EvaIcons.Outline.Unlock, stringResource(R.string.unlock_premium))
+                    }
                 }
             }
         },
@@ -173,8 +178,8 @@ fun LabelsScreen(
         }
         if (showDeleteConfirmationDialog) {
             ConfirmationDialog(
-                title = "Delete $labelToDelete?",
-                subtitle = "Deleting this label will remove it from associated completed sessions.",
+                title = stringResource(R.string.labels_delete, labelToDelete),
+                subtitle = stringResource(R.string.labels_delete_label_confirmation),
                 onConfirm = {
                     viewModel.deleteLabel(labelToDelete)
                     showDeleteConfirmationDialog = false
@@ -191,7 +196,7 @@ fun ArchivedLabelsButton(count: Int, onClick: () -> Unit) {
         icon = {
             Icon(
                 imageVector = EvaIcons.Outline.Archive,
-                contentDescription = "Navigate to archived labels",
+                contentDescription = stringResource(R.string.labels_navigate_to_archived),
             )
         },
         showWhenNothingSelected = false,
