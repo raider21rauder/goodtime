@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -57,7 +55,6 @@ import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
 import com.apps.adrcotfas.goodtime.ui.common.DragHandle
-import com.apps.adrcotfas.goodtime.ui.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
@@ -95,7 +92,6 @@ fun StatisticsScreen(
     val isLoadingHistoryChartData by historyViewModel.uiState.map { it.isLoading }
         .collectAsStateWithLifecycle(true)
     val sessionsPagingItems = viewModel.pagedSessions.collectAsLazyPagingItems()
-    val selectedLabelsCount = uiState.selectedLabels.size
     val historyListState = rememberLazyListState()
 
     var showDatePicker by rememberSaveable { mutableStateOf(false) }
@@ -126,7 +122,6 @@ fun StatisticsScreen(
                         showSelectVisibleLabelsDialog = true
                     }
                 },
-                selectedLabelsCount = selectedLabelsCount,
                 onCancel = { viewModel.clearShowSelectionUi() },
                 onDeleteClick = { showDeleteConfirmationDialog = true },
                 onSelectAll = { viewModel.selectAllSessions(sessionsPagingItems.itemCount) },
@@ -402,18 +397,4 @@ fun StatisticsScreen(
             }
         }
     }
-}
-
-@Composable
-fun SelectLabelButton(count: Int, onClick: () -> Unit) {
-    IconButtonWithBadge(
-        icon = {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.Label,
-                contentDescription = stringResource(R.string.labels_select_labels),
-            )
-        },
-        count = count,
-        onClick = onClick,
-    )
 }

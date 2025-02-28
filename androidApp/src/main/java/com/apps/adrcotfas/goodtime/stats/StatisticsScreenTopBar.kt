@@ -47,7 +47,6 @@ fun StatisticsScreenTopBar(
     onNavigateBack: () -> Unit,
     onAddButtonClick: () -> Unit,
     onLabelButtonClick: () -> Unit,
-    selectedLabelsCount: Int,
     onCancel: () -> Unit,
     onDeleteClick: () -> Unit,
     onSelectAll: () -> Unit,
@@ -113,8 +112,11 @@ fun StatisticsScreenTopBar(
                                 contentDescription = stringResource(R.string.stats_add_session),
                             )
                         }
-                        SelectLabelButton(selectedLabelsCount) {
-                            onLabelButtonClick()
+                        IconButton(onClick = onLabelButtonClick) {
+                            Icon(
+                                Icons.AutoMirrored.Outlined.Label,
+                                stringResource(R.string.labels_select_labels),
+                            )
                         }
                     },
                     navigationIcon = {
