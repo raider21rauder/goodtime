@@ -31,7 +31,6 @@ class FinishedSessionsHandler(
     private val settingsRepo: SettingsRepository,
     private val log: Logger,
 ) {
-    // TODO: fix bug when dismissing the dialog with "include idle time" and notes
     fun updateLastFinishedSessionNotes(notes: String) {
         log.v { "Updating the notes" }
         coroutineScope.launch {

@@ -288,8 +288,8 @@ fun MainScreen(
         FinishedSessionSheet(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
-            onNext = {
-                viewModel.next()
+            onNext = { updateWorkTime ->
+                viewModel.next(updateWorkTime)
                 // ask for in app review if the user just started a break session
                 if (context.installIsOlderThan10Days() && !timerUiState.isBreak) {
                     viewModel.setShouldAskForReview()
