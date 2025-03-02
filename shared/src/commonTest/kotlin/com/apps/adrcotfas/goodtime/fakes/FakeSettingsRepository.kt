@@ -164,6 +164,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setShouldAskForReview(enable: Boolean) {
+        _settings.emit(
+            _settings.value.copy(shouldAskForReview = enable)
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),
