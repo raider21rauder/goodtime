@@ -198,7 +198,7 @@ fun OnboardingPage(
 @Composable
 fun OnboardingPageTextSection(title: String, description1: String, description2: String) {
     Column(
-        modifier = Modifier.widthIn(max = 320.dp),
+        modifier = Modifier.widthIn(max = 400.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
