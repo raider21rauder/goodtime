@@ -188,7 +188,7 @@ private fun AggregatedHistoryChart(
     ProvideVicoTheme(
         rememberM3VicoTheme(
             lineColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = 0.25f,
+                alpha = 0.5f,
             ),
         ),
     ) {

@@ -154,7 +154,7 @@ fun ProductiveTimeSection(
                                             .clip(MaterialTheme.shapes.extraSmall)
                                             .background(
                                                 MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.25f,
+                                                    alpha = 0.5f,
                                                 ),
                                             ),
                                     )

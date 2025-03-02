@@ -82,13 +82,15 @@ fun OverviewTab(
             data = statisticsData.heatmapData,
         )
 
-        PieChartSection(
-            statisticsData.overviewData,
-            statisticsSettings.pieChartViewType,
-            onChangePieChartOverviewType,
-            typeNames = typeNames,
-            selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
-        )
+        if (historyChartViewModel.uiState.value.selectedLabels.size > 1) {
+            PieChartSection(
+                statisticsData.overviewData,
+                statisticsSettings.pieChartViewType,
+                onChangePieChartOverviewType,
+                typeNames = typeNames,
+                selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
+            )
+        }
 
         WorkBreakRatioSection(
             statisticsData.overviewData,

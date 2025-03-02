@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +59,9 @@ import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.enabledColors
 import com.apps.adrcotfas.goodtime.ui.common.selectedColors
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.List
 import com.apps.adrcotfas.goodtime.shared.R as SharedR
 
 @Composable
@@ -89,6 +93,12 @@ fun TimelineTab(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Icon(
+                modifier = Modifier.size(96.dp),
+                imageVector = EvaIcons.Outline.List,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                contentDescription = stringResource(R.string.stats_no_items),
+            )
             Text(
                 text = stringResource(R.string.stats_no_items),
                 style = MaterialTheme.typography.bodyMedium.copy(

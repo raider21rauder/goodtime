@@ -59,7 +59,6 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Archive
 import compose.icons.evaicons.outline.Plus
-import compose.icons.evaicons.outline.Unlock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,11 +128,7 @@ fun LabelsScreen(
                         }
                     },
                 ) {
-                    if (uiState.isPro) {
-                        Icon(EvaIcons.Outline.Plus, stringResource(R.string.labels_add_label))
-                    } else {
-                        Icon(EvaIcons.Outline.Unlock, stringResource(R.string.unlock_premium))
-                    }
+                    Icon(EvaIcons.Outline.Plus, stringResource(R.string.labels_add_label))
                 }
             }
         },

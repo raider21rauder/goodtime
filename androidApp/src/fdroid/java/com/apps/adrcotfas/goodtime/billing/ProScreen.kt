@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.billing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,9 +55,9 @@ private const val BTC_URL =
     "https://bitcoinexplorer.org/address/bc1q0y78e0ylcfme8tc5eakhdp8akywpmhhrmcnmrt"
 private const val BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/adrcotfas"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProScreen(onNavigateBack: () -> Unit) {
+fun ProScreen(onNavigateBack: () -> Unit) {
     val context = LocalContext.current
 
     val listState = rememberScrollState()

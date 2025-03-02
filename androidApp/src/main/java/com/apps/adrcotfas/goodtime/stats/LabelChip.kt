@@ -68,7 +68,7 @@ fun LabelChip(
 ) {
     val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
-    val transparentColor = color.copy(alpha = 0.1f)
+    val transparentColor = color.copy(alpha = 0.15f)
 
     val chipColors = AssistChipDefaults.assistChipColors(
         containerColor = transparentColor,
