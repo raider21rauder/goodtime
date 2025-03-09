@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 
 data class MainUiState(
     val loading: Boolean = true,
-    val onboardingFinished: Boolean = false,
+    val showOnboarding: Boolean = false,
     val isActive: Boolean = false,
     val isWorkSessionInProgress: Boolean = false,
     val isFinished: Boolean = false,
@@ -57,7 +57,7 @@ class MainViewModel(
     init {
         viewModelScope.launch {
             settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.onboardingFinished == new.onboardingFinished &&
+                old.showOnboarding == new.showOnboarding &&
                     old.uiSettings.dndDuringWork == new.uiSettings.dndDuringWork &&
                     old.uiSettings.themePreference == new.uiSettings.themePreference &&
                     old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
@@ -68,7 +68,7 @@ class MainViewModel(
                 _uiState.update {
                     it.copy(
                         loading = false,
-                        onboardingFinished = settings.onboardingFinished,
+                        showOnboarding = settings.showOnboarding,
                         dndDuringWork = settings.uiSettings.dndDuringWork,
                         darkThemePreference = settings.uiSettings.themePreference,
                         isDynamicColor = settings.uiSettings.useDynamicColor,
@@ -95,9 +95,15 @@ class MainViewModel(
         }
     }
 
-    fun setOnboardingFinished(finished: Boolean) {
+    fun setShowOnboarding(show: Boolean) {
         viewModelScope.launch {
-            settingsRepository.setOnboardingFinished(finished)
+            settingsRepository.setShowOnboarding(show)
+        }
+    }
+
+    fun setShowTutorial(show: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setShowTutorial(show)
         }
     }
 

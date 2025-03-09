@@ -112,6 +112,8 @@ dependencies {
     implementation(libs.acra.mail)
     implementation(libs.acra.notification)
 
+    implementation(libs.lottie.compose)
+
     "googleImplementation"(libs.billing.ktx)
     "googleImplementation"(libs.app.update.ktx)
     "googleImplementation"(libs.review.ktx)

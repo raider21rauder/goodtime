@@ -56,7 +56,8 @@ data class AppSettings(
 
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
-    val onboardingFinished: Boolean = false,
+    val showOnboarding: Boolean = true,
+    val showTutorial: Boolean = true,
     val isMainScreen: Boolean = true,
 )
 

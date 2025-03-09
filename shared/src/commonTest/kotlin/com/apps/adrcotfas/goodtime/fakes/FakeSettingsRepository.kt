@@ -146,9 +146,15 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
-    override suspend fun setOnboardingFinished(finished: Boolean) {
+    override suspend fun setShowOnboarding(show: Boolean) {
         _settings.emit(
-            _settings.value.copy(onboardingFinished = finished),
+            _settings.value.copy(showOnboarding = show),
+        )
+    }
+
+    override suspend fun setShowTutorial(show: Boolean) {
+        _settings.emit(
+            _settings.value.copy(showTutorial = show),
         )
     }
 
@@ -166,7 +172,7 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
 
     override suspend fun setShouldAskForReview(enable: Boolean) {
         _settings.emit(
-            _settings.value.copy(shouldAskForReview = enable)
+            _settings.value.copy(shouldAskForReview = enable),
         )
     }
 

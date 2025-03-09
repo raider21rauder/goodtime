@@ -25,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Preview
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ fun AboutScreen(
     onNavigateToLicenses: () -> Unit,
     isLicensesSelected: Boolean = false,
     onNavigateBack: () -> Unit,
+    onNavigateToMain: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -99,7 +101,15 @@ fun AboutScreen(
                 title = stringResource(R.string.about_app_intro),
                 icon = { Icon(Icons.Outlined.Flag, contentDescription = stringResource(R.string.about_app_intro)) },
                 onClick = {
-                    mainViewModel.setOnboardingFinished(false)
+                    mainViewModel.setShowOnboarding(true)
+                },
+            )
+            IconListItem(
+                title = stringResource(R.string.tutorial_title),
+                icon = { Icon(Icons.Outlined.Preview, contentDescription = stringResource(R.string.tutorial_title)) },
+                onClick = {
+                    mainViewModel.setShowTutorial(true)
+                    onNavigateToMain()
                 },
             )
             IconListItem(
@@ -125,5 +135,5 @@ const val REPO_URL = "https://github.com/adrcotfas/goodtime"
 @Preview
 @Composable
 fun AboutScreenPreview() {
-    AboutScreen(onNavigateToLicenses = {}, onNavigateBack = { })
+    AboutScreen(onNavigateToLicenses = {}, onNavigateBack = { }, onNavigateToMain = {})
 }

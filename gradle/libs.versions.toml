@@ -28,6 +28,7 @@ androidx-datastore = "1.1.2"
 androidx-media = "1.7.0"
 androidx-documentfile = "1.0.1"
 androidx-room = "2.7.0-beta01"
+lottieCompose = "6.6.3"
 reviewKtx = "2.0.2"
 sqlite = "2.5.0-beta01"
 
@@ -75,6 +76,7 @@ androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 

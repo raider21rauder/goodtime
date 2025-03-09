@@ -19,7 +19,7 @@ package com.apps.adrcotfas.goodtime.onboarding
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.apps.adrcotfas.goodtime.R as AndroidR
+import com.apps.adrcotfas.goodtime.R
 import com.apps.adrcotfas.goodtime.shared.R as Mr
 
 data class OnboardingPage(
@@ -34,19 +34,19 @@ data class OnboardingPage(
                 title = Mr.string.intro1_title,
                 description1 = Mr.string.intro1_desc1,
                 description2 = Mr.string.intro1_desc2,
-                image = AndroidR.drawable.intro1,
+                image = R.drawable.intro1,
             ),
             OnboardingPage(
                 title = Mr.string.intro2_title,
                 description1 = Mr.string.intro2_desc1,
                 description2 = Mr.string.intro2_desc2,
-                image = AndroidR.drawable.intro2,
+                image = R.drawable.intro2,
             ),
             OnboardingPage(
                 title = Mr.string.intro3_title,
                 description1 = Mr.string.intro3_desc1,
                 description2 = Mr.string.intro3_desc2,
-                image = AndroidR.drawable.intro3,
+                image = R.drawable.intro3,
             ),
         )
     }

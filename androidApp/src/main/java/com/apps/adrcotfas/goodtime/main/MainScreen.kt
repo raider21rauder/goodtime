@@ -55,6 +55,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -82,6 +83,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberCustomDialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
+import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.shared.R
@@ -185,6 +187,8 @@ fun MainScreen(
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
     var showSelectLabelDialog by rememberSaveable { mutableStateOf(false) }
 
+    val showTutorial = uiState.showTutorial
+
     AnimatedVisibility(
         timerUiState.isReady,
         enter = fadeIn(),
@@ -195,7 +199,6 @@ fun MainScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(backgroundColor)
-                    .padding(padding)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
@@ -205,10 +208,12 @@ fun MainScreen(
             ) {
                 Box(
                     modifier = Modifier
+                        .fillMaxSize()
                         .background(backgroundColor)
-                        .fillMaxSize(),
+                        .padding(padding),
                     contentAlignment = Alignment.Center,
                 ) {
+                    val tutorialModifier = if (showTutorial) Modifier.blur(radius = 4.dp) else Modifier
                     val modifier = Modifier.offset {
                         if (configuration.isPortrait) {
                             IntOffset(
@@ -226,7 +231,7 @@ fun MainScreen(
                     MainTimerView(
                         modifier = alphaModifier.then(modifier),
                         state = dialControlState,
-                        gestureModifier = gestureModifier,
+                        gestureModifier = gestureModifier.then(tutorialModifier),
                         timerUiState = timerUiState,
                         timerStyle = timerStyle,
                         domainLabel = label,
@@ -251,16 +256,21 @@ fun MainScreen(
                             )
                         },
                     )
-                    BottomAppBar(
-                        modifier = Modifier.align(Alignment.BottomCenter),
-                        hide = hideBottomBar,
-                        onShowSheet = { showNavigationSheet = true },
-                        onLabelClick = { showSelectLabelDialog = true },
-                        labelData = label.getLabelData(),
-                        sessionCountToday = uiState.sessionCountToday,
-                        badgeItemCount = settingsBadgeItemCount,
-                        navController = navController,
-                    )
+                    if (!showTutorial) {
+                        BottomAppBar(
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                            hide = hideBottomBar,
+                            onShowSheet = { showNavigationSheet = true },
+                            onLabelClick = { showSelectLabelDialog = true },
+                            labelData = label.getLabelData(),
+                            sessionCountToday = uiState.sessionCountToday,
+                            badgeItemCount = settingsBadgeItemCount,
+                            navController = navController,
+                        )
+                    }
+                }
+                if (showTutorial) {
+                    TutorialScreen(modifier = Modifier.padding(padding), onClose = { viewModel.setShowTutorial(false) })
                 }
             }
         }

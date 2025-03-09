@@ -93,6 +93,7 @@ data class TimerMainUiState(
     val labels: List<LabelData> = emptyList(),
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
+    val showTutorial: Boolean = false,
     val isPro: Boolean = false,
 )
 
@@ -131,7 +132,8 @@ class TimerViewModel(
             settingsRepo.settings.distinctUntilChanged { old, new ->
                 old.timerStyle == new.timerStyle &&
                     old.uiSettings == new.uiSettings &&
-                    old.isPro == new.isPro
+                    old.isPro == new.isPro &&
+                    old.showTutorial == new.showTutorial
             }.combine(
                 localDataRepo.selectLabelsByArchived(isArchived = false),
             ) { settings, labels ->
@@ -154,6 +156,7 @@ class TimerViewModel(
                         labels = labels.map { label ->
                             label.getLabelData()
                         },
+                        showTutorial = settings.showTutorial,
                     )
                 }
             }
@@ -270,4 +273,9 @@ class TimerViewModel(
     fun onBringToForeground() = timerManager.onBringToForeground()
 
     fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }
+    fun setShowTutorial(show: Boolean) {
+        viewModelScope.launch {
+            settingsRepo.setShowTutorial(show)
+        }
+    }
 }

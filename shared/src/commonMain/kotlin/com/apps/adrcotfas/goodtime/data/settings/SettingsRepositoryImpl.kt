@@ -66,7 +66,8 @@ class SettingsRepositoryImpl(
         val breakBudgetDataKey = stringPreferencesKey("breakBudgetDataKey")
         val notificationPermissionStateKey = intPreferencesKey("notificationPermissionStateKey")
         val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
-        val onboardingFinishedKey = booleanPreferencesKey("onboardingFinishedKey")
+        val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
+        val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val isMainScreenKey = booleanPreferencesKey("isMainScreenKey")
     }
 
@@ -128,8 +129,9 @@ class SettingsRepositoryImpl(
                 } ?: default.notificationPermissionState,
                 lastInsertedSessionId = it[Keys.lastInsertedSessionIdKey]
                     ?: default.lastInsertedSessionId,
-                onboardingFinished = it[Keys.onboardingFinishedKey]
-                    ?: default.onboardingFinished,
+                showOnboarding = it[Keys.showOnboardingKey]
+                    ?: default.showOnboarding,
+                showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
                 isMainScreen = it[Keys.isMainScreenKey] ?: default.isMainScreen,
             )
         }.catch {
@@ -260,8 +262,12 @@ class SettingsRepositoryImpl(
         dataStore.edit { it[Keys.lastInsertedSessionIdKey] = id }
     }
 
-    override suspend fun setOnboardingFinished(finished: Boolean) {
-        dataStore.edit { it[Keys.onboardingFinishedKey] = finished }
+    override suspend fun setShowOnboarding(show: Boolean) {
+        dataStore.edit { it[Keys.showOnboardingKey] = show }
+    }
+
+    override suspend fun setShowTutorial(show: Boolean) {
+        dataStore.edit { it[Keys.showTutorialKey] = show }
     }
 
     override suspend fun setIsMainScreen(isMainScreen: Boolean) {

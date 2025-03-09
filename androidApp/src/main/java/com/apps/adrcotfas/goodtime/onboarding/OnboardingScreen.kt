@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -43,9 +42,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -67,8 +68,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import com.apps.adrcotfas.goodtime.R as AndroidR
 
-private val lightGray = Color(0xFFDEDEDE)
-private val darkGray = Color(0xFF4C4546)
+val lightGray = Color(0xFFDEDEDE)
+val darkGray = Color(0xFF4C4546)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -128,7 +129,7 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 shape = CircleShape,
                 onClick = {
                     if (isLastPage) {
-                        viewModel.setOnboardingFinished(true)
+                        viewModel.setShowOnboarding(false)
                     } else {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)
@@ -148,13 +149,25 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
                 }
             }
 
-            OnboardingPageIndicator(
+            PageIndicator(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(32.dp),
                 pageCount = pages.size,
                 currentPage = pagerState.currentPage,
+                color = lightGray,
+                selectionColor = darkGray,
             )
+
+            IconButton(modifier = Modifier.align(Alignment.TopEnd).padding(end = 16.dp), onClick = {
+                viewModel.setShowOnboarding(false)
+            }) {
+                Icon(
+                    imageVector = Icons.Outlined.Close,
+                    contentDescription = null,
+                    tint = darkGray,
+                )
+            }
         }
     }
 }
@@ -183,13 +196,13 @@ fun OnboardingPage(
     } else {
         Row(
             modifier = Modifier
-                .wrapContentSize()
-                .padding(64.dp),
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             image()
-            Spacer(modifier = Modifier.padding(8.dp))
+            Spacer(modifier = Modifier.padding(32.dp))
             OnboardingPageTextSection(title, description1, description2)
         }
     }
@@ -220,7 +233,13 @@ fun OnboardingPageTextSection(title: String, description1: String, description2:
 }
 
 @Composable
-fun OnboardingPageIndicator(modifier: Modifier = Modifier, pageCount: Int, currentPage: Int) {
+fun PageIndicator(
+    color: Color,
+    selectionColor: Color,
+    modifier: Modifier = Modifier,
+    pageCount: Int,
+    currentPage: Int,
+) {
     Row(
         modifier
             .height(18.dp)
@@ -228,12 +247,11 @@ fun OnboardingPageIndicator(modifier: Modifier = Modifier, pageCount: Int, curre
         horizontalArrangement = Arrangement.Center,
     ) {
         repeat(pageCount) { iteration ->
-            val color = if (currentPage == iteration) darkGray else lightGray
             Box(
                 modifier = Modifier
                     .padding(4.dp)
                     .clip(CircleShape)
-                    .background(color)
+                    .background(if (currentPage == iteration) selectionColor else color)
                     .size(10.dp),
 
             )

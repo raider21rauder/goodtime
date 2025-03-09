@@ -185,17 +185,17 @@ class MainActivity : GoodtimeMainActivity() {
                 }
             }
 
-            val startDestination = remember(onboardingState.onboardingFinished) {
-                if (onboardingState.onboardingFinished) {
-                    MainDest
-                } else {
+            val startDestination = remember(onboardingState.showOnboarding) {
+                if (onboardingState.showOnboarding) {
                     OnboardingDest
+                } else {
+                    MainDest
                 }
             }
 
-            DisposableEffect(isDarkTheme, onboardingState.onboardingFinished) {
+            DisposableEffect(isDarkTheme, onboardingState.showOnboarding) {
                 val considerDarkTheme =
-                    if (!onboardingState.onboardingFinished) {
+                    if (onboardingState.showOnboarding) {
                         false
                     } else {
                         isDarkTheme
@@ -339,6 +339,13 @@ class MainActivity : GoodtimeMainActivity() {
                                     )
                                 },
                                 onNavigateBack = navController::popBackStack,
+                                onNavigateToMain = {
+                                    navController.navigate(MainDest) {
+                                        popUpTo(MainDest) {
+                                            inclusive = true
+                                        }
+                                    }
+                                },
                             )
                         }
                         composable<LicensesDest> {
