@@ -27,6 +27,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -85,6 +86,7 @@ data class DialConfig(
     val size: Dp = 0.dp,
     val indicatorSize: Dp = 24.dp,
     val cutoffFraction: Float = 0.4f,
+    val isPortrait: Boolean = true,
 )
 
 @Composable
@@ -137,12 +139,12 @@ fun <T> DialControl(
             visible = state.isDragging,
             enter = fadeIn(),
             exit = fadeOut(),
-            modifier = Modifier
-                .size(state.config.size)
-                .align(Alignment.Center),
         ) {
             CircleDial(
-                modifier = modifier,
+                modifier = modifier
+                    .then(if (state.config.isPortrait) Modifier.padding(vertical = 64.dp) else Modifier.padding(horizontal = 64.dp))
+                    .size(state.config.size)
+                    .align(Alignment.Center),
                 state = state,
                 optionContent = dialContent,
                 indicator = { indicator(state) },

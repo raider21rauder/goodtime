@@ -125,7 +125,10 @@ fun MainScreen(
     val haptic = LocalHapticFeedback.current
 
     val dialControlState = rememberCustomDialControlState(
-        config = DialConfig(size = configuration.screenWidth),
+        config = DialConfig(
+            size = configuration.screenWidth,
+            isPortrait = configuration.isPortrait
+        ),
         onTop = viewModel::addOneMinute,
         onRight = viewModel::skip,
         onBottom = viewModel::resetTimer,
@@ -213,7 +216,8 @@ fun MainScreen(
                         .padding(padding),
                     contentAlignment = Alignment.Center,
                 ) {
-                    val tutorialModifier = if (showTutorial) Modifier.blur(radius = 4.dp) else Modifier
+                    val tutorialModifier =
+                        if (showTutorial) Modifier.blur(radius = 4.dp) else Modifier
                     val modifier = Modifier.offset {
                         if (configuration.isPortrait) {
                             IntOffset(
@@ -270,7 +274,9 @@ fun MainScreen(
                     }
                 }
                 if (showTutorial) {
-                    TutorialScreen(modifier = Modifier.padding(padding), onClose = { viewModel.setShowTutorial(false) })
+                    TutorialScreen(
+                        modifier = Modifier.padding(padding),
+                        onClose = { viewModel.setShowTutorial(false) })
                 }
             }
         }
