@@ -109,8 +109,7 @@ fun computeStatisticsData(
     val oneYearAgoMillis = oneYearAgoLocalDate.toEpochMilliseconds()
 
     sessions.asSequence().map {
-        // Adjust the timestamp to the middle of the session for a more accurate heatmap
-        val timestamp = it.timestamp - it.duration.minutes.inWholeMilliseconds / 2
+        val timestamp = it.timestamp
         // Adjust the timestamp to the start of the work day
         val adjustedTimestamp = timestamp - workDayStart.seconds.inWholeMilliseconds
         PreProcessingSession(
