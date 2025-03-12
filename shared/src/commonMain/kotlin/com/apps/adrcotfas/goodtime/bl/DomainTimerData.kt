@@ -76,6 +76,7 @@ data class DomainTimerData(
     fun reset() = DomainTimerData(
         isReady = isReady,
         label = label,
+        state = TimerState.RESET,
         longBreakData = longBreakData,
         breakBudgetData = breakBudgetData,
     )
@@ -131,6 +132,10 @@ data class DomainTimerData(
         } else {
             breakBudgetData.getRemainingBreakBudget(elapsedRealtime)
         }
+    }
+
+    fun isCurrentSessionCountdown(): Boolean {
+        return getTimerProfile().isCountdown || type != TimerType.WORK
     }
 }
 

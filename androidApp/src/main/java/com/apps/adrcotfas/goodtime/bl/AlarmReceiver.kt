@@ -40,6 +40,12 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
         ).apply {
             acquire(10.seconds.inWholeMilliseconds)
         }
-        timerManager.finish()
+        val isCountdown = timerManager.timerData.value.getTimerProfile().isCountdown
+        if (isCountdown) {
+            timerManager.finish()
+        } else {
+            // hard limit was reached for count-up
+            timerManager.reset()
+        }
     }
 }

@@ -47,6 +47,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
+import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.COUNT_UP_HARD_LIMIT
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
@@ -108,11 +109,13 @@ class MainActivity : GoodtimeMainActivity() {
         super.onResume()
         timerViewModel.onBringToForeground()
         timerStateJob = lifecycleScope.launch {
-            timerViewModel.timerUiState.filter { it.label.isCountdown && it.isActive }
-                .map { it.baseTime }.collect {
-                    if (it < 500) {
+            timerViewModel.timerUiState.filter { it.isActive }
+                .map { it.label.isCountdown to it.baseTime }.collect {
+                    if (it.first && it.second < 500) {
                         // the app is in foreground, trigger the end of the session
                         timerViewModel.forceFinish()
+                    } else if (!it.first && it.second > COUNT_UP_HARD_LIMIT) {
+                        timerViewModel.resetTimer()
                     }
                 }
         }

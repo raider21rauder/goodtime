@@ -45,11 +45,11 @@ class AlarmManagerHandler(
             when (event) {
                 is Event.SendToBackground -> {
                     isForeground = false
-                    if (event.endTime == 0L) {
-                        return
+                    if (event.endTime != 0L) {
+                        setAlarm(event.endTime)
                     }
-                    setAlarm(event.endTime)
                 }
+
                 else -> {
                     // do nothing
                 }
@@ -58,14 +58,15 @@ class AlarmManagerHandler(
             cancelAlarm()
             when (event) {
                 is Event.Start -> {
-                    if (event.endTime == 0L) {
-                        return
+                    if (event.endTime != 0L) {
+                        setAlarm(event.endTime)
                     }
-                    setAlarm(event.endTime)
                 }
 
                 is Event.AddOneMinute -> {
-                    setAlarm(event.endTime)
+                    if (event.endTime != 0L) {
+                        setAlarm(event.endTime)
+                    }
                 }
 
                 else -> {

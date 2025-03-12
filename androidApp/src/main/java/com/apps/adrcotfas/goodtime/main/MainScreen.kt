@@ -127,7 +127,7 @@ fun MainScreen(
     val dialControlState = rememberCustomDialControlState(
         config = DialConfig(
             size = configuration.screenWidth,
-            isPortrait = configuration.isPortrait
+            isPortrait = configuration.isPortrait,
         ),
         onTop = viewModel::addOneMinute,
         onRight = viewModel::skip,
@@ -276,7 +276,8 @@ fun MainScreen(
                 if (showTutorial) {
                     TutorialScreen(
                         modifier = Modifier.padding(padding),
-                        onClose = { viewModel.setShowTutorial(false) })
+                        onClose = { viewModel.setShowTutorial(false) },
+                    )
                 }
             }
         }

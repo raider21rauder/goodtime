@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.bl
 import app.cash.turbine.test
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
+import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.COUNT_UP_HARD_LIMIT
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepositoryImpl
 import com.apps.adrcotfas.goodtime.data.model.Label
@@ -34,6 +35,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeLabelDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSessionDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -49,6 +51,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class TimerManagerTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
@@ -688,7 +691,7 @@ class TimerManagerTest {
         )
         assertEquals(
             listOf(
-                Event.Start(endTime = 0),
+                Event.Start(endTime = COUNT_UP_HARD_LIMIT),
                 Event.Start(endTime = 10.minutes.inWholeMilliseconds),
             ),
             fakeEventListener.events,
@@ -713,10 +716,10 @@ class TimerManagerTest {
 
         assertEquals(
             expected = listOf(
-                Event.Start(endTime = 0),
+                Event.Start(endTime = COUNT_UP_HARD_LIMIT),
                 Event.Start(endTime = breakBudgetMillis),
                 Event.Finished(type = TimerType.BREAK, autostartNextSession = true),
-                Event.Start(endTime = 0, autoStarted = true),
+                Event.Start(endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis, autoStarted = true),
             ),
             actual = fakeEventListener.events,
         )

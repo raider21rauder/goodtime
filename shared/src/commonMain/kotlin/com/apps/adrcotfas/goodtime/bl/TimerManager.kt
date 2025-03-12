@@ -26,6 +26,7 @@ import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.streakInUse
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -78,6 +79,7 @@ class TimerManager(
         setup()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun initAndObserveLabelChange() {
         settingsRepo.settings.map {
             settings = it
@@ -181,11 +183,16 @@ class TimerManager(
         handlePersistentDataAtStart()
         finishedSessionsHandler.resetLastInsertedSessionId()
 
+        val timerData = _timerData.value
+        val isCountdown = timerData.isCurrentSessionCountdown()
+        val countUpEndTime =
+            computeCountUpEndTime(timerData.getBaseTime(timeProvider))
+
         listeners.forEach {
             it.onEvent(
                 Event.Start(
                     autoStarted = autoStarted,
-                    endTime = newTimerData.endTime,
+                    endTime = if (isCountdown) timerData.endTime else countUpEndTime,
                 ),
             )
         }
@@ -291,7 +298,14 @@ class TimerManager(
             )
         }
         log.i { "Resumed: ${timerData.value}" }
-        listeners.forEach { it.onEvent(Event.Start(endTime = timerData.value.endTime)) }
+
+        val timerData = _timerData.value
+        val countUpEndTime =
+            computeCountUpEndTime(timerData.getBaseTime(timeProvider))
+        val isCurrentSessionCountdown = timerData.isCurrentSessionCountdown()
+        listeners.forEach {
+            it.onEvent(Event.Start(endTime = if (isCurrentSessionCountdown) timerData.endTime else countUpEndTime))
+        }
     }
 
     private fun updatePausedTime() {
@@ -574,8 +588,21 @@ class TimerManager(
     }
 
     fun onSendToBackground() {
+        val timerData = _timerData.value
+        val isCountdown = timerData.isCurrentSessionCountdown()
+        val countUpEndTime =
+            computeCountUpEndTime(timerData.getBaseTime(timeProvider))
+
         listeners.forEach {
-            it.onEvent(Event.SendToBackground(_timerData.value.endTime))
+            it.onEvent(
+                Event.SendToBackground(
+                    endTime = if (isCountdown) {
+                        timerData.endTime
+                    } else {
+                        countUpEndTime
+                    },
+                ),
+            )
         }
     }
 
@@ -585,8 +612,12 @@ class TimerManager(
         }
     }
 
+    private fun computeCountUpEndTime(baseTime: Long) =
+        timeProvider.elapsedRealtime() + (COUNT_UP_HARD_LIMIT - baseTime)
+
     companion object {
         const val WIGGLE_ROOM_MILLIS = 900L
+        val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
     }
 }
 
