@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Iniciar a sessão de trabalho depois de um intervalo sem interação do usuário</string>
     <string name="settings_auto_start_break_title">Começar intervalo automaticamente</string>
     <string name="settings_auto_start_break_desc">Iniciar a sessão de interrupção após uma sessão de trabalho sem interação do usuário</string>
+    <string name="settings_display_over_lock_screen">Mostrar na tela de bloqueio</string>
+    <string name="settings_display_over_lock_screen_desc">Manter o aplicativo visível na tela de bloqueio</string>
 </resources>

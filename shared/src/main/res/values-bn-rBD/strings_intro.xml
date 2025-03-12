@@ -17,13 +17,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"ফোকাস হারাবেন না"</string>
+    <string name="intro1_desc1">"সময়মত কাজের সেশনের সাথে উত্পাদনশীলতা বাড়ান।."</string>
+    <string name="intro1_desc2">"একটি স্ট্রাকচার্ড কাউন্টডাউন বা একটি নমনীয় কাউন্ট-আপ টাইমারের মধ্যে বেছে নিন।"</string>
+    <string name="intro2_title">"আপনার মন রিফ্রেশ করুন"</string>
+    <string name="intro2_desc1">"রিচার্জ এবং তীক্ষ্ণ থাকার জন্য ভাল-অর্জিত বিরতি নিন।"</string>
+    <string name="intro2_desc2">"কাউন্ট-আপ টাইমারের জন্য, আপনি কাজ করার সময় বিরতির সময় সংগ্রহ করুন"</string>
     <string name="intro3_title">"শুরু করুন"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro3_desc1">"বিস্তারিত পরিসংখ্যান সহ আপনার অগ্রগতি ট্র্যাক করুন"</string>
+    <string name="intro3_desc2">"বিলম্বকে হারান এবং আপনার ফোকাস বাড়ান"</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

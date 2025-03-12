@@ -36,6 +36,7 @@
     <string name="labels_break_budget_desc2">"Tire pausas sempre que quiser."</string>
     <string name="labels_break_budget">Quebrar orçamento</string>
     <string name="labels_follow_default_time_profile">Seguir o perfil padrão de horas</string>
+    <string name="labels_add_label">"Adicionar etiqueta"</string>
     <string name="labels_add_label_name">Adicionar nome do marcador</string>
     <string name="labels_label_name_already_exists">O nome da etiqueta já existe</string>
     <string name="labels_archived_labels_title">Etiquetas arquivadas</string>
@@ -46,4 +47,6 @@
     <string name="labels_select_label">Selecionar etiqueta</string>
     <string name="labels_select_labels">Selecionar etiquetas</string>
     <string name="labels_edit_label">Editar etiqueta</string>
+    <string name="labels_delete_label_confirmation">"Excluir esta etiqueta irá removê-la das sessões concluídas associadas."</string>
+    <string name="labels_navigate_to_archived">"Navegar para etiquetas arquivadas"</string>
 </resources>

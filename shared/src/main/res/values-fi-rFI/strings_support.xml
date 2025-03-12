@@ -19,6 +19,7 @@
 <resources>
     <string name="unlock_premium">Avaa Premium-lukitus</string>
     <string name="unlock_premium_to_access_features">Avaa Premium käyttääksesi ominaisuuksia</string>
+    <string name="unlock_timer_style">Avaa Premium-lukitus tallentaaksesi ajastimen mukautuksen</string>
     <string name="unlock_premium_tagline">Kertaosto. Ei tilauksia. Parempi tuottavuus.</string>
     <string name="unlock_premium_desc1">%s on indie-avoimen lähdekoodin ajanhallintatyökalu, joka on suunniteltu yksinkertaisuuteen ja erinomaiseen käyttäjäkokemukseen – ilman mainoksia, seurantaa tai tietojen keräämistä.</string>
     <string name="unlock_premium_desc2">Jos löydät sen hyödylliseksi, harkitse päivittämistä Premium-versioon avataksesi lisää ominaisuuksia.</string>

@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Începe sesiunea de lucru după pauză fără interacțiunea utilizatorului</string>
     <string name="settings_auto_start_break_title">Auto-start pauză</string>
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>
+    <string name="settings_display_over_lock_screen">Afiseaza peste ecranul de blocare</string>
+    <string name="settings_display_over_lock_screen_desc">Păstrați aplicația vizibilă pe ecranul de blocare</string>
 </resources>

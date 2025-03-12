@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">סטטיסטיקות</string>
     <string name="stats_overview">סקירה כללית</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">ציר זמן</string>
     <string name="stats_today">היום</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">שבוע %1$s</string>
     <string name="stats_total">סך הכל</string>
     <string-array name="stats_overview_type_options">
         <item>סשנים</item>
@@ -32,22 +32,22 @@
         <item>ימים</item>
         <item>שבועות</item>
         <item>חודשים</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>מטבעות</item>
+        <item>שנים</item>
     </string-array>
     <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_heatmap">מפת חום</string>
+    <string name="stats_focus_distribution">התפלגות העבודה</string>
+    <string name="stats_focus_break_ratio">יחס מיקוד/הפסקה</string>
     <string name="stats_add_session">הוסף סשן</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">מיקוד</string>
+    <string name="stats_break">הפסקה</string>
+    <string name="stats_duration">משך</string>
     <string name="stats_time">זמן</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">תווית</string>
+    <string name="stats_delete_selected_sessions">למחוק את הרשומות שנבחרו?</string>
+    <string name="stats_change_label_of_selected_sessions">לשנות את התווית של הפעלות שנבחרו?</string>
+    <string name="stats_add_notes">הוספת הערות</string>
     <string name="stats_select_all">בחר הכל</string>
     <string name="stats_no_items">אין פריטים</string>
 </resources>

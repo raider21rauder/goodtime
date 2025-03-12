@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">Estatísticas</string>
     <string name="stats_overview">Resumo</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">Historial</string>
     <string name="stats_today">Hoxe</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">Semana %1$s</string>
     <string name="stats_total">Total</string>
     <string-array name="stats_overview_type_options">
         <item>Sesións</item>
@@ -32,22 +32,22 @@
         <item>Días</item>
         <item>Semanas</item>
         <item>Meses</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>Cuartos</item>
+        <item>Anos</item>
     </string-array>
-    <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_productive_hours">Horas produtivas</string>
+    <string name="stats_heatmap">Mapa de calor</string>
+    <string name="stats_focus_distribution">Distribución do traballo</string>
+    <string name="stats_focus_break_ratio">Relación foco/ruptura</string>
     <string name="stats_add_session">Engadir unha sesión</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">Enfoque</string>
+    <string name="stats_break">Descanso</string>
+    <string name="stats_duration">Duración</string>
     <string name="stats_time">Tempo</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">Etiquetas</string>
+    <string name="stats_delete_selected_sessions">Eliminar sesións seleccionadas?</string>
+    <string name="stats_change_label_of_selected_sessions">Cambiar a etiqueta das sesións seleccionadas?</string>
+    <string name="stats_add_notes">Engadir notas</string>
     <string name="stats_select_all">Seleccionar todo</string>
     <string name="stats_no_items">Sen elementos</string>
 </resources>

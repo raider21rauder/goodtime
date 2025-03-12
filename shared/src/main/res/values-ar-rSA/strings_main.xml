@@ -42,6 +42,9 @@
     <string name="main_break_finished">الانتهاء من كسر</string>
     <string name="main_continue">واصل؟</string>
     <string name="main_productivity_reminder_desc">"حان الوقت لتكون منتجا!"</string>
-    <string name="main_notifications_channel_name">إخطارات Goodtime</string>
-    <string name="main_reminder_channel_name">إخطارات تذكير Goodtime</string>
+    <string name="main_notifications_channel_name">إشعارات المؤقت</string>
+    <string name="main_reminder_channel_name">تنبيهات التذكير</string>
+    <string name="main_crash_channel_name">تقارير الأعطال</string>
+    <string name="main_crash_notification_title">تعطل التطبيق</string>
+    <string name="main_crash_notification_desc">عذرا على الإزعاج. الرجاء إرسال تقرير إلى المطور.</string>
 </resources>

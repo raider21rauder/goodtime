@@ -42,6 +42,9 @@
     <string name="main_break_finished">Pause beendet</string>
     <string name="main_continue">Fortfahren?</string>
     <string name="main_productivity_reminder_desc">"Es ist an der Zeit, produktiv zu sein!"</string>
-    <string name="main_notifications_channel_name">Goodtime-Benachrichtigungen</string>
-    <string name="main_reminder_channel_name">Goodtime-Erinnerungsbenachrichtigungen</string>
+    <string name="main_notifications_channel_name">Timer-Benachrichtigungen</string>
+    <string name="main_reminder_channel_name">Erinnerungsbenachrichtigungen</string>
+    <string name="main_crash_channel_name">Absturzberichte</string>
+    <string name="main_crash_notification_title">App abgestürzt</string>
+    <string name="main_crash_notification_desc">Entschuldigen Sie die Unannehmlichkeiten. Bitte senden Sie einen Bericht an den Entwickler.</string>
 </resources>

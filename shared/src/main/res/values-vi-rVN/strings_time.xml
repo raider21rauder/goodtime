@@ -18,26 +18,26 @@
 -->
 <resources>
     <string-array name="time_days_of_the_week">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
+        <item>Thứ Hai</item>
+        <item>Thứ ba</item>
+        <item>Thứ tư</item>
+        <item>Thứ năm</item>
+        <item>Thứ Sáu</item>
+        <item>Thứ bảy</item>
+        <item>Chủ Nhật</item>
     </string-array>
     <string-array name="time_months_of_the_year">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+        <item>tháng Giêng</item>
+        <item>Tháng hai</item>
+        <item>Tháng ba</item>
+        <item>Tháng tư</item>
+        <item>Có thể</item>
+        <item>Tháng Sáu</item>
+        <item>Tháng bảy</item>
+        <item>Tháng tám</item>
+        <item>Tháng Chín</item>
+        <item>Tháng mười</item>
+        <item>Tháng mười một</item>
+        <item>Tháng mười hai</item>
     </string-array>
 </resources>

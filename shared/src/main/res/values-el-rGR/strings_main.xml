@@ -42,6 +42,9 @@
     <string name="main_break_finished">Διάλειμμα τελείωσε</string>
     <string name="main_continue">Να συνεχίσω;</string>
     <string name="main_productivity_reminder_desc">"Είναι ώρα να γίνουμε παραγωγικοί!"</string>
-    <string name="main_notifications_channel_name">Goodtime ειδοποιήσεις</string>
-    <string name="main_reminder_channel_name">Υπενθυμίσεις για Goodtime δραστηριότητες</string>
+    <string name="main_notifications_channel_name">Ειδοποιήσεις Χρονομέτρου</string>
+    <string name="main_reminder_channel_name">Ειδοποιήσεις Υπενθύμισης</string>
+    <string name="main_crash_channel_name">Αναφορές κατάρρευσης</string>
+    <string name="main_crash_notification_title">Η εφαρμογή κατέρρευσε</string>
+    <string name="main_crash_notification_desc">Συγγνώμη για την ταλαιπωρία. Παρακαλώ στείλτε μια αναφορά στον προγραμματιστή.</string>
 </resources>

@@ -26,4 +26,9 @@
     <string name="intro3_title">"Начнем"</string>
     <string name="intro3_desc1">"Отслеживайте ваш прогресс с подробной статистикой."</string>
     <string name="intro3_desc2">"Пройди прокрастивание и повыши свою направленность."</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

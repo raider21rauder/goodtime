@@ -42,6 +42,9 @@
     <string name="main_break_finished">Přestávka je dokončena</string>
     <string name="main_continue">Pokračovat?</string>
     <string name="main_productivity_reminder_desc">"Nastal čas být produktivní!"</string>
-    <string name="main_notifications_channel_name">Goodtime upozornění</string>
-    <string name="main_reminder_channel_name">Goodtime připomenutí</string>
+    <string name="main_notifications_channel_name">Oznámení časovače</string>
+    <string name="main_reminder_channel_name">Upozornění</string>
+    <string name="main_crash_channel_name">Hlášení o pádech</string>
+    <string name="main_crash_notification_title">Aplikace spadla</string>
+    <string name="main_crash_notification_desc">Omlouváme se za nepříjemnosti. Pošlete prosím zprávu vývojáři.</string>
 </resources>

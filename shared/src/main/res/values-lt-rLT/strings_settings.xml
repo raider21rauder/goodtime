@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Pradėkite darbo sesiją po pertraukos be vartotojo sąveikos</string>
     <string name="settings_auto_start_break_title">Auto pradėti pertraukos</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_display_over_lock_screen">Display over lock screen</string>
+    <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
 </resources>

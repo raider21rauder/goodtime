@@ -17,30 +17,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="unlock_premium">Unlock Premium</string>
-    <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
-    <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
-    <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
-    <string name="unlock_premium_desc3">Your support helps future improvements!</string>
-    <string name="support_development">Support development</string>
-    <string name="unlock_colors">Unlock colors</string>
-    <string name="support_donate_desc">If you find it useful, consider making a donation.</string>
+    <string name="unlock_premium">Desbloqueja Premium</string>
+    <string name="unlock_premium_to_access_features">Desbloqueja Premium per accedir a les funcions</string>
+    <string name="unlock_timer_style">Desbloqueja Premium per estalviar la personalització del temporitzador</string>
+    <string name="unlock_premium_tagline">Compra única. Sense subscripcions. Només una millor productivitat.</string>
+    <string name="unlock_premium_desc1">%s és una eina independent de gestió del temps de codi obert, dissenyada per a la simplicitat i una gran experiència d\'usuari, sense anuncis, seguiment ni recollida de dades.</string>
+    <string name="unlock_premium_desc2">Si ho trobeu útil, penseu a actualitzar a la versió premium per desbloquejar més funcions.</string>
+    <string name="unlock_premium_desc3">El vostre suport ajuda a millores futures!</string>
+    <string name="support_development">Dóna suport al desenvolupament</string>
+    <string name="unlock_colors">Desbloqueja colors</string>
+    <string name="support_donate_desc">Si ho trobeu útil, penseu a fer una donació.</string>
     <string name="feature_labels_title">Etiquetes</string>
-    <string name="feature_labels_desc1">Assign colored labels with custom time profiles</string>
-    <string name="feature_labels_desc2">Archive labels for better organization</string>
-    <string name="feature_timer_customization_title">Timer Customization</string>
-    <string name="feature_timer_customization_desc1">Adjust size, weight, and immersive mode</string>
-    <string name="feature_timer_customization_desc2">Hide seconds and other indicators</string>
-    <string name="feature_notifications_title">Advanced Notifications</string>
-    <string name="feature_notifications_desc1">Enable torch and persistent alerts</string>
-    <string name="feature_stats_title">Enhanced statistics</string>
-    <string name="feature_stats_desc1">Visualize data based on labels</string>
-    <string name="feature_stats_desc2">Manually add or edit completed sessions</string>
-    <string name="feature_stats_desc3">Add notes to completed sessions</string>
-    <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
-    <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
-    <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_labels_desc1">Assigna etiquetes de colors amb perfils de temps personalitzats</string>
+    <string name="feature_labels_desc2">Arxiu etiquetes per a una millor organització</string>
+    <string name="feature_timer_customization_title">Personalització del temporitzador</string>
+    <string name="feature_timer_customization_desc1">Ajusteu la mida, el pes i el mode immersiu</string>
+    <string name="feature_timer_customization_desc2">Amaga els segons i altres indicadors</string>
+    <string name="feature_notifications_title">Notificacions de recordatoris</string>
+    <string name="feature_notifications_desc1">Activa les alertes de torxa i persistents</string>
+    <string name="feature_stats_title">Estadístiques millorades</string>
+    <string name="feature_stats_desc1">Visualitza les dades a partir d\'etiquetes</string>
+    <string name="feature_stats_desc2">Afegiu o editeu manualment sessions completades</string>
+    <string name="feature_stats_desc3">Afegeix notes a les sessions finalitzades</string>
+    <string name="feature_backup_title"><![CDATA[Còpia de seguretat i exportació]]></string>
+    <string name="feature_backup_desc1">Exporta i importa còpies de seguretat d\'etiquetes i estadístiques</string>
+    <string name="feature_backup_desc2">Exporta les estadístiques com a CSV o JSON</string>
+    <string name="feature_support_title">Dóna suport al desenvolupament</string>
+    <string name="feature_support_desc1">Tot futur ofereix de franc</string>
 </resources>

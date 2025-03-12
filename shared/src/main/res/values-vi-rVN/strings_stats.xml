@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">Số liệu thống kê</string>
     <string name="stats_overview">Tổng quan</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">Thời gian biểu</string>
     <string name="stats_today">Hôm nay</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">Tuần %1$s</string>
     <string name="stats_total">Tổng cộng</string>
     <string-array name="stats_overview_type_options">
         <item>Phiên</item>
@@ -32,22 +32,22 @@
         <item>Ngày</item>
         <item>Tuần</item>
         <item>Tháng</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>Quý</item>
+        <item>Năm</item>
     </string-array>
-    <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_productive_hours">Giờ làm việc hiệu quả</string>
+    <string name="stats_heatmap">Biểu đồ nhiệt</string>
+    <string name="stats_focus_distribution">Phân bổ thời gian làm việc</string>
+    <string name="stats_focus_break_ratio">Tỷ lệ lấy nét/ngắt</string>
     <string name="stats_add_session">Thêm phiên</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">Tập trung</string>
+    <string name="stats_break">Nghỉ giải lao</string>
+    <string name="stats_duration">Thời lượng</string>
     <string name="stats_time">Thời gian</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">Nhãn</string>
+    <string name="stats_delete_selected_sessions">Xóa mục đã chọn?</string>
+    <string name="stats_change_label_of_selected_sessions">Thay đổi nhãn của các phiên đã chọn?</string>
+    <string name="stats_add_notes">Thêm ghi chú</string>
     <string name="stats_select_all">Chọn tất cả</string>
     <string name="stats_no_items">Không có dữ liệu</string>
 </resources>

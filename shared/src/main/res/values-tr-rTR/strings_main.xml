@@ -42,6 +42,9 @@
     <string name="main_break_finished">Ara bitti</string>
     <string name="main_continue">Devam et?</string>
     <string name="main_productivity_reminder_desc">"Verimli olma zamanı!"</string>
-    <string name="main_notifications_channel_name">Goodtime Bildirimleri</string>
-    <string name="main_reminder_channel_name">Goodtime Hatırlatıcı Bildirimleri</string>
+    <string name="main_notifications_channel_name">Timer Notifications</string>
+    <string name="main_reminder_channel_name">Reminder Notifications</string>
+    <string name="main_crash_channel_name">Crash reports</string>
+    <string name="main_crash_notification_title">App crashed</string>
+    <string name="main_crash_notification_desc">Sorry for the inconvenience. Please send a report to the developer.</string>
 </resources>

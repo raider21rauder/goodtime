@@ -42,6 +42,9 @@
     <string name="main_break_finished">Tauko päättyi</string>
     <string name="main_continue">Jatka?</string>
     <string name="main_productivity_reminder_desc">"On aika olla tuottava!"</string>
-    <string name="main_notifications_channel_name">Goodtime Ilmoitukset</string>
-    <string name="main_reminder_channel_name">Goodtime muistutusilmoitukset</string>
+    <string name="main_notifications_channel_name">Ajastimen Ilmoitukset</string>
+    <string name="main_reminder_channel_name">Muistutus Ilmoitukset</string>
+    <string name="main_crash_channel_name">Kaatumisilmoitukset</string>
+    <string name="main_crash_notification_title">Sovellus kaatui</string>
+    <string name="main_crash_notification_desc">Anteeksi, että haittaa. Ole hyvä ja lähetä raportti kehittäjälle.</string>
 </resources>

@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">休息结束后自动开始工作，不需要用户手动操作</string>
     <string name="settings_auto_start_break_title">自动开始休息</string>
     <string name="settings_auto_start_break_desc">工作会话结束后开始断开会话，无需用户互动</string>
+    <string name="settings_display_over_lock_screen">在锁定屏幕上显示</string>
+    <string name="settings_display_over_lock_screen_desc">在锁屏界面保持应用程序可见</string>
 </resources>

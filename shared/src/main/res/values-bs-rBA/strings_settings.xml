@@ -18,59 +18,61 @@
 -->
 <resources>
     <string name="settings_title">Podešavanja</string>
-    <string name="settings_action_required">Action required</string>
-    <string name="settings_allow_background">Allow this app to run in the background</string>
-    <string name="settings_allow_notifications">Allow notifications</string>
-    <string name="settings_allow">Allow</string>
-    <string name="settings_productivity_reminder_title">Productivity reminder</string>
-    <string name="settings_days_of_the_week">Days of the week</string>
-    <string name="settings_reminder_time">Reminder time</string>
+    <string name="settings_action_required">Radnja je potreban</string>
+    <string name="settings_allow_background">Dopustite aplikaciji da radi u pozadini</string>
+    <string name="settings_allow_notifications">Dopusti obavijesti</string>
+    <string name="settings_allow">Dozvoli</string>
+    <string name="settings_productivity_reminder_title">Podsjetnik za produktivnost</string>
+    <string name="settings_days_of_the_week">Oznaka stavke retka</string>
+    <string name="settings_reminder_time">Vrijeme podsjetnika</string>
     <string name="settings_timer_style_title">Timer Customization</string>
     <string name="settings_notifications_title">Obavještenja</string>
-    <string name="settings_custom_start_of_day_title">Custom start of day</string>
-    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
-    <string name="settings_start_of_the_week">Start of the week</string>
-    <string name="settings_theme">Theme</string>
+    <string name="settings_custom_start_of_day_title">Prilagođeni početak dana</string>
+    <string name="settings_custom_start_of_day_desc">Definira kada počinje dan za statistiku.</string>
+    <string name="settings_start_of_the_week">Početak sedmice</string>
+    <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">
-        <item>System</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>Sistem</item>
+        <item>Svijetlo</item>
+        <item>Tamno</item>
     </string-array>
-    <string name="settings_use_dynamic_color">Use Dynamic Color</string>
+    <string name="settings_use_dynamic_color">Koristite Dynamic Color</string>
     <string name="settings_during_work_sessions">Za vrijeme radnog perioda</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
-    <string name="settings_true_black_mode_title">True black mode</string>
-    <string name="settings_true_black_mode_desc">Use true black for the background</string>
+    <string name="settings_fullscreen_mode">Imersivni način</string>
+    <string name="settings_true_black_mode_title">Pravo crni način rada</string>
+    <string name="settings_true_black_mode_desc">Koristite pravu crnu za pozadinu</string>
     <string name="settings_keep_the_screen_on">Održavaj upaljen ekran</string>
     <string name="settings_screensaver_mode">Čuvanje ekrana</string>
     <string name="settings_do_not_disturb_mode">Ne ometaj</string>
     <string name="settings_click_to_grant_permission">Kliknite za potvrdu dopuštenja</string>
     <string name="settings_demo">demo</string>
-    <string name="settings_refresh_demo_label">Refresh demo label</string>
-    <string name="settings_show_status_title">Show status</string>
-    <string name="settings_show_status_desc">An icon indicating work or break</string>
-    <string name="settings_show_sessions_long_break_title">Show sessions until long break</string>
-    <string name="settings_show_sessions_long_break_desc">For countdown timers with long breaks enabled</string>
-    <string name="settings_show_label">Show label</string>
-    <string name="settings_hide_seconds">Hide seconds</string>
-    <string name="settings_focus_complete_sound">Focus complete sound</string>
-    <string name="settings_break_complete_sound">Break complete sound</string>
-    <string name="settings_silent">Silent</string>
-    <string name="settings_default_notification_sound">Default notification sound</string>
-    <string name="settings_your_sounds">Your sounds</string>
-    <string name="settings_system_sounds">System sounds</string>
-    <string name="settings_delete_sound">Delete sound</string>
-    <string name="settings_remove">Remove</string>
-    <string name="settings_add_custom_sound">Add custom sound</string>
+    <string name="settings_refresh_demo_label">Osvježite demo oznaku</string>
+    <string name="settings_show_status_title">Prikaži status</string>
+    <string name="settings_show_status_desc">Ikona koja označava posao ili pauzu</string>
+    <string name="settings_show_sessions_long_break_title">Prikaži sesije do duže pauze</string>
+    <string name="settings_show_sessions_long_break_desc">Za tajmere sa dugim pauzama</string>
+    <string name="settings_show_label">Pokaži oznaku</string>
+    <string name="settings_hide_seconds">Sakrij sekunde</string>
+    <string name="settings_focus_complete_sound">Fokusirajte kompletan zvuk</string>
+    <string name="settings_break_complete_sound">Fokusirajte kompletan zvuk</string>
+    <string name="settings_silent">Nečujno</string>
+    <string name="settings_default_notification_sound">Zadani zvuk obavještenja</string>
+    <string name="settings_your_sounds">Tvoji zvuci</string>
+    <string name="settings_system_sounds">Zvuci sistema</string>
+    <string name="settings_delete_sound">Obrisati zvuk</string>
+    <string name="settings_remove">Ukloniti</string>
+    <string name="settings_add_custom_sound">Dodajte prilagođeni zvuk</string>
     <string name="settings_override_sound_profile_title">Ignoriši zvučni profil telefona</string>
     <string name="settings_override_sound_profile_desc">Obavještenje se tretira kao alarm</string>
-    <string name="settings_vibration_strength">Vibration strength</string>
-    <string name="settings_torch_title">Torch</string>
+    <string name="settings_vibration_strength">Snaga vibracija</string>
+    <string name="settings_torch_title">Svjetlo</string>
     <string name="settings_torch_desc">Vizuelno obavještenje za tihe okoline</string>
     <string name="settings_insistent_notification_title">Uporna obavještenja</string>
     <string name="settings_insistent_notification_desc">Ponavljaj obavještenje dok se ne prekine</string>
-    <string name="settings_auto_start_focus_title">Auto start focus</string>
+    <string name="settings_auto_start_focus_title">Automatski započni radni period</string>
     <string name="settings_auto_start_focus_desc">Započni radni period nakon pauze bez pitanja korisnika</string>
     <string name="settings_auto_start_break_title">Automatski započni pauzu</string>
-    <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_auto_start_break_desc">Započni pauzu nakon radnog perioda bez pitanja korisnika</string>
+    <string name="settings_display_over_lock_screen">Prikaz preko zaključanog ekrana</string>
+    <string name="settings_display_over_lock_screen_desc">Neka aplikacija bude vidljiva preko zaključanog ekrana</string>
 </resources>

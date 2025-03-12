@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Iniciar la sesión de trabajo después de un descanso sin interacción del usuario</string>
     <string name="settings_auto_start_break_title">Inicio de descanso automático</string>
     <string name="settings_auto_start_break_desc">Iniciar la sesión de descanso después de una sesión de trabajo sin interacción del usuario</string>
+    <string name="settings_display_over_lock_screen">Mostrar sobre pantalla de bloqueo</string>
+    <string name="settings_display_over_lock_screen_desc">Mantener la aplicación visible sobre la pantalla de bloqueo</string>
 </resources>

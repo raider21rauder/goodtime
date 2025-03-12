@@ -18,59 +18,61 @@
 -->
 <resources>
     <string name="settings_title">הגדרות</string>
-    <string name="settings_action_required">Action required</string>
-    <string name="settings_allow_background">Allow this app to run in the background</string>
-    <string name="settings_allow_notifications">Allow notifications</string>
-    <string name="settings_allow">Allow</string>
-    <string name="settings_productivity_reminder_title">Productivity reminder</string>
-    <string name="settings_days_of_the_week">Days of the week</string>
-    <string name="settings_reminder_time">Reminder time</string>
-    <string name="settings_timer_style_title">Timer Customization</string>
+    <string name="settings_action_required">פעולה דרושה</string>
+    <string name="settings_allow_background">התרה לאפליקציה לפעול ברקע</string>
+    <string name="settings_allow_notifications">הרשה הודעות</string>
+    <string name="settings_allow">אפשרו</string>
+    <string name="settings_productivity_reminder_title">תזכורת לפרודוקטיביות</string>
+    <string name="settings_days_of_the_week">ימי השבוע</string>
+    <string name="settings_reminder_time">זמן תזכורת</string>
+    <string name="settings_timer_style_title">התאמה אישית של טיימר</string>
     <string name="settings_notifications_title">התראות</string>
-    <string name="settings_custom_start_of_day_title">Custom start of day</string>
-    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
-    <string name="settings_start_of_the_week">Start of the week</string>
-    <string name="settings_theme">Theme</string>
+    <string name="settings_custom_start_of_day_title">תחילת יום מותאמת אישית</string>
+    <string name="settings_custom_start_of_day_desc">מגדיר מתי מתחיל היום לסטטיסטיקה.</string>
+    <string name="settings_start_of_the_week">תחילת השבוע</string>
+    <string name="settings_theme">ערכת עיצוב</string>
     <string-array name="settings_theme_options">
-        <item>System</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>מערכת</item>
+        <item>בהיר</item>
+        <item>כהה</item>
     </string-array>
-    <string name="settings_use_dynamic_color">Use Dynamic Color</string>
+    <string name="settings_use_dynamic_color">השתמש בצבע דינמי</string>
     <string name="settings_during_work_sessions">במהלך סשני עבודה</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
-    <string name="settings_true_black_mode_title">True black mode</string>
-    <string name="settings_true_black_mode_desc">Use true black for the background</string>
+    <string name="settings_fullscreen_mode">מצב מוטמע</string>
+    <string name="settings_true_black_mode_title">השתמש במצב דינמי אמיתי שחור</string>
+    <string name="settings_true_black_mode_desc">השתמש בשחור אמיתי עבור הרקע</string>
     <string name="settings_keep_the_screen_on">השאר את המסך דלוק</string>
     <string name="settings_screensaver_mode">מצב שומר מסך</string>
     <string name="settings_do_not_disturb_mode">הפעל מצב \"נא לא להפריע\"</string>
     <string name="settings_click_to_grant_permission">לחץ כדי להעניק הרשאה</string>
-    <string name="settings_demo">demo</string>
-    <string name="settings_refresh_demo_label">Refresh demo label</string>
-    <string name="settings_show_status_title">Show status</string>
-    <string name="settings_show_status_desc">An icon indicating work or break</string>
-    <string name="settings_show_sessions_long_break_title">Show sessions until long break</string>
-    <string name="settings_show_sessions_long_break_desc">For countdown timers with long breaks enabled</string>
-    <string name="settings_show_label">Show label</string>
-    <string name="settings_hide_seconds">Hide seconds</string>
-    <string name="settings_focus_complete_sound">Focus complete sound</string>
-    <string name="settings_break_complete_sound">Break complete sound</string>
-    <string name="settings_silent">Silent</string>
-    <string name="settings_default_notification_sound">Default notification sound</string>
-    <string name="settings_your_sounds">Your sounds</string>
-    <string name="settings_system_sounds">System sounds</string>
-    <string name="settings_delete_sound">Delete sound</string>
-    <string name="settings_remove">Remove</string>
-    <string name="settings_add_custom_sound">Add custom sound</string>
+    <string name="settings_demo">הדגמה</string>
+    <string name="settings_refresh_demo_label">רענן את תווית ההדגמה</string>
+    <string name="settings_show_status_title">מצב הסדרה</string>
+    <string name="settings_show_status_desc">סמל המציין עבודה או הפסקה</string>
+    <string name="settings_show_sessions_long_break_title">הצג הפעלות עד הפסקה ארוכה</string>
+    <string name="settings_show_sessions_long_break_desc">עבור טיימרים לספירה לאחור עם הפסקות ארוכות מופעלות</string>
+    <string name="settings_show_label">הצג תוית</string>
+    <string name="settings_hide_seconds">הסתר שניות</string>
+    <string name="settings_focus_complete_sound">מיקוד צליל שלם</string>
+    <string name="settings_break_complete_sound">הפסקה הושלמה</string>
+    <string name="settings_silent">שקט</string>
+    <string name="settings_default_notification_sound">צליל ברירת מחדל להתראה</string>
+    <string name="settings_your_sounds">הצלילים שלך</string>
+    <string name="settings_system_sounds">צלילי מערכת</string>
+    <string name="settings_delete_sound">האם למחוק את הצליל?</string>
+    <string name="settings_remove">האם למחוק את הצלי?</string>
+    <string name="settings_add_custom_sound">להוסיף צליל מותאם אישית</string>
     <string name="settings_override_sound_profile_title">עקוף פרופיל שמע</string>
     <string name="settings_override_sound_profile_desc">צליל ההתראה יתנהג כמו התרעה</string>
-    <string name="settings_vibration_strength">Vibration strength</string>
+    <string name="settings_vibration_strength">עוצמת רטט</string>
     <string name="settings_torch_title">Torch</string>
     <string name="settings_torch_desc">התראה חזותית עבור סביבות שקטות</string>
     <string name="settings_insistent_notification_title">התראה עקשנית</string>
     <string name="settings_insistent_notification_desc">חוזר על ההתראה עד לביטולה</string>
-    <string name="settings_auto_start_focus_title">Auto start focus</string>
+    <string name="settings_auto_start_focus_title">הפעלה אוטומטית של עבודה</string>
     <string name="settings_auto_start_focus_desc">מתחיל סשן עבודה לאחר סיום הפסקה, ללא אינטראקציה מצד המשתמש</string>
     <string name="settings_auto_start_break_title">הפעלה אוטומטית של הפסקה</string>
-    <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_auto_start_break_desc">מתחיל הפסקה לאחר סיום סשן עבודה, ללא אינטראקציה מצד המשתמש</string>
+    <string name="settings_display_over_lock_screen">תצוגה מעל מסך נעילה</string>
+    <string name="settings_display_over_lock_screen_desc">השאר את האפליקציה גלויה על מסך הנעילה</string>
 </resources>

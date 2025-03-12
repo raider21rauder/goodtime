@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Aloita työistunto tauon jälkeen ilman käyttäjän toimenpidettä</string>
     <string name="settings_auto_start_break_title">Aloita tauko automaattisesti</string>
     <string name="settings_auto_start_break_desc">Aloita taukoistunto työistunnon jälkeen ilman käyttäjän vuorovaikutusta</string>
+    <string name="settings_display_over_lock_screen">Näytä lukitusnäytön päällä</string>
+    <string name="settings_display_over_lock_screen_desc">Pidä sovellus näkyvissä lukitusnäytön päällä</string>
 </resources>

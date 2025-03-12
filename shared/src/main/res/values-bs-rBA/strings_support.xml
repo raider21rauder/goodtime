@@ -17,30 +17,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="unlock_premium">Unlock Premium</string>
-    <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
+    <string name="unlock_premium">Otključajte Premium</string>
+    <string name="unlock_premium_to_access_features">Otključajte Premium za pristup funkcijama</string>
+    <string name="unlock_timer_style">Otključajte Premium da sačuvate prilagođavanje tajmera</string>
     <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
+    <string name="unlock_premium_desc1">%s je indie aplikacija otvorenog koda, dizajnirana za jednostavnost i odlično korisničko iskustvo — bez oglasa, praćenja ili prikupljanja podataka.</string>
     <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
-    <string name="unlock_premium_desc3">Your support helps future improvements!</string>
-    <string name="support_development">Support development</string>
-    <string name="unlock_colors">Unlock colors</string>
-    <string name="support_donate_desc">If you find it useful, consider making a donation.</string>
+    <string name="unlock_premium_desc3">Vaša podrška pomaže budućim poboljšanjima!</string>
+    <string name="support_development">Pomozi razvoj ove aplikacije</string>
+    <string name="unlock_colors">Otključajte boje</string>
+    <string name="support_donate_desc">Ako smatrate da je korisno, razmislite o donaciji boje.</string>
     <string name="feature_labels_title">Oznake</string>
-    <string name="feature_labels_desc1">Assign colored labels with custom time profiles</string>
-    <string name="feature_labels_desc2">Archive labels for better organization</string>
+    <string name="feature_labels_desc1">Dodijelite oznake u boji s prilagođenim vremenskim profilima</string>
+    <string name="feature_labels_desc2">Arhivirajte etikete za bolju organizaciju</string>
     <string name="feature_timer_customization_title">Timer Customization</string>
-    <string name="feature_timer_customization_desc1">Adjust size, weight, and immersive mode</string>
-    <string name="feature_timer_customization_desc2">Hide seconds and other indicators</string>
-    <string name="feature_notifications_title">Advanced Notifications</string>
-    <string name="feature_notifications_desc1">Enable torch and persistent alerts</string>
-    <string name="feature_stats_title">Enhanced statistics</string>
-    <string name="feature_stats_desc1">Visualize data based on labels</string>
-    <string name="feature_stats_desc2">Manually add or edit completed sessions</string>
-    <string name="feature_stats_desc3">Add notes to completed sessions</string>
+    <string name="feature_timer_customization_desc1">Podesite veličinu, težinu i imerzivni način rada</string>
+    <string name="feature_timer_customization_desc2">Sakrij sekunde i druge indikatore</string>
+    <string name="feature_notifications_title">Obavještenja o podsjetnicima</string>
+    <string name="feature_notifications_desc1">Omogućite baklja i stalna upozorenja</string>
+    <string name="feature_stats_title">Detaljna statistika</string>
+    <string name="feature_stats_desc1">Vizualizirajte podatke na osnovu oznaka</string>
+    <string name="feature_stats_desc2">Ručno dodajte ili uredite završene sesije</string>
+    <string name="feature_stats_desc3">Dodajte bilješke završenim sesijama</string>
     <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
-    <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
+    <string name="feature_backup_desc1">Izvoz i uvoz rezervnih kopija za etikete i statistiku</string>
     <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_support_title">Pomozi razvoj ove aplikacije</string>
+    <string name="feature_support_desc1">Besplatno otključajte sve buduće funkcije</string>
 </resources>

@@ -78,9 +78,7 @@ class TimerManagerTest {
         )
 
         localDataRepo.updateDefaultLabel(defaultLabel)
-        // defaultLabel = defaultLabel.copy(id = localDataRepo.selectLastInsertLabelId()!!)
         localDataRepo.insertLabel(customLabel)
-        // customLabel = customLabel.copy(id = localDataRepo.selectLastInsertLabelId()!!) //TODO: get from insert
         localDataRepo.insertLabel(countUpLabel)
 
         settingsRepo = FakeSettingsRepository()

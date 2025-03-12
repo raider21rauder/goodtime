@@ -42,6 +42,9 @@
     <string name="main_break_finished">ブレイク終了</string>
     <string name="main_continue">続行</string>
     <string name="main_productivity_reminder_desc">"それは生産的になる時間です!"</string>
-    <string name="main_notifications_channel_name">Goodtime 通知</string>
-    <string name="main_reminder_channel_name">グッドタイムリマインダー通知</string>
+    <string name="main_notifications_channel_name">タイマー通知</string>
+    <string name="main_reminder_channel_name">リマインダー通知</string>
+    <string name="main_crash_channel_name">クラッシュレポート</string>
+    <string name="main_crash_notification_title">アプリがクラッシュしました</string>
+    <string name="main_crash_notification_desc">ご迷惑をおかけして申し訳ございません。開発者にレポートを送信してください。</string>
 </resources>

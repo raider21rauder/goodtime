@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Inizia la sessione di lavoro dopo una pausa senza interazione dell\'utente</string>
     <string name="settings_auto_start_break_title">Inizia automaticamente la pausa</string>
     <string name="settings_auto_start_break_desc">Avvia la sessione di interruzione dopo una sessione di lavoro senza interazione utente</string>
+    <string name="settings_display_over_lock_screen">Visualizza sopra la schermata di blocco</string>
+    <string name="settings_display_over_lock_screen_desc">Mantieni l\'applicazione visibile sulla schermata di blocco</string>
 </resources>

@@ -74,8 +74,6 @@ fun BottomAppBar(
         enter = fadeIn(),
         exit = fadeOut(),
     ) {
-        // TODO: consider camera cutouts when in landscape
-
         val isDefaultLabel = labelData.name == Label.DEFAULT_LABEL_NAME
         val color = MaterialTheme.localColorsPalette.colors[labelData.colorIndex.toInt()]
 

@@ -19,6 +19,7 @@
 <resources>
     <string name="unlock_premium">Premium freischalten</string>
     <string name="unlock_premium_to_access_features">Premium freischalten für Funktionen</string>
+    <string name="unlock_timer_style">Premium freischalten um Timer-Anpassung zu speichern</string>
     <string name="unlock_premium_tagline">Einmal-Kauf. Keine Abonnements. Nur bessere Produktivität.</string>
     <string name="unlock_premium_desc1">%s ist ein Indie-Open-Source-Zeit-Management-Tool, das für Einfachheit und ein großartiges Benutzererlebnis entwickelt wurde — ohne Werbung, Verfolgung oder Datenerfassung.</string>
     <string name="unlock_premium_desc2">Wenn du es für nützlich haltest, erwäge ein Upgrade auf die Premium-Version, um mehr Funktionen freizuschalten.</string>

@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Démarrer la session de travail après une pause sans interaction de l’utilisateur</string>
     <string name="settings_auto_start_break_title">Démarrage automatique de la pause</string>
     <string name="settings_auto_start_break_desc">Démarrer la session après une session de travail sans interaction utilisateur</string>
+    <string name="settings_display_over_lock_screen">Afficher sur l\'écran de verrouillage</string>
+    <string name="settings_display_over_lock_screen_desc">Garder l\'application visible sur l\'écran de verrouillage</string>
 </resources>

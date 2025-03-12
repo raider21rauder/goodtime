@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Mulai sesi kerja setelah istirahat tanpa interaksi pengguna</string>
     <string name="settings_auto_start_break_title">Mulai otomatis istirahat</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_display_over_lock_screen">Display over lock screen</string>
+    <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
 </resources>

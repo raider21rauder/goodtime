@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Start arbejdssession efter en pause uden brugerinteraktion</string>
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start pausesessionen efter en arbejdssession uden brugerinteraktion</string>
+    <string name="settings_display_over_lock_screen">Vis over låseskærmen</string>
+    <string name="settings_display_over_lock_screen_desc">Hold app\'en synlig over låseskærmen</string>
 </resources>

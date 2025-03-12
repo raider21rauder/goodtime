@@ -42,6 +42,9 @@
     <string name="main_break_finished">Pauze afgelopen</string>
     <string name="main_continue">Doorgaan?</string>
     <string name="main_productivity_reminder_desc">"Het is tijd om productief te zijn!"</string>
-    <string name="main_notifications_channel_name">Goodtime meldingen</string>
-    <string name="main_reminder_channel_name">Goodtime Herinneringen</string>
+    <string name="main_notifications_channel_name">Timer Notificaties</string>
+    <string name="main_reminder_channel_name">Herinneringsnotificaties</string>
+    <string name="main_crash_channel_name">Crash rapporten</string>
+    <string name="main_crash_notification_title">App gecrasht</string>
+    <string name="main_crash_notification_desc">Sorry voor het ongemak. Stuur een verslag naar de ontwikkelaar.</string>
 </resources>

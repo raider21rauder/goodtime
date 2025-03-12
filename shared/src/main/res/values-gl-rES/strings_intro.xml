@@ -17,13 +17,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"Céntrate"</string>
+    <string name="intro1_desc1">"Aumente a produtividade con sesións de traballo programadas."</string>
+    <string name="intro1_desc2">"Escolle entre unha conta atrás estruturada ou un temporizador de conta atrás flexible."</string>
+    <string name="intro2_title">"Refresca a túa mente"</string>
+    <string name="intro2_desc1">"Fai pausas ben gañadas para recargar enerxía e manterte atento."</string>
+    <string name="intro2_desc2">"Para os temporizadores de conta atrás, acumula o tempo de descanso mentres traballas."</string>
     <string name="intro3_title">"Comeza"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro3_desc1">"Fai un seguimento do teu progreso con estatísticas detalladas."</string>
+    <string name="intro3_desc2">"Supera a procrastinación e mellora o teu foco."</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

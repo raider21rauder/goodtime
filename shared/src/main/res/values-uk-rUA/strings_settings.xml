@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Початок робочого сеансу після перерви без взаємодії з користувачем</string>
     <string name="settings_auto_start_break_title">Автозапуск перерви</string>
     <string name="settings_auto_start_break_desc">Початок сеансу перерви після робочого сеансу без взаємодії з користувачем</string>
+    <string name="settings_display_over_lock_screen">Показувати над екраном блокування</string>
+    <string name="settings_display_over_lock_screen_desc">Залишати програму видимою для екрану блокування</string>
 </resources>

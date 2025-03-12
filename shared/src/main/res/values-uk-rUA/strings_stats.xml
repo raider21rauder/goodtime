@@ -21,7 +21,7 @@
     <string name="stats_overview">Огляд</string>
     <string name="stats_timeline">Хронологія</string>
     <string name="stats_today">Сьогодні</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">%1$s тиждень</string>
     <string name="stats_total">Всього</string>
     <string-array name="stats_overview_type_options">
         <item>Сесії</item>

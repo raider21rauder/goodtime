@@ -139,7 +139,6 @@ fun ArchivedLabelListItem(
 ) {
     val labelName = label.name
 
-    // TODO: add empty state illustration
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier

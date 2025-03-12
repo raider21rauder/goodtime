@@ -21,7 +21,7 @@
     <string name="stats_overview">概要</string>
     <string name="stats_timeline">タイムライン</string>
     <string name="stats_today">今日</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">週</string>
     <string name="stats_total">合計</string>
     <string-array name="stats_overview_type_options">
         <item>セッション</item>

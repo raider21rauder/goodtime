@@ -17,13 +17,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"專注"</string>
+    <string name="intro1_desc1">"透過定時工作會議提高生產力。"</string>
+    <string name="intro1_desc2">"在結構化倒數計時或靈活的遞增計時器之間進行選擇。"</string>
+    <string name="intro2_title">"刷新你的頭腦"</string>
+    <string name="intro2_desc1">"好好休息一下，充電並保持敏銳。"</string>
+    <string name="intro2_desc2">"對於倒數計時器，在工作時累積休息時間。"</string>
     <string name="intro3_title">"讓我們開始吧"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro3_desc1">"透過詳細的統計數據追蹤您的進度。"</string>
+    <string name="intro3_desc2">"戰勝拖延症並增強注意力。"</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

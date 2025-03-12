@@ -17,13 +17,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"Giữ tập trung nào"</string>
+    <string name="intro1_desc1">"Tăng năng suất với các phiên làm việc có giới hạn thời gian."</string>
+    <string name="intro1_desc2">"Chọn giữa bộ đếm ngược có cấu trúc hoặc bộ đếm ngược linh hoạt."</string>
+    <string name="intro2_title">"Làm mới tâm trí của bạn"</string>
+    <string name="intro2_desc1">"Hãy nghỉ ngơi hợp lý để nạp lại năng lượng và giữ tinh thần minh mẫn."</string>
+    <string name="intro2_desc2">"Đối với bộ đếm thời gian, hãy tích lũy thời gian nghỉ khi bạn làm việc."</string>
     <string name="intro3_title">"Bắt đầu"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro3_desc1">"Theo dõi tiến trình của bạn với số liệu thống kê chi tiết."</string>
+    <string name="intro3_desc2">"Đánh bại sự trì hoãn và tăng cường sự tập trung."</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

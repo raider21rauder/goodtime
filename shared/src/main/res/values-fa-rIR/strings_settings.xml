@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">نوبت کاری را پس از استراحت بدون پرسش آغاز کن</string>
     <string name="settings_auto_start_break_title">شروع خودکار استراحت</string>
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
+    <string name="settings_display_over_lock_screen">Display over lock screen</string>
+    <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
 </resources>

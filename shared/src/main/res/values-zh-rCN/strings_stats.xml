@@ -21,7 +21,7 @@
     <string name="stats_overview">概览</string>
     <string name="stats_timeline">时间表</string>
     <string name="stats_today">今日</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">%1$s 星期</string>
     <string name="stats_total">总计</string>
     <string-array name="stats_overview_type_options">
         <item>时段</item>

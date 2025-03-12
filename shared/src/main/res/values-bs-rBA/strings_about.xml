@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_and_feedback_title">About and feedback</string>
+    <string name="about_and_feedback_title">O i povratne informacije</string>
     <string name="about_source_code">Izvorni kōd</string>
     <string name="about_open_source_licenses">Open Source licence</string>
     <string name="about_app_intro">Upoznavanje s aplikacijom</string>

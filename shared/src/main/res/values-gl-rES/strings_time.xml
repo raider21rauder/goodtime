@@ -18,26 +18,26 @@
 -->
 <resources>
     <string-array name="time_days_of_the_week">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
+        <item>Luns</item>
+        <item>Martes</item>
+        <item>Mércores</item>
+        <item>Xoves</item>
+        <item>Venres</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
     </string-array>
     <string-array name="time_months_of_the_year">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+        <item>Xaneiro</item>
+        <item>Febreiro</item>
+        <item>Marzo</item>
+        <item>Abril</item>
+        <item>Maio</item>
+        <item>Xuño</item>
+        <item>Xullo</item>
+        <item>Agosto</item>
+        <item>Setembro</item>
+        <item>Outubro</item>
+        <item>Novembro</item>
+        <item>Decembro</item>
     </string-array>
 </resources>

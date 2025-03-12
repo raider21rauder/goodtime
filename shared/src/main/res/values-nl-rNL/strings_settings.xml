@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Start de werksessie na een pauze zonder tussenkomst van de gebruiker</string>
     <string name="settings_auto_start_break_title">Auto start pauze</string>
     <string name="settings_auto_start_break_desc">Start de onderbreking sessie na een werksessie zonder gebruikersinteractie</string>
+    <string name="settings_display_over_lock_screen">Weergeven over vergrendelscherm</string>
+    <string name="settings_display_over_lock_screen_desc">Houd de app zichtbaar via het vergrendelingsscherm</string>
 </resources>

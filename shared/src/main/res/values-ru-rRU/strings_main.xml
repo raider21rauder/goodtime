@@ -42,6 +42,9 @@
     <string name="main_break_finished">Перерыв закончен</string>
     <string name="main_continue">Продолжить?</string>
     <string name="main_productivity_reminder_desc">"Пришло время быть продуктивным!"</string>
-    <string name="main_notifications_channel_name">Уведомления Goodtime </string>
-    <string name="main_reminder_channel_name">Канал уведомлений</string>
+    <string name="main_notifications_channel_name">Уведомления о таймере</string>
+    <string name="main_reminder_channel_name">Уведомления о напоминании</string>
+    <string name="main_crash_channel_name">Отчеты об ошибках</string>
+    <string name="main_crash_notification_title">Приложение прервано</string>
+    <string name="main_crash_notification_desc">Извините за неудобства. Пожалуйста, отправьте сообщение разработчику.</string>
 </resources>

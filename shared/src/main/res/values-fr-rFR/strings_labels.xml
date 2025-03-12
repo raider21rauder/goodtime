@@ -36,6 +36,7 @@
     <string name="labels_break_budget_desc2">"Prenez des pauses quand vous le souhaitez."</string>
     <string name="labels_break_budget">Arrêter le budget</string>
     <string name="labels_follow_default_time_profile">Suivre le profil de temps par défaut</string>
+    <string name="labels_add_label">"Ajouter une étiquette"</string>
     <string name="labels_add_label_name">Ajouter un nom d\'étiquette</string>
     <string name="labels_label_name_already_exists">Ce nom d\'étiquette existe déjà</string>
     <string name="labels_archived_labels_title">Étiquettes archivées</string>
@@ -46,4 +47,6 @@
     <string name="labels_select_label">Sélectionner l’étiquette</string>
     <string name="labels_select_labels">Sélectionner les étiquettes</string>
     <string name="labels_edit_label">Modifier l\'étiquette</string>
+    <string name="labels_delete_label_confirmation">"La suppression de cette étiquette l'enlèvera des sessions terminées associées."</string>
+    <string name="labels_navigate_to_archived">"Naviguer vers les étiquettes archivées"</string>
 </resources>

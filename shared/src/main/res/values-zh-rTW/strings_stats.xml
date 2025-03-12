@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">統計</string>
     <string name="stats_overview">總覽</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">時間軸</string>
     <string name="stats_today">今天</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">星期 %1$s</string>
     <string name="stats_total">總共</string>
     <string-array name="stats_overview_type_options">
         <item>工作階段</item>
@@ -32,22 +32,22 @@
         <item>天</item>
         <item>週</item>
         <item>月</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>季</item>
+        <item>年</item>
     </string-array>
-    <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_productive_hours">將應用程式保持在鎖定的螢幕上可見</string>
+    <string name="stats_heatmap">熱圖</string>
+    <string name="stats_focus_distribution">工作分佈</string>
+    <string name="stats_focus_break_ratio">聚焦/斷續比</string>
     <string name="stats_add_session">添加工作</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">專注</string>
+    <string name="stats_break">間斷</string>
+    <string name="stats_duration">持續時間</string>
     <string name="stats_time">時間</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">標籤</string>
+    <string name="stats_delete_selected_sessions">刪除已選環節?</string>
+    <string name="stats_change_label_of_selected_sessions">變更選定會話的標籤？</string>
+    <string name="stats_add_notes">添加说明</string>
     <string name="stats_select_all">全選</string>
     <string name="stats_no_items">沒有任何項目</string>
 </resources>

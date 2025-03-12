@@ -19,9 +19,9 @@
 <resources>
     <string name="stats_title">Estatistikak</string>
     <string name="stats_overview">Laburpena</string>
-    <string name="stats_timeline">Timeline</string>
+    <string name="stats_timeline">Denbora-lerroa</string>
     <string name="stats_today">Gaur</string>
-    <string name="stats_week">Week %1$s</string>
+    <string name="stats_week">Astea %1$s</string>
     <string name="stats_total">Guztira</string>
     <string-array name="stats_overview_type_options">
         <item>Saioak</item>
@@ -32,22 +32,22 @@
         <item>Egunak</item>
         <item>Asteak</item>
         <item>Hilabeteak</item>
-        <item>Quarters</item>
-        <item>Years</item>
+        <item>Quartalak</item>
+        <item>Urteak</item>
     </string-array>
-    <string name="stats_productive_hours">Productive hours</string>
-    <string name="stats_heatmap">Heatmap</string>
-    <string name="stats_focus_distribution">Focus distribution</string>
-    <string name="stats_focus_break_ratio">Focus/break ratio</string>
+    <string name="stats_productive_hours">Produktibitate orduak</string>
+    <string name="stats_heatmap">Berotze-mapa</string>
+    <string name="stats_focus_distribution">Lanaren banaketa</string>
+    <string name="stats_focus_break_ratio">Arreta/atseden ratioa</string>
     <string name="stats_add_session">Gehitu saioa</string>
-    <string name="stats_focus">Focus</string>
-    <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_focus">Fokua</string>
+    <string name="stats_break">Atseden</string>
+    <string name="stats_duration">Duración</string>
     <string name="stats_time">Denbora</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
-    <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
-    <string name="stats_add_notes">Add notes</string>
+    <string name="stats_label">Etiketa</string>
+    <string name="stats_delete_selected_sessions">Ezabatu hautatutako saioak?</string>
+    <string name="stats_change_label_of_selected_sessions">Aldatuko al duzu hautatutako saioen etiketa?</string>
+    <string name="stats_add_notes">Oharrak gehitu</string>
     <string name="stats_select_all">Hautatu dena</string>
     <string name="stats_no_items">Ez dago elementurik</string>
 </resources>

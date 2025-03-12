@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Arbeitssitzung nach einer Pause ohne Benutzerinteraktion starten</string>
     <string name="settings_auto_start_break_title">Pause automatisch starten</string>
     <string name="settings_auto_start_break_desc">Starte die Pause Sitzung nach einer Arbeitssitzung ohne Benutzerinteraktion</string>
+    <string name="settings_display_over_lock_screen">Über Sperrbildschirm anzeigen</string>
+    <string name="settings_display_over_lock_screen_desc">Die App über dem Sperrbildschirm sichtbar halten</string>
 </resources>

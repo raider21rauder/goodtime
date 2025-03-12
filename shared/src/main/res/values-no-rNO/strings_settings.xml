@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Start arbeidsøkten etter en pause uten brukerinteraksjon</string>
     <string name="settings_auto_start_break_title">Auto start pause</string>
     <string name="settings_auto_start_break_desc">Start en pause økt etter en arbeidsøkt uten brukerinteraksjon</string>
+    <string name="settings_display_over_lock_screen">Vise over låseskjermen</string>
+    <string name="settings_display_over_lock_screen_desc">Hold appen synlig over låseskjermen</string>
 </resources>

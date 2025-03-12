@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Ξεκινήστε τη συνεδρία εργασίας μετά από ένα διάλειμμα χωρίς αλληλεπίδραση χρήστη</string>
     <string name="settings_auto_start_break_title">Αυτόματη διακοπή εκκίνησης</string>
     <string name="settings_auto_start_break_desc">Εκκίνηση συνεδρίας διακοπής μετά από μια συνεδρία εργασίας χωρίς αλληλεπίδραση χρήστη</string>
+    <string name="settings_display_over_lock_screen">Εμφάνιση πάνω από την οθόνη κλειδώματος</string>
+    <string name="settings_display_over_lock_screen_desc">Κρατήστε την εφαρμογή ορατή πάνω από την οθόνη κλειδώματος</string>
 </resources>

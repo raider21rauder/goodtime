@@ -73,4 +73,6 @@
     <string name="settings_auto_start_focus_desc">Начать рабочий сеанс после перерыва без участия пользователя</string>
     <string name="settings_auto_start_break_title">Автоматическое начало перерыва</string>
     <string name="settings_auto_start_break_desc">Запускать перерыв после рабочего сеанса без взаимодействия пользователя</string>
+    <string name="settings_display_over_lock_screen">Отображать на экране блокировки</string>
+    <string name="settings_display_over_lock_screen_desc">Оставлять приложение видимым на экране блокировки</string>
 </resources>

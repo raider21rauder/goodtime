@@ -17,14 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Backup and restore</string>
+    <string name="backup_and_restore_title">Còpies de seguretat i recuperació</string>
     <string name="backup_export_backup">Exporta còpia de seguretat</string>
     <string name="backup_the_file_can_be_imported_back">El fitxer es pot importar de nou</string>
-    <string name="backup_restore_backup">Restore backup</string>
-    <string name="backup_export_csv">Export CSV</string>
-    <string name="backup_export_json">Export JSON</string>
-    <string name="backup_completed_successfully">Backup completed successfully</string>
-    <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
-    <string name="backup_restore_completed_successfully">Restore completed successfully</string>
-    <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
+    <string name="backup_restore_backup">Restaura còpia de seguretat</string>
+    <string name="backup_export_csv">Exporta a format CSV</string>
+    <string name="backup_export_json">Exporta a format JSON</string>
+    <string name="backup_completed_successfully">Còpia de seguretat completada correctament</string>
+    <string name="backup_failed_please_try_again">Ha fallat la còpia de seguretat, torneu a provar-ho</string>
+    <string name="backup_restore_completed_successfully">La restauració s\'ha completat correctament</string>
+    <string name="backup_restore_failed_please_try_again">Ha fallat la còpia de seguretat, torneu a provar-ho</string>
 </resources>

@@ -17,30 +17,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="unlock_premium">Unlock Premium</string>
-    <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
-    <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
-    <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
-    <string name="unlock_premium_desc3">Your support helps future improvements!</string>
-    <string name="support_development">Support development</string>
-    <string name="unlock_colors">Unlock colors</string>
-    <string name="support_donate_desc">If you find it useful, consider making a donation.</string>
+    <string name="unlock_premium">Desbloquear Premium</string>
+    <string name="unlock_premium_to_access_features">Desbloquea Premium para acceder ás funcións</string>
+    <string name="unlock_timer_style">Desbloquea Premium para aforrar a personalización do temporizador</string>
+    <string name="unlock_premium_tagline">Compra única. Non hai subscricións. Só mellor produtividade.</string>
+    <string name="unlock_premium_desc1">%s é unha ferramenta de xestión de tempo independente de código aberto, deseñada para a simplicidade e unha excelente experiencia de usuario, sen anuncios, seguimento nin recollida de datos.</string>
+    <string name="unlock_premium_desc2">Se che resulta útil, considera actualizar á versión premium para desbloquear máis funcións.</string>
+    <string name="unlock_premium_desc3">O teu apoio axuda a mellorar futuras!</string>
+    <string name="support_development">Apoiar o desenvolvemento</string>
+    <string name="unlock_colors">Desbloquear cores</string>
+    <string name="support_donate_desc">Se che resulta útil, considera facer unha doazón.</string>
     <string name="feature_labels_title">Etiquetas</string>
-    <string name="feature_labels_desc1">Assign colored labels with custom time profiles</string>
-    <string name="feature_labels_desc2">Archive labels for better organization</string>
-    <string name="feature_timer_customization_title">Timer Customization</string>
+    <string name="feature_labels_desc1">Asigna etiquetas de cores con perfís de tempo personalizados</string>
+    <string name="feature_labels_desc2">Arquiva as etiquetas para unha mellor organización</string>
+    <string name="feature_timer_customization_title">Personalización do temporizador</string>
     <string name="feature_timer_customization_desc1">Adjust size, weight, and immersive mode</string>
-    <string name="feature_timer_customization_desc2">Hide seconds and other indicators</string>
-    <string name="feature_notifications_title">Advanced Notifications</string>
-    <string name="feature_notifications_desc1">Enable torch and persistent alerts</string>
-    <string name="feature_stats_title">Enhanced statistics</string>
-    <string name="feature_stats_desc1">Visualize data based on labels</string>
-    <string name="feature_stats_desc2">Manually add or edit completed sessions</string>
-    <string name="feature_stats_desc3">Add notes to completed sessions</string>
-    <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
-    <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
-    <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_timer_customization_desc2">Ocultar segundos e outros indicadores</string>
+    <string name="feature_notifications_title">Notificacións de recordatorio</string>
+    <string name="feature_notifications_desc1">Activa o facho e as alertas persistentes</string>
+    <string name="feature_stats_title">Estatísticas detalladas</string>
+    <string name="feature_stats_desc1">Visualiza datos baseados en etiquetas</string>
+    <string name="feature_stats_desc2">Engade ou edita manualmente sesións completadas</string>
+    <string name="feature_stats_desc3">Engade notas ás sesións completadas</string>
+    <string name="feature_backup_title"><![CDATA[Copia de seguridade e exportación]]></string>
+    <string name="feature_backup_desc1">Exportar e importar copias de seguranza para etiquetas e estatísticas</string>
+    <string name="feature_backup_desc2">Exportar estatísticas como CSV ou JSON</string>
+    <string name="feature_support_title">Apoiar o desenvolvemento</string>
+    <string name="feature_support_desc1">• Todas as funcións futuras de balde</string>
 </resources>

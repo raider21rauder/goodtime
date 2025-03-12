@@ -26,4 +26,9 @@
     <string name="intro3_title">"はじめましょう"</string>
     <string name="intro3_desc1">"詳細な統計で進捗状況を追跡します。"</string>
     <string name="intro3_desc2">"先延ばしを打ち、あなたのフォーカスを高める。"</string>
+    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

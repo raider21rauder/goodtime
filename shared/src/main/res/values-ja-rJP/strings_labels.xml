@@ -36,6 +36,7 @@
     <string name="labels_break_budget_desc2">"好きなときはいつでも休憩しましょう。"</string>
     <string name="labels_break_budget">予算を中断する</string>
     <string name="labels_follow_default_time_profile">既定の時間プロファイルをフォロー</string>
+    <string name="labels_add_label">"ラベルを追加"</string>
     <string name="labels_add_label_name">ラベル名を追加</string>
     <string name="labels_label_name_already_exists">ラベル名は既に存在します</string>
     <string name="labels_archived_labels_title">アーカイブされたラベル</string>
@@ -46,4 +47,6 @@
     <string name="labels_select_label">ラベルを選択</string>
     <string name="labels_select_labels">ラベルを選択</string>
     <string name="labels_edit_label">ラベルを編集</string>
+    <string name="labels_delete_label_confirmation">"このラベルを削除すると、関連する完了したセッションから削除されます。"</string>
+    <string name="labels_navigate_to_archived">"アーカイブされたラベルに移動"</string>
 </resources>

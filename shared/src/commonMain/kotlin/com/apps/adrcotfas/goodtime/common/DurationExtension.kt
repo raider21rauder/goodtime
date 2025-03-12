@@ -49,7 +49,6 @@ fun Duration.formatOverview(): String {
 }
 
 object Time {
-    // TODO: consider workday start
     fun startOfTodayMillis(): Long {
         val dateTime = currentDateTime()
         val timeZone = TimeZone.currentSystemDefault()
@@ -57,7 +56,6 @@ object Time {
         return startOfDay.toEpochMilliseconds()
     }
 
-    // TODO: consider workday start
     fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): LocalDateTime {
         val dateTime = currentDateTime()
         val timeZone = TimeZone.currentSystemDefault()
@@ -70,7 +68,6 @@ object Time {
         return startOfWeekInstant.toLocalDateTime(timeZone)
     }
 
-    // TODO: consider workday start
     fun startOfThisMonth(): LocalDateTime {
         val dateTime = currentDateTime()
         val date = LocalDate(
@@ -82,13 +79,6 @@ object Time {
         return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
-    fun isoWeekNumber(): Int {
-        val dateTime = currentDateTime()
-        val date = dateTime.date
-        return date.isoWeekNumber()
-    }
-
-    // TODO: consider start of workday
     fun currentDateTime(): LocalDateTime {
         val timeZone = TimeZone.currentSystemDefault()
         val now = Clock.System.now().toEpochMilliseconds()
