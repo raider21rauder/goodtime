@@ -31,7 +31,6 @@ import com.apps.adrcotfas.goodtime.bl.getBaseTime
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
-import com.apps.adrcotfas.goodtime.bl.isRunning
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
@@ -44,7 +43,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -73,7 +71,6 @@ data class TimerUiState(
 ) {
     val displayTime = max(baseTime, 0)
 
-    val isRunning = timerState.isRunning
     val isPaused = timerState.isPaused
     val isActive = timerState.isActive
     val isBreak = timerType.isBreak
@@ -126,6 +123,7 @@ class TimerViewModel(
         loadData()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerMainUiState())
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
@@ -133,15 +131,11 @@ class TimerViewModel(
                 old.timerStyle == new.timerStyle &&
                     old.uiSettings == new.uiSettings &&
                     old.isPro == new.isPro &&
-                    old.showTutorial == new.showTutorial
-            }.combine(
-                localDataRepo.selectLabelsByArchived(isArchived = false),
-            ) { settings, labels ->
-                settings to labels
+                    old.showTutorial == new.showTutorial &&
+                    old.isMainScreen == new.isMainScreen
             }.collect {
-                val settings = it.first
+                val settings = it
                 val uiSettings = settings.uiSettings
-                val labels = it.second
                 _uiState.update { state ->
                     state.copy(
                         isLoading = false,
@@ -153,23 +147,26 @@ class TimerViewModel(
                         trueBlackMode = uiSettings.trueBlackModePossible(),
                         dndDuringWork = uiSettings.dndDuringWork,
                         isPro = settings.isPro,
-                        labels = labels.map { label ->
-                            label.getLabelData()
-                        },
                         showTutorial = settings.showTutorial,
+                        isMainScreen = settings.isMainScreen,
                     )
                 }
             }
         }
-        // TODO: merge this and the one above
+
         viewModelScope.launch {
-            settingsRepo.settings.map { it.isMainScreen }.distinctUntilChanged()
-                .collect { isMainScreen ->
-                    _uiState.update {
-                        it.copy(isMainScreen = isMainScreen)
+            localDataRepo.selectLabelsByArchived(isArchived = false).distinctUntilChanged()
+                .collect { labels ->
+                    _uiState.update { state ->
+                        state.copy(
+                            labels = labels.map { label ->
+                                label.getLabelData()
+                            },
+                        )
                     }
                 }
         }
+
         viewModelScope.launch {
             uiState.map { it.startOfToday }.flatMapLatest { startOfToday ->
                 localDataRepo.selectNumberOfSessionsToday(startOfToday)

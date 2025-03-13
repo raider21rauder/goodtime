@@ -145,7 +145,6 @@ class TimerManager(
             return
         }
 
-        val isPaused = data.state.isPaused
         val elapsedRealTime = timeProvider.elapsedRealtime()
 
         if (data.state.isReset) {
@@ -153,29 +152,12 @@ class TimerManager(
         }
 
         val newTimerData = timerData.value.copy(
-            startTime = if (isPaused) {
-                data.startTime
-            } else {
-                elapsedRealTime
-            },
+            startTime = elapsedRealTime,
             lastStartTime = elapsedRealTime,
-            endTime = if (isPaused) {
-                // TODO: check correctness of timeAtPause for count-up sessions
-                elapsedRealTime + data.timeAtPause
-            } else {
-                data.getEndTime(timerType, elapsedRealTime)
-            },
+            endTime = data.getEndTime(timerType, elapsedRealTime),
             state = TimerState.RUNNING,
-            type = if (isPaused) {
-                data.type
-            } else {
-                timerType
-            },
-            timeSpentPaused = if (isPaused) {
-                data.timeSpentPaused
-            } else {
-                0
-            },
+            type = timerType,
+            timeSpentPaused = 0,
         )
 
         _timerData.update { newTimerData }
@@ -461,7 +443,6 @@ class TimerManager(
         _timerData.update { it.reset() }
     }
 
-    // TODO: test with a long paused work session too
     private fun handlePersistentDataAtStart() {
         if (timerData.value.type == TimerType.WORK) {
             // filter out the case when some time passes since the last work session
@@ -579,8 +560,8 @@ class TimerManager(
         if (!timerProfile.profile.isCountdown) return false
 
         val maxIdleTime = timerProfile.profile.workDuration.minutes.inWholeMilliseconds +
-            timerProfile.profile.longBreakDuration.minutes.inWholeMilliseconds +
-            15.minutes.inWholeMilliseconds
+            timerProfile.profile.breakDuration.minutes.inWholeMilliseconds +
+            30.minutes.inWholeMilliseconds
         return data.longBreakData.lastWorkEndTime != 0L && max(
             0,
             workEndTime - data.longBreakData.lastWorkEndTime,
