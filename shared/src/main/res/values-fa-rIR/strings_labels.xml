@@ -18,7 +18,7 @@
 -->
 <resources>
     <string name="labels_title">برچسب‌ها</string>
-    <string name="labels_default_label_name"></string>
+    <string name="labels_default_label_name">default</string>
     <string name="labels_others">others</string>
     <string name="labels_countdown">Countdown</string>
     <string name="labels_count_up">Count-up</string>
@@ -36,7 +36,7 @@
     <string name="labels_break_budget_desc2">"Take breaks whenever you like."</string>
     <string name="labels_break_budget">Break budget</string>
     <string name="labels_follow_default_time_profile">Follow default time profile</string>
-    <string name="labels_add_label">"Add label"</string>
+    <string name="labels_add_label">"افزودن برچسب"</string>
     <string name="labels_add_label_name">Add label name</string>
     <string name="labels_label_name_already_exists">Label name already exists</string>
     <string name="labels_archived_labels_title">Archived labels</string>

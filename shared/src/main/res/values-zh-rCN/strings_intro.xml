@@ -26,9 +26,9 @@
     <string name="intro3_title">"开始"</string>
     <string name="intro3_desc1">"用详细统计数据跟踪您的进度。"</string>
     <string name="intro3_desc2">"进行拖延并加强你的焦点。"</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
+    <string name="tutorial_title">教程</string>
+    <string name="tutorial_tap">👆 点击开始计时或者暂停计时.</string>
+    <string name="tutorial_swipe_right">:backhand_index_point_right: 向右滑动跳过当前会话。</string>
+    <string name="tutorial_swipe_up">☝️ 向上滑动来增加一分钟.</string>
+    <string name="tutorial_swipe_down">:backhand_index_point_down：向下滑动以停止。</string>
 </resources>

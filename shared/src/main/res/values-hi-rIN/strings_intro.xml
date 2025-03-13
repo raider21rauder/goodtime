@@ -26,7 +26,7 @@
     <string name="intro3_title">"प्रारंभ करें"</string>
     <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
     <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
-    <string name="tutorial_title">Tutorial</string>
+    <string name="tutorial_title">शैक्षणिक-सूची</string>
     <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
     <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
     <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>

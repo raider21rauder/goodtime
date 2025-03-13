@@ -26,9 +26,9 @@
     <string name="intro3_title">"Zaczynamy"</string>
     <string name="intro3_desc1">"Śledź swoje postępy za pomocą szczegółowych statystyk."</string>
     <string name="intro3_desc2">"Pokonaj prorakstynację i zwiększ swój cel."</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
+    <string name="tutorial_title">Samouczek</string>
+    <string name="tutorial_tap">👆 Dotknij licznika, aby rozpocząć i wstrzymać.</string>
+    <string name="tutorial_swipe_right">👉 Przesuń w prawo, aby pominąć bieżącą sesję.</string>
+    <string name="tutorial_swipe_up">☝️ Przesuń w górę, aby dodać jeszcze jedną minutę.</string>
+    <string name="tutorial_swipe_down">👇 Przesuń w dół, aby zatrzymać.</string>
 </resources>

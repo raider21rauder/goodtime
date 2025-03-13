@@ -26,9 +26,9 @@
     <string name="intro3_title">"Розпочніть"</string>
     <string name="intro3_desc1">"Відстежуйте свій прогрес з детальною статистикою."</string>
     <string name="intro3_desc2">"Бити зволікання та підвищити вашу увагу."</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
+    <string name="tutorial_title">Посібник</string>
+    <string name="tutorial_tap">👆 Торкніться таймеру для початку і призупинення.</string>
+    <string name="tutorial_swipe_right">👉 проведіть праворуч, щоб пропустити поточну сесію.</string>
+    <string name="tutorial_swipe_up">☝️ Проведіть догори, щоб додати ще одну хвилину.</string>
+    <string name="tutorial_swipe_down">👇 Проведіть вниз, щоб зупинити.</string>
 </resources>

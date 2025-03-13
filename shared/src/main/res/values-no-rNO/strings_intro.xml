@@ -26,9 +26,9 @@
     <string name="intro3_title">"Kom igang"</string>
     <string name="intro3_desc1">"Finn fremdriften din med detaljert statistikk."</string>
     <string name="intro3_desc2">"Slå på proffentinering og forbedre din fokus."</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
+    <string name="tutorial_title">Opplæring</string>
+    <string name="tutorial_tap">👆 Trykk på timeren for å starte og pause.</string>
+    <string name="tutorial_swipe_right">:backhand_index_pointing_t: Sveip til høyre for å hoppe over gjeldende økt.</string>
+    <string name="tutorial_swipe_up">☝️ Dra opp for å legge til et minutt.</string>
+    <string name="tutorial_swipe_down">👇 Sveip ned for å stoppe.</string>
 </resources>

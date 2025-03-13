@@ -36,7 +36,7 @@
     <string name="labels_break_budget_desc2">"Take breaks whenever you like."</string>
     <string name="labels_break_budget">Break budget</string>
     <string name="labels_follow_default_time_profile">Follow default time profile</string>
-    <string name="labels_add_label">"Add label"</string>
+    <string name="labels_add_label">"Etiket ekle"</string>
     <string name="labels_add_label_name">Add label name</string>
     <string name="labels_label_name_already_exists">Label name already exists</string>
     <string name="labels_archived_labels_title">Archived labels</string>

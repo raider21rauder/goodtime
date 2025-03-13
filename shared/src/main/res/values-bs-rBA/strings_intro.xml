@@ -26,9 +26,9 @@
     <string name="intro3_title">"Započnite s radom"</string>
     <string name="intro3_desc1">"Pratite svoj napredak uz detaljnu statistiku."</string>
     <string name="intro3_desc2">"Pobijedite odlaganje i poboljšajte svoj fokus."</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_title">Vodič</string>
+    <string name="tutorial_tap">👆 Pritisnite mjerač vremena da počnete i zaustavite.</string>
     <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_up">☝️ Prevucite prema gore da dodate jednu minutu.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

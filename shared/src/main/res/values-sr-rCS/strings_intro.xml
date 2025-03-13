@@ -26,9 +26,9 @@
     <string name="intro3_title">"Počni"</string>
     <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
     <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
-    <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_title">Uputstvo</string>
+    <string name="tutorial_tap">👆 Klikni tajmer da počneš i pauziraš.</string>
     <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_up">☝️ Prevuci nagore da dodaš još jedan minut.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>

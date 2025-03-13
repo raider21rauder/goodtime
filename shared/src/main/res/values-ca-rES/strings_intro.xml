@@ -27,8 +27,8 @@
     <string name="intro3_desc1">"Feu un seguiment del vostre progrés amb estadístiques detallades."</string>
     <string name="intro3_desc2">"Supera la procrastinació i millora la teva concentració."</string>
     <string name="tutorial_title">Tutorial</string>
-    <string name="tutorial_tap">👆 Tap the timer to start and pause.</string>
+    <string name="tutorial_tap">👆 Toqueu el temporitzador per iniciar i pausar.</string>
     <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
-    <string name="tutorial_swipe_up">☝️ Swipe up to add one more minute.</string>
+    <string name="tutorial_swipe_up">☝️ Feu lliscar el dit cap a enrere per afegir un minut més.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
 </resources>
