@@ -47,7 +47,6 @@ class TimerService : Service(), KoinComponent {
             }
 
             Action.Reset.name -> {
-                // TODO: test on minimum SDK version too
                 notificationManager.clearFinishedNotification()
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()

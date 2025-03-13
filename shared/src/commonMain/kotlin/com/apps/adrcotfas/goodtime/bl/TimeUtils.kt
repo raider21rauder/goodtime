@@ -26,7 +26,6 @@ import kotlinx.datetime.format.Padding
 import kotlinx.datetime.format.char
 import kotlinx.datetime.toLocalDateTime
 
-// TODO: find a better name and place for this
 object TimeUtils {
     fun Long.formatMilliseconds(minutesOnly: Boolean = false): String {
         val totalSeconds = (this / 1000).run { if (minutesOnly) this + 59 else this }
