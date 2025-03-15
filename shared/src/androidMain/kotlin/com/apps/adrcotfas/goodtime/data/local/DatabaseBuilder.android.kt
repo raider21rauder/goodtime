@@ -27,5 +27,5 @@ fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<ProductivityDatab
     return Room.databaseBuilder<ProductivityDatabase>(
         context = appContext,
         name = dbFile.absolutePath,
-    )
+    ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
 }

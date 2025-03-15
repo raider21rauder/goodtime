@@ -131,6 +131,7 @@ interface SessionDao {
     @Query("DELETE FROM localSession")
     suspend fun deleteAll()
 
+    // TODO: probably not needed together with the TRUNCATE journaling mode
     @RawQuery
     fun checkpoint(query: RoomRawQuery = RoomRawQuery("PRAGMA wal_checkpoint(FULL)")): Int
 }
