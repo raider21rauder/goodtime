@@ -81,7 +81,8 @@ class HistoryChartDataTest {
                 "4" to 15,
                 "5" to 15,
                 "6" to 15,
-                Label.OTHERS_LABEL_NAME to 10,
+                "7" to 5,
+                Label.OTHERS_LABEL_NAME to 5,
             ),
         )
 

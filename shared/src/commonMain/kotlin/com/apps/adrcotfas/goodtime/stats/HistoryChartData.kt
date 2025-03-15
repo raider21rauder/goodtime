@@ -187,7 +187,7 @@ fun computeHistoryChartData(
  */
 fun aggregateDataIfNeeded(
     data: Map<String, Long>,
-    threshold: Double = 0.075,
+    threshold: Double = 0.05,
     maxLabels: Int = 8,
 ): Map<String, Long> {
     if (data.isEmpty()) return data
@@ -196,7 +196,7 @@ fun aggregateDataIfNeeded(
     if (totalValue == 0L) return data
 
     val smallKeys = data.filter { (_, v) -> v.toDouble() / totalValue < threshold }.keys
-    val aggregatorNeeded = smallKeys.isNotEmpty() && data.size > maxLabels
+    val aggregatorNeeded = smallKeys.isNotEmpty() || data.size > maxLabels
 
     if (!aggregatorNeeded) return data
 
