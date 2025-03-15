@@ -75,10 +75,10 @@ fun PieChartSection(
     val onBackgroundColor = MaterialTheme.colorScheme.onBackground.toArgb()
 
     val workPerLabel = when (overviewDurationType) {
-        OverviewDurationType.TODAY -> overviewData.workTodayPerLabel
-        OverviewDurationType.THIS_WEEK -> overviewData.workThisWeekPerLabel
-        OverviewDurationType.THIS_MONTH -> overviewData.workThisMonthPerLabel
-        OverviewDurationType.TOTAL -> overviewData.workTotalPerLabel
+        OverviewDurationType.TODAY -> overviewData.workTodayPerLabel.filterValues { it != 0L }
+        OverviewDurationType.THIS_WEEK -> overviewData.workThisWeekPerLabel.filterValues { it != 0L }
+        OverviewDurationType.THIS_MONTH -> overviewData.workThisMonthPerLabel.filterValues { it != 0L }
+        OverviewDurationType.TOTAL -> overviewData.workTotalPerLabel.filterValues { it != 0L }
     }
 
     val entries = ArrayList<PieEntry>()

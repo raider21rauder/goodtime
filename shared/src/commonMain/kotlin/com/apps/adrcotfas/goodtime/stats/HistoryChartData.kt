@@ -187,38 +187,33 @@ fun computeHistoryChartData(
  */
 fun aggregateDataIfNeeded(
     data: Map<String, Long>,
-    threshold: Double = 0.05,
+    threshold: Double = 0.075,
     maxLabels: Int = 8,
 ): Map<String, Long> {
-    val sortedData = data.entries.sortedByDescending { it.value }
-    val totalValue = sortedData.sumOf { it.value }
+    if (data.isEmpty()) return data
 
+    val totalValue = data.values.sum()
     if (totalValue == 0L) return data
 
-    val smallValues = mutableListOf<Map.Entry<String, Long>>()
-    val largeValues = mutableListOf<Map.Entry<String, Long>>()
+    val smallKeys = data.filter { (_, v) -> v.toDouble() / totalValue < threshold }.keys
+    val aggregatorNeeded = smallKeys.isNotEmpty() && data.size > maxLabels
 
-    for (entry in sortedData) {
-        if (entry.value.toDouble() / totalValue < threshold) {
-            smallValues.add(entry)
+    if (!aggregatorNeeded) return data
+
+    val result = LinkedHashMap<String, Long>(data.size + 1)
+    var othersSum = 0L
+
+    data.forEach { (key, value) ->
+        if (key in smallKeys) {
+            othersSum += value
+            result[key] = 0
         } else {
-            largeValues.add(entry)
+            result[key] = value
         }
     }
 
-    return if (largeValues.size + smallValues.size > maxLabels) {
-        val smallValuesSum = smallValues.sumOf { it.value }
-        val (mainMapEntries, otherMapEntries) = if (largeValues.size <= maxLabels) {
-            largeValues to emptyList()
-        } else {
-            largeValues.take(maxLabels - 1) to largeValues.drop(maxLabels - 1)
-        }
-        val othersMap =
-            mapOf(Label.OTHERS_LABEL_NAME to otherMapEntries.sumOf { it.value } + smallValuesSum)
-
-        val result = mainMapEntries.associate { it.key to it.value } + othersMap
-        result
-    } else {
-        largeValues.associate { it.key to it.value }
+    if (othersSum > 0) {
+        result[Label.OTHERS_LABEL_NAME] = othersSum
     }
+    return result
 }
