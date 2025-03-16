@@ -24,7 +24,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
 
 @Composable
 fun ApplicationTheme(
@@ -55,5 +57,15 @@ fun ApplicationTheme(
             typography = AppTypography,
             content = content,
         )
+    }
+}
+
+@Composable
+fun MaterialTheme.getLabelColor(colorIndex: Long): Color {
+    val colors = localColorsPalette.colors
+    return if (colorIndex in colors.indices) {
+        colors[colorIndex.toInt()]
+    } else {
+        colors[DEFAULT_LABEL_COLOR_INDEX]
     }
 }

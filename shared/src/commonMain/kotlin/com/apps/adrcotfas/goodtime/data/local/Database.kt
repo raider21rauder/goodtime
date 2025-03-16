@@ -26,7 +26,7 @@ import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATIONS
 
 @Database(
     entities = [LocalLabel::class, LocalSession::class],
-    version = 7,
+    version = 8,
     exportSchema = true,
 )
 @ConstructedBy(ProductivityDatabaseConstructor::class)

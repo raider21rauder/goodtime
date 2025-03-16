@@ -54,7 +54,7 @@ import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
 import com.apps.adrcotfas.goodtime.ui.common.lastMenuItemModifier
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.MoreVertical
@@ -150,7 +150,7 @@ fun ArchivedLabelListItem(
                 .padding(8.dp),
             imageVector = Icons.AutoMirrored.Outlined.Label,
             contentDescription = null,
-            tint = MaterialTheme.localColorsPalette.colors[label.colorIndex.toInt()],
+            tint = MaterialTheme.getLabelColor(label.colorIndex),
         )
         Text(
             text = label.name,

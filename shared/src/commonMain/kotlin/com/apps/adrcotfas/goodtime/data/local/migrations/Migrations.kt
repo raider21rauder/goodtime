@@ -183,6 +183,18 @@ val MIGRATION_6_7: Migration = object : Migration(6, 7) {
     }
 }
 
+val MIGRATION_7_8: Migration = object : Migration(7, 8) {
+    override fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
+            """
+            UPDATE localLabel
+            SET colorIndex = 24
+            WHERE colorIndex = 42;
+            """.trimIndent(),
+        )
+    }
+}
+
 val MIGRATIONS = arrayOf(
     MIGRATION_1_2,
     MIGRATION_2_3,
@@ -190,4 +202,5 @@ val MIGRATIONS = arrayOf(
     MIGRATION_4_5,
     MIGRATION_5_6,
     MIGRATION_6_7,
+    MIGRATION_7_8,
 )

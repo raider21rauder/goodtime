@@ -79,7 +79,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.minutes
@@ -101,7 +101,7 @@ fun MainTimerView(
 
     val label = domainLabel.label
     val labelColorIndex = label.colorIndex
-    val labelColor = MaterialTheme.localColorsPalette.colors[labelColorIndex.toInt()]
+    val labelColor = MaterialTheme.getLabelColor(labelColorIndex)
     val isBreak = timerUiState.timerType != TimerType.WORK
 
     val isCountdown = domainLabel.profile.isCountdown
@@ -456,7 +456,7 @@ fun TimerTextView(
 fun CurrentStatusSectionPreview() {
     ApplicationTheme {
         CurrentStatusSection(
-            color = MaterialTheme.localColorsPalette.colors[13],
+            color = MaterialTheme.getLabelColor(13),
             isBreak = false,
             isActive = true,
             isPaused = false,

@@ -22,7 +22,7 @@ import kotlin.random.Random
 
 data class Label(
     val name: String,
-    val colorIndex: Long = 24,
+    val colorIndex: Long = DEFAULT_LABEL_COLOR_INDEX.toLong(),
     val orderIndex: Long = Long.MAX_VALUE,
     val useDefaultTimeProfile: Boolean = true,
     /** the real profile to be used is determined by [useDefaultTimeProfile], if true, use the default profile **/

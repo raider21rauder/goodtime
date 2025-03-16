@@ -51,7 +51,7 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
@@ -75,7 +75,7 @@ fun BottomAppBar(
         exit = fadeOut(),
     ) {
         val isDefaultLabel = labelData.name == Label.DEFAULT_LABEL_NAME
-        val color = MaterialTheme.localColorsPalette.colors[labelData.colorIndex.toInt()]
+        val color = MaterialTheme.getLabelColor(labelData.colorIndex)
 
         Row(
             modifier = Modifier

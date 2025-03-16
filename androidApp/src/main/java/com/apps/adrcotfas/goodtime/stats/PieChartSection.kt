@@ -47,7 +47,7 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.OverviewDurationType
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
@@ -95,11 +95,11 @@ fun PieChartSection(
         workPerLabel.keys.map {
             when (it) {
                 Label.OTHERS_LABEL_NAME -> {
-                    MaterialTheme.localColorsPalette.colors[Label.OTHERS_LABEL_COLOR_INDEX]
+                    MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong())
                 }
 
                 else -> {
-                    MaterialTheme.localColorsPalette.colors[selectedLabels.first { label -> label.name == it }.colorIndex.toInt()]
+                    MaterialTheme.getLabelColor(selectedLabels.first { label -> label.name == it }.colorIndex)
                 }
             }
         }.map { it.toArgb() }

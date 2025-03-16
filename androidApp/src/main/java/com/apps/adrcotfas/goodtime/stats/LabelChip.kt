@@ -44,7 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 
 @Composable
 fun LabelChip(
@@ -54,7 +54,7 @@ fun LabelChip(
     showIcon: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val color = MaterialTheme.localColorsPalette.colors[colorIndex.toInt()]
+    val color = MaterialTheme.getLabelColor(colorIndex)
     LabelChip(name, color, selected, showIcon, onClick)
 }
 
@@ -101,7 +101,7 @@ fun SmallLabelChip(
     name: String,
     colorIndex: Long,
 ) {
-    val color = MaterialTheme.localColorsPalette.colors[colorIndex.toInt()]
+    val color = MaterialTheme.getLabelColor(colorIndex)
     SmallLabelChip(name, color)
 }
 

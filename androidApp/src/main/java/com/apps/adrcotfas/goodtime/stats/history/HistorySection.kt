@@ -45,7 +45,7 @@ import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
+import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
@@ -82,8 +82,8 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     val colors =
         uiState.selectedLabels.map {
-            MaterialTheme.localColorsPalette.colors[it.colorIndex.toInt()]
-        }.plus(MaterialTheme.localColorsPalette.colors[Label.OTHERS_LABEL_COLOR_INDEX])
+            MaterialTheme.getLabelColor(it.colorIndex)
+        }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong()))
 
     val context = LocalContext.current
     val locale = context.resources.configuration.locales[0]
