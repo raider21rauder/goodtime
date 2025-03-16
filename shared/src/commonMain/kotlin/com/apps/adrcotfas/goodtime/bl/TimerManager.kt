@@ -354,7 +354,9 @@ class TimerManager(
             return
         }
 
-        handleFinishedSession(updateWorkTime, finishActionType = finishActionType)
+        if (finishActionType != FinishActionType.AUTO) {
+            handleFinishedSession(updateWorkTime, finishActionType = finishActionType)
+        }
 
         _timerData.update { it.reset() }
 
