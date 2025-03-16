@@ -48,7 +48,7 @@ class RestoreActivityResultLauncherManager(
         this.importedFilePath = importedFilePath
         this.importCallback = callback
 
-        importActivityResultLauncher?.launch("application/zip")
+        importActivityResultLauncher?.launch("application/*")
     }
 
     fun importCallback(uri: Uri?) {
@@ -79,7 +79,7 @@ class AndroidBackupPrompter(
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             type = when (backupType) {
-                BackupType.DB -> "application/zip"
+                BackupType.DB -> "application/*"
                 BackupType.JSON -> "application/json"
                 BackupType.CSV -> "text/csv"
             }
