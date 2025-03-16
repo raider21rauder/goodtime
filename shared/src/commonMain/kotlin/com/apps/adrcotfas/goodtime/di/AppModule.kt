@@ -71,6 +71,7 @@ fun insertKoin(appModule: Module, flavorModule: Module): KoinApplication {
             localDataModule,
             timerManagerModule,
             viewModelModule,
+            mainModule,
         )
     }
 }

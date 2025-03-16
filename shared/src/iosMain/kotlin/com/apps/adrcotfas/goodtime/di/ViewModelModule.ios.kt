@@ -31,11 +31,14 @@ import org.koin.dsl.module
 
 actual val viewModelModule: Module = module {
     singleOf(::MainViewModel)
-    singleOf(::TimerViewModel)
     singleOf(::FinishedSessionViewModel)
     singleOf(::LabelsViewModel)
     singleOf(::AddEditLabelViewModel)
     singleOf(::SettingsViewModel)
     singleOf(::StatisticsViewModel)
     singleOf(::StatisticsHistoryViewModel)
+}
+
+actual val mainModule: Module = module {
+    singleOf(::TimerViewModel)
 }

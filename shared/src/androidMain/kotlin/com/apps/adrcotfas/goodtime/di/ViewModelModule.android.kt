@@ -32,9 +32,9 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+// TODO: consider splitting these according to features/screens, not arch layers
 actual val viewModelModule: Module = module {
     viewModelOf(::MainViewModel)
-    viewModelOf(::TimerViewModel)
     viewModelOf(::FinishedSessionViewModel)
     viewModelOf(::LabelsViewModel)
     viewModelOf(::AddEditLabelViewModel)
@@ -42,4 +42,7 @@ actual val viewModelModule: Module = module {
     viewModel { BackupViewModel(get(), get(), get(named(IO_SCOPE))) }
     viewModelOf(::StatisticsViewModel)
     viewModelOf(::StatisticsHistoryViewModel)
+}
+actual val mainModule: Module = module {
+    viewModelOf(::TimerViewModel)
 }
