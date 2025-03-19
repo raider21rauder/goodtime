@@ -170,8 +170,7 @@ fun MainScreen(
     val backgroundColor by animateColorAsState(
         if (uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme()) &&
             uiState.trueBlackMode &&
-            timerUiState.isActive &&
-            hideBottomBar
+            timerUiState.isActive
         ) {
             Color.Black
         } else {

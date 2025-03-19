@@ -241,12 +241,25 @@ fun SettingsScreen(
                 checked = uiState.settings.uiSettings.keepScreenOn,
             ) {
                 viewModel.setKeepScreenOn(it)
+                if (!it) {
+                    viewModel.setScreensaverMode(false)
+                }
+            }
+            LockedCheckboxListItem(
+                title = stringResource(R.string.settings_fullscreen_mode),
+                checked = uiState.settings.uiSettings.fullscreenMode,
+                enabled = uiState.settings.isPro,
+            ) {
+                viewModel.setFullscreenMode(it)
+                if (!it) {
+                    viewModel.setScreensaverMode(false)
+                }
             }
             if (uiState.settings.isPro) {
                 CheckboxListItem(
                     title = stringResource(R.string.settings_screensaver_mode),
                     checked = uiState.settings.uiSettings.screensaverMode,
-                    enabled = uiState.settings.uiSettings.keepScreenOn,
+                    enabled = uiState.settings.uiSettings.keepScreenOn && uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setScreensaverMode(it)
                 }
@@ -259,13 +272,6 @@ fun SettingsScreen(
                     viewModel.setScreensaverMode(it)
                 }
             }
-            LockedCheckboxListItem(
-                title = stringResource(R.string.settings_fullscreen_mode),
-                checked = uiState.settings.uiSettings.fullscreenMode,
-                enabled = uiState.settings.isPro,
-            ) {
-                viewModel.setFullscreenMode(it)
-            }
             AnimatedVisibility(
                 uiState.settings.uiSettings.useDynamicColor &&
                     uiState.settings.uiSettings.themePreference.isDarkTheme(
@@ -276,7 +282,6 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_true_black_mode_title),
                     subtitle = stringResource(R.string.settings_true_black_mode_desc),
                     checked = uiState.settings.uiSettings.trueBlackMode,
-                    enabled = uiState.settings.uiSettings.fullscreenMode,
                 ) {
                     viewModel.setTrueBlackMode(it)
                 }
