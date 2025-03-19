@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Ohita nykyinen istunto pyyhkäisemällä oikeaan.</string>
     <string name="tutorial_swipe_up">☝️ Pyyhkäise ylöspäin lisätäksesi toisen minuutin.</string>
     <string name="tutorial_swipe_down">👇 Pyyhkäise alas lopettaaksesi.</string>
+    <string name="tutorial_time_profiles">Muokataksesi aikaprofiilia, muokkaa siihen liittyvää otsikkoa</string>
 </resources>

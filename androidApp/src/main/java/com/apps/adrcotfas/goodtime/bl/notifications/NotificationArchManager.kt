@@ -46,7 +46,7 @@ class NotificationArchManager(private val context: Context, private val activity
     }
 
     fun buildInProgressNotification(data: DomainTimerData): Notification {
-        val isCountDown = data.getTimerProfile().isCountdown
+        val isCountDown = data.isCurrentSessionCountdown()
         val baseTime = if (isCountDown) data.endTime else SystemClock.elapsedRealtime()
         val running = data.state != TimerState.PAUSED
         val timerType = data.type

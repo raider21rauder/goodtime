@@ -58,6 +58,7 @@ data class AppSettings(
     val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
     val showOnboarding: Boolean = true,
     val showTutorial: Boolean = true,
+    val showTimeProfileTutorial: Boolean = true,
     val isMainScreen: Boolean = true,
 )
 

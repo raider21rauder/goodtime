@@ -158,6 +158,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setShowTimeProfileTutorial(show: Boolean) {
+        _settings.emit(
+            _settings.value.copy(showTimeProfileTutorial = show),
+        )
+    }
+
     override suspend fun setIsMainScreen(isMainScreen: Boolean) {
         _settings.emit(
             _settings.value.copy(isMainScreen = isMainScreen),

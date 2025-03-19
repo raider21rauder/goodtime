@@ -268,6 +268,8 @@ fun MainScreen(
                             onLabelClick = { showSelectLabelDialog = true },
                             labelData = label.getLabelData(),
                             sessionCountToday = uiState.sessionCountToday,
+                            showTimeProfileTutorial = uiState.showTimeProfileTutorial,
+                            onTimeProfileTutorialFinished = { viewModel.setShowTimeProfileTutorial(false) },
                             badgeItemCount = settingsBadgeItemCount,
                             navController = navController,
                         )

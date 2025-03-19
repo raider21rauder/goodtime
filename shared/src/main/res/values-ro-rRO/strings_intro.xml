@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Glisați dreapta pentru a sări peste sesiunea curentă.</string>
     <string name="tutorial_swipe_up">☝️ Glisați cu degetul în sus pentru a adăuga încă un minut.</string>
     <string name="tutorial_swipe_down">👇 Glisați în jos pentru a opri.</string>
+    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
 </resources>

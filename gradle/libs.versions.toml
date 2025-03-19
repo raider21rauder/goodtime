@@ -7,6 +7,7 @@ android-targetSdk = "35"
 
 agp = "8.7.3"
 appUpdateKtx = "2.1.0"
+balloon = "1.6.12"
 billingKtx = "7.1.1"
 kotlin = "2.1.10"
 kotlinxCollectionsImmutable = "0.3.8"
@@ -74,6 +75,7 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "androidx-room" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
+balloon = { module = "com.github.skydoves:balloon-compose", version.ref = "balloon" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billingKtx" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }

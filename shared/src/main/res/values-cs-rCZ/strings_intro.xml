@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Přejeďte prstem vpravo pro přeskočení aktuální relace.</string>
     <string name="tutorial_swipe_up">☝️ Přejeďte prstem nahoru pro přidání minuty.</string>
     <string name="tutorial_swipe_down">👇 Přejetím dolů zastavíte.</string>
+    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
 </resources>

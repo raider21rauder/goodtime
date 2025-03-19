@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Przesuń w prawo, aby pominąć bieżącą sesję.</string>
     <string name="tutorial_swipe_up">☝️ Przesuń w górę, aby dodać jeszcze jedną minutę.</string>
     <string name="tutorial_swipe_down">👇 Przesuń w dół, aby zatrzymać.</string>
+    <string name="tutorial_time_profiles">Aby zmodyfikować profil czasu, edytuj przypisaną etykietę</string>
 </resources>

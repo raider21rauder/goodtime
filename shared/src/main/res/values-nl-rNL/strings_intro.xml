@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">:backhand_index_pointing_rechts: Swipe rechts om de huidige sessie over te slaan.</string>
     <string name="tutorial_swipe_up">☝️ Veeg omhoog om nog een minuut toe te voegen.</string>
     <string name="tutorial_swipe_down">👇 Swipe naar beneden om te stoppen.</string>
+    <string name="tutorial_time_profiles">Om het tijdprofiel aan te passen, bewerkt u het bijbehorend label</string>
 </resources>

@@ -31,12 +31,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Label
-import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +55,14 @@ import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.compose.Balloon
+import com.skydoves.balloon.compose.BalloonWindow
+import com.skydoves.balloon.compose.rememberBalloonBuilder
+import com.skydoves.balloon.compose.setBackgroundColor
+import com.skydoves.balloon.compose.setTextColor
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Menu2
@@ -63,6 +74,8 @@ fun BottomAppBar(
     hide: Boolean,
     labelData: LabelData,
     sessionCountToday: Int,
+    showTimeProfileTutorial: Boolean,
+    onTimeProfileTutorialFinished: () -> Unit,
     onShowSheet: () -> Unit,
     onLabelClick: () -> Unit,
     navController: NavController,
@@ -103,22 +116,58 @@ fun BottomAppBar(
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 onLabelClick()
             }
-            if (isDefaultLabel) {
-                IconButton(onClick = onNavigateToSelectLabelDialog) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.Label,
-                        contentDescription = stringResource(R.string.labels_title),
-                        tint = color,
-                    )
-                }
-            } else {
-                Row(modifier = Modifier.padding(horizontal = 4.dp)) {
-                    LabelChip(
-                        name = labelData.name,
-                        color = color,
-                        selected = true,
-                        showIcon = true,
-                    ) { onNavigateToSelectLabelDialog() }
+            var balloonWindow: BalloonWindow? by remember { mutableStateOf(null) }
+            balloonWindow?.setOnBalloonDismissListener {
+                onTimeProfileTutorialFinished()
+            }
+
+            val textColor = MaterialTheme.colorScheme.onSurface
+            val backgroundColor = MaterialTheme.colorScheme.surfaceContainer
+            val builder = rememberBalloonBuilder {
+                setArrowSize(10)
+                setArrowPosition(0.5f)
+                setElevation(1)
+                setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                setWidth(BalloonSizeSpec.WRAP)
+                setHeight(BalloonSizeSpec.WRAP)
+                setBalloonAnimation(BalloonAnimation.FADE)
+                setPadding(12)
+                setMarginHorizontal(12)
+                setCornerRadius(8f)
+                setBackgroundColor(backgroundColor)
+                setTextColor(textColor)
+                setDismissWhenClicked(true)
+            }
+
+            Balloon(
+                builder = builder,
+                onBalloonWindowInitialized = { balloonWindow = it },
+                onComposedAnchor = {
+                    if (showTimeProfileTutorial) {
+                        balloonWindow?.showAlignTop()
+                    }
+                },
+                balloonContent = {
+                    Text(text = "To modify the time profile, edit the associated label", style = MaterialTheme.typography.labelMedium)
+                },
+            ) {
+                if (isDefaultLabel) {
+                    IconButton(onClick = onNavigateToSelectLabelDialog) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Label,
+                            contentDescription = stringResource(R.string.labels_title),
+                            tint = color,
+                        )
+                    }
+                } else {
+                    Row(modifier = Modifier.padding(horizontal = 4.dp)) {
+                        LabelChip(
+                            name = labelData.name,
+                            color = color,
+                            selected = true,
+                            showIcon = true,
+                        ) { onNavigateToSelectLabelDialog() }
+                    }
                 }
             }
             IconButton(onClick = {

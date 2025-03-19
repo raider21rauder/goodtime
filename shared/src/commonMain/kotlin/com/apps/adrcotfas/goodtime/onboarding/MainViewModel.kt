@@ -110,6 +110,12 @@ class MainViewModel(
         }
     }
 
+    fun setShowTimeProfileTutorial(show: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setShowTimeProfileTutorial(show)
+        }
+    }
+
     fun resetShouldAskForReview() =
         viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
 }

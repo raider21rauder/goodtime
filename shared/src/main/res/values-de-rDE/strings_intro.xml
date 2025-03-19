@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Wische nach rechts, um die aktuelle Sitzung zu überspringen.</string>
     <string name="tutorial_swipe_up">☝️ Wischen Sie nach oben, um eine weitere Minute hinzuzufügen.</string>
     <string name="tutorial_swipe_down">👇 Nach unten wischen, um zu stoppen.</string>
+    <string name="tutorial_time_profiles">Um das Zeitprofil zu ändern, bearbeiten Sie die zugehörige Bezeichnung</string>
 </resources>

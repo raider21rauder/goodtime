@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Desliza a la derecha para omitir la sesión actual.</string>
     <string name="tutorial_swipe_up">☝️ Deslizar hacia arriba para añadir un minuto más.</string>
     <string name="tutorial_swipe_down">👇 Deslice hacia abajo para detener.</string>
+    <string name="tutorial_time_profiles">Para modificar el perfil de tiempo, edite la etiqueta asociada</string>
 </resources>

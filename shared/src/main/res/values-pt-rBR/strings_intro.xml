@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Deslize para a direita para pular a sessão atual.</string>
     <string name="tutorial_swipe_up">☝️ Deslize para cima para adicionar mais um minuto.</string>
     <string name="tutorial_swipe_down">👇 Deslize para baixo para parar.</string>
+    <string name="tutorial_time_profiles">Para modificar o perfil de hora, edite o rótulo associado</string>
 </resources>

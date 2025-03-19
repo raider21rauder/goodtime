@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 اسحب لليمين لتخطي الجلسة الحالية.</string>
     <string name="tutorial_swipe_up">☝️ اسحب لأعلى لإضافة دقيقة أخرى.</string>
     <string name="tutorial_swipe_down">👇 اسحب للأسفل للتوقف.</string>
+    <string name="tutorial_time_profiles">لتعديل الملف الشخصي للوقت، قم بتحرير التسمية المرتبطة</string>
 </resources>

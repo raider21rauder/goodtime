@@ -31,4 +31,5 @@
     <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
     <string name="tutorial_swipe_up">☝️ Feu lliscar el dit cap a enrere per afegir un minut més.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
+    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
 </resources>

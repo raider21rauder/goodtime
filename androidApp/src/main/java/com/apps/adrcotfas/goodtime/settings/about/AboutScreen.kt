@@ -109,6 +109,7 @@ fun AboutScreen(
                 icon = { Icon(Icons.Outlined.Preview, contentDescription = stringResource(R.string.tutorial_title)) },
                 onClick = {
                     mainViewModel.setShowTutorial(true)
+                    mainViewModel.setShowTimeProfileTutorial(true)
                     onNavigateToMain()
                 },
             )

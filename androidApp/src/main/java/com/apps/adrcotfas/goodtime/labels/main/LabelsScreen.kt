@@ -22,7 +22,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -33,7 +36,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -51,7 +57,6 @@ import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.DraggableItem
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
-import com.apps.adrcotfas.goodtime.ui.common.IconButtonWithBadge
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.dragContainer
 import com.apps.adrcotfas.goodtime.ui.rememberDragDropState
@@ -103,11 +108,6 @@ fun LabelsScreen(
             TopBar(
                 title = stringResource(R.string.labels_title),
                 onNavigateBack = { onNavigateBack() },
-                actions = {
-                    ArchivedLabelsButton(uiState.archivedLabelCount) {
-                        onNavigateToArchivedLabels()
-                    }
-                },
                 showSeparator = listState.canScrollBackward,
             )
         },
@@ -134,39 +134,70 @@ fun LabelsScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
     ) { paddingValues ->
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = paddingValues,
-        ) {
-            itemsIndexed(
-                labels,
-                key = { _, item -> item.name },
-            ) { index, label ->
-                DraggableItem(dragDropState, index) { isDragging ->
-                    LabelListItem(
-                        label = label,
-                        isDragging = isDragging,
-                        dragModifier = Modifier.dragContainer(
-                            dragDropState = dragDropState,
-                            key = label.name,
-                            onDragFinished = { viewModel.rearrangeLabelsToDisk() },
-                        ),
-                        onEdit = {
-                            onNavigateToLabel(AddEditLabelDest(label.name))
-                        },
-                        onDuplicate = {
-                            viewModel.duplicateLabel(
-                                if (label.isDefault()) defaultLabelName else label.name,
-                                label.isDefault(),
-                            )
-                        },
-                        onArchive = { viewModel.setArchived(label.name, true) },
-                        onDelete = {
-                            labelToDelete = label.name
-                            showDeleteConfirmationDialog = true
-                        },
-                    )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            if (uiState.archivedLabelCount > 0) {
+                ListItem(
+                    modifier = Modifier.clickable {
+                        onNavigateToArchivedLabels()
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Archive,
+                            tint = MaterialTheme.colorScheme.secondary,
+                            contentDescription = stringResource(R.string.labels_navigate_to_archived),
+                        )
+                    },
+                    headlineContent = {
+                        Text(
+                            text = stringResource(R.string.labels_archived_labels_title),
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.secondary,
+                            ),
+                        )
+                    },
+                    trailingContent = {
+                        Text(
+                            text = "${uiState.archivedLabelCount}",
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.secondary,
+                            ),
+                        )
+                    },
+                )
+            }
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                itemsIndexed(
+                    labels,
+                    key = { _, item -> item.name },
+                ) { index, label ->
+                    DraggableItem(dragDropState, index) { isDragging ->
+                        LabelListItem(
+                            label = label,
+                            isDragging = isDragging,
+                            dragModifier = Modifier.dragContainer(
+                                dragDropState = dragDropState,
+                                key = label.name,
+                                onDragFinished = { viewModel.rearrangeLabelsToDisk() },
+                            ),
+                            onEdit = {
+                                onNavigateToLabel(AddEditLabelDest(label.name))
+                            },
+                            onDuplicate = {
+                                viewModel.duplicateLabel(
+                                    if (label.isDefault()) defaultLabelName else label.name,
+                                    label.isDefault(),
+                                )
+                            },
+                            onArchive = { viewModel.setArchived(label.name, true) },
+                            onDelete = {
+                                labelToDelete = label.name
+                                showDeleteConfirmationDialog = true
+                            },
+                        )
+                    }
                 }
             }
         }
@@ -182,21 +213,6 @@ fun LabelsScreen(
             )
         }
     }
-}
-
-@Composable
-fun ArchivedLabelsButton(count: Int, onClick: () -> Unit) {
-    IconButtonWithBadge(
-        icon = {
-            Icon(
-                imageVector = EvaIcons.Outline.Archive,
-                contentDescription = stringResource(R.string.labels_navigate_to_archived),
-            )
-        },
-        showWhenNothingSelected = false,
-        count = count,
-        onClick = onClick,
-    )
 }
 
 @Composable
