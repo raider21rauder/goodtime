@@ -59,6 +59,7 @@ import kotlin.time.Duration.Companion.seconds
 data class TimerUiState(
     val isReady: Boolean = false,
     val label: DomainLabel = DomainLabel(),
+    val isCountdown: Boolean = false,
     val baseTime: Long = 0,
     val timerState: TimerState = TimerState.RESET,
     val timerType: TimerType = TimerType.WORK,
@@ -210,6 +211,7 @@ class TimerViewModel(
             TimerUiState(
                 isReady = it.isReady,
                 label = it.label,
+                isCountdown = it.isCurrentSessionCountdown(),
                 baseTime = it.getBaseTime(timeProvider),
                 timerState = it.state,
                 timerType = it.type,

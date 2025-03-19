@@ -110,7 +110,7 @@ class MainActivity : GoodtimeMainActivity() {
         timerViewModel.onBringToForeground()
         timerStateJob = lifecycleScope.launch {
             timerViewModel.timerUiState.filter { it.isActive }
-                .map { it.label.isCountdown to it.baseTime }.collect {
+                .map { it.isCountdown to it.baseTime }.collect {
                     if (it.first && it.second < 500) {
                         // the app is in foreground, trigger the end of the session
                         timerViewModel.forceFinish()

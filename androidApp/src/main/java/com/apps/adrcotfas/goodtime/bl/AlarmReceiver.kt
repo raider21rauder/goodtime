@@ -40,7 +40,7 @@ class AlarmReceiver : BroadcastReceiver(), KoinComponent {
         ).apply {
             acquire(10.seconds.inWholeMilliseconds)
         }
-        val isCountdown = timerManager.timerData.value.getTimerProfile().isCountdown
+        val isCountdown = timerManager.timerData.value.isCurrentSessionCountdown()
         if (isCountdown) {
             timerManager.finish()
         } else {
