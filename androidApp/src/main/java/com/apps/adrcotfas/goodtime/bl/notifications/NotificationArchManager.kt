@@ -23,7 +23,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -47,7 +46,7 @@ class NotificationArchManager(private val context: Context, private val activity
 
     fun buildInProgressNotification(data: DomainTimerData): Notification {
         val isCountDown = data.isCurrentSessionCountdown()
-        val baseTime = if (isCountDown) data.endTime else SystemClock.elapsedRealtime()
+        val baseTime = if (isCountDown) data.endTime else data.startTime + data.timeSpentPaused
         val running = data.state != TimerState.PAUSED
         val timerType = data.type
 
