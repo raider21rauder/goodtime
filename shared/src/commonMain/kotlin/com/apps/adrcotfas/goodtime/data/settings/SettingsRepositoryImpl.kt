@@ -69,7 +69,6 @@ class SettingsRepositoryImpl(
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val showTimeProfileTutorialKey = booleanPreferencesKey("showTimeProfileTutorialKey")
-        val isMainScreenKey = booleanPreferencesKey("isMainScreenKey")
     }
 
     override val settings: Flow<AppSettings> = dataStore.data
@@ -135,7 +134,6 @@ class SettingsRepositoryImpl(
                 showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
                 showTimeProfileTutorial = it[Keys.showTimeProfileTutorialKey]
                     ?: default.showTimeProfileTutorial,
-                isMainScreen = it[Keys.isMainScreenKey] ?: default.isMainScreen,
             )
         }.catch {
             log.e("Error parsing settings", it)
@@ -275,10 +273,6 @@ class SettingsRepositoryImpl(
 
     override suspend fun setShowTimeProfileTutorial(show: Boolean) {
         dataStore.edit { it[Keys.showTimeProfileTutorialKey] = show }
-    }
-
-    override suspend fun setIsMainScreen(isMainScreen: Boolean) {
-        dataStore.edit { it[Keys.isMainScreenKey] = isMainScreen }
     }
 
     override suspend fun setPro(isPro: Boolean) {

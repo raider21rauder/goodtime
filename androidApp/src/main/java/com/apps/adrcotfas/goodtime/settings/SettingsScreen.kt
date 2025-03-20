@@ -242,17 +242,31 @@ fun SettingsScreen(
             ) {
                 viewModel.setKeepScreenOn(it)
                 if (!it) {
+                    viewModel.setFullscreenMode(false)
                     viewModel.setScreensaverMode(false)
                 }
             }
-            LockedCheckboxListItem(
-                title = stringResource(R.string.settings_fullscreen_mode),
-                checked = uiState.settings.uiSettings.fullscreenMode,
-                enabled = uiState.settings.isPro,
-            ) {
-                viewModel.setFullscreenMode(it)
-                if (!it) {
-                    viewModel.setScreensaverMode(false)
+            if (uiState.settings.isPro) {
+                CheckboxListItem(
+                    title = stringResource(R.string.settings_fullscreen_mode),
+                    checked = uiState.settings.uiSettings.fullscreenMode,
+                    enabled = uiState.settings.uiSettings.keepScreenOn,
+                ) {
+                    viewModel.setFullscreenMode(it)
+                    if (!it) {
+                        viewModel.setScreensaverMode(false)
+                    }
+                }
+            } else {
+                LockedCheckboxListItem(
+                    title = stringResource(R.string.settings_fullscreen_mode),
+                    checked = false,
+                    enabled = false,
+                ) {
+                    viewModel.setFullscreenMode(it)
+                    if (!it) {
+                        viewModel.setScreensaverMode(false)
+                    }
                 }
             }
             if (uiState.settings.isPro) {
@@ -266,10 +280,9 @@ fun SettingsScreen(
             } else {
                 LockedCheckboxListItem(
                     title = stringResource(R.string.settings_screensaver_mode),
-                    checked = uiState.settings.uiSettings.screensaverMode,
+                    checked = false,
                     enabled = false,
                 ) {
-                    viewModel.setScreensaverMode(it)
                 }
             }
             AnimatedVisibility(

@@ -26,7 +26,7 @@ data object OnboardingDest
 data object MainDest
 
 val MainDest.route: String
-    get() = MainDest::class.java.name
+    get() = "com.apps.adrcotfas.goodtime.main.MainDest"
 
 @Serializable
 data object LabelsDest

@@ -87,7 +87,6 @@ data class TimerMainUiState(
     val fullscreenMode: Boolean = false,
     val trueBlackMode: Boolean = true,
     val dndDuringWork: Boolean = false,
-    val isMainScreen: Boolean = true,
     val labels: List<LabelData> = emptyList(),
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
@@ -134,8 +133,7 @@ class TimerViewModel(
                     old.uiSettings == new.uiSettings &&
                     old.isPro == new.isPro &&
                     old.showTutorial == new.showTutorial &&
-                    old.showTimeProfileTutorial == new.showTimeProfileTutorial &&
-                    old.isMainScreen == new.isMainScreen
+                    old.showTimeProfileTutorial == new.showTimeProfileTutorial
             }.collect {
                 val settings = it
                 val uiSettings = settings.uiSettings
@@ -152,7 +150,6 @@ class TimerViewModel(
                         isPro = settings.isPro,
                         showTutorial = settings.showTutorial,
                         showTimeProfileTutorial = settings.showTimeProfileTutorial,
-                        isMainScreen = settings.isMainScreen,
                     )
                 }
             }

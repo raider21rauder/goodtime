@@ -50,7 +50,6 @@ interface SettingsRepository {
     suspend fun setShowOnboarding(show: Boolean)
     suspend fun setShowTutorial(show: Boolean)
     suspend fun setShowTimeProfileTutorial(show: Boolean)
-    suspend fun setIsMainScreen(isMainScreen: Boolean)
     suspend fun setPro(isPro: Boolean)
     suspend fun setShouldAskForReview(enable: Boolean)
 }
