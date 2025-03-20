@@ -17,29 +17,16 @@
  */
 package com.apps.adrcotfas.goodtime.data.local
 
-import androidx.room.ConstructedBy
-import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.RoomDatabaseConstructor
+import androidx.sqlite.driver.NativeSQLiteDriver
+import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATIONS
 
-@Database(
-    entities = [LocalLabel::class, LocalSession::class],
-    version = 8,
-    exportSchema = true,
-)
-@ConstructedBy(ProductivityDatabaseConstructor::class)
-abstract class ProductivityDatabase : RoomDatabase() {
-    abstract fun labelsDao(): LabelDao
-    abstract fun sessionsDao(): SessionDao
-}
-
-@Suppress("NO_ACTUAL_FOR_EXPECT")
-expect object ProductivityDatabaseConstructor : RoomDatabaseConstructor<ProductivityDatabase> {
-    override fun initialize(): ProductivityDatabase
-}
-
-expect fun getRoomDatabase(
+actual fun getRoomDatabase(
     builder: RoomDatabase.Builder<ProductivityDatabase>,
-): ProductivityDatabase
-
-const val DATABASE_NAME = "goodtime-db"
+): ProductivityDatabase {
+    return builder
+        .addMigrations(*MIGRATIONS)
+        .fallbackToDestructiveMigration(dropAllTables = true)
+        .setDriver(NativeSQLiteDriver())
+        .build()
+}
