@@ -16,7 +16,7 @@ android {
         applicationId = packageName
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 307
+        versionCode = 308
         versionName = "3.0.0"
     }
     buildFeatures {
