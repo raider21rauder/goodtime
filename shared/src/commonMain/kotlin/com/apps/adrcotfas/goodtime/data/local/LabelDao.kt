@@ -101,6 +101,6 @@ interface LabelDao {
     @Query("DELETE FROM localLabel WHERE name != 'PRODUCTIVITY_DEFAULT_LABEL'")
     suspend fun deleteAll()
 
-    @Query("UPDATE localLabel SET isArchived = true WHERE name != 'PRODUCTIVITY_DEFAULT_LABEL'")
+    @Query("UPDATE localLabel SET isArchived = 1 WHERE name != 'PRODUCTIVITY_DEFAULT_LABEL'")
     suspend fun archiveAllButDefault()
 }
