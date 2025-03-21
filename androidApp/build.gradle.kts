@@ -16,7 +16,7 @@ android {
         applicationId = packageName
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 308
+        versionCode = 310
         versionName = "3.0.0"
     }
     buildFeatures {
@@ -114,6 +114,8 @@ dependencies {
 
     implementation(libs.lottie.compose)
     implementation(libs.balloon)
+
+    implementation(libs.work.runtime.ktx)
 
     "googleImplementation"(libs.billing.ktx)
     "googleImplementation"(libs.app.update.ktx)

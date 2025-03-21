@@ -45,7 +45,7 @@ class AlarmManagerHandler(
             when (event) {
                 is Event.SendToBackground -> {
                     isForeground = false
-                    if (event.endTime != 0L) {
+                    if (event.endTime != 0L && event.isTimerRunning) {
                         setAlarm(event.endTime)
                     }
                 }

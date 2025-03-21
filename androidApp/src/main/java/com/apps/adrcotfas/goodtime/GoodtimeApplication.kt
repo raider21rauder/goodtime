@@ -23,7 +23,9 @@ import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
 import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
+import com.apps.adrcotfas.goodtime.bl.SessionResetHandler
 import com.apps.adrcotfas.goodtime.bl.TIMER_SERVICE_HANDLER
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerServiceStarter
@@ -134,6 +136,9 @@ class GoodtimeApplication : Application() {
                         vibrationPlayer = get(),
                         torchManager = get(),
                     )
+                }
+                single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
+                    SessionResetHandler(get(), getWith("SessionResetHandler"))
                 }
             },
             flavorModule,

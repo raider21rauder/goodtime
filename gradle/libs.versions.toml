@@ -48,6 +48,8 @@ turbine = "1.2.0"
 vico = "2.1.0-beta.2"
 androidchart = "3.1.0.25"
 
+work = "2.10.0"
+
 [libraries]
 acra-mail = { module = "ch.acra:acra-mail", version.ref = "acra" }
 acra-notification = { module = "ch.acra:acra-notification", version.ref = "acra" }
@@ -108,6 +110,8 @@ mikepenz-aboutlibraries-compose = { module = "com.mikepenz:aboutlibraries-compos
 
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
 vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

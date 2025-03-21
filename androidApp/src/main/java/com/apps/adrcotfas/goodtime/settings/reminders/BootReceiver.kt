@@ -20,6 +20,9 @@ package com.apps.adrcotfas.goodtime.settings.reminders
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.apps.adrcotfas.goodtime.bl.EventListener
+import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
+import com.apps.adrcotfas.goodtime.bl.SessionResetHandler
 import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
@@ -35,6 +38,7 @@ class BootReceiver : BroadcastReceiver(), KoinComponent {
 
     private val reminderHelper: ReminderHelper by inject()
     private val settingsRepository: SettingsRepository by inject()
+    private val sessionResetHandler: EventListener by inject(named(EventListener.SESSION_RESET_HANDLER))
     private val coroutineScope: CoroutineScope by inject(named(IO_SCOPE))
     private val logger by injectLogger(TAG)
 
@@ -44,9 +48,14 @@ class BootReceiver : BroadcastReceiver(), KoinComponent {
             if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
                 logger.d("onBootComplete")
                 reminderHelper.scheduleNotifications()
+
+                // Reset the break budget data
                 coroutineScope.launch {
                     settingsRepository.setBreakBudgetData(BreakBudgetData())
                 }
+
+                // Reset the session reset handler
+                (sessionResetHandler as SessionResetHandler).cancel()
             }
         } catch (e: RuntimeException) {
             logger.e("Could not process intent")

@@ -579,6 +579,7 @@ class TimerManager(
         listeners.forEach {
             it.onEvent(
                 Event.SendToBackground(
+                    isTimerRunning = timerData.state.isRunning,
                     endTime = if (isCountdown) {
                         timerData.endTime
                     } else {

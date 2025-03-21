@@ -23,3 +23,5 @@ val EventListener.Companion.ALARM_MANAGER_HANDLER: String
     get() = "AlarmManagerHandler"
 val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
     get() = "SoundAndVibrationPlayer"
+val EventListener.Companion.SESSION_RESET_HANDLER: String
+    get() = "SessionResetHandler"

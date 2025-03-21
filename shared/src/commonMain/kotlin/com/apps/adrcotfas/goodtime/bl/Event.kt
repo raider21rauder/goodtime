@@ -23,7 +23,7 @@ sealed class Event {
     data class AddOneMinute(val endTime: Long) : Event()
     data class Finished(val type: TimerType, val autostartNextSession: Boolean = false) : Event()
     data object Reset : Event()
-    data class SendToBackground(val endTime: Long) : Event()
+    data class SendToBackground(val isTimerRunning: Boolean, val endTime: Long) : Event()
     data object BringToForeground : Event()
 }
 

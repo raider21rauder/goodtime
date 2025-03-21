@@ -18,7 +18,6 @@
 package com.apps.adrcotfas.goodtime.main
 
 import android.annotation.SuppressLint
-import android.os.SystemClock
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -48,7 +47,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -93,8 +91,6 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -294,19 +290,11 @@ fun MainScreen(
         )
     }
 
-    var showFinishedSessionSheet by remember { mutableStateOf(false) }
-    LaunchedEffect(timerUiState.isFinished) {
-        if (timerUiState.isFinished) {
-            showFinishedSessionSheet = true
-        }
+    var showFinishedSessionSheet by remember(timerUiState.isFinished) {
+        mutableStateOf(timerUiState.isFinished)
     }
 
-    val timeSinceFinished = if (timerUiState.endTime == 0L) {
-        0
-    } else {
-        SystemClock.elapsedRealtime() - timerUiState.endTime
-    }
-    if (showFinishedSessionSheet && timeSinceFinished.milliseconds < 30.minutes) {
+    if (showFinishedSessionSheet) {
         FinishedSessionSheet(
             timerUiState = timerUiState,
             onHideSheet = { showFinishedSessionSheet = false },
