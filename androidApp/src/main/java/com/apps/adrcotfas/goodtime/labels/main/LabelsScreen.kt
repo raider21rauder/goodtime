@@ -135,7 +135,7 @@ fun LabelsScreen(
         floatingActionButtonPosition = FabPosition.End,
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            if (uiState.archivedLabelCount > 0) {
+            AnimatedVisibility(uiState.archivedLabelCount > 0) {
                 ListItem(
                     modifier = Modifier.clickable {
                         onNavigateToArchivedLabels()
