@@ -34,7 +34,11 @@ class TimerService : Service(), KoinComponent {
 
     override fun onBind(intent: Intent?) = null
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent == null || intent.action == null) {
+            log.w { "onStartCommand: intent or action is null" }
+            return START_NOT_STICKY
+        }
         val data = timerManager.timerData.value
         log.v { "onStartCommand: ${intent.action}" }
         when (intent.action) {
