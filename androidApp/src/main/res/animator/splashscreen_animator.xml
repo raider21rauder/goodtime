@@ -16,6 +16,19 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
-<resources>
-    <style name="AppTheme" parent="android:Theme.Material.NoActionBar"/>
-</resources>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="1000">
+
+    <propertyValuesHolder
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="0.3"
+        android:valueTo="0.45" />
+
+    <propertyValuesHolder
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="0.3"
+        android:valueTo="0.45" />
+
+</objectAnimator>

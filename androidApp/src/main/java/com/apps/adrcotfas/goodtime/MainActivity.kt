@@ -24,11 +24,7 @@ import android.view.WindowManager
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,12 +32,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.TransformOrigin
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -81,11 +79,15 @@ import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
+import com.apps.adrcotfas.goodtime.ui.isSystemInDarkTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -129,22 +131,57 @@ class MainActivity : GoodtimeMainActivity() {
 
     @SuppressLint("UnrememberedGetBackStackEntry", "UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         log.d { "onCreate" }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
+        var themeSettings by mutableStateOf(
+            ThemeSettings(
+                darkTheme = resources.configuration.isSystemInDarkTheme,
+                isDynamicTheme = false,
+            ),
+        )
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    isSystemInDarkTheme(),
+                    viewModel.uiState,
+                ) { systemDark, uiState ->
+                    ThemeSettings(
+                        darkTheme = uiState.darkThemePreference.isDarkTheme(systemDark) && !uiState.showOnboarding,
+                        isDynamicTheme = uiState.isDynamicColor,
+                    )
+                }
+                    .onEach { themeSettings = it }
+                    .map { it.darkTheme }
+                    .distinctUntilChanged()
+                    .collect { darkTheme ->
+                        enableEdgeToEdge(
+                            statusBarStyle = SystemBarStyle.auto(
+                                lightScrim = android.graphics.Color.TRANSPARENT,
+                                darkScrim = android.graphics.Color.TRANSPARENT,
+                            ) { darkTheme },
+                            navigationBarStyle = SystemBarStyle.auto(
+                                lightScrim = lightScrim,
+                                darkScrim = darkScrim,
+                            ) { darkTheme },
+                        )
+                    }
+            }
+        }
+
+        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.loading }
+
         setContent {
             val coroutineScope = rememberCoroutineScope()
-            val onboardingState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            // TODO: add loading/splash screen
-            if (onboardingState.loading) {
-                return@setContent
-            }
+            val mainUiState by viewModel.uiState.collectAsStateWithLifecycle()
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val isDarkTheme = uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme())
+            val isDarkTheme = themeSettings.darkTheme
             val workSessionIsInProgress = uiState.isWorkSessionInProgress
             val showWhenLocked = uiState.showWhenLocked
             val isActive = uiState.isActive
@@ -189,35 +226,15 @@ class MainActivity : GoodtimeMainActivity() {
                 }
             }
 
-            val startDestination = remember(onboardingState.showOnboarding) {
-                if (onboardingState.showOnboarding) {
+            val startDestination = remember(mainUiState.showOnboarding) {
+                if (mainUiState.showOnboarding) {
                     OnboardingDest
                 } else {
                     MainDest
                 }
             }
 
-            DisposableEffect(isDarkTheme, onboardingState.showOnboarding) {
-                val considerDarkTheme =
-                    if (onboardingState.showOnboarding) {
-                        false
-                    } else {
-                        isDarkTheme
-                    }
-                enableEdgeToEdge(
-                    statusBarStyle = SystemBarStyle.auto(
-                        android.graphics.Color.TRANSPARENT,
-                        android.graphics.Color.TRANSPARENT,
-                    ) { considerDarkTheme },
-                    navigationBarStyle = SystemBarStyle.auto(
-                        lightScrim,
-                        darkScrim,
-                    ) { considerDarkTheme },
-                )
-                onDispose {}
-            }
-
-            ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = uiState.isDynamicColor) {
+            ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = themeSettings.isDynamicTheme) {
                 val navController = rememberNavController()
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     isMainScreen = destination.route == MainDest.route
@@ -231,18 +248,6 @@ class MainActivity : GoodtimeMainActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = startDestination,
-                        popExitTransition = {
-                            scaleOut(
-                                targetScale = 0.9f,
-                                transformOrigin = TransformOrigin(
-                                    pivotFractionX = 0.5f,
-                                    pivotFractionY = 0.5f,
-                                ),
-                            )
-                        },
-                        popEnterTransition = {
-                            EnterTransition.None
-                        },
                     ) {
                         composable<OnboardingDest> { OnboardingScreen() }
                         composable<MainDest> {
@@ -396,3 +401,8 @@ class MainActivity : GoodtimeMainActivity() {
 
 private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
+
+data class ThemeSettings(
+    val darkTheme: Boolean,
+    val isDynamicTheme: Boolean,
+)

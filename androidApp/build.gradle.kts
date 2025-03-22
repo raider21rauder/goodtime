@@ -114,6 +114,7 @@ dependencies {
 
     implementation(libs.lottie.compose)
     implementation(libs.balloon)
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.work.runtime.ktx)
 
