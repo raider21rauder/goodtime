@@ -269,10 +269,12 @@ fun AddEditLabelScreen(
                                 enableSwitch = true,
                                 switchValue = isBreakEnabled,
                                 onSwitchChange = {
+                                    val longBreakState = if (!it) false else isLongBreakEnabled
                                     viewModel.setNewLabel(
                                         label.copy(
                                             timerProfile = label.timerProfile.copy(
                                                 isBreakEnabled = it,
+                                                isLongBreakEnabled = longBreakState,
                                             ),
                                         ),
                                     )
