@@ -52,6 +52,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -60,6 +61,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -92,6 +94,7 @@ import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Navigation2
 import compose.icons.evaicons.outline.Unlock
 import org.koin.androidx.compose.koinViewModel
 
@@ -100,6 +103,7 @@ import org.koin.androidx.compose.koinViewModel
 fun AddEditLabelScreen(
     viewModel: AddEditLabelViewModel = koinViewModel(),
     labelName: String,
+    onNavigateToDefault: () -> Unit,
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Unit,
 ) {
@@ -199,6 +203,23 @@ fun AddEditLabelScreen(
                 ListItem(
                     modifier = Modifier.clickable {
                         viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
+                    },
+                    leadingContent = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            FilledTonalIconButton(onClick = {
+                                onNavigateToDefault()
+                            }) {
+                                Icon(
+                                    imageVector = EvaIcons.Outline.Navigation2,
+                                    contentDescription = stringResource(R.string.labels_default_label_name),
+                                    tint = MaterialTheme.colorScheme.primary,
+                                )
+                            }
+                            VerticalDivider(modifier = Modifier.height(32.dp))
+                        }
                     },
                     headlineContent = {
                         Text(stringResource(R.string.labels_follow_default_time_profile))

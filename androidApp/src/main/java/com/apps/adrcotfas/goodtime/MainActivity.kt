@@ -48,6 +48,7 @@ import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.COUNT_UP_HARD_LIMIT
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
@@ -278,6 +279,7 @@ class MainActivity : GoodtimeMainActivity() {
                             val addEditLabelDest = it.toRoute<AddEditLabelDest>()
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
+                                onNavigateToDefault = { navController.navigate(AddEditLabelDest(name = Label.DEFAULT_LABEL_NAME)) },
                                 onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack2,
                             )
