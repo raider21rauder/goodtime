@@ -40,6 +40,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -269,7 +270,7 @@ class MainActivity : GoodtimeMainActivity() {
                                     navController.navigate(ArchivedLabelsDest)
                                 },
                                 onNavigateToPro = { navController.navigate(ProDest) },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                                 viewModel = viewModel,
                             )
                         }
@@ -278,7 +279,7 @@ class MainActivity : GoodtimeMainActivity() {
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
                                 onNavigateToPro = { navController.navigate(ProDest) },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<ArchivedLabelsDest> {
@@ -287,13 +288,13 @@ class MainActivity : GoodtimeMainActivity() {
                             val viewModel =
                                 koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
                             ArchivedLabelsScreen(
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                                 viewModel = viewModel,
                             )
                         }
                         composable<StatsDest> {
                             StatisticsScreen(
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<SettingsDest> {
@@ -309,7 +310,7 @@ class MainActivity : GoodtimeMainActivity() {
                                         NotificationSettingsDest,
                                     )
                                 },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<TimerStyleDest> {
@@ -320,7 +321,7 @@ class MainActivity : GoodtimeMainActivity() {
                             TimerStyleScreen(
                                 viewModel = viewModel,
                                 onNavigateToPro = { navController.navigate(ProDest) },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<NotificationSettingsDest> {
@@ -330,14 +331,14 @@ class MainActivity : GoodtimeMainActivity() {
                                 koinViewModel(viewModelStoreOwner = backStackEntry)
                             NotificationsScreen(
                                 viewModel = viewModel,
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
 
                         composable<BackupDest> {
                             BackupScreen(
                                 onNavigateToPro = { navController.navigate(ProDest) },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<AboutDest> {
@@ -347,7 +348,7 @@ class MainActivity : GoodtimeMainActivity() {
                                         LicensesDest,
                                     )
                                 },
-                                onNavigateBack = navController::popBackStack,
+                                onNavigateBack = navController::popBackStack2,
                                 onNavigateToMain = {
                                     navController.navigate(MainDest) {
                                         popUpTo(MainDest) {
@@ -358,10 +359,10 @@ class MainActivity : GoodtimeMainActivity() {
                             )
                         }
                         composable<LicensesDest> {
-                            LicensesScreen(onNavigateBack = navController::popBackStack)
+                            LicensesScreen(onNavigateBack = navController::popBackStack2)
                         }
                         composable<ProDest> {
-                            ProScreen(onNavigateBack = navController::popBackStack)
+                            ProScreen(onNavigateBack = navController::popBackStack2)
                         }
                     }
                 }
@@ -397,6 +398,13 @@ class MainActivity : GoodtimeMainActivity() {
             block()
         }
     }
+}
+
+fun NavController.popBackStack2(): Boolean {
+    if (this.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
+        return this.popBackStack()
+    }
+    return false
 }
 
 private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
