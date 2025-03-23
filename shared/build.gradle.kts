@@ -60,7 +60,6 @@ kotlin {
             api(libs.coroutines.core)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.room.paging)
-            implementation(libs.sqlite.bundled)
             implementation(libs.androidx.datastore.preferences.core)
             api(libs.okio)
             api(libs.kotlinx.serialization)
