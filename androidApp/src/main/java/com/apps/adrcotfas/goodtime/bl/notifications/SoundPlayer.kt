@@ -23,8 +23,8 @@ import android.media.AudioDeviceInfo
 import android.media.AudioManager
 import android.media.Ringtone
 import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Build
+import androidx.core.net.toUri
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -122,7 +122,7 @@ class SoundPlayer(
             if (it.isEmpty()) {
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             } else {
-                Uri.parse(it)
+                it.toUri()
             }
         }
 

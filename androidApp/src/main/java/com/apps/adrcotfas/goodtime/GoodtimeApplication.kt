@@ -117,6 +117,7 @@ class GoodtimeApplication : Application() {
                 single {
                     VibrationPlayer(
                         context = get(),
+                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
                         ioScope = get<CoroutineScope>(named(IO_SCOPE)),
                         settingsRepo = get(),
                     )

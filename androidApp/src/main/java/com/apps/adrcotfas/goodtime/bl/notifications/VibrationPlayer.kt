@@ -25,6 +25,9 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -36,10 +39,12 @@ data class VibrationData(
 class VibrationPlayer(
     context: Context,
     private val settingsRepo: SettingsRepository,
+    private val playerScope: CoroutineScope,
     ioScope: CoroutineScope,
 ) {
 
     private var data: VibrationData = VibrationData(3, false)
+    private var job: Job? = null
 
     init {
         ioScope.launch {
@@ -68,7 +73,12 @@ class VibrationPlayer(
     }
 
     fun stop() {
-        vibrator.cancel()
+        playerScope.launch {
+            job?.cancelAndJoin()
+            job = playerScope.launch {
+                vibrator.cancel()
+            }
+        }
     }
 
     fun start(strength: Int) {
@@ -76,30 +86,37 @@ class VibrationPlayer(
     }
 
     private fun start(data: VibrationData) {
-        vibrator.cancel()
-        val (strength, loop) = data
-        val repeat = if (loop) 1 else -1
-        if (strength == 0 || !vibrator.hasVibrator()) {
-            return
+        playerScope.launch {
+            job?.cancelAndJoin()
+            job = playerScope.launch innerLaunch@{
+                vibrator.cancel()
+                val (strength, loop) = data
+                val repeat = if (loop) 1 else -1
+                if (strength == 0 || !vibrator.hasVibrator()) {
+                    return@innerLaunch
+                }
+                val pattern = when (strength) {
+                    1 -> {
+                        longArrayOf(0, 100, 2000)
+                    }
+                    2 -> {
+                        longArrayOf(0, 100, 50, 100, 1000)
+                    }
+                    3 -> {
+                        longArrayOf(0, 200, 50, 200, 1000)
+                    }
+                    4 -> {
+                        longArrayOf(0, 400, 100, 400, 1000)
+                    }
+                    5 -> {
+                        longArrayOf(0, 400, 100, 400, 100, 400, 1000)
+                    }
+                    else -> longArrayOf()
+                }
+                // add a small delay to avoid vibration being ignored when exiting DnD mode
+                delay(100)
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat))
+            }
         }
-        val pattern = when (strength) {
-            1 -> {
-                longArrayOf(0, 100, 2000)
-            }
-            2 -> {
-                longArrayOf(0, 100, 50, 100, 1000)
-            }
-            3 -> {
-                longArrayOf(0, 200, 50, 200, 1000)
-            }
-            4 -> {
-                longArrayOf(0, 400, 100, 400, 1000)
-            }
-            5 -> {
-                longArrayOf(0, 400, 100, 400, 100, 400, 1000)
-            }
-            else -> longArrayOf()
-        }
-        vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat))
     }
 }
