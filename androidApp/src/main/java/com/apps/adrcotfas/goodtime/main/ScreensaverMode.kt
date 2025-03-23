@@ -34,6 +34,7 @@ import com.apps.adrcotfas.goodtime.common.screenHeight
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 
@@ -54,12 +55,14 @@ fun ScreensaverMode(
                 while (true) {
                     delay(30.seconds)
                     val max = (configuration.screenHeight - screenWidth) / 3
-                    val newOffset =
-                        Random.nextInt(from = -max.value.toInt(), until = max.value.toInt())
-                    yOffset.animateTo(
-                        newOffset.toFloat(),
-                        animationSpec = tween(durationMillis = 2000, easing = EaseInOut),
-                    )
+                    val maxValue = abs(max.value.toInt())
+                    if (maxValue > 0) {
+                        val newOffset = Random.nextInt(from = -maxValue, until = maxValue)
+                        yOffset.animateTo(
+                            newOffset.toFloat(),
+                            animationSpec = tween(durationMillis = 2000, easing = EaseInOut),
+                        )
+                    }
                 }
             }
         } else {
