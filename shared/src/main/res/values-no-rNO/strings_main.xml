@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Naviger tilbake</string>
     <string name="main_cancel">Avbryt</string>
     <string name="main_delete">Slett</string>
+    <string name="main_edit">Rediger</string>
     <string name="main_failed_to_open_url">Kan ikke åpne URL</string>
     <string name="main_start_focus">Start fokus</string>
     <string name="main_start_break">Start pause</string>

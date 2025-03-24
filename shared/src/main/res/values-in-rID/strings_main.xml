@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Navigate back</string>
     <string name="main_cancel">Cancel</string>
     <string name="main_delete">Hapus</string>
+    <string name="main_edit">Edit</string>
     <string name="main_failed_to_open_url">Failed to open URL</string>
     <string name="main_start_focus">Start focus</string>
     <string name="main_start_break">Mulai istirahat</string>

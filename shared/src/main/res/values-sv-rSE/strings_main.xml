@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Navigera tillbaka</string>
     <string name="main_cancel">Avbryt</string>
     <string name="main_delete">Ta bort</string>
+    <string name="main_edit">Redigera</string>
     <string name="main_failed_to_open_url">Det gick inte att öppna URL</string>
     <string name="main_start_focus">Börja fokusera</string>
     <string name="main_start_break">Påbörja paus</string>

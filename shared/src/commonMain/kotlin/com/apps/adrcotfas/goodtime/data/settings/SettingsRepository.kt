@@ -52,4 +52,5 @@ interface SettingsRepository {
     suspend fun setShowTimeProfileTutorial(show: Boolean)
     suspend fun setPro(isPro: Boolean)
     suspend fun setShouldAskForReview(enable: Boolean)
+    suspend fun setShowTimerDurationsHint(show: Boolean)
 }

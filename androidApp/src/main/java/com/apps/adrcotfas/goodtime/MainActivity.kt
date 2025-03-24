@@ -312,6 +312,13 @@ class MainActivity : GoodtimeMainActivity() {
                                         NotificationSettingsDest,
                                     )
                                 },
+                                onNavigateToDefaultLabel = {
+                                    navController.navigate(
+                                        AddEditLabelDest(
+                                            name = Label.DEFAULT_LABEL_NAME,
+                                        ),
+                                    )
+                                },
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }

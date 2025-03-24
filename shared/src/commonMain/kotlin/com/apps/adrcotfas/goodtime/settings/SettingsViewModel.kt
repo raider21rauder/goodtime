@@ -44,6 +44,7 @@ data class SettingsUiState(
     val showSelectWorkSoundPicker: Boolean = false,
     val showSelectBreakSoundPicker: Boolean = false,
     val notificationSoundCandidate: String? = null,
+    val showTimerDurationsHint: Boolean = false,
 )
 
 class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
@@ -61,6 +62,7 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
                         isLoading = false,
                         settings = settings,
                         lockedTimerStyle = settings.timerStyle,
+                        showTimerDurationsHint = settings.showTimerDurationsHint,
                     )
                 }
             }
@@ -335,6 +337,12 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
                     it.copy(lockedTimerStyle = it.lockedTimerStyle.copy(showStreak = showStreak))
                 }
             }
+        }
+    }
+
+    fun setShowTimerDurationsHint(show: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setShowTimerDurationsHint(show)
         }
     }
 

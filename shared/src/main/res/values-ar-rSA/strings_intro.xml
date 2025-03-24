@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ اسحب لأعلى لإضافة دقيقة أخرى.</string>
     <string name="tutorial_swipe_down">👇 اسحب للأسفل للتوقف.</string>
     <string name="tutorial_time_profiles">لتعديل الملف الشخصي للوقت، قم بتحرير التسمية المرتبطة</string>
+    <string name="settings_time_profiles">البحث عن مدة المؤقت؟</string>
 </resources>

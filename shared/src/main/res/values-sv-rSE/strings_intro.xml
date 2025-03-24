@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ Dra upp för att lägga till en minut.</string>
     <string name="tutorial_swipe_down">👇 Svep nedåt för att stanna.</string>
     <string name="tutorial_time_profiles">Redigera den associerade etiketten för att ändra tidsprofilen</string>
+    <string name="settings_time_profiles">Letar du efter timer varaktigheter?</string>
 </resources>

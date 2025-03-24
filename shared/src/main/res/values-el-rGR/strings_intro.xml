@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ Σαρώστε προς τα επάνω για να προσθέσετε ένα λεπτό ακόμη.</string>
     <string name="tutorial_swipe_down">👇 Σύρετε προς τα κάτω για να σταματήσετε.</string>
     <string name="tutorial_time_profiles">Για να τροποποιήσετε το προφίλ ώρας, επεξεργαστείτε την συσχετισμένη ετικέτα</string>
+    <string name="settings_time_profiles">Ψάχνετε για χρονόμετρο διάρκεια?</string>
 </resources>

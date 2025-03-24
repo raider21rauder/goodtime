@@ -176,6 +176,12 @@ class FakeSettingsRepository(settings: AppSettings = AppSettings()) : SettingsRe
         )
     }
 
+    override suspend fun setShowTimerDurationsHint(show: Boolean) {
+        _settings.emit(
+            _settings.value.copy(showTimerDurationsHint = show),
+        )
+    }
+
     override suspend fun setLongBreakData(longBreakData: LongBreakData) {
         _settings.emit(
             _settings.value.copy(longBreakData = longBreakData),

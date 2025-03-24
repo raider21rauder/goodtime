@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Перейти назад</string>
     <string name="main_cancel">Скасувати</string>
     <string name="main_delete">Видалити</string>
+    <string name="main_edit">Редагувати</string>
     <string name="main_failed_to_open_url">Не вдалося відкрити посилання</string>
     <string name="main_start_focus">Почати фокус</string>
     <string name="main_start_break">Почати перерву</string>

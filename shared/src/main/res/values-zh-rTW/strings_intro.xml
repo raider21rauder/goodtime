@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ 向上滑動可再添加一分鐘.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
     <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
+    <string name="settings_time_profiles">Looking for timer durations?</string>
 </resources>

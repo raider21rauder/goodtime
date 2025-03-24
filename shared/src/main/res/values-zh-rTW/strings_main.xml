@@ -20,6 +20,7 @@
     <string name="main_navigate_back">返回</string>
     <string name="main_cancel">取消</string>
     <string name="main_delete">刪除</string>
+    <string name="main_edit">編輯</string>
     <string name="main_failed_to_open_url">打開 URL 失敗</string>
     <string name="main_start_focus">開始聚焦</string>
     <string name="main_start_break">開始休息</string>

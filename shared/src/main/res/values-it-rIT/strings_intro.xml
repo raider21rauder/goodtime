@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ Scorri verso l\'alto per aggiungere un altro minuto.</string>
     <string name="tutorial_swipe_down">👇 Scorri verso il basso per fermarsi.</string>
     <string name="tutorial_time_profiles">Per modificare il profilo temporale, modificare l\'etichetta associata</string>
+    <string name="settings_time_profiles">Cerchi durate del timer?</string>
 </resources>

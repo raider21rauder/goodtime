@@ -43,15 +43,23 @@ import compose.icons.evaicons.outline.Heart
 @Composable
 fun ActionCard(
     icon: (@Composable () -> Unit)? = null,
+    useSecondaryColor: Boolean = false,
     cta: String? = null,
     description: String,
     onClick: () -> Unit,
 ) {
+    val colors = CardDefaults.cardColors().copy(
+        containerColor = if (useSecondaryColor) {
+            MaterialTheme.colorScheme.secondary.copy(alpha = 0.38f)
+        } else {
+            MaterialTheme.colorScheme.primary.copy(
+                alpha = 0.38f,
+            )
+        },
+        contentColor = MaterialTheme.colorScheme.onSurface,
+    )
     Card(
-        colors = CardDefaults.cardColors().copy(
-            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
-            contentColor = MaterialTheme.colorScheme.onSurface,
-        ),
+        colors = colors,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -84,7 +92,10 @@ fun ActionCard(
                     onClick = onClick,
                     modifier = Modifier.padding(horizontal = 4.dp),
                 ) {
-                    Text(text = cta)
+                    Text(
+                        text = cta,
+                        color = if (useSecondaryColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
+                    )
                 }
             }
         }

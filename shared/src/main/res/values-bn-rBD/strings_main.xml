@@ -20,6 +20,7 @@
     <string name="main_navigate_back">পিছনে যান</string>
     <string name="main_cancel">বাতিল করুন</string>
     <string name="main_delete">মুছে ফেলুন</string>
+    <string name="main_edit">সম্পাদনা</string>
     <string name="main_failed_to_open_url">URL খুলতে ব্যর্থ হয়েছে৷</string>
     <string name="main_start_focus">ফোকাস শুরু করুন</string>
     <string name="main_start_break">বিরতি শুরু</string>

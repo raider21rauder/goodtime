@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ Przesuń w górę, aby dodać jeszcze jedną minutę.</string>
     <string name="tutorial_swipe_down">👇 Przesuń w dół, aby zatrzymać.</string>
     <string name="tutorial_time_profiles">Aby zmodyfikować profil czasu, edytuj przypisaną etykietę</string>
+    <string name="settings_time_profiles">Szukasz czasu trwania czasu?</string>
 </resources>

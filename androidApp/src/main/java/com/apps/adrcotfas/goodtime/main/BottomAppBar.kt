@@ -148,7 +148,7 @@ fun BottomAppBar(
                     }
                 },
                 balloonContent = {
-                    Text(text = "To modify the time profile, edit the associated label", style = MaterialTheme.typography.labelMedium)
+                    Text(text = stringResource(R.string.tutorial_time_profiles), style = MaterialTheme.typography.labelMedium)
                 },
             ) {
                 if (isDefaultLabel) {

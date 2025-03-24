@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ 上にスワイプしてもう1分追加します.</string>
     <string name="tutorial_swipe_down">👇 下にスワイプして停止します。</string>
     <string name="tutorial_time_profiles">時間プロファイルを変更するには、関連するラベルを編集します</string>
+    <string name="settings_time_profiles">タイマー時間をお探しですか？</string>
 </resources>

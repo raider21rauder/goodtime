@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Siirry takaisin</string>
     <string name="main_cancel">Peruuta</string>
     <string name="main_delete">Poista</string>
+    <string name="main_edit">Muokkaa</string>
     <string name="main_failed_to_open_url">URL-osoitteen avaaminen epäonnistui</string>
     <string name="main_start_focus">Aloita kohdistus</string>
     <string name="main_start_break">Pidä tauko</string>

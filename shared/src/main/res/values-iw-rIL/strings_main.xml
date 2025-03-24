@@ -20,6 +20,7 @@
     <string name="main_navigate_back">ניווט חזרה</string>
     <string name="main_cancel">ביטול</string>
     <string name="main_delete">מחק</string>
+    <string name="main_edit">ערוך</string>
     <string name="main_failed_to_open_url">פתיחת כתובת האתר נכשלה</string>
     <string name="main_start_focus">התחל להתמקד</string>
     <string name="main_start_break">התחל הפסקה</string>

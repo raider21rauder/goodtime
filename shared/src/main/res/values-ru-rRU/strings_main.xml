@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Назад</string>
     <string name="main_cancel">Отмена</string>
     <string name="main_delete">Удалить</string>
+    <string name="main_edit">Изменить</string>
     <string name="main_failed_to_open_url">Не удалось открыть URL</string>
     <string name="main_start_focus">Начать фокус</string>
     <string name="main_start_break">Начать перерыв</string>

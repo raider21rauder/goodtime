@@ -60,6 +60,7 @@ import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
@@ -85,6 +86,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToTimerStyle: () -> Unit,
     onNavigateToNotifications: () -> Unit,
+    onNavigateToDefaultLabel: () -> Unit,
     viewModel: SettingsViewModel,
 ) {
     val context = LocalContext.current
@@ -140,15 +142,30 @@ fun SettingsScreen(
                 },
             )
 
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
-            val reminderSettings = settings.productivityReminderSettings
-            ProductivityReminderListItem(
-                firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
-                selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
-                reminderSecondOfDay = reminderSettings.secondOfDay,
-                onSelectDay = viewModel::onToggleProductivityReminderDay,
-                onReminderTimeClick = { viewModel.setShowTimePicker(true) },
-            )
+            AnimatedVisibility(notificationPermissionState == NotificationPermissionState.GRANTED) {
+                CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
+                val reminderSettings = settings.productivityReminderSettings
+                ProductivityReminderListItem(
+                    firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                    selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
+                    reminderSecondOfDay = reminderSettings.secondOfDay,
+                    onSelectDay = viewModel::onToggleProductivityReminderDay,
+                    onReminderTimeClick = { viewModel.setShowTimePicker(true) },
+                )
+            }
+
+            AnimatedVisibility(uiState.showTimerDurationsHint) {
+                ActionCard(
+                    cta = stringResource(R.string.main_edit),
+                    useSecondaryColor = true,
+                    description = stringResource(R.string.settings_time_profiles) + "\n" + stringResource(R.string.tutorial_time_profiles),
+                    onClick = {
+                        onNavigateToDefaultLabel()
+                        viewModel.setShowTimerDurationsHint(false)
+                    },
+                )
+            }
+
             IconListItem(
                 title = stringResource(R.string.settings_timer_style_title),
                 icon = {

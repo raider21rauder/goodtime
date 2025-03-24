@@ -20,6 +20,7 @@
     <string name="main_navigate_back">التنقل إلى الوراء</string>
     <string name="main_cancel">إلغاء</string>
     <string name="main_delete">حذف</string>
+    <string name="main_edit">تحرير</string>
     <string name="main_failed_to_open_url">فشل فتح الرابط</string>
     <string name="main_start_focus">بدء التركيز</string>
     <string name="main_start_break">ابدأ فاصل</string>

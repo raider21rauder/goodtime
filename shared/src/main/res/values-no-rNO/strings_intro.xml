@@ -31,5 +31,6 @@
     <string name="tutorial_swipe_right">:backhand_index_pointing_t: Sveip til høyre for å hoppe over gjeldende økt.</string>
     <string name="tutorial_swipe_up">☝️ Dra opp for å legge til et minutt.</string>
     <string name="tutorial_swipe_down">👇 Sveip ned for å stoppe.</string>
-    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
+    <string name="tutorial_time_profiles">Rediger tidsprofilen for å endre den tilknyttede etiketten</string>
+    <string name="settings_time_profiles">Leter du etter tidtakere?</string>
 </resources>

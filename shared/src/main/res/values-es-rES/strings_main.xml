@@ -20,6 +20,7 @@
     <string name="main_navigate_back">Navegar atrás</string>
     <string name="main_cancel">Cancelar</string>
     <string name="main_delete">Eliminar</string>
+    <string name="main_edit">Editar</string>
     <string name="main_failed_to_open_url">Error al abrir la URL</string>
     <string name="main_start_focus">Enfoque inicial</string>
     <string name="main_start_break">Iniciar descanso</string>

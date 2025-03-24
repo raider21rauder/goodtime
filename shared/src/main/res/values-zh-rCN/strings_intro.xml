@@ -32,4 +32,5 @@
     <string name="tutorial_swipe_up">☝️ 向上滑动来增加一分钟.</string>
     <string name="tutorial_swipe_down">:backhand_index_point_down：向下滑动以停止。</string>
     <string name="tutorial_time_profiles">要修改时间配置文件，请编辑相关的标签</string>
+    <string name="settings_time_profiles">寻找计时器持续时间？</string>
 </resources>
