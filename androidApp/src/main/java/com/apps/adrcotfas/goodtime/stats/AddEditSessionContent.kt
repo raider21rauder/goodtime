@@ -44,7 +44,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.LabelData
@@ -80,22 +79,33 @@ fun AddEditSessionContent(
         horizontalAlignment = Alignment.Start,
     ) {
         val context = LocalContext.current
-        val daysOfWeekNames =
+        val daysOfWeekNames = try {
             DayOfWeekNames(
                 DayOfWeek.entries.map {
-                    stringArrayResource(R.array.time_days_of_the_week)[it.ordinal].take(
-                        3,
-                    )
+                    context.resources.getStringArray(R.array.time_days_of_the_week)[it.ordinal].take(3)
                 },
             )
-        val monthNames =
+        } catch (e: IllegalArgumentException) {
+            DayOfWeekNames(
+                DayOfWeek.entries.map {
+                    context.resources.getStringArray(R.array.time_days_of_the_week)[it.ordinal].take(4)
+                },
+            )
+        }
+
+        val monthNames = try {
             MonthNames(
                 Month.entries.map {
-                    stringArrayResource(R.array.time_months_of_the_year)[it.ordinal].take(
-                        3,
-                    )
+                    context.resources.getStringArray(R.array.time_months_of_the_year)[it.ordinal].take(3)
                 },
             )
+        } catch (e: IllegalArgumentException) {
+            MonthNames(
+                Month.entries.map {
+                    context.resources.getStringArray(R.array.time_months_of_the_year)[it.ordinal].take(4)
+                },
+            )
+        }
 
         val (date, time) = session.timestamp.formatToPrettyDateAndTime(
             DateFormat.is24HourFormat(

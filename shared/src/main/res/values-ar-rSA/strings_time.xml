@@ -18,26 +18,26 @@
 -->
 <resources>
     <string-array name="time_days_of_the_week">
-        <item>الاثنين</item>
-        <item>الثلاثاء</item>
-        <item>الأربعاء</item>
-        <item>الخميس</item>
-        <item>الجمعة</item>
-        <item>السبت</item>
-        <item>الأحد</item>
+        <item>اثن</item>
+        <item>ثلا</item>
+        <item>ارب</item>
+        <item>خم</item>
+        <item>جم</item>
+        <item>سبت</item>
+        <item>أحد</item>
     </string-array>
     <string-array name="time_months_of_the_year">
-        <item>يناير</item>
-        <item>فبراير</item>
-        <item>الزحف</item>
-        <item>إبريل</item>
-        <item>مايو</item>
-        <item>يونيو</item>
-        <item>يوليو</item>
-        <item>أغسطس</item>
-        <item>أيلول/سبتمبر</item>
-        <item>اكتوبر</item>
-        <item>تشرين</item>
-        <item>ديسمبر</item>
+        <item>ينا</item>
+        <item>فبر</item>
+        <item>مار</item>
+        <item>أبر</item>
+        <item>ماي</item>
+        <item>يون</item>
+        <item>يول</item>
+        <item>أغس</item>
+        <item>سبت</item>
+        <item>سبت</item>
+        <item>نوف</item>
+        <item>ديس</item>
     </string-array>
 </resources>
