@@ -29,11 +29,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
 import com.apps.adrcotfas.goodtime.common.isIgnoringBatteryOptimizations
+import com.apps.adrcotfas.goodtime.common.shouldAskForAlarmPermission
 
 data class PermissionsState(
     val shouldAskForNotificationPermission: Boolean,
     val shouldAskForBatteryOptimizationRemoval: Boolean,
-)
+    val shouldAskForAlarmPermission: Boolean,
+) {
+    fun count() = listOf(
+        shouldAskForNotificationPermission,
+        shouldAskForBatteryOptimizationRemoval,
+        shouldAskForAlarmPermission,
+    ).count { it }
+}
 
 @Composable
 fun getPermissionsState(): PermissionsState {
@@ -42,12 +50,14 @@ fun getPermissionsState(): PermissionsState {
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     var shouldAskForNotificationPermission by remember { mutableStateOf(!context.areNotificationsEnabled()) }
     var shouldAskForBatteryOptimizationRemoval by remember { mutableStateOf(!context.isIgnoringBatteryOptimizations()) }
+    var shouldAskForAlarmPermission by remember { mutableStateOf(context.shouldAskForAlarmPermission()) }
 
     LaunchedEffect(lifecycleState) {
         when (lifecycleState) {
             Lifecycle.State.RESUMED -> {
                 shouldAskForNotificationPermission = !context.areNotificationsEnabled()
                 shouldAskForBatteryOptimizationRemoval = !context.isIgnoringBatteryOptimizations()
+                shouldAskForAlarmPermission = context.shouldAskForAlarmPermission()
             }
 
             else -> {
@@ -58,5 +68,6 @@ fun getPermissionsState(): PermissionsState {
     return PermissionsState(
         shouldAskForNotificationPermission = shouldAskForNotificationPermission,
         shouldAskForBatteryOptimizationRemoval = shouldAskForBatteryOptimizationRemoval,
+        shouldAskForAlarmPermission = shouldAskForAlarmPermission,
     )
 }

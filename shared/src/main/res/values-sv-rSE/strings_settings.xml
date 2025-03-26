@@ -21,6 +21,7 @@
     <string name="settings_action_required">Åtgärd krävs</string>
     <string name="settings_allow_background">Tillåt att appen körs i bakgrunden</string>
     <string name="settings_allow_notifications">Tillåt aviseringar</string>
+    <string name="settings_allow_alarms">Tillåt larmtillstånd att använda timern</string>
     <string name="settings_allow">Tillåt</string>
     <string name="settings_productivity_reminder_title">Påminnelse om produktivitet</string>
     <string name="settings_days_of_the_week">Dagar i veckan</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Anpassning av Timer</string>
     <string name="settings_notifications_title">Aviseringar</string>
     <string name="settings_custom_start_of_day_title">Anpassad start på dagen</string>
-    <string name="settings_custom_start_of_day_desc">Definierar när dagen börjar för statistiken.</string>
+    <string name="settings_custom_start_of_day_desc">Definierar när dagen börjar för statistik</string>
     <string name="settings_start_of_the_week">Början av veckan</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

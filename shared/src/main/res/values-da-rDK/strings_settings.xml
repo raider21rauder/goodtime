@@ -21,6 +21,7 @@
     <string name="settings_action_required">Handling påkrævet</string>
     <string name="settings_allow_background">Tillad denne app at køre i baggrunden</string>
     <string name="settings_allow_notifications">Tillad notifikationer</string>
+    <string name="settings_allow_alarms">Tillad alarmtilladelse at bruge timeren</string>
     <string name="settings_allow">Tillad</string>
     <string name="settings_productivity_reminder_title">Produktivitet påmindelse</string>
     <string name="settings_days_of_the_week">Ugens dage</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Tilpasning Af Timer</string>
     <string name="settings_notifications_title">Underretninger</string>
     <string name="settings_custom_start_of_day_title">Brugerdefineret start på dagen</string>
-    <string name="settings_custom_start_of_day_desc">Definerer hvornår dagen begynder for statistik.</string>
+    <string name="settings_custom_start_of_day_desc">Definerer hvornår dagen begynder for statistik</string>
     <string name="settings_start_of_the_week">Start af ugen</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

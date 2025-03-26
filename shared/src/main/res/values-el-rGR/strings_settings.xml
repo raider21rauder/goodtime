@@ -21,6 +21,7 @@
     <string name="settings_action_required">Απαιτείται ενέργεια</string>
     <string name="settings_allow_background">Επιτρέψτε σε αυτήν την εφαρμογή να εκτελεστεί στο παρασκήνιο</string>
     <string name="settings_allow_notifications">Επιτρέπονται ειδοποιήσεις</string>
+    <string name="settings_allow_alarms">Επιτρέψτε την άδεια συναγερμού για χρήση του χρονοδιακόπτη</string>
     <string name="settings_allow">Αποδοχή</string>
     <string name="settings_productivity_reminder_title">Υπενθύμιση παραγωγικότητας</string>
     <string name="settings_days_of_the_week">Ημέρες της εβδομάδας</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Προσαρμογή Χρονομέτρου</string>
     <string name="settings_notifications_title">Ειδοποιήσεις</string>
     <string name="settings_custom_start_of_day_title">Προσαρμοσμένη έναρξη της ημέρας</string>
-    <string name="settings_custom_start_of_day_desc">Καθορίζει πότε αρχίζει η ημέρα για τις στατιστικές.</string>
+    <string name="settings_custom_start_of_day_desc">Καθορίζει πότε αρχίζει η ημέρα για τα στατιστικά</string>
     <string name="settings_start_of_the_week">Έναρξη της εβδομάδας</string>
     <string name="settings_theme">Θέμα</string>
     <string-array name="settings_theme_options">

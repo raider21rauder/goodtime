@@ -21,6 +21,7 @@
     <string name="settings_action_required">Action requise</string>
     <string name="settings_allow_background">Autoriser cette application à s\'exécuter en arrière-plan</string>
     <string name="settings_allow_notifications">Autoriser les notifications</string>
+    <string name="settings_allow_alarms">Permettre à l\'alarme d\'utiliser le minuteur</string>
     <string name="settings_allow">Autoriser</string>
     <string name="settings_productivity_reminder_title">Rappel de productivité</string>
     <string name="settings_days_of_the_week">Jours de la semaine</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Personnalisation du minuteur</string>
     <string name="settings_notifications_title">Notifications</string>
     <string name="settings_custom_start_of_day_title">Début de la journée personnalisé</string>
-    <string name="settings_custom_start_of_day_desc">Définit quand le jour commence pour les statistiques.</string>
+    <string name="settings_custom_start_of_day_desc">Définit quand le jour commence pour les statistiques</string>
     <string name="settings_start_of_the_week">Début de la semaine</string>
     <string name="settings_theme">Thème</string>
     <string-array name="settings_theme_options">

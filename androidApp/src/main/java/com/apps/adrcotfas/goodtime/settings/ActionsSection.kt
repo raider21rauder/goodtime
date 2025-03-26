@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.askForDisableBatteryOptimization
 import com.apps.adrcotfas.goodtime.common.findActivity
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
@@ -59,6 +60,13 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
                     vertical = 8.dp,
                 ),
             )
+            AnimatedVisibility(permissionsState.shouldAskForAlarmPermission) {
+                ActionCard(
+                    cta = stringResource(R.string.settings_allow),
+                    description = stringResource(R.string.settings_allow_alarms),
+                    onClick = { context.askForAlarmPermission() },
+                )
+            }
             AnimatedVisibility(permissionsState.shouldAskForBatteryOptimizationRemoval) {
                 ActionCard(
                     cta = stringResource(R.string.settings_allow),

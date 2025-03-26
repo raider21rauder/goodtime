@@ -21,6 +21,7 @@
     <string name="settings_action_required">Ação necessária</string>
     <string name="settings_allow_background">Permitir que este app seja executado em segundo plano</string>
     <string name="settings_allow_notifications">Permitir notificações</string>
+    <string name="settings_allow_alarms">Permitir permissão de alarme para usar o temporizador</string>
     <string name="settings_allow">Autorizar</string>
     <string name="settings_productivity_reminder_title">Lembrete de produtividade</string>
     <string name="settings_days_of_the_week">Dias da semana</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Personalização do temporizador</string>
     <string name="settings_notifications_title">Notificações</string>
     <string name="settings_custom_start_of_day_title">Início do dia personalizado</string>
-    <string name="settings_custom_start_of_day_desc">Define quando o dia começa para as estatísticas.</string>
+    <string name="settings_custom_start_of_day_desc">Define quando o dia começa para estatísticas</string>
     <string name="settings_start_of_the_week">Início da semana</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

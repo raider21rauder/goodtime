@@ -21,6 +21,7 @@
     <string name="settings_action_required">Potrebna potvrda</string>
     <string name="settings_allow_background">Dopustite rad aplikacije u pozadini</string>
     <string name="settings_allow_notifications">Dopustite obavijesti</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Dopusti</string>
     <string name="settings_productivity_reminder_title">Podsjetnik za produktivnost</string>
     <string name="settings_days_of_the_week">Dan u tjednu</string>
@@ -28,9 +29,9 @@
     <string name="settings_timer_style_title">Prilagodba timera</string>
     <string name="settings_notifications_title">Obavijesti</string>
     <string name="settings_custom_start_of_day_title">Prilagođeni početak dana</string>
-    <string name="settings_custom_start_of_day_desc">Definira kada dan počinje za statistiku.</string>
+    <string name="settings_custom_start_of_day_desc">Definira kada dan počinje za statistiku</string>
     <string name="settings_start_of_the_week">Početak tjedna</string>
-    <string name="settings_theme"></string>
+    <string name="settings_theme">Theme</string>
     <string-array name="settings_theme_options">
         <item>Sustav</item>
         <item>Svjetlo</item>

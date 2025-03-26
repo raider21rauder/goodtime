@@ -18,9 +18,11 @@
 package com.apps.adrcotfas.goodtime.common
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.LocaleManager
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
@@ -33,6 +35,7 @@ import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.pm.PackageInfoCompat
+import androidx.core.net.toUri
 import java.io.File
 import kotlin.time.Duration.Companion.days
 
@@ -84,13 +87,33 @@ fun Context.getVersionCode(): Long {
 fun Context.askForDisableBatteryOptimization() {
     val intent = Intent()
     intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-    intent.data = Uri.parse("package:" + this.packageName)
+    intent.data = ("package:" + this.packageName).toUri()
     this.startActivity(intent)
+}
+
+fun Context.askForAlarmPermission() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val intent = Intent().apply {
+            action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+        }
+        this.startActivity(intent)
+    }
 }
 
 fun Context.isIgnoringBatteryOptimizations(): Boolean {
     val powerManager = this.getSystemService(Context.POWER_SERVICE) as PowerManager
     return powerManager.isIgnoringBatteryOptimizations(this.packageName)
+}
+
+fun Context.shouldAskForAlarmPermission(): Boolean {
+    val alarmManager: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+    return (
+        (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+            ) &&
+            !alarmManager.canScheduleExactAlarms()
+        )
 }
 
 fun Context.areNotificationsEnabled(): Boolean {
@@ -99,7 +122,7 @@ fun Context.areNotificationsEnabled(): Boolean {
 
 fun Context.openUrl(url: String) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
-        data = Uri.parse(url)
+        data = url.toUri()
     }
     startActivity(intent)
 }

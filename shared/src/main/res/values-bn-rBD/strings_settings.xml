@@ -21,6 +21,7 @@
     <string name="settings_action_required">পদক্ষেপ প্রয়োজন</string>
     <string name="settings_allow_background">অ্যাপটি পটভূমিতে চলতে দিন</string>
     <string name="settings_allow_notifications">নোটিফিকেশনের অনুমতি দিন</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">অনুমতি প্রদান করুন</string>
     <string name="settings_productivity_reminder_title">উত্পাদনশীলতার অনুস্মারক</string>
     <string name="settings_days_of_the_week">সপ্তাহের দিন</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">টাইমার কাস্টমাইজেশন</string>
     <string name="settings_notifications_title">বিজ্ঞপ্তিগুলি</string>
     <string name="settings_custom_start_of_day_title">দিনের কাস্টম শুরু</string>
-    <string name="settings_custom_start_of_day_desc">পরিসংখ্যানের জন্য কখন দিন শুরু হয় তা নির্ধারণ করে.</string>
+    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>
     <string name="settings_start_of_the_week">সপ্তাহের শুরু</string>
     <string name="settings_theme">থিম</string>
     <string-array name="settings_theme_options">

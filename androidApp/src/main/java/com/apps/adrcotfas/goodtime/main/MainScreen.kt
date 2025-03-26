@@ -18,6 +18,7 @@
 package com.apps.adrcotfas.goodtime.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -50,6 +51,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -72,6 +74,7 @@ import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.getLabelData
+import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
@@ -87,9 +90,13 @@ import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import com.apps.adrcotfas.goodtime.ui.common.SnackbarAction
+import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
+import com.apps.adrcotfas.goodtime.ui.common.SnackbarEvent
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Edit
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -103,6 +110,7 @@ fun MainScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
     if (uiState.isLoading) return
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     InitTimerStyle(viewModel)
 
@@ -175,12 +183,8 @@ fun MainScreen(
         label = "main background color",
     )
 
-    val permissionsState = getPermissionsState()
-    val settingsBadgeItemCount = listOf(
-        permissionsState.shouldAskForNotificationPermission,
-        permissionsState.shouldAskForBatteryOptimizationRemoval,
-    ).count { state -> state }
-
+    val permissionState = getPermissionsState()
+    val settingsBadgeItemCount = permissionState.count()
     val interactionSource = remember { MutableInteractionSource() }
 
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
@@ -237,11 +241,24 @@ fun MainScreen(
                         domainLabel = label,
                         onStart = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            viewModel.startTimer()
+                            if (permissionState.shouldAskForAlarmPermission) {
+                                coroutineScope.launch {
+                                    showAlarmPermissionSnackbar(context)
+                                }
+                            } else {
+                                viewModel.startTimer()
+                            }
                         },
                         onToggle = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            viewModel.toggleTimer()
+                            if (permissionState.shouldAskForAlarmPermission) {
+                                coroutineScope.launch {
+                                    showAlarmPermissionSnackbar(context)
+                                }
+                                false
+                            } else {
+                                viewModel.toggleTimer()
+                            }
                         },
                         onLongClick = { navController.navigate(SettingsDest) },
                     )
@@ -265,7 +282,11 @@ fun MainScreen(
                             labelData = label.getLabelData(),
                             sessionCountToday = uiState.sessionCountToday,
                             showTimeProfileTutorial = uiState.showTimeProfileTutorial,
-                            onTimeProfileTutorialFinished = { viewModel.setShowTimeProfileTutorial(false) },
+                            onTimeProfileTutorialFinished = {
+                                viewModel.setShowTimeProfileTutorial(
+                                    false,
+                                )
+                            },
                             badgeItemCount = settingsBadgeItemCount,
                             navController = navController,
                         )
@@ -362,4 +383,18 @@ fun MainScreen(
             },
         )
     }
+}
+
+private suspend fun showAlarmPermissionSnackbar(context: Context) {
+    SnackbarController.sendEvent(
+        event = SnackbarEvent(
+            message = context.getString(R.string.settings_allow_alarms),
+            action = SnackbarAction(
+                name = context.getString(R.string.settings_allow),
+                action = {
+                    context.askForAlarmPermission()
+                },
+            ),
+        ),
+    )
 }

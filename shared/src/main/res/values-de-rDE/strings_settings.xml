@@ -21,6 +21,7 @@
     <string name="settings_action_required">Aktion erforderlich</string>
     <string name="settings_allow_background">Erlaube dieser App im Hintergrund auszuführen</string>
     <string name="settings_allow_notifications">Benachrichtigungen erlauben</string>
+    <string name="settings_allow_alarms">Erlaube Alarm-Berechtigung um den Timer zu verwenden</string>
     <string name="settings_allow">Erlauben</string>
     <string name="settings_productivity_reminder_title">Produktivitäts-Erinnerung</string>
     <string name="settings_days_of_the_week">Wochentage</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Timer-Anpassung</string>
     <string name="settings_notifications_title">Benachrichtigungen</string>
     <string name="settings_custom_start_of_day_title">Eigener Start des Tages</string>
-    <string name="settings_custom_start_of_day_desc">Legt fest, wann der Tag für Statistiken beginnt.</string>
+    <string name="settings_custom_start_of_day_desc">Legt fest, wann der Tag für Statistiken beginnt</string>
     <string name="settings_start_of_the_week">Beginn der Woche</string>
     <string name="settings_theme">Theme</string>
     <string-array name="settings_theme_options">

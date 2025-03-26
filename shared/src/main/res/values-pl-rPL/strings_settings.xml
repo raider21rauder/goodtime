@@ -21,6 +21,7 @@
     <string name="settings_action_required">Wymagane działanie</string>
     <string name="settings_allow_background">Zezwól tej aplikacji na działanie w tle</string>
     <string name="settings_allow_notifications">Zezwalaj na powiadomienia</string>
+    <string name="settings_allow_alarms">Zezwalaj na uprawnienia alarmu do używania timera</string>
     <string name="settings_allow">Zezwól</string>
     <string name="settings_productivity_reminder_title">Przypomnienie o produktywności</string>
     <string name="settings_days_of_the_week">Dni tygodnia</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Dostosowanie timera</string>
     <string name="settings_notifications_title">Powiadomienia</string>
     <string name="settings_custom_start_of_day_title">Niestandardowy początek dnia</string>
-    <string name="settings_custom_start_of_day_desc">Określa kiedy dzień zaczyna się dla statystyk.</string>
+    <string name="settings_custom_start_of_day_desc">Określa, kiedy dzień zaczyna się dla statystyk</string>
     <string name="settings_start_of_the_week">Początek tygodnia</string>
     <string name="settings_theme">Motyw</string>
     <string-array name="settings_theme_options">

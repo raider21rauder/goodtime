@@ -21,6 +21,7 @@
     <string name="settings_action_required">Необхідна дія</string>
     <string name="settings_allow_background">Дозволити запуск цього додатка у фоновому режимі</string>
     <string name="settings_allow_notifications">Дозволити сповіщення</string>
+    <string name="settings_allow_alarms">Дозволити дозвіл на будильник використовувати таймер</string>
     <string name="settings_allow">Дозволити</string>
     <string name="settings_productivity_reminder_title">Нагадування про продуктивність</string>
     <string name="settings_days_of_the_week">Дні тижня</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Налаштування таймера</string>
     <string name="settings_notifications_title">Сповіщення</string>
     <string name="settings_custom_start_of_day_title">Власний початок дня</string>
-    <string name="settings_custom_start_of_day_desc">Визначає, коли день починається для статистики.</string>
+    <string name="settings_custom_start_of_day_desc">Визначає, коли день починається для статистики</string>
     <string name="settings_start_of_the_week">Початок тижня</string>
     <string name="settings_theme">Тема</string>
     <string-array name="settings_theme_options">

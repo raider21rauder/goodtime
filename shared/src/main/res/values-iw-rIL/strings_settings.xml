@@ -21,6 +21,7 @@
     <string name="settings_action_required">פעולה דרושה</string>
     <string name="settings_allow_background">התרה לאפליקציה לפעול ברקע</string>
     <string name="settings_allow_notifications">הרשה הודעות</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">אפשרו</string>
     <string name="settings_productivity_reminder_title">תזכורת לפרודוקטיביות</string>
     <string name="settings_days_of_the_week">ימי השבוע</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">התאמה אישית של טיימר</string>
     <string name="settings_notifications_title">התראות</string>
     <string name="settings_custom_start_of_day_title">תחילת יום מותאמת אישית</string>
-    <string name="settings_custom_start_of_day_desc">מגדיר מתי מתחיל היום לסטטיסטיקה.</string>
+    <string name="settings_custom_start_of_day_desc">מגדיר מתי מתחיל היום לסטטיסטיקה</string>
     <string name="settings_start_of_the_week">תחילת השבוע</string>
     <string name="settings_theme">ערכת עיצוב</string>
     <string-array name="settings_theme_options">

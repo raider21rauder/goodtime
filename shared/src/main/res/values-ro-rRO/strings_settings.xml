@@ -21,6 +21,7 @@
     <string name="settings_action_required">Acțiune necesară</string>
     <string name="settings_allow_background">Permite acestei aplicații să ruleze în fundal</string>
     <string name="settings_allow_notifications">Permite notificări</string>
+    <string name="settings_allow_alarms">Permiteți permisiunea alarmei să utilizeze cronometrul</string>
     <string name="settings_allow">Permite</string>
     <string name="settings_productivity_reminder_title">Memento productivitate</string>
     <string name="settings_days_of_the_week">Zile ale săptămânii</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Personalizare cronometru</string>
     <string name="settings_notifications_title">Notificări</string>
     <string name="settings_custom_start_of_day_title">Pornire personalizată a zilei</string>
-    <string name="settings_custom_start_of_day_desc">Definește când începe ziua pentru statistici.</string>
+    <string name="settings_custom_start_of_day_desc">Definește data la care începe ziua pentru statistici</string>
     <string name="settings_start_of_the_week">Începutul săptămânii</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

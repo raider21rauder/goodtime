@@ -21,6 +21,7 @@
     <string name="settings_action_required">Hành động cần thiết</string>
     <string name="settings_allow_background">Cho phép ứng dụng chạy trong nền</string>
     <string name="settings_allow_notifications">Cho phép gửi thông báo</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Cho phép</string>
     <string name="settings_productivity_reminder_title">Nhắc nhở năng suất</string>
     <string name="settings_days_of_the_week">Ngày trong tuần</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Tùy chỉnh hẹn giờ</string>
     <string name="settings_notifications_title">Thông báo</string>
     <string name="settings_custom_start_of_day_title">Tùy chỉnh bắt đầu ngày</string>
-    <string name="settings_custom_start_of_day_desc">Xác định thời điểm bắt đầu ngày để thống kê.</string>
+    <string name="settings_custom_start_of_day_desc">Xác định thời điểm bắt đầu ngày để thống kê</string>
     <string name="settings_start_of_the_week">Ngày bắt đầu tuần</string>
     <string name="settings_theme">Giao diện</string>
     <string-array name="settings_theme_options">

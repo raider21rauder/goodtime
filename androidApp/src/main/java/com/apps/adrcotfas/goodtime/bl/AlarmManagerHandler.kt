@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -76,8 +75,6 @@ class AlarmManagerHandler(
         }
     }
 
-    // USE_EXACT_ALARM permission is used instead which is granted at install and cannot be revoked
-    @SuppressLint("MissingPermission")
     private fun setAlarm(triggerAtMillis: Long) {
         log.v { "Set alarm in ${(triggerAtMillis - timeProvider.elapsedRealtime()).formatMilliseconds()} from now" }
         alarmManager.setExactAndAllowWhileIdle(

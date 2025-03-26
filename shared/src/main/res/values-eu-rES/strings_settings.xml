@@ -21,6 +21,7 @@
     <string name="settings_action_required">Ekintza beharrezkoa</string>
     <string name="settings_allow_background">Eman atzeko planoan exekutatzeko baimena aplikazioari</string>
     <string name="settings_allow_notifications">Baieztatu jakinarazpenak</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Baieztatu</string>
     <string name="settings_productivity_reminder_title">Produktibitatearen gogorarazlea</string>
     <string name="settings_days_of_the_week">Asteko egunak</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Kontagailuaren pertsonalizazioa</string>
     <string name="settings_notifications_title">Jakinarazpenak</string>
     <string name="settings_custom_start_of_day_title">Eguna hasiera pertsonalizatua</string>
-    <string name="settings_custom_start_of_day_desc">Definitzen du eguna noiz hasten den estatistikarako.</string>
+    <string name="settings_custom_start_of_day_desc">Definitzen du eguna noiz hasten den estatistikarako</string>
     <string name="settings_start_of_the_week">Astearen hasiera</string>
     <string name="settings_theme">Itxura</string>
     <string-array name="settings_theme_options">

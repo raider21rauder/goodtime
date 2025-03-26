@@ -21,6 +21,7 @@
     <string name="settings_action_required">Actie vereist</string>
     <string name="settings_allow_background">Deze app op de achtergrond laten uitvoeren</string>
     <string name="settings_allow_notifications">Meldingen toestaan</string>
+    <string name="settings_allow_alarms">Toestaan van alarm om de timer te gebruiken</string>
     <string name="settings_allow">Toestaan</string>
     <string name="settings_productivity_reminder_title">Productiviteit herinnering</string>
     <string name="settings_days_of_the_week">Dagen van de week</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Timer aanpassing</string>
     <string name="settings_notifications_title">Meldingen</string>
     <string name="settings_custom_start_of_day_title">Aangepaste start van de dag</string>
-    <string name="settings_custom_start_of_day_desc">Definieert wanneer de dag begint voor de statistieken.</string>
+    <string name="settings_custom_start_of_day_desc">Definieert wanneer de dag begint voor statistieken</string>
     <string name="settings_start_of_the_week">Begin van de week</string>
     <string name="settings_theme">Thema</string>
     <string-array name="settings_theme_options">

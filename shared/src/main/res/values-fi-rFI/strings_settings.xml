@@ -21,6 +21,7 @@
     <string name="settings_action_required">Toiminto vaaditaan</string>
     <string name="settings_allow_background">Salli tämän sovelluksen suorittaa taustalla</string>
     <string name="settings_allow_notifications">Salli ilmoitukset</string>
+    <string name="settings_allow_alarms">Salli hälytyksen käyttöoikeus ajastimen käyttöön</string>
     <string name="settings_allow">Salli</string>
     <string name="settings_productivity_reminder_title">Tuottavuutta koskeva muistutus</string>
     <string name="settings_days_of_the_week">Viikon päivät</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Ajastimen Mukauttaminen</string>
     <string name="settings_notifications_title">Ilmoitukset</string>
     <string name="settings_custom_start_of_day_title">Päivän mukautettu alku</string>
-    <string name="settings_custom_start_of_day_desc">Määrittelee milloin päivä alkaa tilastotietojen osalta.</string>
+    <string name="settings_custom_start_of_day_desc">Määrittelee milloin päivä alkaa tilastojen osalta</string>
     <string name="settings_start_of_the_week">Viikon alku</string>
     <string name="settings_theme">Teema</string>
     <string-array name="settings_theme_options">

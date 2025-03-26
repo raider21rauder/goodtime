@@ -21,6 +21,7 @@
     <string name="settings_action_required">需要采取的行动</string>
     <string name="settings_allow_background">允许此应用在后台运行</string>
     <string name="settings_allow_notifications">允许通知</string>
+    <string name="settings_allow_alarms">允许闹钟权限使用计时器</string>
     <string name="settings_allow">允许</string>
     <string name="settings_productivity_reminder_title">效率提醒</string>
     <string name="settings_days_of_the_week">一周中的天数</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">定制计时器</string>
     <string name="settings_notifications_title">通知</string>
     <string name="settings_custom_start_of_day_title">自定义开始日期</string>
-    <string name="settings_custom_start_of_day_desc">定义从何时开始统计.</string>
+    <string name="settings_custom_start_of_day_desc">定义何时开始统计时间</string>
     <string name="settings_start_of_the_week">一周开始</string>
     <string name="settings_theme">主题</string>
     <string-array name="settings_theme_options">

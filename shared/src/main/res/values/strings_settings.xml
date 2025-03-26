@@ -21,6 +21,7 @@
     <string name="settings_action_required">Action required</string>
     <string name="settings_allow_background">Allow this app to run in the background</string>
     <string name="settings_allow_notifications">Allow notifications</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Allow</string>
     <string name="settings_productivity_reminder_title">Productivity reminder</string>
     <string name="settings_days_of_the_week">Days of the week</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Timer Customization</string>
     <string name="settings_notifications_title">Notifications</string>
     <string name="settings_custom_start_of_day_title">Custom start of day</string>
-    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics.</string>
+    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>
     <string name="settings_start_of_the_week">Start of the week</string>
     <string name="settings_theme">Theme</string>
     <string-array name="settings_theme_options">

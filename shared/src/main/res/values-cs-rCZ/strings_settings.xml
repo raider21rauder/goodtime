@@ -21,6 +21,7 @@
     <string name="settings_action_required">Požadovaná akce</string>
     <string name="settings_allow_background">Povolit této aplikaci spuštění na pozadí</string>
     <string name="settings_allow_notifications">Povolit upozornění</string>
+    <string name="settings_allow_alarms">Povolit oprávnění budíku používat časovač</string>
     <string name="settings_allow">Povolit</string>
     <string name="settings_productivity_reminder_title">Připomenutí produktivity</string>
     <string name="settings_days_of_the_week">Dny v týdnu</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Přizpůsobení časovače</string>
     <string name="settings_notifications_title">Upozornění</string>
     <string name="settings_custom_start_of_day_title">Vlastní začátek dne</string>
-    <string name="settings_custom_start_of_day_desc">Definuje, kdy den začíná pro statistiky.</string>
+    <string name="settings_custom_start_of_day_desc">Definuje, kdy den začíná pro statistiky</string>
     <string name="settings_start_of_the_week">Začátek týdne</string>
     <string name="settings_theme">Téma</string>
     <string-array name="settings_theme_options">

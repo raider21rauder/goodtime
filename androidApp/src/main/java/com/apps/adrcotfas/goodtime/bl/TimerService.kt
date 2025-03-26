@@ -37,6 +37,9 @@ class TimerService : Service(), KoinComponent {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent == null || intent.action == null) {
             log.w { "onStartCommand: intent or action is null" }
+            // TODO: This is true when the service is killed after revoking the SCHEDULE_EXACT_ALARM permission
+            //      the notification remains active but TimerManager is reset
+            // TODO: Investigate if we have other cases when this happens
             return START_NOT_STICKY
         }
         val data = timerManager.timerData.value

@@ -25,6 +25,10 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -81,6 +85,8 @@ import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
+import com.apps.adrcotfas.goodtime.ui.common.ObserveAsEvents
+import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.isSystemInDarkTheme
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -238,6 +244,8 @@ class MainActivity : GoodtimeMainActivity() {
 
             ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = themeSettings.isDynamicTheme) {
                 val navController = rememberNavController()
+                val snackbarHostState = remember { SnackbarHostState() }
+
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     isMainScreen = destination.route == MainDest.route
                 }
@@ -246,7 +254,32 @@ class MainActivity : GoodtimeMainActivity() {
                     val shouldNavigate = navController.currentDestination?.route != MainDest.route
                     if (isFinished && shouldNavigate) navController.navigate(MainDest)
                 }
-                Scaffold {
+
+                ObserveAsEvents(
+                    flow = SnackbarController.events,
+                    snackbarHostState,
+                ) { event ->
+                    coroutineScope.launch {
+                        snackbarHostState.currentSnackbarData?.dismiss()
+
+                        val result = snackbarHostState.showSnackbar(
+                            message = event.message,
+                            actionLabel = event.action?.name,
+                            duration = SnackbarDuration.Long,
+                        )
+
+                        if (result == SnackbarResult.ActionPerformed) {
+                            event.action?.action?.invoke()
+                        }
+                    }
+                }
+                Scaffold(
+                    snackbarHost = {
+                        SnackbarHost(
+                            hostState = snackbarHostState,
+                        )
+                    },
+                ) {
                     NavHost(
                         navController = navController,
                         startDestination = startDestination,

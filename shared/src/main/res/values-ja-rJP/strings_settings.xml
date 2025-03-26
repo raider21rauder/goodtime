@@ -21,6 +21,7 @@
     <string name="settings_action_required">アクションが必要です</string>
     <string name="settings_allow_background">このアプリをバックグラウンドで実行することを許可する</string>
     <string name="settings_allow_notifications">通知を許可する</string>
+    <string name="settings_allow_alarms">アラームによるタイマーの使用を許可する</string>
     <string name="settings_allow">許可する</string>
     <string name="settings_productivity_reminder_title">生産性通知</string>
     <string name="settings_days_of_the_week">週の日数</string>

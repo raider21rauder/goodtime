@@ -21,6 +21,7 @@
     <string name="settings_action_required">Handling påkrevd</string>
     <string name="settings_allow_background">Tillat denne appen å kjøre i bakgrunnen</string>
     <string name="settings_allow_notifications">Tillat varslinger</string>
+    <string name="settings_allow_alarms">Gi alarmtillatelse til å bruke tidtaker</string>
     <string name="settings_allow">Tillat</string>
     <string name="settings_productivity_reminder_title">Produktivitet påminnelse</string>
     <string name="settings_days_of_the_week">Dager i uken</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Tidtaker tilpasning</string>
     <string name="settings_notifications_title">Varsler</string>
     <string name="settings_custom_start_of_day_title">Egendefinert start på dagen</string>
-    <string name="settings_custom_start_of_day_desc">Definerer når dagen begynner for statistikk.</string>
+    <string name="settings_custom_start_of_day_desc">Definerer når dagen starter for statistikk</string>
     <string name="settings_start_of_the_week">Start på uken</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

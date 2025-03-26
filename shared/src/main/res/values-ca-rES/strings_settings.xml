@@ -21,6 +21,7 @@
     <string name="settings_action_required">Acció necessària</string>
     <string name="settings_allow_background">Permet que l\'aplicació s\'executi en segon pla</string>
     <string name="settings_allow_notifications">Permet les notificacions</string>
+    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
     <string name="settings_allow">Permet</string>
     <string name="settings_productivity_reminder_title">Recordatori de productivitat</string>
     <string name="settings_days_of_the_week">Dia de la setmana</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">Personalització del temporitzador</string>
     <string name="settings_notifications_title">General</string>
     <string name="settings_custom_start_of_day_title">Inici de dia personalitzat</string>
-    <string name="settings_custom_start_of_day_desc">Defineix quan comença el dia per a les estadístiques.</string>
+    <string name="settings_custom_start_of_day_desc">Defineix quan comença el dia per a les estadístiques</string>
     <string name="settings_start_of_the_week">Inici de la setmana</string>
     <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">

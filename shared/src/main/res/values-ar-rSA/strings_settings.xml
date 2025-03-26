@@ -21,6 +21,7 @@
     <string name="settings_action_required">الإجراء المطلوب</string>
     <string name="settings_allow_background">السماح لهذا التطبيق بالتشغيل في الخلفية</string>
     <string name="settings_allow_notifications">السماح بالإشعارات</string>
+    <string name="settings_allow_alarms">السماح بإذن المنبه باستخدام المؤقت</string>
     <string name="settings_allow">السماح</string>
     <string name="settings_productivity_reminder_title">تذكير بالإنتاجية</string>
     <string name="settings_days_of_the_week">أيام من الأسبوع</string>
@@ -28,7 +29,7 @@
     <string name="settings_timer_style_title">تخصيص المؤقت</string>
     <string name="settings_notifications_title">الإشعارات</string>
     <string name="settings_custom_start_of_day_title">بداية مخصصة من اليوم</string>
-    <string name="settings_custom_start_of_day_desc">يحدد الوقت الذي يبدأ فيه اليوم للإحصاءات.</string>
+    <string name="settings_custom_start_of_day_desc">يحدد عندما يبدأ اليوم للإحصاءات</string>
     <string name="settings_start_of_the_week">بداية الأسبوع</string>
     <string name="settings_theme">السمة</string>
     <string-array name="settings_theme_options">
