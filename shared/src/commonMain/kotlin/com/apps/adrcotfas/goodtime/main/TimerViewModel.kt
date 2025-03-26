@@ -79,7 +79,7 @@ data class TimerUiState(
 }
 
 data class TimerMainUiState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val timerStyle: TimerStyleData = TimerStyleData(),
     val darkThemePreference: ThemePreference = ThemePreference.SYSTEM,
     val dynamicColor: Boolean = false,
