@@ -37,6 +37,7 @@
     <string name="main_break_in_progress">Break in progress</string>
     <string name="main_pause">Pause</string>
     <string name="main_resume">Resume</string>
+    <string name="main_skip">Skip</string>
     <string name="main_stop">Stop</string>
     <string name="main_focus_session_finished">Focus session finished</string>
     <string name="main_break_finished">Break finished</string>

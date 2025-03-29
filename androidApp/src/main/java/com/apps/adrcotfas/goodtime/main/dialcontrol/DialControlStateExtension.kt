@@ -31,6 +31,7 @@ fun rememberCustomDialControlState(
     density: Density = LocalDensity.current,
     config: DialConfig = DialConfig(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    onLeft: () -> Unit,
     onTop: () -> Unit,
     onRight: () -> Unit,
     onBottom: () -> Unit,
@@ -40,14 +41,10 @@ fun rememberCustomDialControlState(
             initialOptions = DialRegion.entries,
             onSelected = {
                 when (it) {
+                    DialRegion.LEFT -> onLeft()
                     DialRegion.TOP -> onTop()
-
                     DialRegion.RIGHT -> onRight()
-
                     DialRegion.BOTTOM -> onBottom()
-
-                    else -> {
-                    }
                 }
             },
             config = config,
@@ -61,23 +58,21 @@ fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState
     val label = timerUiState.label
     val thereIsNoBreakBudget =
         timerUiState.breakBudgetMinutes == 0L
-    val isCountUpWithoutBreaks = !label.profile.isCountdown && !label.profile.isBreakEnabled
+    val isCountUp = !label.profile.isCountdown
+    val isCountUpWithoutBreaks = isCountUp && !label.profile.isBreakEnabled
 
-    val disabledOptions = listOfNotNull(
-        DialRegion.LEFT,
-        if (!label.profile.isCountdown) {
-            DialRegion.TOP
-        } else {
-            null
-        },
-        if ((!label.profile.isCountdown && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
-            isCountUpWithoutBreaks
-        ) {
-            DialRegion.RIGHT
-        } else {
-            null
-        },
-    )
+    val showSkip = (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
+        isCountUpWithoutBreaks
 
+    val disabledOptions =
+        buildList {
+            if (isCountUp) {
+                add(DialRegion.TOP)
+            }
+            if (showSkip) {
+                add(DialRegion.RIGHT)
+                add(DialRegion.LEFT)
+            }
+        }
     updateEnabledOptions(disabledOptions)
 }

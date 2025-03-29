@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +51,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState.Companion.calculateStartAngle
+import com.apps.adrcotfas.goodtime.shared.R
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Fill
+import compose.icons.evaicons.fill.ArrowIosBack
+import compose.icons.evaicons.fill.ArrowIosForward
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filterNotNull
@@ -211,9 +215,9 @@ private fun <T> CircleDial(
     }
 }
 
-enum class DialRegion(val icon: ImageVector? = null, val label: String? = null) {
-    TOP(icon = Icons.Filled.PlusOne, label = "+1 min"),
-    RIGHT(icon = Icons.AutoMirrored.Filled.ArrowForwardIos, label = "Skip"),
-    BOTTOM(icon = Icons.Filled.Close, "Stop"),
-    LEFT(null),
+enum class DialRegion(val icon: ImageVector? = null, val labelId: Int? = null) {
+    TOP(icon = Icons.Filled.PlusOne, labelId = R.string.main_plus_1_min),
+    RIGHT(icon = EvaIcons.Fill.ArrowIosForward, labelId = R.string.main_skip),
+    BOTTOM(icon = Icons.Filled.Close, R.string.main_stop),
+    LEFT(icon = EvaIcons.Fill.ArrowIosBack, labelId = R.string.main_skip),
 }

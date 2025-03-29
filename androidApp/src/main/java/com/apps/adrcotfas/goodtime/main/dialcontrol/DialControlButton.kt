@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 
@@ -66,7 +67,7 @@ fun DialControlButton(disabled: Boolean, selected: Boolean, region: DialRegion) 
                     tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
-            region.label?.let {
+            region.labelId?.let {
                 Box(
                     Modifier
                         .wrapContentSize()
@@ -80,7 +81,7 @@ fun DialControlButton(disabled: Boolean, selected: Boolean, region: DialRegion) 
                         .padding(4.dp),
                 ) {
                     Text(
-                        text = region.label,
+                        text = stringResource(region.labelId),
                         modifier = Modifier,
                         style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.background),
                     )

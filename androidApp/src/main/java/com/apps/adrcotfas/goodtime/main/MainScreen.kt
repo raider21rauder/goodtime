@@ -134,6 +134,7 @@ fun MainScreen(
             size = configuration.screenWidth,
             isPortrait = configuration.isPortrait,
         ),
+        onLeft = viewModel::skip,
         onTop = viewModel::addOneMinute,
         onRight = viewModel::skip,
         onBottom = viewModel::resetTimer,
