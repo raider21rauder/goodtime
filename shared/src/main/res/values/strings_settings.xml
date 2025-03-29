@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">During work sessions</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
+    <string name="settings_fullscreen_mode">Fullscreen mode</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Keep the screen on</string>

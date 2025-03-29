@@ -271,7 +271,6 @@ fun SettingsScreen(
             ) {
                 viewModel.setKeepScreenOn(it)
                 if (!it) {
-                    viewModel.setFullscreenMode(false)
                     viewModel.setScreensaverMode(false)
                 }
             }
@@ -279,7 +278,6 @@ fun SettingsScreen(
                 CheckboxListItem(
                     title = stringResource(R.string.settings_fullscreen_mode),
                     checked = uiState.settings.uiSettings.fullscreenMode,
-                    enabled = uiState.settings.uiSettings.keepScreenOn,
                 ) {
                     viewModel.setFullscreenMode(it)
                     if (!it) {
