@@ -285,8 +285,4 @@ class SettingsRepositoryImpl(
     override suspend fun setShouldAskForReview(enable: Boolean) {
         dataStore.edit { it[Keys.shouldAskForReviewKey] = enable }
     }
-
-    override suspend fun setShowTimerDurationsHint(show: Boolean) {
-        dataStore.edit { it[Keys.showTimerDurationsHintKey] = show }
-    }
 }
