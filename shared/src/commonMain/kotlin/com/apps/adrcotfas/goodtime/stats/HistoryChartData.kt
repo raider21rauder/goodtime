@@ -25,6 +25,7 @@ import com.apps.adrcotfas.goodtime.common.toEpochMilliseconds
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.stats.HistoryChartData.Companion.NUM_DAYS
 import com.apps.adrcotfas.goodtime.stats.HistoryChartData.Companion.NUM_MONTHS
 import com.apps.adrcotfas.goodtime.stats.HistoryChartData.Companion.NUM_QUARTERS
@@ -57,6 +58,7 @@ fun computeHistoryChartData(
     workDayStart: Int,
     firstDayOfWeek: DayOfWeek,
     type: HistoryIntervalType,
+    overviewType: OverviewType,
 ): HistoryChartData {
     val today = currentDateTime().date
 
@@ -153,7 +155,8 @@ fun computeHistoryChartData(
                 val innerMap =
                     intermediateData.getOrElse(dateToConsider) { mutableMapOf(label to 0L) }
                         .toMutableMap()
-                innerMap[label] = innerMap.getOrElse(label) { 0L } + session.duration
+                innerMap[label] =
+                    innerMap.getOrElse(label) { 0L } + if (overviewType == OverviewType.TIME) session.duration else 1
                 intermediateData[dateToConsider] = innerMap
             }
         }

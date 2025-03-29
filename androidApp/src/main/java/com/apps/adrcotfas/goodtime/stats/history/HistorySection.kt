@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.StatisticsHistoryViewModel
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
@@ -77,6 +78,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     if (uiState.data.x.isEmpty()) return
     val data = uiState.data
     val type = uiState.type
+    val isTimeOverviewType = uiState.overviewType == OverviewType.TIME
 
     val primaryColor = MaterialTheme.colorScheme.primary
 
@@ -150,21 +152,24 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp),
             modelProducer = modelProducer,
+            isTimeOverviewType = isTimeOverviewType,
             colors = colors,
         )
     }
 }
 
 private val yDecimalFormat = DecimalFormat("#.# h")
-private val startAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
+private val timeStartAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
     yDecimalFormat.format(value / 60)
 }
-private val startAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 30.0 })
+private val timeStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 30.0 })
+private val sessionsStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 5.0 })
 
 @Composable
 private fun AggregatedHistoryChart(
     modifier: Modifier = Modifier,
     modelProducer: CartesianChartModelProducer,
+    isTimeOverviewType: Boolean,
     colors: List<Color>,
 ) {
     val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
@@ -182,6 +187,7 @@ private fun AggregatedHistoryChart(
         defaultLabelName = defaultLabelName,
         othersLabelName = othersLabelName,
         othersLabelColor = othersLabelColor,
+        isTimeOverviewType = isTimeOverviewType,
         totalLabel = totalLabel,
     )
 
@@ -214,8 +220,8 @@ private fun AggregatedHistoryChart(
                     label = rememberAxisLabelComponent(
                         textSize = MaterialTheme.typography.labelSmall.fontSize,
                     ),
-                    valueFormatter = startAxisValueFormatter,
-                    itemPlacer = startAxisItemPlacer,
+                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
                 ),
                 bottomAxis = HorizontalAxis.rememberBottom(
                     guideline = null,

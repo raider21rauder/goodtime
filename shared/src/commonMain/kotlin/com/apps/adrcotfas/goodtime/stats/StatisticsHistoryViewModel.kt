@@ -22,6 +22,7 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
+import com.apps.adrcotfas.goodtime.data.settings.OverviewType
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,6 +43,7 @@ data class StatisticsHistoryUiState(
     val workdayStart: Int = 0,
     val data: HistoryChartData = HistoryChartData(),
     val type: HistoryIntervalType = HistoryIntervalType.DAYS,
+    val overviewType: OverviewType = OverviewType.TIME,
     val selectedLabels: List<LabelData> = emptyList(),
 )
 
@@ -75,15 +77,18 @@ class StatisticsHistoryViewModel(
             settingsRepository.settings.distinctUntilChanged { old, new ->
                 old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
                     old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart
+                    old.workdayStart == new.workdayStart &&
+                    old.statisticsSettings.overviewType == new.statisticsSettings.overviewType
             }.collect { settings ->
                 val type = settings.historyChartSettings.intervalType
+                val overviewType = settings.statisticsSettings.overviewType
                 val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
                 _uiState.update { state ->
                     state.copy(
                         firstDayOfWeek = firstDayOfWeek,
                         workdayStart = settings.workdayStart,
                         type = type,
+                        overviewType = overviewType,
                     )
                 }
             }
@@ -94,7 +99,8 @@ class StatisticsHistoryViewModel(
                 old.selectedLabels == new.selectedLabels &&
                     old.type == new.type &&
                     old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart
+                    old.workdayStart == new.workdayStart &&
+                    old.overviewType == new.overviewType
             }.flatMapLatest {
                 localDataRepo.selectSessionsByLabels(
                     it.selectedLabels.map { label -> label.name },
@@ -102,8 +108,9 @@ class StatisticsHistoryViewModel(
                     withContext(Dispatchers.Default) {
                         computeHistoryChartData(
                             sessions = sessions,
-                            labels = uiState.value.selectedLabels.map { label -> label.name },
+                            labels = it.selectedLabels.map { label -> label.name },
                             type = it.type,
+                            overviewType = it.overviewType,
                             firstDayOfWeek = it.firstDayOfWeek,
                             workDayStart = it.workdayStart,
                         )

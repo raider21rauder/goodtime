@@ -36,18 +36,20 @@ class HistoryChartMarkerValueFormatter(
     private val defaultLabelName: String,
     private val othersLabelName: String,
     @ColorInt private val othersLabelColor: Int,
+    private val isTimeOverviewType: Boolean,
     private val totalLabel: String,
 ) : DefaultCartesianMarker.ValueFormatter {
     private fun SpannableStringBuilder.append(y: Double, color: Int? = null) {
-        val minutesFormatted = y.minutes.formatOverview()
+        val valueFormatted =
+            if (isTimeOverviewType) y.minutes.formatOverview() else y.toInt().toString()
         if (color != null) {
             appendCompat2(
-                minutesFormatted,
+                valueFormatted,
                 ForegroundColorSpan(color),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
             )
         } else {
-            append(minutesFormatted)
+            append(valueFormatted)
         }
     }
 
