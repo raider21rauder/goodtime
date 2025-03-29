@@ -255,7 +255,6 @@ fun MainScreen(
                                 coroutineScope.launch {
                                     showAlarmPermissionSnackbar(context)
                                 }
-                                false
                             } else {
                                 viewModel.toggleTimer()
                             }

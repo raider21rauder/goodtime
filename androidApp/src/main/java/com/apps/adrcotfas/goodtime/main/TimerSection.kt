@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
@@ -55,7 +54,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -94,11 +92,9 @@ fun MainTimerView(
     timerStyle: TimerStyleData,
     domainLabel: DomainLabel,
     onStart: () -> Unit,
-    onToggle: (() -> Boolean)? = null,
+    onToggle: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
 ) {
-    val context = LocalContext.current
-
     val label = domainLabel.label
     val labelColorIndex = label.colorIndex
     val labelColor = MaterialTheme.getLabelColor(labelColorIndex)
@@ -138,14 +134,7 @@ fun MainTimerView(
                     if (!timerUiState.isActive) {
                         onStart()
                     } else {
-                        if (!onToggle()) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.main_cannot_pause_the_break),
-                                Toast.LENGTH_SHORT,
-                            )
-                                .show()
-                        }
+                        onToggle()
                     }
                 }
             },

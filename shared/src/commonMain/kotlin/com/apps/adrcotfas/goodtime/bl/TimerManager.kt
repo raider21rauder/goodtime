@@ -233,8 +233,6 @@ class TimerManager(
         listeners.forEach { it.onEvent(Event.AddOneMinute(newEndTime)) }
     }
 
-    fun canToggle() = !timerData.value.type.isBreak
-
     fun toggle() {
         when (timerData.value.state) {
             TimerState.RUNNING -> pause()
@@ -516,7 +514,7 @@ class TimerManager(
         return Session.create(
             timestamp = now,
             duration = durationToSaveMinutes,
-            interruptions = interruptions.milliseconds.inWholeMinutes,
+            interruptions = if (isWork) interruptions.milliseconds.inWholeMinutes else 0,
             label = data.getLabelName(),
             isWork = isWork,
         )

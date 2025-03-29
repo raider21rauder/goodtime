@@ -30,7 +30,6 @@
     <string name="main_interruptions">Interruptions</string>
     <string name="main_consider_idle_time_as_extra_focus">Consider idle time as extra focus</string>
     <string name="main_open_app_menu">Open app menu</string>
-    <string name="main_cannot_pause_the_break">Cannot pause the break</string>
     <string name="main_reset_to_default">Reset to default</string>
     <string name="main_save">Save</string>
     <string name="main_focus_session_in_progress">Focus session in progress</string>

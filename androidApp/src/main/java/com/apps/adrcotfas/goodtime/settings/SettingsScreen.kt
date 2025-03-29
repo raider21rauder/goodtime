@@ -151,15 +151,17 @@ fun SettingsScreen(
                 notificationPermissionState == NotificationPermissionState.GRANTED ||
                     context.areNotificationsEnabled(),
             ) {
-                CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
-                val reminderSettings = settings.productivityReminderSettings
-                ProductivityReminderListItem(
-                    firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
-                    selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
-                    reminderSecondOfDay = reminderSettings.secondOfDay,
-                    onSelectDay = viewModel::onToggleProductivityReminderDay,
-                    onReminderTimeClick = { viewModel.setShowTimePicker(true) },
-                )
+                Column {
+                    CompactPreferenceGroupTitle(text = stringResource(R.string.settings_productivity_reminder_title))
+                    val reminderSettings = settings.productivityReminderSettings
+                    ProductivityReminderListItem(
+                        firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                        selectedDays = reminderSettings.days.map { DayOfWeek(it) }.toSet(),
+                        reminderSecondOfDay = reminderSettings.secondOfDay,
+                        onSelectDay = viewModel::onToggleProductivityReminderDay,
+                        onReminderTimeClick = { viewModel.setShowTimePicker(true) },
+                    )
+                }
             }
 
             IconListItem(
