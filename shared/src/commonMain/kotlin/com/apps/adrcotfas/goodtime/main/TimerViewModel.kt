@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
-import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.TimerState
@@ -33,7 +32,6 @@ import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.bl.isPaused
 import com.apps.adrcotfas.goodtime.common.Time
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
-import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
@@ -87,7 +85,6 @@ data class TimerMainUiState(
     val fullscreenMode: Boolean = false,
     val trueBlackMode: Boolean = true,
     val dndDuringWork: Boolean = false,
-    val labels: List<LabelData> = emptyList(),
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
     val showTutorial: Boolean = false,
@@ -153,19 +150,6 @@ class TimerViewModel(
                     )
                 }
             }
-        }
-
-        viewModelScope.launch {
-            localDataRepo.selectLabelsByArchived(isArchived = false).distinctUntilChanged()
-                .collect { labels ->
-                    _uiState.update { state ->
-                        state.copy(
-                            labels = labels.map { label ->
-                                label.getLabelData()
-                            },
-                        )
-                    }
-                }
         }
 
         viewModelScope.launch {

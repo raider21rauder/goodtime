@@ -32,21 +32,13 @@ import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitTouchSlopOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,7 +57,6 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -89,13 +80,9 @@ import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarAction
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarController
 import com.apps.adrcotfas.goodtime.ui.common.SnackbarEvent
-import compose.icons.EvaIcons
-import compose.icons.evaicons.Outline
-import compose.icons.evaicons.outline.Edit
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -338,11 +325,8 @@ fun MainScreen(
     }
 
     if (showSelectLabelDialog) {
-        SelectLabelDialog(
-            title = stringResource(R.string.labels_select_active_label),
-            singleSelection = true,
-            labels = uiState.labels,
-            initialSelectedLabels = listOf(timerUiState.label.label.name),
+        SelectStatsVisibleLabelsDialog(
+            initialSelectedLabel = timerUiState.label.label.name,
             onDismiss = { showSelectLabelDialog = false },
             onConfirm = { selectedLabels ->
                 if (selectedLabels.isNotEmpty()) {
@@ -353,33 +337,13 @@ fun MainScreen(
                 }
                 showSelectLabelDialog = false
             },
-            buttons = {
-                Row(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.End),
-                ) {
-                    TextButton(onClick = {
-                        navController.navigate(LabelsDest)
-                        showSelectLabelDialog = false
-                    }) { Text(stringResource(R.string.labels_edit_labels)) }
-                    FilledTonalButton(onClick = {
-                        navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
-                        showSelectLabelDialog = false
-                    }) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                imageVector = EvaIcons.Outline.Edit,
-                                contentDescription = null,
-                            )
-                            Text(stringResource(R.string.labels_edit_active_label))
-                        }
-                    }
-                }
+            onNavigateToLabels = {
+                navController.navigate(LabelsDest)
+                showSelectLabelDialog = false
+            },
+            onNavigateToActiveLabel = {
+                navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
+                showSelectLabelDialog = false
             },
         )
     }
