@@ -59,7 +59,6 @@ data class AppSettings(
     val showOnboarding: Boolean = true,
     val showTutorial: Boolean = true,
     val showTimeProfileTutorial: Boolean = true,
-    val showTimerDurationsHint: Boolean = true,
 )
 
 enum class NotificationPermissionState {

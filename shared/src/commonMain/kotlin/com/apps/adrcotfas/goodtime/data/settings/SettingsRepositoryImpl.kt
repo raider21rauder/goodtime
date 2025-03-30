@@ -69,7 +69,6 @@ class SettingsRepositoryImpl(
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val showTimeProfileTutorialKey = booleanPreferencesKey("showTimeProfileTutorialKey")
-        val showTimerDurationsHintKey = booleanPreferencesKey("showTimerDurationsHintKey")
     }
 
     override val settings: Flow<AppSettings> = dataStore.data
@@ -135,8 +134,6 @@ class SettingsRepositoryImpl(
                 showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
                 showTimeProfileTutorial = it[Keys.showTimeProfileTutorialKey]
                     ?: default.showTimeProfileTutorial,
-                showTimerDurationsHint = it[Keys.showTimerDurationsHintKey]
-                    ?: default.showTimerDurationsHint,
             )
         }.catch {
             log.e("Error parsing settings", it)
