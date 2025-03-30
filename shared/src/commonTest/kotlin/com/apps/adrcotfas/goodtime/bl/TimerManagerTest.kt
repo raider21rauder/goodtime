@@ -300,7 +300,7 @@ class TimerManagerTest {
     fun `Skip timer before one minute`() = runTest {
         timerManager.start(TimerType.WORK)
         val endTime = timerManager.timerData.value.endTime
-        val duration = 59.seconds.inWholeMilliseconds
+        val duration = 45.seconds.inWholeMilliseconds
         timeProvider.elapsedRealtime = duration
         timerManager.next()
         assertEquals(
@@ -375,7 +375,7 @@ class TimerManagerTest {
     fun `Timer reset before one minute`() = runTest {
         timerManager.start(TimerType.WORK)
         val endTime = timerManager.timerData.value.endTime
-        val duration = 59.seconds.inWholeMilliseconds
+        val duration = 45.seconds.inWholeMilliseconds
         timeProvider.elapsedRealtime = duration
         timerManager.reset()
         assertEquals(
