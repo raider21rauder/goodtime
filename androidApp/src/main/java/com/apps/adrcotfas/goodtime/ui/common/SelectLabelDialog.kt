@@ -52,6 +52,7 @@ fun SelectLabelDialog(
     onConfirm: (List<String>) -> Unit,
     onDismiss: () -> Unit,
     labels: List<LabelData>,
+    extraContent: @Composable (() -> Unit)? = null,
     initialSelectedLabels: List<String> = emptyList(),
     buttons: @Composable (() -> Unit)? = null,
 ) {
@@ -89,6 +90,7 @@ fun SelectLabelDialog(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
+                extraContent?.invoke()
                 FlowRow(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),

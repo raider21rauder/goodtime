@@ -45,6 +45,7 @@ data class StatisticsHistoryUiState(
     val type: HistoryIntervalType = HistoryIntervalType.DAYS,
     val overviewType: OverviewType = OverviewType.TIME,
     val selectedLabels: List<LabelData> = emptyList(),
+    val isLineChart: Boolean = true,
 )
 
 class StatisticsHistoryViewModel(
@@ -78,7 +79,8 @@ class StatisticsHistoryViewModel(
                 old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
                     old.firstDayOfWeek == new.firstDayOfWeek &&
                     old.workdayStart == new.workdayStart &&
-                    old.statisticsSettings.overviewType == new.statisticsSettings.overviewType
+                    old.statisticsSettings.overviewType == new.statisticsSettings.overviewType &&
+                    old.historyChartSettings.isLineChart == new.historyChartSettings.isLineChart
             }.collect { settings ->
                 val type = settings.historyChartSettings.intervalType
                 val overviewType = settings.statisticsSettings.overviewType
@@ -89,6 +91,7 @@ class StatisticsHistoryViewModel(
                         workdayStart = settings.workdayStart,
                         type = type,
                         overviewType = overviewType,
+                        isLineChart = settings.historyChartSettings.isLineChart,
                     )
                 }
             }
@@ -100,7 +103,8 @@ class StatisticsHistoryViewModel(
                     old.type == new.type &&
                     old.firstDayOfWeek == new.firstDayOfWeek &&
                     old.workdayStart == new.workdayStart &&
-                    old.overviewType == new.overviewType
+                    old.overviewType == new.overviewType &&
+                    old.isLineChart == new.isLineChart
             }.flatMapLatest {
                 localDataRepo.selectSessionsByLabels(
                     it.selectedLabels.map { label -> label.name },
@@ -113,6 +117,7 @@ class StatisticsHistoryViewModel(
                             overviewType = it.overviewType,
                             firstDayOfWeek = it.firstDayOfWeek,
                             workDayStart = it.workdayStart,
+                            aggregate = it.isLineChart,
                         )
                     }
                 }
@@ -125,6 +130,12 @@ class StatisticsHistoryViewModel(
     fun setType(type: HistoryIntervalType) {
         viewModelScope.launch {
             settingsRepository.updateHistoryChartSettings { it.copy(intervalType = type) }
+        }
+    }
+
+    fun setIsLineChart(isLineChart: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateHistoryChartSettings { it.copy(isLineChart = isLineChart) }
         }
     }
 

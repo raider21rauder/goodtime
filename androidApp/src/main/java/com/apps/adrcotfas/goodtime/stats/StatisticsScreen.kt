@@ -63,7 +63,6 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Lock
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
@@ -89,8 +88,8 @@ fun StatisticsScreen(
     val context = LocalContext.current
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val isLoadingHistoryChartData by historyViewModel.uiState.map { it.isLoading }
-        .collectAsStateWithLifecycle(true)
+    val historyUiState by historyViewModel.uiState.collectAsStateWithLifecycle()
+    val isLoadingHistoryChartData = historyUiState.isLoading
     val sessionsPagingItems = viewModel.pagedSessions.collectAsLazyPagingItems()
     val historyListState = rememberLazyListState()
 
@@ -338,12 +337,10 @@ fun StatisticsScreen(
                     )
                 }
                 if (showSelectVisibleLabelsDialog) {
-                    SelectLabelDialog(
-                        title = stringResource(R.string.labels_select_labels),
+                    SelectStatsVisibleLabelsDialog(
                         labels = uiState.labels,
                         initialSelectedLabels = uiState.selectedLabels,
                         onDismiss = { showSelectVisibleLabelsDialog = false },
-                        singleSelection = false,
                         onConfirm = {
                             viewModel.setSelectedLabels(it)
 
@@ -353,6 +350,10 @@ fun StatisticsScreen(
 
                             historyViewModel.setSelectedLabels(labelData)
                             showSelectVisibleLabelsDialog = false
+                        },
+                        isLineChart = historyUiState.isLineChart,
+                        onSetLineChart = {
+                            historyViewModel.setIsLineChart(it)
                         },
                     )
                 }

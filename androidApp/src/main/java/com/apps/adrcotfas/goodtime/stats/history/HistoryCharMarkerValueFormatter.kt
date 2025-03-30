@@ -32,7 +32,7 @@ import kotlin.time.Duration.Companion.minutes
 
 val labelsKey = ExtraStore.Key<Set<String>>()
 
-class HistoryChartMarkerValueFormatter(
+class HistoryBarChartMarkerValueFormatter(
     private val defaultLabelName: String,
     private val othersLabelName: String,
     @ColorInt private val othersLabelColor: Int,
@@ -96,7 +96,6 @@ class HistoryChartMarkerValueFormatter(
                     }
                 }
             }
-
             else -> throw IllegalArgumentException("Unexpected `CartesianMarker.Target` implementation.")
         }
     }
@@ -116,7 +115,7 @@ class HistoryChartMarkerValueFormatter(
 
     override fun equals(other: Any?): Boolean =
         this === other ||
-            other is HistoryChartMarkerValueFormatter &&
+            other is HistoryBarChartMarkerValueFormatter &&
             defaultLabelName == other.defaultLabelName &&
             othersLabelName == other.othersLabelName &&
             othersLabelColor == other.othersLabelColor &&

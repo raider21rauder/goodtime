@@ -51,13 +51,17 @@ import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
 import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
+import com.patrykandpatrick.vico.compose.cartesian.layer.point
 import com.patrykandpatrick.vico.compose.cartesian.layer.rememberColumnCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLine
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
 import com.patrykandpatrick.vico.compose.cartesian.layer.stacked
 import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
 import com.patrykandpatrick.vico.compose.cartesian.rememberVicoScrollState
 import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
 import com.patrykandpatrick.vico.compose.common.ProvideVicoTheme
 import com.patrykandpatrick.vico.compose.common.component.rememberLineComponent
+import com.patrykandpatrick.vico.compose.common.component.rememberShapeComponent
 import com.patrykandpatrick.vico.compose.common.fill
 import com.patrykandpatrick.vico.compose.m3.common.rememberM3VicoTheme
 import com.patrykandpatrick.vico.core.cartesian.AutoScrollCondition
@@ -67,7 +71,10 @@ import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
 import com.patrykandpatrick.vico.core.cartesian.data.columnSeries
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import com.patrykandpatrick.vico.core.cartesian.layer.ColumnCartesianLayer
+import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
+import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 import java.text.DecimalFormat
@@ -79,6 +86,8 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val data = uiState.data
     val type = uiState.type
     val isTimeOverviewType = uiState.overviewType == OverviewType.TIME
+
+    val isLineChart = uiState.isLineChart
 
     val primaryColor = MaterialTheme.colorScheme.primary
 
@@ -93,7 +102,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val x = remember(data) { data.x }
     val y = remember(data) { data.y }
 
-    val modelProducer = remember { CartesianChartModelProducer() }
+    val modelProducer = remember(isLineChart) { CartesianChartModelProducer() }
 
     val daysOfTheWeekNames = stringArrayResource(R.array.time_days_of_the_week)
     val monthsOfTheYear = stringArrayResource(R.array.time_months_of_the_year)
@@ -104,14 +113,27 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
         )
     }
 
-    LaunchedEffect(data) {
-        modelProducer.runTransaction {
-            columnSeries { y.values.forEach { series(it) } }
-            extras { it[timestampsKey] = x }
-            extras { it[labelsKey] = y.keys }
-            extras { it[extraBottomAxisStrings] = bottomAxisStrings }
-            extras { it[extraViewType] = type }
-            extras { it[extraFirstDayOfWeek] = uiState.firstDayOfWeek }
+    LaunchedEffect(data, isLineChart) {
+        if (isLineChart) {
+            modelProducer.runTransaction {
+                lineSeries {
+                    series(y[Label.DEFAULT_LABEL_NAME] ?: emptyList())
+                    extras { it[timestampsKey] = x }
+                    extras { it[labelsKey] = y.keys }
+                    extras { it[extraBottomAxisStrings] = bottomAxisStrings }
+                    extras { it[extraViewType] = type }
+                    extras { it[extraFirstDayOfWeek] = uiState.firstDayOfWeek }
+                }
+            }
+        } else {
+            modelProducer.runTransaction {
+                columnSeries { y.values.forEach { series(it) } }
+                extras { it[timestampsKey] = x }
+                extras { it[labelsKey] = y.keys }
+                extras { it[extraBottomAxisStrings] = bottomAxisStrings }
+                extras { it[extraViewType] = type }
+                extras { it[extraFirstDayOfWeek] = uiState.firstDayOfWeek }
+            }
         }
     }
 
@@ -147,14 +169,24 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             )
         }
 
-        AggregatedHistoryChart(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp),
-            modelProducer = modelProducer,
-            isTimeOverviewType = isTimeOverviewType,
-            colors = colors,
-        )
+        val modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp)
+        if (isLineChart) {
+            LineHistoryChart(
+                modifier = modifier,
+                modelProducer = modelProducer,
+                isTimeOverviewType = isTimeOverviewType,
+                primaryColor = primaryColor,
+            )
+        } else {
+            BarHistoryChart(
+                modifier = modifier,
+                modelProducer = modelProducer,
+                isTimeOverviewType = isTimeOverviewType,
+                colors = colors,
+            )
+        }
     }
 }
 
@@ -166,7 +198,7 @@ private val timeStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 30.0 })
 private val sessionsStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 5.0 })
 
 @Composable
-private fun AggregatedHistoryChart(
+private fun BarHistoryChart(
     modifier: Modifier = Modifier,
     modelProducer: CartesianChartModelProducer,
     isTimeOverviewType: Boolean,
@@ -183,7 +215,7 @@ private fun AggregatedHistoryChart(
         autoScrollCondition = AutoScrollCondition.OnModelGrowth,
     )
 
-    val markerValueFormatter = HistoryChartMarkerValueFormatter(
+    val markerValueFormatter = HistoryBarChartMarkerValueFormatter(
         defaultLabelName = defaultLabelName,
         othersLabelName = othersLabelName,
         othersLabelColor = othersLabelColor,
@@ -202,7 +234,8 @@ private fun AggregatedHistoryChart(
             modifier = modifier.height(200.dp),
             scrollState = scrollState,
             zoomState = rememberVicoZoomState(zoomEnabled = false),
-            chart = rememberCartesianChart(
+            chart =
+            rememberCartesianChart(
                 rememberColumnCartesianLayer(
                     columnProvider =
                     ColumnCartesianLayer.ColumnProvider.series(
@@ -232,6 +265,78 @@ private fun AggregatedHistoryChart(
                     ),
                     valueFormatter = BottomAxisValueFormatter,
                     itemPlacer = HorizontalAxis.ItemPlacer.aligned(),
+                ),
+                marker = rememberMarker(markerValueFormatter),
+            ),
+            modelProducer = modelProducer,
+        )
+    }
+}
+
+@Composable
+private fun LineHistoryChart(
+    modifier: Modifier = Modifier,
+    modelProducer: CartesianChartModelProducer,
+    isTimeOverviewType: Boolean,
+    primaryColor: Color,
+) {
+    val scrollState = rememberVicoScrollState(
+        scrollEnabled = true,
+        initialScroll = Scroll.Absolute.End,
+        autoScrollCondition = AutoScrollCondition.OnModelGrowth,
+    )
+
+    val markerValueFormatter = HistoryLineChartMarkerValueFormatter(
+        isTimeOverviewType = isTimeOverviewType,
+    )
+
+    ProvideVicoTheme(
+        rememberM3VicoTheme(
+            lineColor = MaterialTheme.colorScheme.secondaryContainer.copy(
+                alpha = 0.5f,
+            ),
+        ),
+    ) {
+        CartesianChartHost(
+            modifier = modifier.height(200.dp),
+            scrollState = scrollState,
+            zoomState = rememberVicoZoomState(zoomEnabled = false),
+            chart =
+            rememberCartesianChart(
+                rememberLineCartesianLayer(
+                    pointSpacing = 36.dp,
+                    lineProvider =
+                    LineCartesianLayer.LineProvider.series(
+                        LineCartesianLayer.rememberLine(
+                            fill = LineCartesianLayer.LineFill.single(fill(primaryColor)),
+                            areaFill =
+                            LineCartesianLayer.AreaFill.single(
+                                fill(
+                                    primaryColor.copy(alpha = 0.3f),
+                                ),
+                            ),
+                            pointProvider =
+                            LineCartesianLayer.PointProvider.single(
+                                LineCartesianLayer.point(size = 6.dp, component = rememberShapeComponent(fill(primaryColor), CorneredShape.Pill)),
+                            ),
+                        ),
+                    ),
+                ),
+                startAxis = VerticalAxis.rememberStart(
+                    label = rememberAxisLabelComponent(
+                        textSize = MaterialTheme.typography.labelSmall.fontSize,
+                    ),
+                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
+                ),
+                bottomAxis = HorizontalAxis.rememberBottom(
+                    guideline = null,
+                    label = rememberAxisLabelComponent(
+                        textSize = MaterialTheme.typography.labelSmall.fontSize,
+                        lineCount = 2,
+                        textAlignment = Layout.Alignment.ALIGN_CENTER,
+                    ),
+                    valueFormatter = BottomAxisValueFormatter,
                 ),
                 marker = rememberMarker(markerValueFormatter),
             ),

@@ -59,6 +59,7 @@ fun computeHistoryChartData(
     firstDayOfWeek: DayOfWeek,
     type: HistoryIntervalType,
     overviewType: OverviewType,
+    aggregate: Boolean,
 ): HistoryChartData {
     val today = currentDateTime().date
 
@@ -140,7 +141,7 @@ fun computeHistoryChartData(
         )
     }.forEach { session ->
         val date = session.adjustedDateTime.date
-        val label = session.label
+        val label = if (aggregate) Label.DEFAULT_LABEL_NAME else session.label
 
         if (session.isWork) {
             val dateToConsider = when (type) {

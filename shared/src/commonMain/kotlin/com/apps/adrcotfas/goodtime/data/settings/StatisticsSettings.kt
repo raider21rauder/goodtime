@@ -49,4 +49,5 @@ data class StatisticsSettings(
 @Serializable
 data class HistoryChartSettings(
     val intervalType: HistoryIntervalType = HistoryIntervalType.DAYS,
+    val isLineChart: Boolean = true,
 )
