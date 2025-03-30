@@ -35,7 +35,7 @@
         <item>কোয়ার্টার</item>
         <item>বছর</item>
     </string-array>
-    <string name="stats_productive_hours"></string>
+    <string name="stats_productive_hours">Productive hours</string>
     <string name="stats_heatmap">হিটম্যাপ</string>
     <string name="stats_focus_distribution">ফোকাস বিতরণ</string>
     <string name="stats_focus_break_ratio">ফোকাস/ব্রেক অনুপাত</string>
