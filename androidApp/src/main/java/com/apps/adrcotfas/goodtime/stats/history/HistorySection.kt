@@ -34,12 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedDayNamesForStats
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedMonthNamesForStats
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.HistoryIntervalType
 import com.apps.adrcotfas.goodtime.data.settings.OverviewType
@@ -78,9 +79,13 @@ import com.patrykandpatrick.vico.core.common.shape.CorneredShape
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Month
 import java.text.DecimalFormat
+import java.util.Locale
 
 @Composable
 fun HistorySection(viewModel: StatisticsHistoryViewModel) {
+    val locale = androidx.compose.ui.text.intl.Locale.current
+    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.data.x.isEmpty()) return
     val data = uiState.data
@@ -96,16 +101,13 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             MaterialTheme.getLabelColor(it.colorIndex)
         }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong()))
 
-    val context = LocalContext.current
-    val locale = context.resources.configuration.locales[0]
-
     val x = remember(data) { data.x }
     val y = remember(data) { data.y }
 
     val modelProducer = remember(isLineChart) { CartesianChartModelProducer() }
 
-    val daysOfTheWeekNames = stringArrayResource(R.array.time_days_of_the_week)
-    val monthsOfTheYear = stringArrayResource(R.array.time_months_of_the_year)
+    val daysOfTheWeekNames = getLocalizedDayNamesForStats(javaLocale)
+    val monthsOfTheYear = getLocalizedMonthNamesForStats(javaLocale)
     val bottomAxisStrings = remember(locale) {
         BottomAxisStrings(
             dayOfWeekNames = DayOfWeek.entries.map { daysOfTheWeekNames[it.ordinal].take(3) },

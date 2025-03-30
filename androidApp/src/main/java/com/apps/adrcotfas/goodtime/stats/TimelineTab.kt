@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import android.text.format.DateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -42,7 +41,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -52,8 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.bl.LabelData
-import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.shared.R
@@ -75,9 +73,6 @@ fun TimelineTab(
     onLongClick: (Session) -> Unit,
     listState: LazyListState,
 ) {
-    val context = LocalContext.current
-    val is24HourFormat = DateFormat.is24HourFormat(context)
-
     LaunchedEffect(sessions.itemCount) {
         snapshotFlow { listState.firstVisibleItemIndex }
             .collect {
@@ -128,7 +123,6 @@ fun TimelineTab(
                     session = session,
                     colorIndex = labels.first { it.name == session.label }.colorIndex,
                     isSelected = isSelected,
-                    is24HourFormat = is24HourFormat,
                     onClick = { onClick(session) },
                     onLongClick = { onLongClick(session) },
                 )
@@ -144,7 +138,6 @@ fun TimelineListItem(
     session: Session,
     isSelected: Boolean = false,
     colorIndex: Long,
-    is24HourFormat: Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
 ) {
@@ -186,7 +179,7 @@ fun TimelineListItem(
         },
         headlineContent = {
             Column {
-                val (date, time) = session.timestamp.formatToPrettyDateAndTime(is24HourFormat)
+                val (date, time) = session.timestamp.formatToPrettyDateAndTime()
                 Text(
                     text = "$date $time",
                     maxLines = 1,
@@ -228,7 +221,6 @@ fun HistoryListItemPreview() {
             ),
             isSelected = false,
             colorIndex = 0,
-            is24HourFormat = true,
             onClick = {},
             onLongClick = {},
         )

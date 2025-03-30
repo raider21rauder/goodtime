@@ -17,7 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.stats
 
-import android.text.format.DateFormat
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,11 +42,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.bl.LabelData
-import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
@@ -55,10 +53,6 @@ import com.apps.adrcotfas.goodtime.ui.common.TextBox
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Clock
-import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.Month
-import kotlinx.datetime.format.DayOfWeekNames
-import kotlinx.datetime.format.MonthNames
 
 @Composable
 fun AddEditSessionContent(
@@ -78,42 +72,7 @@ fun AddEditSessionContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
-        val context = LocalContext.current
-        val daysOfWeekNames = try {
-            DayOfWeekNames(
-                DayOfWeek.entries.map {
-                    context.resources.getStringArray(R.array.time_days_of_the_week)[it.ordinal].take(3)
-                },
-            )
-        } catch (e: IllegalArgumentException) {
-            DayOfWeekNames(
-                DayOfWeek.entries.map {
-                    context.resources.getStringArray(R.array.time_days_of_the_week)[it.ordinal].take(4)
-                },
-            )
-        }
-
-        val monthNames = try {
-            MonthNames(
-                Month.entries.map {
-                    context.resources.getStringArray(R.array.time_months_of_the_year)[it.ordinal].take(3)
-                },
-            )
-        } catch (e: IllegalArgumentException) {
-            MonthNames(
-                Month.entries.map {
-                    context.resources.getStringArray(R.array.time_months_of_the_year)[it.ordinal].take(4)
-                },
-            )
-        }
-
-        val (date, time) = session.timestamp.formatToPrettyDateAndTime(
-            DateFormat.is24HourFormat(
-                context,
-            ),
-            daysOfWeekNames,
-            monthNames,
-        )
+        val (date, time) = session.timestamp.formatToPrettyDateAndTime()
 
         Row(
             modifier = Modifier.padding(start = 68.dp),

@@ -30,19 +30,21 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.getLocalizedDayNamesForStats
 import com.apps.adrcotfas.goodtime.common.entriesStartingWithThis
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import kotlinx.datetime.DayOfWeek
+import java.util.Locale
 
 @Composable
 fun ProductivityReminderListItem(
@@ -53,6 +55,9 @@ fun ProductivityReminderListItem(
     onReminderTimeClick: () -> Unit,
 ) {
     val context = LocalContext.current
+    val locale = androidx.compose.ui.text.intl.Locale.current
+    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+
     val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -87,7 +92,7 @@ fun ProductivityReminderListItem(
                             onClick = { onSelectDay(day) },
                         ) {
                             Text(
-                                text = stringArrayResource(R.array.time_days_of_the_week)[day.ordinal].take(3),
+                                text = getLocalizedDayNamesForStats(javaLocale)[day.ordinal],
                                 maxLines = 1,
                                 style = MaterialTheme.typography.bodySmall,
                             )

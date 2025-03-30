@@ -48,7 +48,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -133,7 +132,7 @@ fun ProductiveTimeSection(
                         modifier = Modifier
                             .alpha(0f)
                             .padding(cellSpacing),
-                        text = stringArrayResource(R.array.time_days_of_the_week)[0].take(3),
+                        text = "mmm",
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
                     )
