@@ -44,11 +44,11 @@ object AndroidTimeUtils {
         return Pair(date, time)
     }
 
-    private fun List<DayOfWeek>.localizedNames(locale: Locale, textStyle: TextStyle = TextStyle.FULL): List<String> {
+    private fun List<DayOfWeek>.localizedNames(locale: Locale, textStyle: TextStyle = TextStyle.FULL_STANDALONE): List<String> {
         return this.map { it.getDisplayName(textStyle, locale) }
     }
 
-    private fun List<Month>.localizedMonthNames(locale: Locale, textStyle: TextStyle = TextStyle.FULL): List<String> {
+    private fun List<Month>.localizedMonthNames(locale: Locale, textStyle: TextStyle = TextStyle.FULL_STANDALONE): List<String> {
         return this.map { it.getDisplayName(textStyle, locale) }
     }
 
@@ -58,6 +58,9 @@ object AndroidTimeUtils {
     private fun localizedDayNamesShort(locale: Locale): List<String> =
         DayOfWeek.entries.toList().localizedNames(locale, TextStyle.SHORT)
 
+    fun localizedDayNamesFull(locale: Locale): List<String> =
+        DayOfWeek.entries.toList().localizedNames(locale, TextStyle.FULL_STANDALONE)
+
     private fun localizedMonthNamesNarrow(locale: Locale) =
         Month.entries.toList().localizedMonthNames(locale, TextStyle.NARROW)
 
@@ -65,7 +68,7 @@ object AndroidTimeUtils {
         Month.entries.toList().localizedMonthNames(locale, TextStyle.SHORT)
 
     fun localizedMonthNamesFull(locale: Locale) =
-        Month.entries.toList().localizedMonthNames(locale, TextStyle.FULL)
+        Month.entries.toList().localizedMonthNames(locale, TextStyle.FULL_STANDALONE)
 
     fun getLocalizedDayNamesForStats(locale: Locale): List<String> {
         val localizedDayNamesShort = localizedDayNamesShort(locale)

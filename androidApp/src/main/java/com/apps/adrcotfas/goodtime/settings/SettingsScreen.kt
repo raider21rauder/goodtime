@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedDayNamesFull
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
 import com.apps.adrcotfas.goodtime.common.findActivity
@@ -84,6 +85,7 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
 import org.koin.compose.koinInject
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,6 +99,9 @@ fun SettingsScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val settings = uiState.settings
+
+    val locale = androidx.compose.ui.text.intl.Locale.current
+    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
@@ -224,14 +229,14 @@ fun SettingsScreen(
                 },
             )
 
-            val narrowMonthNames = firstDayOfWeekOptions.map {
-                it.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault())
+            val days = firstDayOfWeekOptions.map {
+                it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, java.util.Locale.getDefault())
             }
 
             DropdownMenuListItem(
                 title = stringResource(R.string.settings_start_of_the_week),
-                value = narrowMonthNames[DayOfWeek.of(uiState.settings.firstDayOfWeek).ordinal],
-                dropdownMenuOptions = narrowMonthNames,
+                value = localizedDayNamesFull(javaLocale)[DayOfWeek.of(uiState.settings.firstDayOfWeek).ordinal],
+                dropdownMenuOptions = days,
                 onDropdownMenuItemSelected = {
                     viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
                 },
