@@ -35,6 +35,7 @@ data class Label(
 
         // the internal name of the virtual label used for displaying aggregated data
         const val OTHERS_LABEL_NAME = "PRODUCTIVITY_OTHERS_LABEL"
+        const val BREAK_COLOR_INDEX = 23
         const val DEFAULT_LABEL_COLOR_INDEX = 24
         const val OTHERS_LABEL_COLOR_INDEX = 24
         const val LABEL_NAME_MAX_LENGTH = 32

@@ -76,6 +76,7 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialRegion
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
+import com.apps.adrcotfas.goodtime.ui.breakColor
 import com.apps.adrcotfas.goodtime.ui.common.hideUnless
 import com.apps.adrcotfas.goodtime.ui.getLabelColor
 import com.apps.adrcotfas.goodtime.ui.timerFontRobotoMap
@@ -98,6 +99,7 @@ fun MainTimerView(
     val label = domainLabel.label
     val labelColorIndex = label.colorIndex
     val labelColor = MaterialTheme.getLabelColor(labelColorIndex)
+    val breakColor = MaterialTheme.breakColor()
     val isBreak = timerUiState.timerType != TimerType.WORK
 
     val isCountdown = domainLabel.profile.isCountdown
@@ -128,7 +130,7 @@ fun MainTimerView(
             isPaused = timerUiState.isPaused,
             timerStyle = timerStyle,
             millis = timerUiState.displayTime,
-            color = labelColor,
+            color = if (isBreak) breakColor else labelColor,
             onClick = {
                 onToggle?.let {
                     if (!timerUiState.isActive) {

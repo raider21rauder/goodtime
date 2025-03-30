@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.apps.adrcotfas.goodtime.data.model.Label.Companion.BREAK_COLOR_INDEX
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
 
 @Composable
@@ -69,3 +70,6 @@ fun MaterialTheme.getLabelColor(colorIndex: Long): Color {
         colors[DEFAULT_LABEL_COLOR_INDEX]
     }
 }
+
+@Composable
+fun MaterialTheme.breakColor(): Color = MaterialTheme.getLabelColor(BREAK_COLOR_INDEX.toLong())
