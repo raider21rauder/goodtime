@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Koristite Dynamic Color</string>
     <string name="settings_during_work_sessions">Za vrijeme radnog perioda</string>
-    <string name="settings_fullscreen_mode">Imersivni način</string>
+    <string name="settings_fullscreen_mode">Preko cijelog ekrana</string>
     <string name="settings_true_black_mode_title">Pravo crni način rada</string>
     <string name="settings_true_black_mode_desc">Koristite pravu crnu za pozadinu</string>
     <string name="settings_keep_the_screen_on">Održavaj upaljen ekran</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Započni pauzu nakon radnog perioda bez pitanja korisnika</string>
     <string name="settings_display_over_lock_screen">Prikaz preko zaključanog ekrana</string>
     <string name="settings_display_over_lock_screen_desc">Neka aplikacija bude vidljiva preko zaključanog ekrana</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">Podesite trajanje radnih perioda i pauza</string>
 </resources>

@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">작업구간 중</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
+    <string name="settings_fullscreen_mode">전체 화면 모드</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">화면 켜진 상태 유지</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
     <string name="settings_display_over_lock_screen">Display over lock screen</string>
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">작업구간과 휴식구간에 쓸 시간을 설정해주세요</string>
 </resources>

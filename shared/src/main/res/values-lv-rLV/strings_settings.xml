@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">Darba sesiju laikā</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
+    <string name="settings_fullscreen_mode">Pilnekrāna režīms</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">Atstāt ieslēgtu ekrānu</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
     <string name="settings_display_over_lock_screen">Display over lock screen</string>
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">Set the duration for work and break sessions</string>
 </resources>

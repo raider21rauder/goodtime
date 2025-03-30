@@ -30,7 +30,6 @@
     <string name="main_interruptions">干擾</string>
     <string name="main_consider_idle_time_as_extra_focus">中斷完成</string>
     <string name="main_open_app_menu">打開App選單</string>
-    <string name="main_cannot_pause_the_break">無法暫停休息</string>
     <string name="main_reset_to_default">還原至初始設定</string>
     <string name="main_save">儲存</string>
     <string name="main_focus_session_in_progress">正在進行中的工作</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">正在休息</string>
     <string name="main_pause">暫停</string>
     <string name="main_resume">繼續下載</string>
+    <string name="main_skip">Skip</string>
     <string name="main_stop">停止</string>
     <string name="main_focus_session_finished">焦點會話已暫停</string>
     <string name="main_break_finished">休息已完成</string>

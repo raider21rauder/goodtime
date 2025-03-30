@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Adaugă note</string>
     <string name="stats_select_all">Selectează tot</string>
     <string name="stats_no_items">Niciun element</string>
+    <string name="stats_show_label_breakdown_title">"Arată defalcarea etichetei"</string>
+    <string name="stats_show_label_breakdown_desc">"Vizualizează datele ca bare stivuite separate prin etichetă"</string>
 </resources>

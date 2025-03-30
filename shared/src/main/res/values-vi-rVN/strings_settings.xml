@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Tự khởi động phiên nghỉ sau khi phiên làm việc kết thúc</string>
     <string name="settings_display_over_lock_screen">Hiển thị trên màn hình khóa</string>
     <string name="settings_display_over_lock_screen_desc">Giữ ứng dụng hiển thị trên màn hình khóa</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">Cài đặt thời lượng cho phiên làm việc và phiên nghỉ</string>
 </resources>

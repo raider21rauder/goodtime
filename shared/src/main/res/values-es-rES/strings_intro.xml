@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Supera la procrastinación y mejora tu enfoque."</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Toque el temporizador para iniciar y pausar.</string>
-    <string name="tutorial_swipe_right">👉 Desliza a la derecha para omitir la sesión actual.</string>
+    <string name="tutorial_swipe_right">👉 Deslizar hacia izquierda o derecha para saltar la sesión actual.</string>
     <string name="tutorial_swipe_up">☝️ Deslizar hacia arriba para añadir un minuto más.</string>
     <string name="tutorial_swipe_down">👇 Deslice hacia abajo para detener.</string>
     <string name="tutorial_time_profiles">Para modificar el perfil de tiempo, edite la etiqueta asociada</string>
-    <string name="settings_time_profiles">¿Buscando la duración del temporizador?</string>
 </resources>

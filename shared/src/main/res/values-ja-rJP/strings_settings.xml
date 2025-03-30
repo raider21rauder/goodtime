@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">動的な色を使用</string>
     <string name="settings_during_work_sessions">作業中</string>
-    <string name="settings_fullscreen_mode">没入モード</string>
+    <string name="settings_fullscreen_mode">全画面モード</string>
     <string name="settings_true_black_mode_title">トゥルーブラックモード</string>
     <string name="settings_true_black_mode_desc">背景に真黒を使用</string>
     <string name="settings_keep_the_screen_on">画面を表示し続ける</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">ユーザーの操作なしで作業セッションの後に休憩セッションを開始する</string>
     <string name="settings_display_over_lock_screen">ロック画面上に表示</string>
     <string name="settings_display_over_lock_screen_desc">アプリをロック画面上に常に表示する</string>
+    <string name="settings_timer_durations_title">タイマーの期間</string>
+    <string name="settings_timer_durations_desc">作業時間と休憩時間を設定する</string>
 </resources>

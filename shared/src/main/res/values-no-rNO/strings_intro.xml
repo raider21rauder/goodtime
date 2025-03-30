@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Slå på proffentinering og forbedre din fokus."</string>
     <string name="tutorial_title">Opplæring</string>
     <string name="tutorial_tap">👆 Trykk på timeren for å starte og pause.</string>
-    <string name="tutorial_swipe_right">:backhand_index_pointing_t: Sveip til høyre for å hoppe over gjeldende økt.</string>
+    <string name="tutorial_swipe_right">👉 Dra til venstre eller høyre hoppe over gjeldende økt.</string>
     <string name="tutorial_swipe_up">☝️ Dra opp for å legge til et minutt.</string>
     <string name="tutorial_swipe_down">👇 Sveip ned for å stoppe.</string>
     <string name="tutorial_time_profiles">Rediger tidsprofilen for å endre den tilknyttede etiketten</string>
-    <string name="settings_time_profiles">Leter du etter tidtakere?</string>
 </resources>

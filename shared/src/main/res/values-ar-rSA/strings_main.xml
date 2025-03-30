@@ -30,7 +30,6 @@
     <string name="main_interruptions">الانقطاع</string>
     <string name="main_consider_idle_time_as_extra_focus">اعتبار وقت الخمول كتركيز إضافي</string>
     <string name="main_open_app_menu">فتح قائمة التطبيقات</string>
-    <string name="main_cannot_pause_the_break">لا يمكن إيقاف الاستراحة</string>
     <string name="main_reset_to_default">إعادة التعيين إلى الافتراضي</string>
     <string name="main_save">حفظ</string>
     <string name="main_focus_session_in_progress">الدورة المحورية الجارية</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">كسر في التقدم</string>
     <string name="main_pause">إيقاف مؤقت</string>
     <string name="main_resume">إستكمال</string>
+    <string name="main_skip">تخطي</string>
     <string name="main_stop">إيقاف</string>
     <string name="main_focus_session_finished">انتهت جلسة التركيز</string>
     <string name="main_break_finished">الانتهاء من كسر</string>

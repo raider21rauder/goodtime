@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">استخدام اللون الديناميكي</string>
     <string name="settings_during_work_sessions">خلال جلسات العمل</string>
-    <string name="settings_fullscreen_mode">وضع الغمار</string>
+    <string name="settings_fullscreen_mode">وضع الشاشة الكاملة</string>
     <string name="settings_true_black_mode_title">الوضع الأسود الحقيقي</string>
     <string name="settings_true_black_mode_desc">استخدم أسود حقيقي للخلفية</string>
     <string name="settings_keep_the_screen_on">إبقاء الشاشة مفعلة</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
     <string name="settings_display_over_lock_screen">عرض على شاشة القفل</string>
     <string name="settings_display_over_lock_screen_desc">إبقاء التطبيق مرئي على شاشة القفل</string>
+    <string name="settings_timer_durations_title">مدة المؤقت</string>
+    <string name="settings_timer_durations_desc">تعيين مدة العمل وجلسات الاستراحة</string>
 </resources>

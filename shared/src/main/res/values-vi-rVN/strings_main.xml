@@ -30,7 +30,6 @@
     <string name="main_interruptions">Gián đoạn</string>
     <string name="main_consider_idle_time_as_extra_focus">Hãy coi thời gian nhàn rỗi là sự tập trung thêm</string>
     <string name="main_open_app_menu">Mở menu ứng dụng</string>
-    <string name="main_cannot_pause_the_break">Không thể tạm dừng giờ nghỉ</string>
     <string name="main_reset_to_default">Khôi phục về mặc định</string>
     <string name="main_save">Tiết kiệm</string>
     <string name="main_focus_session_in_progress">Công việc đang diễn ra</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">Đang nghỉ</string>
     <string name="main_pause">Dừng</string>
     <string name="main_resume">Tiếp tục</string>
+    <string name="main_skip">Skip</string>
     <string name="main_stop">Kết thúc</string>
     <string name="main_focus_session_finished">Phiên tập trung đã bị tạm dừng</string>
     <string name="main_break_finished">Nghỉ xong</string>

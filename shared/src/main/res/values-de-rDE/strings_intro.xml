@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Schlagen Sie die Verzögerung und verbessern Sie Ihren Fokus."</string>
     <string name="tutorial_title">Einführungen</string>
     <string name="tutorial_tap">👆 Tippen Sie auf den Timer, um zu starten oder anzuhalten.</string>
-    <string name="tutorial_swipe_right">👉 Wische nach rechts, um die aktuelle Sitzung zu überspringen.</string>
+    <string name="tutorial_swipe_right">👉 Wischen Sie nach links oder rechts, um die aktuelle Sitzung zu überspringen.</string>
     <string name="tutorial_swipe_up">☝️ Wischen Sie nach oben, um eine weitere Minute hinzuzufügen.</string>
     <string name="tutorial_swipe_down">👇 Nach unten wischen, um zu stoppen.</string>
     <string name="tutorial_time_profiles">Um das Zeitprofil zu ändern, bearbeiten Sie die zugehörige Bezeichnung</string>
-    <string name="settings_time_profiles">Auf der Suche nach Timer-Dauer?</string>
 </resources>

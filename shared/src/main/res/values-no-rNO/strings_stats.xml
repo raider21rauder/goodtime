@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Legg til notater</string>
     <string name="stats_select_all">Velg alle</string>
     <string name="stats_no_items">Ingen ting</string>
+    <string name="stats_show_label_breakdown_title">"Vis brytning av etikett"</string>
+    <string name="stats_show_label_breakdown_desc">"Visualiser data som stablede stolper atskilt med etikett"</string>
 </resources>

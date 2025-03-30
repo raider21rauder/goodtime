@@ -30,7 +30,6 @@
     <string name="main_interruptions">Interrupções</string>
     <string name="main_consider_idle_time_as_extra_focus">Considere o tempo ocioso como foco extra</string>
     <string name="main_open_app_menu">Abrir menu do aplicativo</string>
-    <string name="main_cannot_pause_the_break">Não é possível pausar o intervalo</string>
     <string name="main_reset_to_default">Redefinir ao padrão</string>
     <string name="main_save">Salvar</string>
     <string name="main_focus_session_in_progress">Sessão de foco em andamento</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">Intervalo em andamento</string>
     <string name="main_pause">Pausar</string>
     <string name="main_resume">Retomar</string>
+    <string name="main_skip">Ignorar</string>
     <string name="main_stop">Parar</string>
     <string name="main_focus_session_finished">Sessão Foco concluída</string>
     <string name="main_break_finished">Intervalo finalizado</string>

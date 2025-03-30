@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Use Dynamic Color</string>
     <string name="settings_during_work_sessions">कार्य सत्रों के दौरान</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
+    <string name="settings_fullscreen_mode">पूर्ण स्क्रीन मोड</string>
     <string name="settings_true_black_mode_title">True black mode</string>
     <string name="settings_true_black_mode_desc">Use true black for the background</string>
     <string name="settings_keep_the_screen_on">स्क्रीन चालू रखे</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
     <string name="settings_display_over_lock_screen">Display over lock screen</string>
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">कार्य एवम विश्राम सत्रों की अवधि निर्धारित करें</string>
 </resources>

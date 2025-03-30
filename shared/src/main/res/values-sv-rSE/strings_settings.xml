@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Använd dynamisk färg</string>
     <string name="settings_during_work_sessions">Under arbetssessioner</string>
-    <string name="settings_fullscreen_mode">Omslutande läge</string>
+    <string name="settings_fullscreen_mode">Helskärmsläge</string>
     <string name="settings_true_black_mode_title">Sann svart läge</string>
     <string name="settings_true_black_mode_desc">Använd äkta svart för bakgrunden</string>
     <string name="settings_keep_the_screen_on">Håll skärmen igång</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Starta paussessionen efter en arbetssession utan användarinteraktion</string>
     <string name="settings_display_over_lock_screen">Visa över låsskärm</string>
     <string name="settings_display_over_lock_screen_desc">Håll appen synlig över låsskärmen</string>
+    <string name="settings_timer_durations_title">Timer varaktighet</string>
+    <string name="settings_timer_durations_desc">Ange varaktighet för arbets- och paussessioner</string>
 </resources>

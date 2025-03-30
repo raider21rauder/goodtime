@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">使用动态取色</string>
     <string name="settings_during_work_sessions">在工作期間</string>
-    <string name="settings_fullscreen_mode">沉浸模式</string>
+    <string name="settings_fullscreen_mode">全螢幕模式</string>
     <string name="settings_true_black_mode_title">純黑模式</string>
     <string name="settings_true_black_mode_desc">定義統計一天的開始時間</string>
     <string name="settings_keep_the_screen_on">計時保持螢幕常亮</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">工作後自動開始休息計時</string>
     <string name="settings_display_over_lock_screen">顯示鎖定畫面</string>
     <string name="settings_display_over_lock_screen_desc">保持應用程式在鎖定螢幕上可見</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">設定工作和休息時間</string>
 </resources>

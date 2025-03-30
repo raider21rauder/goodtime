@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Προσθήκη σημειώσεων</string>
     <string name="stats_select_all">Επιλογή Όλων</string>
     <string name="stats_no_items">Δεν υπάρχει τίποτα, προς το παρόν</string>
+    <string name="stats_show_label_breakdown_title">"Εμφάνιση ανάλυσης ετικέτας"</string>
+    <string name="stats_show_label_breakdown_desc">"Οπτικοποίηση δεδομένων ως σωρευμένες γραμμές διαχωρισμένες με ετικέτα"</string>
 </resources>

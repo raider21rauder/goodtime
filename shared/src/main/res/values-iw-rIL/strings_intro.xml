@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"לנצח את הדחיינות ולשפר את המיקוד שלך."</string>
     <string name="tutorial_title">הדרכה</string>
     <string name="tutorial_tap">👆 הקש על הטיימר כדי להפעיל ולהשהות.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_right">👉 החלק ימינה או שמאלה כדי לדלג על הסשן הנוכחי.</string>
     <string name="tutorial_swipe_up">☝️ החלק למעלה כדי להוסיף עוד דקה.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
     <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
-    <string name="settings_time_profiles">Looking for timer durations?</string>
 </resources>

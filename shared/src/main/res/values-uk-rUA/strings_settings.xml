@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Використовувати динамічний колір</string>
     <string name="settings_during_work_sessions">Під час робочих сесій</string>
-    <string name="settings_fullscreen_mode">Режим занурення</string>
+    <string name="settings_fullscreen_mode">Повноекранний режим</string>
     <string name="settings_true_black_mode_title">Справжній чорний режим</string>
     <string name="settings_true_black_mode_desc">Використовувати істинний чорний для фону</string>
     <string name="settings_keep_the_screen_on">Тримати екран увімкненим</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Початок сеансу перерви після робочого сеансу без взаємодії з користувачем</string>
     <string name="settings_display_over_lock_screen">Показувати над екраном блокування</string>
     <string name="settings_display_over_lock_screen_desc">Залишати програму видимою для екрану блокування</string>
+    <string name="settings_timer_durations_title">Тривалість таймера</string>
+    <string name="settings_timer_durations_desc">Встановіть тривалість для робочих сесій та перерв</string>
 </resources>

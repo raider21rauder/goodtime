@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Χτυπήστε την αναβλητικότητα και ενισχύστε την εστίασή σας."</string>
     <string name="tutorial_title">Οδηγός λειτουργίας</string>
     <string name="tutorial_tap">👆 Πατήστε το χρονόμετρο να ξεκινήσετε και να διακόψετε.</string>
-    <string name="tutorial_swipe_right">👉 Σαρώστε δεξιά για να παρακάμψετε την τρέχουσα συνεδρία.</string>
+    <string name="tutorial_swipe_right">👉 Σαρώστε προς τα αριστερά ή δεξιά για να παρακάμψετε την τρέχουσα περίοδο λειτουργίας.</string>
     <string name="tutorial_swipe_up">☝️ Σαρώστε προς τα επάνω για να προσθέσετε ένα λεπτό ακόμη.</string>
     <string name="tutorial_swipe_down">👇 Σύρετε προς τα κάτω για να σταματήσετε.</string>
     <string name="tutorial_time_profiles">Για να τροποποιήσετε το προφίλ ώρας, επεξεργαστείτε την συσχετισμένη ετικέτα</string>
-    <string name="settings_time_profiles">Ψάχνετε για χρονόμετρο διάρκεια?</string>
 </resources>

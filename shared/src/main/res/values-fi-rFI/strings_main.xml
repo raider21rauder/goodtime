@@ -30,7 +30,6 @@
     <string name="main_interruptions">Keskeytykset</string>
     <string name="main_consider_idle_time_as_extra_focus">Harkitse idle-aikaa ylimääräisenä keskittymisenä</string>
     <string name="main_open_app_menu">Avaa sovellusvalikko</string>
-    <string name="main_cannot_pause_the_break">Rikkomusta ei voi keskeyttää</string>
     <string name="main_reset_to_default">Palauta oletukset</string>
     <string name="main_save">Tallenna</string>
     <string name="main_focus_session_in_progress">Keskittyminen istuntoon käynnissä</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">Tauko käynnissä</string>
     <string name="main_pause">Tauko</string>
     <string name="main_resume">Jatka</string>
+    <string name="main_skip">Ohita</string>
     <string name="main_stop">Pysäytä</string>
     <string name="main_focus_session_finished">Kohdistus valmis</string>
     <string name="main_break_finished">Tauko päättyi</string>

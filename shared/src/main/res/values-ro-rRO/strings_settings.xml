@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Folosește culoarea dinamică</string>
     <string name="settings_during_work_sessions">În timpul sesiunilor de lucru</string>
-    <string name="settings_fullscreen_mode">Mod imersiv</string>
+    <string name="settings_fullscreen_mode">Modul fullscreen</string>
     <string name="settings_true_black_mode_title">Mod negru adevărat</string>
     <string name="settings_true_black_mode_desc">Folosește negru adevărat pentru fundal</string>
     <string name="settings_keep_the_screen_on">Păstrați ecranul pornit</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>
     <string name="settings_display_over_lock_screen">Afiseaza peste ecranul de blocare</string>
     <string name="settings_display_over_lock_screen_desc">Păstrați aplicația vizibilă pe ecranul de blocare</string>
+    <string name="settings_timer_durations_title">Durate cronometru</string>
+    <string name="settings_timer_durations_desc">Setați durata de lucru și de pauză a sesiunilor</string>
 </resources>

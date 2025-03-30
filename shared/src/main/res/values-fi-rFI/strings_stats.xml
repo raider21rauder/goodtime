@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Lisää muistiinpanoja</string>
     <string name="stats_select_all">Valitse kaikki</string>
     <string name="stats_no_items">Ei kohteita</string>
+    <string name="stats_show_label_breakdown_title">"Näytä tunnisteen erittely"</string>
+    <string name="stats_show_label_breakdown_desc">"Visualisoi tiedot pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
 </resources>

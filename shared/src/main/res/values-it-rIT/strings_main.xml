@@ -30,7 +30,6 @@
     <string name="main_interruptions">Interruzioni</string>
     <string name="main_consider_idle_time_as_extra_focus">Considera il tempo di inattività come focus extra</string>
     <string name="main_open_app_menu">Apri menu app</string>
-    <string name="main_cannot_pause_the_break">Impossibile mettere in pausa l\'interruzione</string>
     <string name="main_reset_to_default">Ripristina impostazioni predefinite</string>
     <string name="main_save">Salva</string>
     <string name="main_focus_session_in_progress">Focus sessione in corso</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">Pausa in corso</string>
     <string name="main_pause">Pausa</string>
     <string name="main_resume">Riprendi</string>
+    <string name="main_skip">Salta</string>
     <string name="main_stop">Ferma</string>
     <string name="main_focus_session_finished">Sessione di messa a fuoco completata</string>
     <string name="main_break_finished">Pausa finita</string>

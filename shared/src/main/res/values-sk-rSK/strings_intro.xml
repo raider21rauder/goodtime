@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
     <string name="tutorial_title">Tutoriál</string>
     <string name="tutorial_tap">👆 Poklepaním na časovač spustite a pozastavte.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_right">👉 Posunutím prstom doľava alebo doprava preskočte aktuálnu reláciu.</string>
     <string name="tutorial_swipe_up">☝️ Prejdite prstom nahor a pridajte ešte jednu minútu.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
     <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
-    <string name="settings_time_profiles">Looking for timer durations?</string>
 </resources>

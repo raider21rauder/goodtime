@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Pobijedite odlaganje i poboljšajte svoj fokus."</string>
     <string name="tutorial_title">Vodič</string>
     <string name="tutorial_tap">👆 Pritisnite mjerač vremena da počnete i zaustavite.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_right">👉 Prevucite ulijevo ili udesno da preskočite trenutni period.</string>
     <string name="tutorial_swipe_up">☝️ Prevucite prema gore da dodate jednu minutu.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
     <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
-    <string name="settings_time_profiles">Looking for timer durations?</string>
 </resources>

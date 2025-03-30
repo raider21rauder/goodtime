@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Erabili Kolore Dinamikoa</string>
     <string name="settings_during_work_sessions">Lan-saioetan zehar</string>
-    <string name="settings_fullscreen_mode">Murgiltze modua</string>
+    <string name="settings_fullscreen_mode">Pantaila osoko modua</string>
     <string name="settings_true_black_mode_title">Benetako modu beltz iluna</string>
     <string name="settings_true_black_mode_desc">Erabili beltz benetakoa atzeko planoarentzat</string>
     <string name="settings_keep_the_screen_on">Pantaila piztuta mantendu</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Hasi etenaldia lan-saio baten ondoren erabiltzaile-interakziorik gabe</string>
     <string name="settings_display_over_lock_screen">Erakutsi blokeatutako pantailaren gainean</string>
     <string name="settings_display_over_lock_screen_desc">Mantendu aplikazioa blokeatutako pantailaren gainean ikusgai</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">Ezarri iraupena lan- eta etenaldi-saioetarako</string>
 </resources>

@@ -30,7 +30,6 @@
     <string name="main_interruptions">中断</string>
     <string name="main_consider_idle_time_as_extra_focus">考虑空闲时间作为额外的重点</string>
     <string name="main_open_app_menu">打开应用菜单</string>
-    <string name="main_cannot_pause_the_break">无法暂停休息时间</string>
     <string name="main_reset_to_default">重置为默认值</string>
     <string name="main_save">保存</string>
     <string name="main_focus_session_in_progress">正在进行的焦点会议</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">中断正在进行的会话</string>
     <string name="main_pause">暂停</string>
     <string name="main_resume">继续</string>
+    <string name="main_skip">跳过</string>
     <string name="main_stop">停止</string>
     <string name="main_focus_session_finished">焦点会话已完成</string>
     <string name="main_break_finished">休息结束</string>

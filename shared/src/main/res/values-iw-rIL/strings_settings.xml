@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">השתמש בצבע דינמי</string>
     <string name="settings_during_work_sessions">במהלך סשני עבודה</string>
-    <string name="settings_fullscreen_mode">מצב מוטמע</string>
+    <string name="settings_fullscreen_mode">מצב מסך מלא</string>
     <string name="settings_true_black_mode_title">השתמש במצב דינמי אמיתי שחור</string>
     <string name="settings_true_black_mode_desc">השתמש בשחור אמיתי עבור הרקע</string>
     <string name="settings_keep_the_screen_on">השאר את המסך דלוק</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">מתחיל הפסקה לאחר סיום סשן עבודה, ללא אינטראקציה מצד המשתמש</string>
     <string name="settings_display_over_lock_screen">תצוגה מעל מסך נעילה</string>
     <string name="settings_display_over_lock_screen_desc">השאר את האפליקציה גלויה על מסך הנעילה</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">הגדר את משך סשני העבודה וההפסקה</string>
 </resources>

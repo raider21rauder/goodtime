@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Luați procrastinarea și sporiți focalizarea."</string>
     <string name="tutorial_title">Tutorial</string>
     <string name="tutorial_tap">👆 Apasă cronometrul pentru a începe și pentru a pune pauză.</string>
-    <string name="tutorial_swipe_right">👉 Glisați dreapta pentru a sări peste sesiunea curentă.</string>
+    <string name="tutorial_swipe_right">👉 Glisați cu degetul spre stânga sau dreapta pentru a sări peste sesiunea curentă.</string>
     <string name="tutorial_swipe_up">☝️ Glisați cu degetul în sus pentru a adăuga încă un minut.</string>
     <string name="tutorial_swipe_down">👇 Glisați în jos pentru a opri.</string>
     <string name="tutorial_time_profiles">Pentru a modifica profilul temporal, editați eticheta asociată</string>
-    <string name="settings_time_profiles">Cauți durate cronometru?</string>
 </resources>

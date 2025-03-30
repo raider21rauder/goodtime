@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">使用动态颜色</string>
     <string name="settings_during_work_sessions">在工作期间</string>
-    <string name="settings_fullscreen_mode">沉浸模式</string>
+    <string name="settings_fullscreen_mode">全屏模式</string>
     <string name="settings_true_black_mode_title">真黑色模式</string>
     <string name="settings_true_black_mode_desc">背景使用真黑色</string>
     <string name="settings_keep_the_screen_on">保持屏幕常亮</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">工作会话结束后开始断开会话，无需用户互动</string>
     <string name="settings_display_over_lock_screen">在锁定屏幕上显示</string>
     <string name="settings_display_over_lock_screen_desc">在锁屏界面保持应用程序可见</string>
+    <string name="settings_timer_durations_title">计时器持续时间</string>
+    <string name="settings_timer_durations_desc">设置工作和休息的时间</string>
 </resources>

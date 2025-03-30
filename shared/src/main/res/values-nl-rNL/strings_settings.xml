@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Gebruik dynamische kleur</string>
     <string name="settings_during_work_sessions">Tijdens werksessies</string>
-    <string name="settings_fullscreen_mode">Meeslepende modus</string>
+    <string name="settings_fullscreen_mode">Fullscreen-modus</string>
     <string name="settings_true_black_mode_title">Ware zwarte modus</string>
     <string name="settings_true_black_mode_desc">Gebruik waar zwart op de achtergrond</string>
     <string name="settings_keep_the_screen_on">Houd het scherm aan</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Start de onderbreking sessie na een werksessie zonder gebruikersinteractie</string>
     <string name="settings_display_over_lock_screen">Weergeven over vergrendelscherm</string>
     <string name="settings_display_over_lock_screen_desc">Houd de app zichtbaar via het vergrendelingsscherm</string>
+    <string name="settings_timer_durations_title">Timer duur</string>
+    <string name="settings_timer_durations_desc">Stel de duur van werk en pauze sessies in</string>
 </resources>

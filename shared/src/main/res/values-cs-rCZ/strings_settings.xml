@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Použít dynamickou barvu</string>
     <string name="settings_during_work_sessions">Během pracovní sese</string>
-    <string name="settings_fullscreen_mode">Pohlcující režim</string>
+    <string name="settings_fullscreen_mode">Režim celé obrazovky</string>
     <string name="settings_true_black_mode_title">Skutečný černý režim</string>
     <string name="settings_true_black_mode_desc">Použít pravou černou barvu pro pozadí</string>
     <string name="settings_keep_the_screen_on">Nechat obrazovku zapnutou</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Spustit přerušenou relaci po pracovní relaci bez interakce uživatele</string>
     <string name="settings_display_over_lock_screen">Zobrazit přes zamykací obrazovku</string>
     <string name="settings_display_over_lock_screen_desc">Ponechat aplikaci viditelnou na zamykací obrazovce</string>
+    <string name="settings_timer_durations_title">Doba trvání časovače</string>
+    <string name="settings_timer_durations_desc">Nastavit délku úseku pro práci a přestávku</string>
 </resources>

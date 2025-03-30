@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Добавить заметки</string>
     <string name="stats_select_all">Выделить все</string>
     <string name="stats_no_items">Нет ярлыков</string>
+    <string name="stats_show_label_breakdown_title">"Показать разбивку по меткам"</string>
+    <string name="stats_show_label_breakdown_desc">"Визуализировать данные как укладываемые полосы, разделенные меткой"</string>
 </resources>

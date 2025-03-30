@@ -30,7 +30,6 @@
     <string name="main_interruptions">Interruptions</string>
     <string name="main_consider_idle_time_as_extra_focus">Considérer le temps d\'inactivité comme une mise au point supplémentaire</string>
     <string name="main_open_app_menu">Ouvrir le menu de l\'application</string>
-    <string name="main_cannot_pause_the_break">Impossible de mettre en pause la pause</string>
     <string name="main_reset_to_default">Revenir à la valeur par défaut</string>
     <string name="main_save">Sauvegarder</string>
     <string name="main_focus_session_in_progress">Session de mise au point en cours</string>
@@ -38,6 +37,7 @@
     <string name="main_break_in_progress">Pause en cours</string>
     <string name="main_pause">Pause</string>
     <string name="main_resume">Reprendre</string>
+    <string name="main_skip">Ignorer</string>
     <string name="main_stop">Arrêter</string>
     <string name="main_focus_session_finished">Session de mise au point terminée</string>
     <string name="main_break_finished">Pause terminée</string>

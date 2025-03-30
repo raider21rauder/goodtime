@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Utilitzeu el color dinàmic</string>
     <string name="settings_during_work_sessions">Durant les sessions de treball</string>
-    <string name="settings_fullscreen_mode">Mode immersiu</string>
+    <string name="settings_fullscreen_mode">Mode pantalla completa</string>
     <string name="settings_true_black_mode_title">Veritable mode negre</string>
     <string name="settings_true_black_mode_desc">Utilitzeu el negre real per al fons</string>
     <string name="settings_keep_the_screen_on">Deixar la pantalla encesa</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Iniciar el descans després d\'una sessió de treball sense interacció d\'usuari</string>
     <string name="settings_display_over_lock_screen">Mostra sobre la pantalla de bloqueig</string>
     <string name="settings_display_over_lock_screen_desc">Manteniu l\'aplicació visible a la pantalla de bloqueig</string>
+    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_desc">Estableix la durada per a les sessions de feina i de descans</string>
 </resources>

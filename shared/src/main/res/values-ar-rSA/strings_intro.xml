@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"تغلب على المماطلة وتعزيز تركيزك."</string>
     <string name="tutorial_title">البرنامج التعليمي</string>
     <string name="tutorial_tap">👆 اضغط على الموقت لبدء وقفة.</string>
-    <string name="tutorial_swipe_right">👉 اسحب لليمين لتخطي الجلسة الحالية.</string>
+    <string name="tutorial_swipe_right">👉 اسحب إلى اليسار أو اليمين لتخطي الجلسة الحالية.</string>
     <string name="tutorial_swipe_up">☝️ اسحب لأعلى لإضافة دقيقة أخرى.</string>
     <string name="tutorial_swipe_down">👇 اسحب للأسفل للتوقف.</string>
     <string name="tutorial_time_profiles">لتعديل الملف الشخصي للوقت، قم بتحرير التسمية المرتبطة</string>
-    <string name="settings_time_profiles">البحث عن مدة المؤقت؟</string>
 </resources>

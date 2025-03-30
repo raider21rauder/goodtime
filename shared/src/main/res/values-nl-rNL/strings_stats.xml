@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Notities toevoegen</string>
     <string name="stats_select_all">Alles selecteren</string>
     <string name="stats_no_items">Geen items</string>
+    <string name="stats_show_label_breakdown_title">"Verdeling label weergeven"</string>
+    <string name="stats_show_label_breakdown_desc">"Visualiseer gegevens als gestapelde balken, gescheiden door label"</string>
 </resources>

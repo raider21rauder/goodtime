@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Beat udsættelse og forbedre dit fokus."</string>
     <string name="tutorial_title">Guide</string>
     <string name="tutorial_tap">👆 Tryk på timeren for at starte og pause.</string>
-    <string name="tutorial_swipe_right">👉 Stryg til højre for at springe over den aktuelle session.</string>
+    <string name="tutorial_swipe_right">👉 Stryg til venstre eller højre for at springe den aktuelle session over.</string>
     <string name="tutorial_swipe_up">☝️ Stryg op til at tilføje et minut.</string>
     <string name="tutorial_swipe_down">👇 Stryg nedad for at stoppe.</string>
     <string name="tutorial_time_profiles">For at ændre tidsprofilen, rediger den tilknyttede etiket</string>
-    <string name="settings_time_profiles">Leder du efter timer varigheder?</string>
 </resources>

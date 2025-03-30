@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Dynamische Farbe verwenden</string>
     <string name="settings_during_work_sessions">Während der Arbeitssitzungen</string>
-    <string name="settings_fullscreen_mode">Immersive-Modus</string>
+    <string name="settings_fullscreen_mode">Vollbildmodus</string>
     <string name="settings_true_black_mode_title">Wahrer schwarzer Modus</string>
     <string name="settings_true_black_mode_desc">True Schwarz für den Hintergrund verwenden</string>
     <string name="settings_keep_the_screen_on">Bildschirm eingeschaltet lassen</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Starte die Pause Sitzung nach einer Arbeitssitzung ohne Benutzerinteraktion</string>
     <string name="settings_display_over_lock_screen">Über Sperrbildschirm anzeigen</string>
     <string name="settings_display_over_lock_screen_desc">Die App über dem Sperrbildschirm sichtbar halten</string>
+    <string name="settings_timer_durations_title">Timer-Dauer</string>
+    <string name="settings_timer_durations_desc">Dauer für Arbeits- und Pausensitzungen festlegen</string>
 </resources>

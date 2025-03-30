@@ -50,4 +50,6 @@
     <string name="stats_add_notes">Ajouter des notes</string>
     <string name="stats_select_all">Tout sélectionner</string>
     <string name="stats_no_items">Aucun élément</string>
+    <string name="stats_show_label_breakdown_title">"Afficher la répartition des libellés"</string>
+    <string name="stats_show_label_breakdown_desc">"Visualiser les données comme des barres empilées séparées par des libellés"</string>
 </resources>

@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Rozpocznij sesję przerwy po sesji roboczej bez interakcji użytkownika</string>
     <string name="settings_display_over_lock_screen">Wyświetlaj na ekranie blokady</string>
     <string name="settings_display_over_lock_screen_desc">Pozostaw aplikację widoczną na ekranie blokady</string>
+    <string name="settings_timer_durations_title">Czas trwania zegara</string>
+    <string name="settings_timer_durations_desc">Ustaw długość sesji pracy i przerw</string>
 </resources>

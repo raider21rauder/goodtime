@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Usar Cor Dinâmica</string>
     <string name="settings_during_work_sessions">Durante sessões de trabalho</string>
-    <string name="settings_fullscreen_mode">Modo imersivo</string>
+    <string name="settings_fullscreen_mode">Modo de tela cheia</string>
     <string name="settings_true_black_mode_title">Modo preto verdadeiro</string>
     <string name="settings_true_black_mode_desc">Usar preto verdadeiro para o fundo</string>
     <string name="settings_keep_the_screen_on">Manter a tela ligada</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Iniciar a sessão de interrupção após uma sessão de trabalho sem interação do usuário</string>
     <string name="settings_display_over_lock_screen">Mostrar na tela de bloqueio</string>
     <string name="settings_display_over_lock_screen_desc">Manter o aplicativo visível na tela de bloqueio</string>
+    <string name="settings_timer_durations_title">Duração do temporizador</string>
+    <string name="settings_timer_durations_desc">Definir a duração das sessões de trabalho e dos intervalos</string>
 </resources>

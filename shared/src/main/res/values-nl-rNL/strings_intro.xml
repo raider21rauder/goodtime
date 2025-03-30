@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Versla uitstel en verbeter je focus."</string>
     <string name="tutorial_title">Handleiding</string>
     <string name="tutorial_tap">👆 Tik op de timer om te starten en te pauzeren.</string>
-    <string name="tutorial_swipe_right">:backhand_index_pointing_rechts: Swipe rechts om de huidige sessie over te slaan.</string>
+    <string name="tutorial_swipe_right">👉 Veeg naar links of rechts om de huidige sessie over te slaan.</string>
     <string name="tutorial_swipe_up">☝️ Veeg omhoog om nog een minuut toe te voegen.</string>
     <string name="tutorial_swipe_down">👇 Swipe naar beneden om te stoppen.</string>
     <string name="tutorial_time_profiles">Om het tijdprofiel aan te passen, bewerkt u het bijbehorend label</string>
-    <string name="settings_time_profiles">Op zoek naar timer duur?</string>
 </resources>

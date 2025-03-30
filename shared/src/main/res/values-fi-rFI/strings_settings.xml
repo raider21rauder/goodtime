@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Käytä Dynaamista Väriä</string>
     <string name="settings_during_work_sessions">Työistuntojen aikana</string>
-    <string name="settings_fullscreen_mode">Immersive mode</string>
+    <string name="settings_fullscreen_mode">Kokonäyttötila</string>
     <string name="settings_true_black_mode_title">Tosi musta tila</string>
     <string name="settings_true_black_mode_desc">Käytä tosi mustaa taustalle</string>
     <string name="settings_keep_the_screen_on">Pidä näyttö päällä</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Aloita taukoistunto työistunnon jälkeen ilman käyttäjän vuorovaikutusta</string>
     <string name="settings_display_over_lock_screen">Näytä lukitusnäytön päällä</string>
     <string name="settings_display_over_lock_screen_desc">Pidä sovellus näkyvissä lukitusnäytön päällä</string>
+    <string name="settings_timer_durations_title">Ajastimen kesto</string>
+    <string name="settings_timer_durations_desc">Aseta työ- ja taukoistuntojen kestot</string>
 </resources>

@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Использовать динамический цвет</string>
     <string name="settings_during_work_sessions">В ходе рабочих сессий</string>
-    <string name="settings_fullscreen_mode">Режим погружения</string>
+    <string name="settings_fullscreen_mode">Полноэкранный режим</string>
     <string name="settings_true_black_mode_title">Истинный черный режим</string>
     <string name="settings_true_black_mode_desc">Использовать чёрный цвет для фона</string>
     <string name="settings_keep_the_screen_on">Держать экран включенным</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Запускать перерыв после рабочего сеанса без взаимодействия пользователя</string>
     <string name="settings_display_over_lock_screen">Отображать на экране блокировки</string>
     <string name="settings_display_over_lock_screen_desc">Оставлять приложение видимым на экране блокировки</string>
+    <string name="settings_timer_durations_title">Время действия таймера</string>
+    <string name="settings_timer_durations_desc">Установить продолжительность работы и перерывов</string>
 </resources>

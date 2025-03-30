@@ -39,7 +39,7 @@
     </string-array>
     <string name="settings_use_dynamic_color">Bruk dynamisk farge</string>
     <string name="settings_during_work_sessions">Under arbeidsøkter</string>
-    <string name="settings_fullscreen_mode">Fullskjermsmodus</string>
+    <string name="settings_fullscreen_mode">Fullskjermmodus</string>
     <string name="settings_true_black_mode_title">Ekte svart modus</string>
     <string name="settings_true_black_mode_desc">Bruk ekte sort for bakgrunnen</string>
     <string name="settings_keep_the_screen_on">Hold skjermen på</string>
@@ -76,4 +76,6 @@
     <string name="settings_auto_start_break_desc">Start en pause økt etter en arbeidsøkt uten brukerinteraksjon</string>
     <string name="settings_display_over_lock_screen">Vise over låseskjermen</string>
     <string name="settings_display_over_lock_screen_desc">Hold appen synlig over låseskjermen</string>
+    <string name="settings_timer_durations_title">Timer varighet</string>
+    <string name="settings_timer_durations_desc">Angi varighet for arbeidsøkter og pauser</string>
 </resources>

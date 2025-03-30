@@ -28,9 +28,8 @@
     <string name="intro3_desc2">"Đánh bại sự trì hoãn và tăng cường sự tập trung."</string>
     <string name="tutorial_title">Hướng dẫn</string>
     <string name="tutorial_tap">👆 Nhấn vào bộ hẹn giờ để bắt đầu và tạm dừng.</string>
-    <string name="tutorial_swipe_right">👉 Swipe right to skip the current session.</string>
+    <string name="tutorial_swipe_right">👉 Vuốt sang trái hoặc phải để bỏ qua phiên hiện tại.</string>
     <string name="tutorial_swipe_up">☝️ Vuốt lên để thêm một phút nữa.</string>
     <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
     <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
-    <string name="settings_time_profiles">Looking for timer durations?</string>
 </resources>
