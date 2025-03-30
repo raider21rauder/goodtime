@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.bl.notifications
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.os.Build
+import android.os.VibrationAttributes
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -99,23 +100,30 @@ class VibrationPlayer(
                     1 -> {
                         longArrayOf(0, 100, 2000)
                     }
+
                     2 -> {
                         longArrayOf(0, 100, 50, 100, 1000)
                     }
+
                     3 -> {
                         longArrayOf(0, 200, 50, 200, 1000)
                     }
+
                     4 -> {
                         longArrayOf(0, 400, 100, 400, 1000)
                     }
+
                     5 -> {
                         longArrayOf(0, 400, 100, 400, 100, 400, 1000)
                     }
+
                     else -> longArrayOf()
                 }
                 // add a small delay to avoid vibration being ignored when exiting DnD mode
                 delay(100)
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat))
+
+                val vibrationAttributes = VibrationAttributes.Builder().setUsage(VibrationAttributes.USAGE_ALARM).build()
+                vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat), vibrationAttributes)
             }
         }
     }
