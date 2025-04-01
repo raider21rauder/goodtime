@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl.notifications
 
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
+import android.media.AudioAttributes
 import android.os.Build
 import android.os.VibrationAttributes
 import android.os.VibrationEffect
@@ -122,8 +123,22 @@ class VibrationPlayer(
                 // add a small delay to avoid vibration being ignored when exiting DnD mode
                 delay(100)
 
-                val vibrationAttributes = VibrationAttributes.Builder().setUsage(VibrationAttributes.USAGE_ALARM).build()
-                vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat), vibrationAttributes)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val vibrationAttributes =
+                        VibrationAttributes.Builder().setUsage(VibrationAttributes.USAGE_ALARM)
+                            .build()
+                    vibrator.vibrate(
+                        VibrationEffect.createWaveform(pattern, repeat),
+                        vibrationAttributes,
+                    )
+                } else {
+                    val audioAttributes =
+                        AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build()
+                    vibrator.vibrate(
+                        VibrationEffect.createWaveform(pattern, repeat),
+                        audioAttributes,
+                    )
+                }
             }
         }
     }
