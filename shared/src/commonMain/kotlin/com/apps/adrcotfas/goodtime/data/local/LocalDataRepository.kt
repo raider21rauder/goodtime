@@ -71,6 +71,7 @@ interface LocalDataRepository {
     suspend fun updateLabelIsArchived(name: String, newIsArchived: Boolean)
     suspend fun updateLabel(name: String, newLabel: Label)
     suspend fun updateDefaultLabel(newDefaultLabel: Label)
+    suspend fun updateDefaultLabelColorIndex(newDefaultLabelColorIndex: Long)
     fun selectDefaultLabel(): Flow<Label?>
     fun selectLabelByName(name: String): Flow<Label?>
     fun selectAllLabels(): Flow<List<Label>>

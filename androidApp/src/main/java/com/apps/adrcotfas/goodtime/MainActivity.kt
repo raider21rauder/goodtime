@@ -313,7 +313,6 @@ class MainActivity : GoodtimeMainActivity() {
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
                                 onNavigateToDefault = { navController.navigate(AddEditLabelDest(name = Label.DEFAULT_LABEL_NAME)) },
-                                onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }

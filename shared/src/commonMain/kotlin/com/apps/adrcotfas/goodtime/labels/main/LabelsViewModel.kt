@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
+import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.labels.utils.generateUniqueNameForDuplicate
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,9 @@ val LabelsUiState.archivedLabels: List<Label>
 
 val LabelsUiState.unarchivedLabels: List<Label>
     get() = labels.filter { !it.isArchived }
+
+val LabelsUiState.unarchivedLabelsExcludingDefault: List<Label>
+    get() = unarchivedLabels.filter { !it.isDefault() }
 
 class LabelsViewModel(
     private val repo: LocalDataRepository,

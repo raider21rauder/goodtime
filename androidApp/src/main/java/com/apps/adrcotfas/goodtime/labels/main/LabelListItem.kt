@@ -39,14 +39,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
-import com.apps.adrcotfas.goodtime.data.model.isDefault
-import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
@@ -72,8 +69,7 @@ fun LabelListItem(
     onDelete: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val labelName =
-        if (label.isDefault()) stringResource(id = R.string.labels_default_label_name) else label.name
+    val labelName = label.name
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -116,79 +112,71 @@ fun LabelListItem(
             style = MaterialTheme.typography.bodyLarge,
         )
 
-        if (label.isDefault()) {
-            IconButton(onClick = {
-                onEdit()
-            }) {
-                Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+        var dropDownMenuExpanded by remember { mutableStateOf(false) }
+        Box {
+            IconButton(onClick = { dropDownMenuExpanded = true }) {
+                Icon(
+                    EvaIcons.Outline.MoreVertical,
+                    contentDescription = "More about $labelName",
+                )
             }
-        } else {
-            var dropDownMenuExpanded by remember { mutableStateOf(false) }
-            Box {
-                IconButton(onClick = { dropDownMenuExpanded = true }) {
-                    Icon(
-                        EvaIcons.Outline.MoreVertical,
-                        contentDescription = "More about $labelName",
-                    )
-                }
-                BetterDropdownMenu(
-                    expanded = dropDownMenuExpanded,
-                    onDismissRequest = { dropDownMenuExpanded = false },
-                ) {
-                    val paddingModifier = Modifier.padding(end = 32.dp)
-                    DropdownMenuItem(
-                        modifier = firstMenuItemModifier,
-                        text = { Text(modifier = paddingModifier, text = "Edit") },
-                        onClick = {
-                            onEdit()
-                            dropDownMenuExpanded = false
-                        },
-                        leadingIcon = {
-                            Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
-                        },
-                    )
-                    DropdownMenuItem(
-                        text = { Text(modifier = paddingModifier, text = "Duplicate") },
-                        onClick = {
-                            onDuplicate()
-                            dropDownMenuExpanded = false
-                        },
-                        leadingIcon = {
-                            Icon(
-                                EvaIcons.Outline.Copy,
-                                contentDescription = "Duplicate $labelName",
-                            )
-                        },
-                    )
-                    SubtleHorizontalDivider()
-                    DropdownMenuItem(
-                        text = { Text(modifier = paddingModifier, text = "Archive") },
-                        onClick = {
-                            onArchive()
-                            dropDownMenuExpanded = false
-                        },
-                        leadingIcon = {
-                            Icon(
-                                EvaIcons.Outline.Archive,
-                                contentDescription = "Archive $labelName",
-                            )
-                        },
-                    )
-                    DropdownMenuItem(
-                        modifier = lastMenuItemModifier,
-                        text = { Text(modifier = paddingModifier, text = "Delete") },
-                        onClick = {
-                            onDelete()
-                            dropDownMenuExpanded = false
-                        },
-                        leadingIcon = {
-                            Icon(
-                                EvaIcons.Outline.Trash,
-                                contentDescription = "Delete $labelName",
-                            )
-                        },
-                    )
-                }
+            BetterDropdownMenu(
+                expanded = dropDownMenuExpanded,
+                onDismissRequest = { dropDownMenuExpanded = false },
+            ) {
+                val paddingModifier = Modifier.padding(end = 32.dp)
+                DropdownMenuItem(
+                    modifier = firstMenuItemModifier,
+                    text = { Text(modifier = paddingModifier, text = "Edit") },
+                    onClick = {
+                        onEdit()
+                        dropDownMenuExpanded = false
+                    },
+                    leadingIcon = {
+                        Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text(modifier = paddingModifier, text = "Duplicate") },
+                    onClick = {
+                        onDuplicate()
+                        dropDownMenuExpanded = false
+                    },
+                    leadingIcon = {
+                        Icon(
+                            EvaIcons.Outline.Copy,
+                            contentDescription = "Duplicate $labelName",
+                        )
+                    },
+                )
+                SubtleHorizontalDivider()
+                DropdownMenuItem(
+                    text = { Text(modifier = paddingModifier, text = "Archive") },
+                    onClick = {
+                        onArchive()
+                        dropDownMenuExpanded = false
+                    },
+                    leadingIcon = {
+                        Icon(
+                            EvaIcons.Outline.Archive,
+                            contentDescription = "Archive $labelName",
+                        )
+                    },
+                )
+                DropdownMenuItem(
+                    modifier = lastMenuItemModifier,
+                    text = { Text(modifier = paddingModifier, text = "Delete") },
+                    onClick = {
+                        onDelete()
+                        dropDownMenuExpanded = false
+                    },
+                    leadingIcon = {
+                        Icon(
+                            EvaIcons.Outline.Trash,
+                            contentDescription = "Delete $labelName",
+                        )
+                    },
+                )
             }
         }
     }

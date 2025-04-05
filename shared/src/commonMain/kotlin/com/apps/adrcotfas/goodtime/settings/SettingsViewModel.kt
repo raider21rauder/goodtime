@@ -19,6 +19,8 @@ package com.apps.adrcotfas.goodtime.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
@@ -26,8 +28,10 @@ import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -37,6 +41,7 @@ import kotlinx.datetime.isoDayNumber
 
 data class SettingsUiState(
     val isLoading: Boolean = true,
+    val defaultColorIndex: Long = Label.DEFAULT_LABEL_COLOR_INDEX.toLong(),
     val settings: AppSettings = AppSettings(),
     val lockedTimerStyle: TimerStyleData = TimerStyleData(),
     val showTimePicker: Boolean = false,
@@ -46,7 +51,10 @@ data class SettingsUiState(
     val notificationSoundCandidate: String? = null,
 )
 
-class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository,
+    private val localDataRepository: LocalDataRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState = _uiState.onStart {
         loadData()
@@ -55,10 +63,18 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            settingsRepository.settings.distinctUntilChanged().collect { settings ->
-                _uiState.update {
-                    it.copy(
+            settingsRepository.settings.distinctUntilChanged().combine(
+                localDataRepository.selectDefaultLabel().map {
+                    it?.colorIndex ?: Label.DEFAULT_LABEL_COLOR_INDEX.toLong()
+                },
+            ) { settings, colorIndex ->
+                settings to colorIndex
+            }.collect {
+                val (settings, colorIndex) = it
+                _uiState.update { state ->
+                    state.copy(
                         isLoading = false,
+                        defaultColorIndex = colorIndex,
                         settings = settings,
                         lockedTimerStyle = settings.timerStyle,
                     )
@@ -265,6 +281,20 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     }
 
     // Timer style settings bellow
+
+    fun setDefaultLabelColorIndex(colorIndex: Long) {
+        viewModelScope.launch {
+            if (uiState.value.settings.isPro) {
+                localDataRepository.updateDefaultLabelColorIndex(colorIndex)
+            } else {
+                _uiState.update {
+                    it.copy(
+                        defaultColorIndex = colorIndex,
+                    )
+                }
+            }
+        }
+    }
 
     fun setTimerWeight(weight: Int) {
         viewModelScope.launch {
