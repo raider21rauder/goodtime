@@ -87,7 +87,8 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    if (uiState.data.x.isEmpty()) return
+    if (uiState.data.x.isEmpty() || uiState.data.y.isEmpty()) return
+
     val data = uiState.data
     val type = uiState.type
     val isTimeOverviewType = uiState.overviewType == OverviewType.TIME
