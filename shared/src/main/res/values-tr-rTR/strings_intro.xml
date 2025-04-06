@@ -17,19 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"Odaklı Kalın"</string>
+    <string name="intro1_desc1">"Zamanlı çalışma oturumlarıyla verimliliği arttırın."</string>
+    <string name="intro1_desc2">"Yapılandırılmış bir geri sayım ya da esnek bir sayım zamanlayıcısı arasında seçim yapın."</string>
+    <string name="intro2_title">"Zihninizi Tazeleyin"</string>
+    <string name="intro2_desc1">"Gücünüzü toplamak ve keskin kalmak için hak edilmiş aralar verin."</string>
+    <string name="intro2_desc2">"Sayım zamanlayıcıları için, çalıştıkça ara zamanı biriktirin."</string>
     <string name="intro3_title">"Başlayın"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
+    <string name="intro3_desc1">"Gelişiminizi detaylı istatistikler ile takip edin."</string>
+    <string name="intro3_desc2">"Ertelemeyi yenin ve odağınızı iyileştirin."</string>
     <string name="tutorial_title">Öğretici</string>
     <string name="tutorial_tap">👆 Zamanlayıcıyı başlatmak ve duraklatmak için dokunun.</string>
     <string name="tutorial_swipe_right">👉 Geçerli oturumu atlamak için sağa ya da sola kaydırın.</string>
     <string name="tutorial_swipe_up">☝️ Bir dakika daha eklemek için yukarı kaydırın.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
-    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
+    <string name="tutorial_swipe_down">👇Durmak için aşağıya kaydırın.</string>
+    <string name="tutorial_time_profiles">Zaman profilini düzenlemek için, alakalı etiketi düzenleyin</string>
 </resources>

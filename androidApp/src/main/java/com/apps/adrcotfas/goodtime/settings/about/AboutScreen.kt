@@ -44,6 +44,7 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.BookOpen
 import compose.icons.evaicons.outline.Github
+import compose.icons.evaicons.outline.Globe
 import compose.icons.evaicons.outline.PaperPlane
 import compose.icons.evaicons.outline.Star
 import org.koin.compose.koinInject
@@ -113,10 +114,20 @@ fun AboutScreen(
                     onNavigateToMain()
                 },
             )
+            SubtleHorizontalDivider()
             IconListItem(
                 title = stringResource(R.string.about_feedback),
                 icon = { Icon(EvaIcons.Outline.PaperPlane, contentDescription = stringResource(R.string.about_feedback)) },
                 onClick = { sendFeedback(context) },
+            )
+            IconListItem(
+                title = stringResource(R.string.about_translate_this_app),
+                icon = {
+                    Icon(EvaIcons.Outline.Globe, contentDescription = stringResource(R.string.about_translate_this_app))
+                },
+                onClick = {
+                    openUrl(context, TRANSLATE_URL)
+                },
             )
             IconListItem(
                 title = stringResource(R.string.about_rate_this_app),
@@ -132,6 +143,7 @@ fun AboutScreen(
 const val GOOGLE_PLAY_URL =
     "https://play.google.com/store/apps/details?id=com.apps.adrcotfas.goodtime"
 const val REPO_URL = "https://github.com/adrcotfas/goodtime"
+const val TRANSLATE_URL = "https://crowdin.com/project/goodtime"
 
 @Preview
 @Composable

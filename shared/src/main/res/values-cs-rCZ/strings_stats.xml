@@ -24,7 +24,7 @@
     <string name="stats_week">Týden %1$s</string>
     <string name="stats_total">Celkem</string>
     <string-array name="stats_overview_type_options">
-        <item>Sese</item>
+        <item>Pracovní bloky</item>
         <item>Čas</item>
     </string-array>
     <string name="stats_history_title">Historie</string>
@@ -37,19 +37,21 @@
     </string-array>
     <string name="stats_productive_hours">Produktivní hodiny</string>
     <string name="stats_heatmap">Teplotní mapa</string>
-    <string name="stats_focus_distribution">Zaostření distribuce</string>
-    <string name="stats_focus_break_ratio">Poměr zaostření/přerušení</string>
-    <string name="stats_add_session">Přidat sesi</string>
-    <string name="stats_focus">Zaměřit</string>
-    <string name="stats_break">Přerušit</string>
-    <string name="stats_duration">Doba trvání</string>
+    <string name="stats_focus_distribution">Distribuce pracovních sesí</string>
+    <string name="stats_focus_break_ratio">Poměr pracovní blok/přestávka</string>
+    <string name="stats_add_session">Přidat blok</string>
+    <string name="stats_focus">Soustředění</string>
+    <string name="stats_break">Přestávka</string>
+    <string name="stats_duration">Délka</string>
     <string name="stats_time">Čas</string>
-    <string name="stats_label">Popisek</string>
-    <string name="stats_delete_selected_sessions">Smazat vybrané relace?</string>
-    <string name="stats_change_label_of_selected_sessions">Změnit štítek vybraných relací?</string>
+    <string name="stats_label">Štítek</string>
+    <string name="stats_delete_selected_sessions">Smazat vybrané bloky?</string>
+    <string name="stats_change_label_of_selected_sessions">Změnit štítek vybraných bloků?</string>
     <string name="stats_add_notes">Přidat poznámky</string>
     <string name="stats_select_all">Vybrat vše</string>
     <string name="stats_no_items">Žádné položky</string>
     <string name="stats_show_label_breakdown_title">"Zobrazit rozpis štítku"</string>
-    <string name="stats_show_label_breakdown_desc">"Vizualizace dat jako složené lišty oddělené štítkem"</string>
+    <string name="stats_show_label_breakdown_desc">"Zobrazit data jako skládaný sloupcový graf rozdělený dle štítků"</string>
+    <string name="stats_more_options">Další možnosti</string>
+    <string name="stats_show_breaks">Zobrazit zalomení</string>
 </resources>

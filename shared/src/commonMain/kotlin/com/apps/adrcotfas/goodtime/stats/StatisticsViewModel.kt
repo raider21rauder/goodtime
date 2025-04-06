@@ -99,16 +99,18 @@ class StatisticsViewModel(
 
     val pagedSessions: Flow<PagingData<Session>> =
         uiState.distinctUntilChanged { old, new ->
-            old.selectedLabels == new.selectedLabels
+            old.selectedLabels == new.selectedLabels &&
+                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
         }.flatMapLatest {
-            selectSessionsForTimelinePaged(it.selectedLabels)
+            selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
         }
 
     private fun selectSessionsForTimelinePaged(
         labels: List<String>,
+        showBreaks: Boolean,
     ): Flow<PagingData<Session>> =
         Pager(PagingConfig(pageSize = 50, prefetchDistance = 50)) {
-            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks = true)
+            localDataRepo.selectSessionsForTimelinePaged(labels, showBreaks = showBreaks)
         }.flow.map { value ->
             value.map {
                 it.toExternal()
@@ -330,5 +332,12 @@ class StatisticsViewModel(
         }
     }
 
-    fun setShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
+    fun setShouldAskForReview() =
+        viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
+
+    fun setShowBreaks(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(showBreaks = enabled) }
+        }
+    }
 }

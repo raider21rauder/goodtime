@@ -23,4 +23,5 @@
     <string name="about_app_intro">Sovelluksen Esittely</string>
     <string name="about_feedback">Palaute</string>
     <string name="about_rate_this_app">Arvostele tämä sovellus</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

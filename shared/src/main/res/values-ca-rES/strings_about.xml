@@ -23,4 +23,5 @@
     <string name="about_app_intro">Introducció d\'app</string>
     <string name="about_feedback">Opinió</string>
     <string name="about_rate_this_app">Valora aquesta aplicació</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

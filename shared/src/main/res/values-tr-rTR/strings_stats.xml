@@ -42,14 +42,16 @@
     <string name="stats_add_session">Oturum ekle</string>
     <string name="stats_focus">Focus</string>
     <string name="stats_break">Break</string>
-    <string name="stats_duration">Duration</string>
+    <string name="stats_duration">Uzunluk</string>
     <string name="stats_time">Zaman</string>
-    <string name="stats_label">Label</string>
-    <string name="stats_delete_selected_sessions">Delete selected sessions?</string>
+    <string name="stats_label">Etiket</string>
+    <string name="stats_delete_selected_sessions">Seçilen oturumları sil?</string>
     <string name="stats_change_label_of_selected_sessions">Change label of selected sessions?</string>
     <string name="stats_add_notes">Add notes</string>
     <string name="stats_select_all">Tümünü seç</string>
     <string name="stats_no_items">Öğe yok</string>
     <string name="stats_show_label_breakdown_title">"Show label breakdown"</string>
     <string name="stats_show_label_breakdown_desc">"Visualize data as stacked bars separated by label"</string>
+    <string name="stats_more_options">More options</string>
+    <string name="stats_show_breaks">Show breaks</string>
 </resources>

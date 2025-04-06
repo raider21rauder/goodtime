@@ -52,4 +52,6 @@
     <string name="stats_no_items">Немає елементів</string>
     <string name="stats_show_label_breakdown_title">"Показувати підпис"</string>
     <string name="stats_show_label_breakdown_desc">"Візуалізація даних як складені рядки, розділені міткою"</string>
+    <string name="stats_more_options">Більше опцій</string>
+    <string name="stats_show_breaks">Показати розриви</string>
 </resources>

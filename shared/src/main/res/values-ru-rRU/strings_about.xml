@@ -23,4 +23,5 @@
     <string name="about_app_intro">Введение в приложение</string>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_rate_this_app">Оценить это приложение</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

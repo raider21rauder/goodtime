@@ -23,4 +23,5 @@
     <string name="about_app_intro">مقدمة التطبيق</string>
     <string name="about_feedback">ردود الأفعال</string>
     <string name="about_rate_this_app">قيم التطبيق</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

@@ -44,6 +44,7 @@ data class StatisticsSettings(
     val overviewType: OverviewType = OverviewType.TIME,
     val overviewDurationType: OverviewDurationType = OverviewDurationType.THIS_MONTH,
     val pieChartViewType: OverviewDurationType = OverviewDurationType.THIS_MONTH,
+    val showBreaks: Boolean = false,
 )
 
 @Serializable

@@ -23,4 +23,5 @@
     <string name="about_app_intro">程式介紹</string>
     <string name="about_feedback">意見反饋</string>
     <string name="about_rate_this_app">給我們評分</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

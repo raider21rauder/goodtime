@@ -18,7 +18,9 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Label
@@ -26,6 +28,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,12 +37,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.MoreVertical
 import compose.icons.evaicons.outline.Trash
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +66,8 @@ fun StatisticsScreenTopBar(
     showSelectionUi: Boolean,
     selectionCount: Int,
     showSeparator: Boolean,
+    showBreaks: Boolean,
+    onSetShowBreaks: (Boolean) -> Unit,
 ) {
     val colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent,
@@ -117,6 +132,40 @@ fun StatisticsScreenTopBar(
                                 Icons.AutoMirrored.Outlined.Label,
                                 stringResource(R.string.labels_select_labels),
                             )
+                        }
+                        var dropDownMenuExpanded by remember { mutableStateOf(false) }
+                        Box {
+                            IconButton(onClick = { dropDownMenuExpanded = true }) {
+                                Icon(
+                                    EvaIcons.Outline.MoreVertical,
+                                    contentDescription = stringResource(R.string.stats_more_options),
+                                )
+                            }
+
+                            BetterDropdownMenu(
+                                expanded = dropDownMenuExpanded,
+                                onDismissRequest = { dropDownMenuExpanded = false },
+                            ) {
+                                val paddingModifier = Modifier.padding(end = 32.dp)
+                                DropdownMenuItem(
+                                    modifier = firstMenuItemModifier,
+                                    leadingIcon = {
+                                        Checkbox(checked = showBreaks, onCheckedChange = {
+                                            onSetShowBreaks(!showBreaks)
+                                        })
+                                    },
+                                    text = {
+                                        Text(
+                                            modifier = paddingModifier,
+                                            text = stringResource(R.string.stats_show_breaks),
+                                        )
+                                    },
+                                    onClick = {
+                                        onSetShowBreaks(!showBreaks)
+                                        dropDownMenuExpanded = false
+                                    },
+                                )
+                            }
                         }
                     },
                     navigationIcon = {

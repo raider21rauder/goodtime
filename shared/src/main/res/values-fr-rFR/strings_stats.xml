@@ -19,7 +19,7 @@
 <resources>
     <string name="stats_title">Statistiques</string>
     <string name="stats_overview">Aperçu</string>
-    <string name="stats_timeline">Échéancier</string>
+    <string name="stats_timeline">Chronologie</string>
     <string name="stats_today">Aujourd\'hui</string>
     <string name="stats_week">Semaine %1$s</string>
     <string name="stats_total">Total</string>
@@ -32,13 +32,13 @@
         <item>Jours</item>
         <item>Semaines</item>
         <item>Mois</item>
-        <item>Quartiers</item>
+        <item>Trimestres</item>
         <item>Années</item>
     </string-array>
-    <string name="stats_productive_hours">Heures de production</string>
+    <string name="stats_productive_hours">Heures productives</string>
     <string name="stats_heatmap">Carte de chaleur</string>
-    <string name="stats_focus_distribution">Répartition du focus</string>
-    <string name="stats_focus_break_ratio">Ratio focal/pause</string>
+    <string name="stats_focus_distribution">Répartition de la concentration</string>
+    <string name="stats_focus_break_ratio">Ratio concentration/pause</string>
     <string name="stats_add_session">Ajouter une session</string>
     <string name="stats_focus">Concentration</string>
     <string name="stats_break">Pause</string>
@@ -52,4 +52,6 @@
     <string name="stats_no_items">Aucun élément</string>
     <string name="stats_show_label_breakdown_title">"Afficher la répartition des libellés"</string>
     <string name="stats_show_label_breakdown_desc">"Visualiser les données comme des barres empilées séparées par des libellés"</string>
+    <string name="stats_more_options">Plus d\'options</string>
+    <string name="stats_show_breaks">Afficher les pauses</string>
 </resources>

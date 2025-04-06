@@ -17,19 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Zůstat soustředěný"</string>
-    <string name="intro1_desc1">"Zvýšit produktivitu s načasovanými pracovními hodinami."</string>
-    <string name="intro1_desc2">"Vyberte si mezi strukturovaným odpočítáváním nebo flexibilním počítacím časovačem."</string>
-    <string name="intro2_title">"Aktualizovat svou mysl"</string>
-    <string name="intro2_desc1">"Udělejte si dobrodružné přestávky a zůstaňte ostřejší."</string>
-    <string name="intro2_desc2">"Pro odpočítávání časovačů nahrajte čas přestávky, jak fungujete."</string>
+    <string name="intro1_title">"Zůstaňte soustředěni"</string>
+    <string name="intro1_desc1">"Zvyšte svou produktivitu s načasovanými pracovními sesemi."</string>
+    <string name="intro1_desc2">"Vyberte si mezi odpočítáváním a stopkami."</string>
+    <string name="intro2_title">"Vzpružte svou mysl"</string>
+    <string name="intro2_desc1">"Vezměte si zasloužené přestávky, naberte síly a zůstaňte bystří."</string>
+    <string name="intro2_desc2">"Při použití stopek získáváte čas na přestávky podle doby soustředění."</string>
     <string name="intro3_title">"Pojďme na to"</string>
     <string name="intro3_desc1">"Sledujte svůj pokrok pomocí podrobných statistik."</string>
-    <string name="intro3_desc2">"Prohrajte otálení a zvýšte své zaměření."</string>
+    <string name="intro3_desc2">"Poražte prokrastinaci a zvyšte své soustředění."</string>
     <string name="tutorial_title">Návod</string>
     <string name="tutorial_tap">👆 Klikněte pro start a pozastavení.</string>
-    <string name="tutorial_swipe_right">👉 Přejeďte prstem doleva pro přeskočení aktuální sese.</string>
+    <string name="tutorial_swipe_right">👉 Přejeďte prstem doleva nebo doprava pro přeskočení aktuálního bloku.</string>
     <string name="tutorial_swipe_up">☝️ Přejeďte prstem nahoru pro přidání minuty.</string>
-    <string name="tutorial_swipe_down">👇 Přejetím dolů zastavíte.</string>
-    <string name="tutorial_time_profiles">Chcete-li změnit časový profil, upravte související popisek</string>
+    <string name="tutorial_swipe_down">👇 Přejetím dolů časovač zastavíte.</string>
+    <string name="tutorial_time_profiles">Chcete-li změnit časový profil, upravte související štítek</string>
 </resources>

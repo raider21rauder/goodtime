@@ -52,4 +52,6 @@
     <string name="stats_no_items">Inga föremål</string>
     <string name="stats_show_label_breakdown_title">"Visa etikettdelning"</string>
     <string name="stats_show_label_breakdown_desc">"Visualisera data som staplade barer separerade med etikett"</string>
+    <string name="stats_more_options">Fler alternativ</string>
+    <string name="stats_show_breaks">Visa raster</string>
 </resources>

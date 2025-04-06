@@ -127,6 +127,8 @@ fun StatisticsScreen(
                 showSelectionUi = uiState.showSelectionUi,
                 selectionCount = uiState.selectionCount,
                 showSeparator = uiState.showSelectionUi && historyListState.canScrollBackward,
+                showBreaks = uiState.statisticsSettings.showBreaks,
+                onSetShowBreaks = viewModel::setShowBreaks,
             )
         },
     ) { paddingValues ->

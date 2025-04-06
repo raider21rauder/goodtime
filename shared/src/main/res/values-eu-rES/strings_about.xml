@@ -23,4 +23,5 @@
     <string name="about_app_intro">Aplikazioaren aurkezpena</string>
     <string name="about_feedback">Iritzia</string>
     <string name="about_rate_this_app">Baloratu aplikazio hau</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

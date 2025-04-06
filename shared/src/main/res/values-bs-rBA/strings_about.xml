@@ -23,4 +23,5 @@
     <string name="about_app_intro">Upoznavanje s aplikacijom</string>
     <string name="about_feedback">Povratna informacija</string>
     <string name="about_rate_this_app">Ocijenite ovu aplikaciju</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>

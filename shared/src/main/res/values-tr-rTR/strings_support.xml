@@ -20,7 +20,7 @@
     <string name="unlock_premium">Unlock Premium</string>
     <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
     <string name="unlock_timer_style">Unlock Premium to save timer customization</string>
-    <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
+    <string name="unlock_premium_tagline">Tek seferlik satın alım. Abonelik yok. Yalnızca daha iyi verimlilik.</string>
     <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
     <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
     <string name="unlock_premium_desc3">Your support helps future improvements!</string>
@@ -39,9 +39,9 @@
     <string name="feature_stats_desc1">Visualize data based on labels</string>
     <string name="feature_stats_desc2">Manually add or edit completed sessions</string>
     <string name="feature_stats_desc3">Add notes to completed sessions</string>
-    <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
+    <string name="feature_backup_title"><![CDATA[Yedekle & Dışa Aktar]]></string>
     <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
-    <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_backup_desc2">İstatistikleri CSV ya da JSON olarak dışa aktar</string>
+    <string name="feature_support_title">Geliştirmeyi destekle</string>
+    <string name="feature_support_desc1">Bütün özellikleri bedavaya aç</string>
 </resources>

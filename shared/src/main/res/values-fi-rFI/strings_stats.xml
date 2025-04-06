@@ -52,4 +52,6 @@
     <string name="stats_no_items">Ei kohteita</string>
     <string name="stats_show_label_breakdown_title">"Näytä tunnisteen erittely"</string>
     <string name="stats_show_label_breakdown_desc">"Visualisoi tiedot pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
+    <string name="stats_more_options">Lisää vaihtoehtoja</string>
+    <string name="stats_show_breaks">Näytä tauot</string>
 </resources>

@@ -17,10 +17,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_and_feedback_title">O aplikaci a zpětné vazbě</string>
+    <string name="about_and_feedback_title">O aplikaci a zpětná vazba</string>
     <string name="about_source_code">Zdrojový kód</string>
-    <string name="about_open_source_licenses">Licence Open Source</string>
-    <string name="about_app_intro">Úvod aplikace</string>
+    <string name="about_open_source_licenses">Open Source licence</string>
+    <string name="about_app_intro">Úvod do aplikace</string>
     <string name="about_feedback">Zpětná vazba</string>
     <string name="about_rate_this_app">Ohodnotit tuto aplikaci</string>
+    <string name="about_translate_this_app">Translate this app</string>
 </resources>
