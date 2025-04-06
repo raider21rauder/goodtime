@@ -57,7 +57,6 @@ import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
-import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.main.AboutDest
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
@@ -77,7 +76,6 @@ import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
-import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
@@ -97,7 +95,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
@@ -294,10 +291,6 @@ class MainActivity : GoodtimeMainActivity() {
                             )
                         }
                         composable<LabelsDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(LabelsDest) }
-                            val viewModel =
-                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
                             LabelsScreen(
                                 onNavigateToLabel = navController::navigate,
                                 onNavigateToArchivedLabels = {
@@ -305,7 +298,6 @@ class MainActivity : GoodtimeMainActivity() {
                                 },
                                 onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack2,
-                                viewModel = viewModel,
                             )
                         }
                         composable<AddEditLabelDest> {
@@ -317,13 +309,8 @@ class MainActivity : GoodtimeMainActivity() {
                             )
                         }
                         composable<ArchivedLabelsDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(LabelsDest) }
-                            val viewModel =
-                                koinViewModel<LabelsViewModel>(viewModelStoreOwner = backStackEntry)
                             ArchivedLabelsScreen(
                                 onNavigateBack = navController::popBackStack2,
-                                viewModel = viewModel,
                             )
                         }
                         composable<StatsDest> {
@@ -332,12 +319,7 @@ class MainActivity : GoodtimeMainActivity() {
                             )
                         }
                         composable<SettingsDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(SettingsDest) }
-                            val viewModel: SettingsViewModel =
-                                koinViewModel(viewModelStoreOwner = backStackEntry)
                             SettingsScreen(
-                                viewModel = viewModel,
                                 onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
                                 onNavigateToNotifications = {
                                     navController.navigate(
@@ -355,23 +337,13 @@ class MainActivity : GoodtimeMainActivity() {
                             )
                         }
                         composable<TimerStyleDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(SettingsDest) }
-                            val viewModel: SettingsViewModel =
-                                koinViewModel(viewModelStoreOwner = backStackEntry)
                             TimerStyleScreen(
-                                viewModel = viewModel,
                                 onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }
                         composable<NotificationSettingsDest> {
-                            val backStackEntry =
-                                remember { navController.getBackStackEntry(SettingsDest) }
-                            val viewModel: SettingsViewModel =
-                                koinViewModel(viewModelStoreOwner = backStackEntry)
                             NotificationsScreen(
-                                viewModel = viewModel,
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }

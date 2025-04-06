@@ -48,12 +48,13 @@ import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.json.Json
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationsScreen(
-    viewModel: SettingsViewModel,
+    viewModel: SettingsViewModel = koinViewModel(),
     onNavigateBack: () -> Boolean,
 ) {
     val context = LocalContext.current

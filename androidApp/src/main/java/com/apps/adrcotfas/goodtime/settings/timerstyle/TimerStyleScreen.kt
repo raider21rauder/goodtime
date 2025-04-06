@@ -75,13 +75,14 @@ import com.apps.adrcotfas.goodtime.ui.timerFontWeights
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
+import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.minutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerStyleScreen(
-    viewModel: SettingsViewModel,
+    viewModel: SettingsViewModel = koinViewModel(),
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {

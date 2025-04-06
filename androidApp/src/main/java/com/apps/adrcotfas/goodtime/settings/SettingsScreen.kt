@@ -84,6 +84,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import java.util.Locale
 
@@ -94,7 +95,7 @@ fun SettingsScreen(
     onNavigateToTimerStyle: () -> Unit,
     onNavigateToNotifications: () -> Unit,
     onNavigateToDefaultLabel: () -> Unit,
-    viewModel: SettingsViewModel,
+    viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
