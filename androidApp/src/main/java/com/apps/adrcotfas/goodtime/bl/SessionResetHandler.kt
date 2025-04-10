@@ -65,7 +65,7 @@ class ResetWorker(appContext: Context, workerParams: WorkerParameters) :
     private val timerManager: TimerManager by inject(TimerManager::class.java)
 
     override fun doWork(): Result {
-        timerManager.reset()
+        timerManager.reset(actionType = FinishActionType.MANUAL_DO_NOTHING)
         return Result.success()
     }
 }
