@@ -70,16 +70,6 @@ class FakeLabelDao : LabelDao {
         }
     }
 
-    override suspend fun updateDefaultLabelColorIndex(toInt: Int) {
-        labels.value = labels.value.map {
-            if (it.name == Label.DEFAULT_LABEL_NAME) {
-                it.copy(colorIndex = toInt.toLong())
-            } else {
-                it
-            }
-        }
-    }
-
     override suspend fun updateOrderIndex(newOrderIndex: Int, name: String) {
         labels.value = labels.value.map {
             if (it.name == name) {
