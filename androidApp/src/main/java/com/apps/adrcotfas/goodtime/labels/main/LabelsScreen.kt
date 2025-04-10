@@ -23,7 +23,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,8 +32,6 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Label
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
@@ -51,7 +48,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -81,7 +77,7 @@ fun LabelsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.isLoading) return
-    val labels = uiState.unarchivedLabelsExcludingDefault
+    val labels = uiState.unarchivedLabels
     val activeLabelName = uiState.activeLabelName
     val defaultLabelName = stringResource(id = R.string.labels_default_label_name)
 
@@ -169,62 +165,38 @@ fun LabelsScreen(
                     },
                 )
             }
-
-            if (labels.isEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Icon(
-                        modifier = Modifier.size(96.dp),
-                        imageVector = Icons.AutoMirrored.Outlined.Label,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        contentDescription = stringResource(R.string.stats_no_items),
-                    )
-                    Text(
-                        text = stringResource(R.string.stats_no_items),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ),
-                    )
-                }
-            } else {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    itemsIndexed(
-                        labels,
-                        key = { _, item -> item.name },
-                    ) { index, label ->
-                        DraggableItem(dragDropState, index) { isDragging ->
-                            LabelListItem(
-                                label = label,
-                                isDragging = isDragging,
-                                dragModifier = Modifier.dragContainer(
-                                    dragDropState = dragDropState,
-                                    key = label.name,
-                                    onDragFinished = { viewModel.rearrangeLabelsToDisk() },
-                                ),
-                                onEdit = {
-                                    onNavigateToLabel(AddEditLabelDest(label.name))
-                                },
-                                onDuplicate = {
-                                    viewModel.duplicateLabel(
-                                        if (label.isDefault()) defaultLabelName else label.name,
-                                        label.isDefault(),
-                                    )
-                                },
-                                onArchive = { viewModel.setArchived(label.name, true) },
-                                onDelete = {
-                                    labelToDelete = label.name
-                                    showDeleteConfirmationDialog = true
-                                },
-                            )
-                        }
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                itemsIndexed(
+                    labels,
+                    key = { _, item -> item.name },
+                ) { index, label ->
+                    DraggableItem(dragDropState, index) { isDragging ->
+                        LabelListItem(
+                            label = label,
+                            isDragging = isDragging,
+                            dragModifier = Modifier.dragContainer(
+                                dragDropState = dragDropState,
+                                key = label.name,
+                                onDragFinished = { viewModel.rearrangeLabelsToDisk() },
+                            ),
+                            onEdit = {
+                                onNavigateToLabel(AddEditLabelDest(label.name))
+                            },
+                            onDuplicate = {
+                                viewModel.duplicateLabel(
+                                    if (label.isDefault()) defaultLabelName else label.name,
+                                    label.isDefault(),
+                                )
+                            },
+                            onArchive = { viewModel.setArchived(label.name, true) },
+                            onDelete = {
+                                labelToDelete = label.name
+                                showDeleteConfirmationDialog = true
+                            },
+                        )
                     }
                 }
             }

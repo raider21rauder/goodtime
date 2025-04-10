@@ -185,10 +185,6 @@ internal class LocalDataRepositoryImpl(
         updateLabel(Label.DEFAULT_LABEL_NAME, newDefaultLabel)
     }
 
-    override suspend fun updateDefaultLabelColorIndex(newDefaultLabelColorIndex: Long) {
-        labelDao.updateDefaultLabelColorIndex(newDefaultLabelColorIndex.toInt())
-    }
-
     override fun selectDefaultLabel() = selectLabelByName(Label.DEFAULT_LABEL_NAME)
 
     override suspend fun updateLabelIsArchived(name: String, newIsArchived: Boolean) {

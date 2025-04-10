@@ -22,10 +22,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -64,8 +62,6 @@ import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
-import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
-import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.dashedBorder
@@ -127,14 +123,6 @@ fun TimerStyleScreen(
                     onNavigateToPro()
                 }
             }
-
-            CompactPreferenceGroupTitle(text = "Default timer color")
-            ColorSelectRow(
-                selectedIndex = uiState.defaultColorIndex.toInt(),
-            ) {
-                viewModel.setDefaultLabelColorIndex(it.toLong())
-            }
-            Spacer(modifier = Modifier.height(8.dp))
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 SliderListItem(

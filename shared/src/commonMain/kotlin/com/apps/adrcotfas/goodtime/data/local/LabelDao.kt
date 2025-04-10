@@ -62,9 +62,6 @@ interface LabelDao {
         name: String,
     )
 
-    @Query("UPDATE localLabel SET colorIndex = :toInt WHERE name = 'PRODUCTIVITY_DEFAULT_LABEL'")
-    suspend fun updateDefaultLabelColorIndex(toInt: Int)
-
     @Query("UPDATE localLabel SET orderIndex = :newOrderIndex WHERE name = :name")
     suspend fun updateOrderIndex(newOrderIndex: Int, name: String)
 
