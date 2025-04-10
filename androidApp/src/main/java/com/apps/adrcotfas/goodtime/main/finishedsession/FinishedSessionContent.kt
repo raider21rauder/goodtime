@@ -98,8 +98,8 @@ fun FinishedSessionSheet(
 
     ModalBottomSheet(
         onDismissRequest = {
-            onReset(updateWorkTime)
             onUpdateNotes(notes)
+            onReset(updateWorkTime)
             onHideSheet()
         },
         dragHandle = {
@@ -112,13 +112,13 @@ fun FinishedSessionSheet(
                     )
                 },
                 onClose = {
-                    onReset(updateWorkTime)
                     onUpdateNotes(notes)
+                    onReset(updateWorkTime)
                     hideFinishedSessionSheet()
                 },
                 onClick = {
-                    onNext(updateWorkTime)
                     onUpdateNotes(notes)
+                    onNext(updateWorkTime)
                     hideFinishedSessionSheet()
                 },
                 isEnabled = true,
