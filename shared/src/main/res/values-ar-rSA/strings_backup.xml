@@ -18,13 +18,13 @@
 -->
 <resources>
     <string name="backup_and_restore_title">النسخ الاحتياطي والاستعادة</string>
-    <string name="backup_export_backup">تصدير ملف النسخ الاحتياطي</string>
+    <string name="backup_export_backup">تصدير نسخة احتياطية</string>
     <string name="backup_the_file_can_be_imported_back">يمكن استيراد الملف مرة أخرى</string>
-    <string name="backup_restore_backup">استعادة النسخ الاحتياطي</string>
+    <string name="backup_restore_backup">استعادة نسخة احتياطية</string>
     <string name="backup_export_csv">تصدير CSV</string>
     <string name="backup_export_json">تصدير JSON</string>
     <string name="backup_completed_successfully">اكتمل النسخ الاحتياطي بنجاح</string>
     <string name="backup_failed_please_try_again">فشل النسخ الاحتياطي. الرجاء المحاولة مرة أخرى</string>
-    <string name="backup_restore_completed_successfully">اكتمل الاستعادة بنجاح</string>
+    <string name="backup_restore_completed_successfully">اكتمل النسخ الاحتياطي بنجاح</string>
     <string name="backup_restore_failed_please_try_again">فشلت الاستعادة. الرجاء المحاولة مرة أخرى</string>
 </resources>

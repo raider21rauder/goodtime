@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Navigate back</string>
+    <string name="main_navigate_back">Geri dön</string>
     <string name="main_cancel">İptal et</string>
     <string name="main_delete">Sil</string>
     <string name="main_edit">Düzenle</string>

@@ -26,7 +26,7 @@
     <string name="labels_break_time">Přestávka</string>
     <string name="labels_long_break">Dlouhá přestávka</string>
     <string name="labels_sessions_before_long_break">Počet bloků před dlouhou přestávkou</string>
-    <string name="labels_enable_break_budget">Povolit rozpočet přerušení</string>
+    <string name="labels_enable_break_budget">Povolit rozpočet na přestávky</string>
     <string name="labels_focus_break_ratio">Poměr pracovní blok/přestávka</string>
     <string name="labels_select_active_label">Vyberte aktivní štítek</string>
     <string name="labels_edit_labels">Upravit štítek</string>

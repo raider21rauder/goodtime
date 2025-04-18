@@ -24,7 +24,7 @@
     <string name="backup_export_csv">CSV Dışa Aktar</string>
     <string name="backup_export_json">JSON Dışa Aktar</string>
     <string name="backup_completed_successfully">Yedekleme başarılı bir şekilde tamamlandı</string>
-    <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
+    <string name="backup_failed_please_try_again">Yedekleme başarısız. Lütfen tekrar deneyin</string>
     <string name="backup_restore_completed_successfully">Geri yükleme başarıyla tamamlandı</string>
-    <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
+    <string name="backup_restore_failed_please_try_again">Geri getirme başarısız. Lütfen tekrar deneyin</string>
 </resources>

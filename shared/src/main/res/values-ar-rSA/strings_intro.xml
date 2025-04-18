@@ -17,8 +17,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"البقاء مركزة"</string>
-    <string name="intro1_desc1">"• تعزيز الإنتاجية بتوقيت جلسات العمل."</string>
+    <string name="intro1_title">"ابقَ مركزًا"</string>
+    <string name="intro1_desc1">"• عزز الإنتاجية بتوقيت الجلسات الدراسية."</string>
     <string name="intro1_desc2">"اختر بين العد التنازلي المنظم أو مؤقت العد المرن."</string>
     <string name="intro2_title">"تحديث عقلك"</string>
     <string name="intro2_desc1">"خذ فترات استراحة مكتسبة للتغذية والبقاء حادة."</string>
