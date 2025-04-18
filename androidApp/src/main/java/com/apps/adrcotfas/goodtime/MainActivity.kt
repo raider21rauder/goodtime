@@ -248,8 +248,14 @@ class MainActivity : GoodtimeMainActivity() {
                 }
 
                 LaunchedEffect(isFinished) {
-                    val shouldNavigate = navController.currentDestination?.route != MainDest.route
-                    if (isFinished && shouldNavigate) navController.navigate(MainDest)
+                    if (isFinished) {
+                        navController.currentDestination?.route?.let {
+                            val shouldNavigate = it != MainDest.route
+                            if (shouldNavigate) {
+                                navController.navigate(MainDest)
+                            }
+                        }
+                    }
                 }
 
                 ObserveAsEvents(
