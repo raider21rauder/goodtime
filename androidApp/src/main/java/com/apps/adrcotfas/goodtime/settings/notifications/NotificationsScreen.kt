@@ -136,20 +136,6 @@ fun NotificationsScreen(
             ) {
                 viewModel.setInsistentNotification(it)
             }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_focus_title),
-                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
-                checked = settings.autoStartWork,
-            ) {
-                viewModel.setAutoStartWork(it)
-            }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_break_title),
-                subtitle = stringResource(R.string.settings_auto_start_break_desc),
-                checked = settings.autoStartBreak,
-            ) {
-                viewModel.setAutoStartBreak(it)
-            }
         }
 
         if (uiState.showSelectWorkSoundPicker) {

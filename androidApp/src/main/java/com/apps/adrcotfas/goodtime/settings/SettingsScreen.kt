@@ -73,6 +73,7 @@ import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
 import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.IconListItem
 import com.apps.adrcotfas.goodtime.ui.common.LockedCheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TimePicker
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.toSecondOfDay
@@ -167,6 +168,7 @@ fun SettingsScreen(
                         onSelectDay = viewModel::onToggleProductivityReminderDay,
                         onReminderTimeClick = { viewModel.setShowTimePicker(true) },
                     )
+                    SubtleHorizontalDivider()
                 }
             }
 
@@ -260,7 +262,22 @@ fun SettingsScreen(
                     viewModel.setUseDynamicColor(it)
                 }
             }
-
+            SubtleHorizontalDivider()
+            CheckboxListItem(
+                title = stringResource(R.string.settings_auto_start_focus_title),
+                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
+                checked = settings.autoStartWork,
+            ) {
+                viewModel.setAutoStartWork(it)
+            }
+            CheckboxListItem(
+                title = stringResource(R.string.settings_auto_start_break_title),
+                subtitle = stringResource(R.string.settings_auto_start_break_desc),
+                checked = settings.autoStartBreak,
+            ) {
+                viewModel.setAutoStartBreak(it)
+            }
+            SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = stringResource(R.string.settings_during_work_sessions))
             CheckboxListItem(
                 title = stringResource(R.string.settings_do_not_disturb_mode),
