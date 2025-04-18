@@ -49,6 +49,8 @@ class DialControlState<T>(
     var isDragging by mutableStateOf(false)
         private set
 
+    private var containerOffset by mutableStateOf(Offset.Zero)
+
     val indicatorOffset = Animatable(initialValue = Offset.Zero, Offset.VectorConverter)
 
     val selectedOption: T? by derivedStateOf {
@@ -80,8 +82,9 @@ class DialControlState<T>(
         return disabledOptions.contains(option)
     }
 
-    fun onDown() {
+    fun onDown(position: Offset) {
         isPressed = true
+        containerOffset = position
     }
 
     fun onRelease() {
@@ -97,7 +100,7 @@ class DialControlState<T>(
         isDragging = true
         val origin = indicatorOffset.value
         val target = origin + dragAmount
-        val radius = with(density) { config.size.toPx() / 1.75f }
+        val radius = with(density) { config.size.toPx() / 2 }
         val distance = target.getDistance()
         val clamped =
             if (distance > radius) target * radius / distance else target

@@ -117,10 +117,7 @@ fun MainScreen(
     val haptic = LocalHapticFeedback.current
 
     val dialControlState = rememberCustomDialControlState(
-        config = DialConfig(
-            size = configuration.screenWidth,
-            isPortrait = configuration.isPortrait,
-        ),
+        config = DialConfig(),
         onLeft = viewModel::skip,
         onTop = viewModel::addOneMinute,
         onRight = viewModel::skip,
@@ -133,7 +130,7 @@ fun MainScreen(
             .pointerInput(it) {
                 awaitEachGesture {
                     val down = awaitFirstDown(requireUnconsumed = false)
-                    it.onDown()
+                    it.onDown(position = down.position)
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     var change =
                         awaitTouchSlopOrCancellation(pointerId = down.id) { change, _ ->
@@ -254,7 +251,7 @@ fun MainScreen(
                         state = dialControlState,
                         dialContent = { region ->
                             DialControlButton(
-                                disabled = dialControlState.isDisabled(region),
+                                enabled = !dialControlState.isDisabled(region),
                                 selected = region == dialControlState.selectedOption,
                                 region = region,
                             )

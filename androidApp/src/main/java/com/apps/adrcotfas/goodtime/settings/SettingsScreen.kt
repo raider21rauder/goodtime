@@ -233,7 +233,7 @@ fun SettingsScreen(
             )
 
             val days = firstDayOfWeekOptions.map {
-                it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, java.util.Locale.getDefault())
+                it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, Locale.getDefault())
             }
 
             DropdownMenuListItem(
