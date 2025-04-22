@@ -52,7 +52,7 @@ import com.apps.adrcotfas.goodtime.shared.R as SharedR
 
 private const val PAYPAL_URL = "https://paypal.me/adrcotfas"
 private const val BTC_URL =
-    "https://bitcoinexplorer.org/address/bc1q0y78e0ylcfme8tc5eakhdp8akywpmhhrmcnmrt"
+    "https://btcscan.org/address/bc1q0y78e0ylcfme8tc5eakhdp8akywpmhhrmcnmrt"
 private const val BUY_ME_A_COFFEE_URL = "https://buymeacoffee.com/adrcotfas"
 
 @OptIn(ExperimentalMaterial3Api::class)
