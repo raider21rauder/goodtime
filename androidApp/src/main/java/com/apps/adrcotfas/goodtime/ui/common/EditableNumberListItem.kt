@@ -65,7 +65,7 @@ fun EditableNumberListItem(
     title: String,
     value: Int?,
     minValue: Int = 1,
-    maxValue: Int = 240,
+    maxValue: Int = 900,
     enabled: Boolean = true,
     restoreValueOnClearFocus: Boolean = true,
     icon: (@Composable () -> Unit)? = null,
