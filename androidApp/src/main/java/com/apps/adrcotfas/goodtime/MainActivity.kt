@@ -252,7 +252,11 @@ class MainActivity : GoodtimeMainActivity() {
                         navController.currentDestination?.route?.let {
                             val shouldNavigate = it != MainDest.route
                             if (shouldNavigate) {
-                                navController.navigate(MainDest)
+                                navController.navigate(MainDest) {
+                                    popUpTo(MainDest) {
+                                        inclusive = true
+                                    }
+                                }
                             }
                         }
                     }
