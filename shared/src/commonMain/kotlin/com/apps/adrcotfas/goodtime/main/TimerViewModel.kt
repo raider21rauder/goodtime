@@ -237,7 +237,7 @@ class TimerViewModel(
     fun refreshStartOfToday() {
         viewModelScope.launch {
             val startOfToday =
-                Time.startOfTodayMillis() + settingsRepo.settings.map { it.workdayStart }
+                Time.startOfTodayMillis() - settingsRepo.settings.map { it.workdayStart }
                     .first().seconds.inWholeMilliseconds
             _uiState.update {
                 it.copy(startOfToday = startOfToday)
