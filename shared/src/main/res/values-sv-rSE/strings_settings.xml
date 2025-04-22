@@ -78,4 +78,5 @@
     <string name="settings_display_over_lock_screen_desc">Håll appen synlig över låsskärmen</string>
     <string name="settings_timer_durations_title">Timer varaktighet</string>
     <string name="settings_timer_durations_desc">Ange varaktighet för arbets- och paussessioner</string>
+    <string name="settings_launcher_name">Launcher name</string>
 </resources>

@@ -78,4 +78,5 @@
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
     <string name="settings_timer_durations_title">Timer durations</string>
     <string name="settings_timer_durations_desc">작업구간과 휴식구간에 쓸 시간을 설정해주세요</string>
+    <string name="settings_launcher_name">Launcher name</string>
 </resources>

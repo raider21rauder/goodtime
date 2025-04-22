@@ -78,4 +78,5 @@
     <string name="settings_display_over_lock_screen_desc">Garder l\'application visible sur l\'écran de verrouillage</string>
     <string name="settings_timer_durations_title">Durée de la minuterie</string>
     <string name="settings_timer_durations_desc">Définir la durée des séances de travail et des pauses</string>
+    <string name="settings_launcher_name">Launcher name</string>
 </resources>

@@ -151,6 +151,14 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
         }
     }
 
+    fun setLauncherNameIndex(index: Int) {
+        viewModelScope.launch {
+            settingsRepository.updateUiSettings {
+                it.copy(launcherNameIndex = index)
+            }
+        }
+    }
+
     fun setShowWorkdayStartPicker(show: Boolean) {
         _uiState.value = _uiState.value.copy(showWorkdayStartPicker = show)
     }

@@ -78,4 +78,5 @@
     <string name="settings_display_over_lock_screen_desc">Die App über dem Sperrbildschirm sichtbar halten</string>
     <string name="settings_timer_durations_title">Timer-Dauer</string>
     <string name="settings_timer_durations_desc">Dauer für Arbeits- und Pausensitzungen festlegen</string>
+    <string name="settings_launcher_name">Launcher name</string>
 </resources>

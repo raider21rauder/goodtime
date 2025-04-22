@@ -262,6 +262,19 @@ fun SettingsScreen(
                     viewModel.setUseDynamicColor(it)
                 }
             }
+
+            DropdownMenuListItem(
+                title = stringResource(R.string.settings_launcher_name),
+                value = stringArrayResource(R.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
+                dropdownMenuOptions = stringArrayResource(R.array.settings_launcher_name).toList(),
+                onDropdownMenuItemSelected = { index ->
+                    viewModel.setLauncherNameIndex(index)
+                    context.findActivity()?.let { activity ->
+                        updateLauncherName(context.packageManager, activity, index)
+                    }
+                },
+            )
+
             SubtleHorizontalDivider()
             CheckboxListItem(
                 title = stringResource(R.string.settings_auto_start_focus_title),

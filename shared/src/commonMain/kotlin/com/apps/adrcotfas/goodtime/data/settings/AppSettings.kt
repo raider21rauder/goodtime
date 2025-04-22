@@ -85,6 +85,7 @@ data class UiSettings(
     val screensaverMode: Boolean = false,
     val dndDuringWork: Boolean = false,
     val showWhenLocked: Boolean = false,
+    val launcherNameIndex: Int = 0,
 )
 
 @Serializable

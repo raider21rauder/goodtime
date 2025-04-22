@@ -78,4 +78,5 @@
     <string name="settings_display_over_lock_screen_desc">Ponechat aplikaci viditelnou na zamykací obrazovce</string>
     <string name="settings_timer_durations_title">Délka časového úseku</string>
     <string name="settings_timer_durations_desc">Nastavit délku bloku pro práci a přestávku</string>
+    <string name="settings_launcher_name">Launcher name</string>
 </resources>
