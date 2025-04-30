@@ -607,7 +607,7 @@ class TimerManager(
         timeProvider.elapsedRealtime() + (COUNT_UP_HARD_LIMIT - baseTime)
 
     companion object {
-        const val WIGGLE_ROOM_MILLIS = 5000L
+        const val WIGGLE_ROOM_MILLIS = 10000L
         val COUNT_UP_HARD_LIMIT = 900.minutes.inWholeMilliseconds
     }
 }
