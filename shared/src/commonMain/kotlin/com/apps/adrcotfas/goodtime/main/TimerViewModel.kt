@@ -52,7 +52,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.floor
 import kotlin.math.max
-import kotlin.time.Duration.Companion.seconds
 
 data class TimerUiState(
     val isReady: Boolean = false,
@@ -154,7 +153,7 @@ class TimerViewModel(
 
         viewModelScope.launch {
             uiState.map { it.startOfToday }.flatMapLatest { startOfToday ->
-                localDataRepo.selectNumberOfSessionsToday(startOfToday)
+                localDataRepo.selectNumberOfSessionsAfter(startOfToday)
             }.distinctUntilChanged().collect { sessionCountToday ->
                 _uiState.update {
                     it.copy(sessionCountToday = sessionCountToday)
@@ -236,9 +235,7 @@ class TimerViewModel(
 
     fun refreshStartOfToday() {
         viewModelScope.launch {
-            val startOfToday =
-                Time.startOfTodayMillis() - settingsRepo.settings.map { it.workdayStart }
-                    .first().seconds.inWholeMilliseconds
+            val startOfToday = Time.startOfTodayAdjusted(settingsRepo.settings.map { it.workdayStart }.first())
             _uiState.update {
                 it.copy(startOfToday = startOfToday)
             }

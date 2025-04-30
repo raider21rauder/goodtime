@@ -23,7 +23,6 @@ data class PreProcessingSession(
     val label: String,
     val timestamp: Long,
     val dateTime: LocalDateTime,
-    val adjustedTimestamp: Long,
     val adjustedDateTime: LocalDateTime,
     val duration: Long,
     val isWork: Boolean,

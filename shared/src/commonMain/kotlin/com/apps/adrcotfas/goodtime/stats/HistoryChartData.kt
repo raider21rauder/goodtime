@@ -36,7 +36,6 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 class HistoryChartData(
@@ -128,14 +127,12 @@ fun computeHistoryChartData(
     }
 
     sessions.asSequence().map {
-        val timestamp = it.timestamp - it.duration.minutes.inWholeMilliseconds / 2
-        val adjustedTimestamp = timestamp - workDayStart.seconds.inWholeMilliseconds
+        val timestamp = it.timestamp
         PreProcessingSession(
             label = it.label,
             timestamp = timestamp,
             dateTime = toLocalDateTime(timestamp),
-            adjustedTimestamp = adjustedTimestamp,
-            adjustedDateTime = toLocalDateTime(adjustedTimestamp),
+            adjustedDateTime = toLocalDateTime(timestamp - workDayStart.seconds.inWholeMilliseconds),
             duration = it.duration,
             isWork = it.isWork,
         )

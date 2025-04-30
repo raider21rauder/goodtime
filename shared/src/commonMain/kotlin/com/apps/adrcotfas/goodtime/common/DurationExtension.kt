@@ -34,6 +34,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.until
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
 
 fun Duration.formatOverview(): String {
     val hours = this.inWholeHours
@@ -49,33 +50,45 @@ fun Duration.formatOverview(): String {
 }
 
 object Time {
-    fun startOfTodayMillis(): Long {
-        val dateTime = currentDateTime()
+    fun startOfTodayAdjusted(secondOfDay: Int): Long {
+        val dateTime = currentDateTime().apply {
+            if (time.toSecondOfDay() < secondOfDay) {
+                minus(DatePeriod(days = 1))
+            }
+        }
         val timeZone = TimeZone.currentSystemDefault()
         val startOfDay = dateTime.date.atStartOfDayIn(timeZone)
-        return startOfDay.toEpochMilliseconds()
+        return startOfDay.toEpochMilliseconds() + secondOfDay.seconds.inWholeMilliseconds
     }
 
-    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek): LocalDateTime {
-        val dateTime = currentDateTime()
+    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek, secondOfDay: Int): LocalDateTime {
+        val dateTime = currentDateTime().apply {
+            if (time.toSecondOfDay() < secondOfDay) {
+                minus(DatePeriod(days = 1))
+            }
+        }
         val timeZone = TimeZone.currentSystemDefault()
         var date = dateTime.date
         while (date.dayOfWeek != startDayOfWeek) {
             date = date.minus(1, DateTimeUnit.DAY)
         }
 
-        val startOfWeekInstant = date.atStartOfDayIn(timeZone)
+        val startOfWeekInstant = date.atStartOfDayIn(timeZone).plus(secondOfDay.seconds)
         return startOfWeekInstant.toLocalDateTime(timeZone)
     }
 
-    fun startOfThisMonth(): LocalDateTime {
-        val dateTime = currentDateTime()
+    fun startOfThisMonth(secondOfDay: Int): LocalDateTime {
+        val dateTime = currentDateTime().apply {
+            if (time.toSecondOfDay() < secondOfDay) {
+                minus(DatePeriod(days = 1))
+            }
+        }
         val date = LocalDate(
             dateTime.date.year,
             dateTime.date.month,
             1,
         )
-        val startOfMonthInstant = date.atStartOfDayIn(TimeZone.currentSystemDefault())
+        val startOfMonthInstant = date.atStartOfDayIn(TimeZone.currentSystemDefault()).plus(secondOfDay.seconds)
         return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 

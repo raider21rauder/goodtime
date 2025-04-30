@@ -66,12 +66,12 @@ data class StatisticsData(
 fun computeStatisticsData(
     sessions: List<Session>,
     firstDayOfWeek: DayOfWeek,
-    workDayStart: Int,
+    secondOfDay: Int,
 ): StatisticsData {
-    val today = Time.startOfTodayMillis()
-    val startOfThisWeekDate = Time.startOfThisWeekAdjusted(firstDayOfWeek)
+    val today = Time.startOfTodayAdjusted(secondOfDay)
+    val startOfThisWeekDate = Time.startOfThisWeekAdjusted(firstDayOfWeek, secondOfDay)
     val startOfThisWeek = startOfThisWeekDate.toEpochMilliseconds()
-    val startOfThisMonthDate = Time.startOfThisMonth()
+    val startOfThisMonthDate = Time.startOfThisMonth(secondOfDay)
     val startOfThisMonth = startOfThisMonthDate.toEpochMilliseconds()
 
     val workTodayPerLabel = mutableMapOf<String, Long>()
@@ -110,14 +110,11 @@ fun computeStatisticsData(
 
     sessions.asSequence().map {
         val timestamp = it.timestamp
-        // Adjust the timestamp to the start of the work day
-        val adjustedTimestamp = timestamp - workDayStart.seconds.inWholeMilliseconds
         PreProcessingSession(
             label = it.label,
             timestamp = timestamp,
             dateTime = toLocalDateTime(timestamp),
-            adjustedTimestamp = adjustedTimestamp,
-            adjustedDateTime = toLocalDateTime(adjustedTimestamp),
+            adjustedDateTime = toLocalDateTime(timestamp - secondOfDay.seconds.inWholeMilliseconds),
             duration = it.duration,
             isWork = it.isWork,
         )
@@ -125,7 +122,7 @@ fun computeStatisticsData(
         val date = session.adjustedDateTime.date
 
         if (session.isWork) {
-            if (today - session.adjustedTimestamp < oneYearAgoMillis) {
+            if (today - session.timestamp < oneYearAgoMillis) {
                 heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
                 maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
 
@@ -138,19 +135,19 @@ fun computeStatisticsData(
                 }
             }
 
-            if (session.adjustedTimestamp >= today) {
+            if (session.timestamp >= today) {
                 workToday += session.duration
                 workTodayPerLabel[session.label] =
                     (workTodayPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsToday++
             }
-            if (session.adjustedTimestamp >= startOfThisWeek) {
+            if (session.timestamp >= startOfThisWeek) {
                 workThisWeek += session.duration
                 workThisWeekPerLabel[session.label] =
                     (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
                 workSessionsThisWeek++
             }
-            if (session.adjustedTimestamp >= startOfThisMonth) {
+            if (session.timestamp >= startOfThisMonth) {
                 workThisMonth += session.duration
                 workThisMonthPerLabel[session.label] =
                     (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
@@ -161,13 +158,13 @@ fun computeStatisticsData(
                 (workTotalPerLabel[session.label] ?: 0L) + session.duration
             workSessionsTotal++
         } else {
-            if (session.adjustedTimestamp >= today) {
+            if (session.timestamp >= today) {
                 breakToday += session.duration
             }
-            if (session.adjustedTimestamp >= startOfThisWeek) {
+            if (session.timestamp >= startOfThisWeek) {
                 breakThisWeek += session.duration
             }
-            if (session.adjustedTimestamp >= startOfThisMonth) {
+            if (session.timestamp >= startOfThisMonth) {
                 breakThisMonth += session.duration
             }
             breakTotal += session.duration

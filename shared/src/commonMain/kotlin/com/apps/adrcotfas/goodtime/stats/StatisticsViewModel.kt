@@ -172,7 +172,7 @@ class StatisticsViewModel(
                             computeStatisticsData(
                                 sessions = sessions,
                                 firstDayOfWeek = firstDayOfWeek,
-                                workDayStart = workDayStart,
+                                secondOfDay = workDayStart,
                             )
                         }
                     }

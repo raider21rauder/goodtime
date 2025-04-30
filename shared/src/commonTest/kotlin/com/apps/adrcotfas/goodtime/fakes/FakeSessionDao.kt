@@ -130,8 +130,8 @@ class FakeSessionDao : SessionDao {
         }
     }
 
-    override fun selectNumberOfSessionsToday(todayStart: Long): Flow<Int> {
-        return sessions.map { sessions -> sessions.count { it.timestamp >= todayStart } }
+    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> {
+        return sessions.map { sessions -> sessions.count { it.timestamp >= timestamp } }
     }
 
     override suspend fun delete(ids: List<Long>) {
