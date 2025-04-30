@@ -25,6 +25,7 @@ sealed class Event {
     data object Reset : Event()
     data class SendToBackground(val isTimerRunning: Boolean, val endTime: Long) : Event()
     data object BringToForeground : Event()
+    data object UpdateActiveLabel : Event() // when in progress
 }
 
 interface EventListener {

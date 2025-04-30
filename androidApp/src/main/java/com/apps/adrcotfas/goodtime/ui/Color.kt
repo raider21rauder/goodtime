@@ -16,7 +16,6 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.apps.adrcotfas.goodtime.ui
-import android.graphics.Color.parseColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -25,6 +24,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 
 val primaryLight = Color(0xFF176B53)
 val onPrimaryLight = Color(0xFFFFFFFF)
@@ -187,6 +187,6 @@ data class CustomColorsPalette(
 val LocalColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }
 
 val LightColorsPalette =
-    CustomColorsPalette(lightPalette.map { Color(parseColor(it)) })
+    CustomColorsPalette(lightPalette.map { Color(it.toColorInt()) })
 val DarkColorsPalette =
-    CustomColorsPalette(darkPalette.map { Color(parseColor(it)) })
+    CustomColorsPalette(darkPalette.map { Color(it.toColorInt()) })

@@ -112,6 +112,9 @@ class TimerManager(
                         label = it,
                     )
                 }
+                if (isActive) {
+                    onActiveLabelChanged()
+                }
                 if (isActive && isCountdown != it.isCountdown) {
                     log.i { "restarting the timer because the profile type changed" }
                     reset()
@@ -591,6 +594,12 @@ class TimerManager(
     fun onBringToForeground() {
         listeners.forEach {
             it.onEvent(Event.BringToForeground)
+        }
+    }
+
+    private fun onActiveLabelChanged() {
+        listeners.forEach {
+            it.onEvent(Event.UpdateActiveLabel)
         }
     }
 

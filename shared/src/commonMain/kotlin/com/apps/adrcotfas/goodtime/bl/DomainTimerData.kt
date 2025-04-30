@@ -22,6 +22,7 @@ import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.duration
 import com.apps.adrcotfas.goodtime.data.model.endTime
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
+import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import kotlin.time.Duration
@@ -38,6 +39,7 @@ data class DomainLabel(
     val profile: TimerProfile = TimerProfile(),
 ) {
     fun getLabelName() = label.name
+    fun isDefault() = label.isDefault()
     val isCountdown = profile.isCountdown
 }
 
