@@ -18,38 +18,38 @@
 -->
 <resources>
     <string name="settings_title">설정</string>
-    <string name="settings_action_required">Action required</string>
-    <string name="settings_allow_background">Allow this app to run in the background</string>
-    <string name="settings_allow_notifications">Allow notifications</string>
-    <string name="settings_allow_alarms">Allow alarm permission to use the timer</string>
-    <string name="settings_allow">Allow</string>
-    <string name="settings_productivity_reminder_title">Productivity reminder</string>
-    <string name="settings_days_of_the_week">Days of the week</string>
-    <string name="settings_reminder_time">Reminder time</string>
-    <string name="settings_timer_style_title">Timer Customization</string>
+    <string name="settings_action_required">조치 필요</string>
+    <string name="settings_allow_background">앱이 백그라운드에서 실행되도록 허용</string>
+    <string name="settings_allow_notifications">알림 허용</string>
+    <string name="settings_allow_alarms">타이머 사용을 위해 알람 권한 허용</string>
+    <string name="settings_allow">허용</string>
+    <string name="settings_productivity_reminder_title">생산성 리마인더</string>
+    <string name="settings_days_of_the_week">요일</string>
+    <string name="settings_reminder_time">리마인더 시간</string>
+    <string name="settings_timer_style_title">타이머 사용자 설정</string>
     <string name="settings_notifications_title">알림</string>
-    <string name="settings_custom_start_of_day_title">Custom start of day</string>
-    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>
-    <string name="settings_start_of_the_week">Start of the week</string>
-    <string name="settings_theme">Theme</string>
+    <string name="settings_custom_start_of_day_title">하루 시작 설정</string>
+    <string name="settings_custom_start_of_day_desc">통계 설정을 위한 하루 시작 시점을 정의합니다</string>
+    <string name="settings_start_of_the_week">주 시작일</string>
+    <string name="settings_theme">테마</string>
     <string-array name="settings_theme_options">
-        <item>System</item>
-        <item>Light</item>
-        <item>Dark</item>
+        <item>시스템</item>
+        <item>라이트</item>
+        <item>다크</item>
     </string-array>
-    <string name="settings_use_dynamic_color">Use Dynamic Color</string>
+    <string name="settings_use_dynamic_color">다이나믹 컬러 사용</string>
     <string name="settings_during_work_sessions">작업구간 중</string>
     <string name="settings_fullscreen_mode">전체 화면 모드</string>
-    <string name="settings_true_black_mode_title">True black mode</string>
-    <string name="settings_true_black_mode_desc">Use true black for the background</string>
+    <string name="settings_true_black_mode_title">트루 블랙 모드</string>
+    <string name="settings_true_black_mode_desc">백그라운드 트루 블랙 사용</string>
     <string name="settings_keep_the_screen_on">화면 켜진 상태 유지</string>
     <string name="settings_screensaver_mode">화면 보호기 모드</string>
     <string name="settings_do_not_disturb_mode">방해 금지 모드</string>
     <string name="settings_click_to_grant_permission">권한을 허용하십시오</string>
-    <string name="settings_demo">demo</string>
-    <string name="settings_refresh_demo_label">Refresh demo label</string>
-    <string name="settings_show_status_title">Show status</string>
-    <string name="settings_show_status_desc">An icon indicating work or break</string>
+    <string name="settings_demo">데모</string>
+    <string name="settings_refresh_demo_label">데모 라벨 새로고침</string>
+    <string name="settings_show_status_title">상태 표시</string>
+    <string name="settings_show_status_desc">업무 또는 휴식 아이콘 표시</string>
     <string name="settings_show_sessions_long_break_title">Show sessions until long break</string>
     <string name="settings_show_sessions_long_break_desc">For countdown timers with long breaks enabled</string>
     <string name="settings_show_label">Show label</string>
@@ -79,4 +79,5 @@
     <string name="settings_timer_durations_title">Timer durations</string>
     <string name="settings_timer_durations_desc">작업구간과 휴식구간에 쓸 시간을 설정해주세요</string>
     <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_language">Language</string>
 </resources>

@@ -78,5 +78,6 @@
     <string name="settings_display_over_lock_screen_desc">Houd de app zichtbaar via het vergrendelingsscherm</string>
     <string name="settings_timer_durations_title">Timer duur</string>
     <string name="settings_timer_durations_desc">Stel de duur van werk en pauze sessies in</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_launcher_name">Launcher naam</string>
+    <string name="settings_language">Taal</string>
 </resources>

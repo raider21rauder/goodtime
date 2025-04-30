@@ -78,5 +78,6 @@
     <string name="settings_display_over_lock_screen_desc">Păstrați aplicația vizibilă pe ecranul de blocare</string>
     <string name="settings_timer_durations_title">Durate cronometru</string>
     <string name="settings_timer_durations_desc">Setați durata de lucru și de pauză a sesiunilor</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_launcher_name">Nume lansator</string>
+    <string name="settings_language">Limba</string>
 </resources>

@@ -78,5 +78,6 @@
     <string name="settings_display_over_lock_screen_desc">Hold appen synlig over låseskjermen</string>
     <string name="settings_timer_durations_title">Timer varighet</string>
     <string name="settings_timer_durations_desc">Angi varighet for arbeidsøkter og pauser</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_launcher_name">App-Starter navn</string>
+    <string name="settings_language">Språk</string>
 </resources>

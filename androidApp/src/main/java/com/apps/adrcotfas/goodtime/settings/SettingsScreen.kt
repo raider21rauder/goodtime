@@ -211,7 +211,7 @@ fun SettingsScreen(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val activity = context.findActivity()
                 BetterListItem(
-                    title = "Language",
+                    title = stringResource(R.string.settings_language),
                     trailing = context.getAppLanguage(),
                     onClick = {
                         val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)

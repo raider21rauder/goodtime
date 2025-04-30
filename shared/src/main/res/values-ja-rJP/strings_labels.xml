@@ -20,7 +20,7 @@
     <string name="labels_title">ラベル</string>
     <string name="labels_default_label_name">デフォルト</string>
     <string name="labels_others">その他</string>
-    <string name="labels_countdown">Countdown</string>
+    <string name="labels_countdown">カウントダウン</string>
     <string name="labels_count_up">カウントアップ</string>
     <string name="labels_focus_time">フォーカス時間</string>
     <string name="labels_break_time">休憩時間</string>

@@ -78,5 +78,6 @@
     <string name="settings_display_over_lock_screen_desc">在锁屏上保持应用可见</string>
     <string name="settings_timer_durations_title">计时器时长</string>
     <string name="settings_timer_durations_desc">设置专注和休息时长</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_launcher_name">启动器名称</string>
+    <string name="settings_language">语言</string>
 </resources>

@@ -24,7 +24,7 @@
     <string name="backup_export_csv">CSVエクスポート</string>
     <string name="backup_export_json">JSONをエクスポート</string>
     <string name="backup_completed_successfully">バックアップが正常に完了しました</string>
-    <string name="backup_failed_please_try_again">バックアップに失敗しました。もう一度やり直してください。</string>
+    <string name="backup_failed_please_try_again">バックアップに失敗しました。もう一度やり直してください</string>
     <string name="backup_restore_completed_successfully">正常に復元が完了しました</string>
     <string name="backup_restore_failed_please_try_again">復元に失敗しました。もう一度やり直してください。</string>
 </resources>

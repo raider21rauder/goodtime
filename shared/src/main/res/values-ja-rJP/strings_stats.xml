@@ -21,7 +21,7 @@
     <string name="stats_overview">概要</string>
     <string name="stats_timeline">タイムライン</string>
     <string name="stats_today">今日</string>
-    <string name="stats_week">週</string>
+    <string name="stats_week">第%1$s週</string>
     <string name="stats_total">合計</string>
     <string-array name="stats_overview_type_options">
         <item>セッション</item>
@@ -41,7 +41,7 @@
     <string name="stats_focus_break_ratio">フォーカス/ブレーク比</string>
     <string name="stats_add_session">セッションを追加</string>
     <string name="stats_focus">フォーカス</string>
-    <string name="stats_break">破壊</string>
+    <string name="stats_break">休憩</string>
     <string name="stats_duration">期間</string>
     <string name="stats_time">時間</string>
     <string name="stats_label">ラベル</string>

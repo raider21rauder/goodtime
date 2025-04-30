@@ -79,4 +79,5 @@
     <string name="settings_timer_durations_title">Timer durations</string>
     <string name="settings_timer_durations_desc">Nastavi trajanje intervalov dela in počitka</string>
     <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_language">Language</string>
 </resources>

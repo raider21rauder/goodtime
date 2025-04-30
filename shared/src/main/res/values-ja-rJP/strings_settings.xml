@@ -54,8 +54,8 @@
     <string name="settings_show_sessions_long_break_desc">長い休憩が有効なカウントダウンタイマーの場合</string>
     <string name="settings_show_label">ラベルを表示</string>
     <string name="settings_hide_seconds">秒を非表示</string>
-    <string name="settings_focus_complete_sound">完全なサウンドにフォーカス</string>
-    <string name="settings_break_complete_sound">完全な音を破壊する</string>
+    <string name="settings_focus_complete_sound">フォーカス完了時の音</string>
+    <string name="settings_break_complete_sound">休憩完了時の音</string>
     <string name="settings_silent">サイレントモード</string>
     <string name="settings_default_notification_sound">デフォルトの通知音</string>
     <string name="settings_your_sounds">あなたのサウンド</string>
@@ -78,5 +78,6 @@
     <string name="settings_display_over_lock_screen_desc">アプリをロック画面上に常に表示する</string>
     <string name="settings_timer_durations_title">タイマーの期間</string>
     <string name="settings_timer_durations_desc">作業時間と休憩時間を設定する</string>
-    <string name="settings_launcher_name">Launcher name</string>
+    <string name="settings_launcher_name">ランチャー名</string>
+    <string name="settings_language">言語</string>
 </resources>
