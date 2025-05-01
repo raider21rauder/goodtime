@@ -33,7 +33,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isWork
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.ui.darkPalette
+import com.apps.adrcotfas.goodtime.ui.lightPalette
 import com.apps.adrcotfas.goodtime.R as AndroidR
 
 class NotificationArchManager(private val context: Context, private val activityClass: Class<*>) {
@@ -67,7 +67,7 @@ class NotificationArchManager(private val context: Context, private val activity
             context.getString(R.string.main_break_in_progress)
         }
 
-        val color = darkPalette[data.label.label.colorIndex.toInt()].toColorInt()
+        val color = lightPalette[data.label.label.colorIndex.toInt()].toColorInt()
 
         val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
@@ -153,7 +153,7 @@ class NotificationArchManager(private val context: Context, private val activity
     fun notifyFinished(data: DomainTimerData, withActions: Boolean) {
         val timerType = data.type
         val labelName = data.getLabelName()
-        val color = darkPalette[data.label.label.colorIndex.toInt()].toColorInt()
+        val color = lightPalette[data.label.label.colorIndex.toInt()].toColorInt()
 
         val mainStateText = if (timerType == TimerType.WORK) {
             context.getString(R.string.main_focus_session_finished)
