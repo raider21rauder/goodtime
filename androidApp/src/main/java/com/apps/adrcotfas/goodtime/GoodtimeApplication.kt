@@ -156,6 +156,7 @@ class GoodtimeApplication : Application() {
         super.attachBaseContext(context)
 
         initAcra {
+            alsoReportToAndroidFramework = true
             buildConfigClass = BuildConfig::class.java
             reportFormat = StringFormat.JSON
 
