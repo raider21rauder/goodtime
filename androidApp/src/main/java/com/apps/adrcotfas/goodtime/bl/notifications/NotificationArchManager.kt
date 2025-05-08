@@ -32,6 +32,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isWork
+import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import com.apps.adrcotfas.goodtime.R as AndroidR
@@ -52,7 +53,8 @@ class NotificationArchManager(private val context: Context, private val activity
         val running = data.state != TimerState.PAUSED
         val timerType = data.type
         val labelName = data.getLabelName()
-        val prefix = if (data.label.isDefault()) {
+        val isDefaultLabel = data.label.isDefault()
+        val prefix = if (isDefaultLabel) {
             ""
         } else {
             "$labelName - "
@@ -67,7 +69,8 @@ class NotificationArchManager(private val context: Context, private val activity
             context.getString(R.string.main_break_in_progress)
         }
 
-        val color = lightPalette[data.label.label.colorIndex.toInt()].toColorInt()
+        val colorIndex = data.label.label.colorIndex.toInt()
+        val shouldColorize = colorIndex != DEFAULT_LABEL_COLOR_INDEX
 
         val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
@@ -78,8 +81,10 @@ class NotificationArchManager(private val context: Context, private val activity
             setOngoing(true)
             setSilent(true)
             setShowWhen(false)
-            setColorized(true)
-            setColor(color)
+            if (shouldColorize) {
+                setColorized(true)
+                setColor(lightPalette[colorIndex].toColorInt())
+            }
             setAutoCancel(false)
             setStyle(NotificationCompat.DecoratedCustomViewStyle())
             setCustomContentView(
@@ -87,6 +92,7 @@ class NotificationArchManager(private val context: Context, private val activity
                     base = baseTime,
                     running = running,
                     stateText = stateText,
+                    shouldColorize = shouldColorize,
                     isCountDown = isCountDown,
                 ),
             )
@@ -153,7 +159,6 @@ class NotificationArchManager(private val context: Context, private val activity
     fun notifyFinished(data: DomainTimerData, withActions: Boolean) {
         val timerType = data.type
         val labelName = data.getLabelName()
-        val color = lightPalette[data.label.label.colorIndex.toInt()].toColorInt()
 
         val mainStateText = if (timerType == TimerType.WORK) {
             context.getString(R.string.main_focus_session_finished)
@@ -169,8 +174,12 @@ class NotificationArchManager(private val context: Context, private val activity
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             setContentIntent(createOpenActivityIntent(activityClass))
             setOngoing(false)
-            setColor(color)
-            setColorized(true)
+            val colorIndex = data.label.label.colorIndex.toInt()
+            if (colorIndex != DEFAULT_LABEL_COLOR_INDEX) {
+                setColorized(true)
+                val color = lightPalette[colorIndex].toColorInt()
+                setColor(color)
+            }
             setSilent(true)
             setShowWhen(false)
             setAutoCancel(true)
@@ -242,6 +251,7 @@ class NotificationArchManager(private val context: Context, private val activity
         base: Long,
         running: Boolean,
         stateText: CharSequence,
+        shouldColorize: Boolean = false,
         isCountDown: Boolean = true,
     ): RemoteViews {
         val content =
@@ -249,6 +259,11 @@ class NotificationArchManager(private val context: Context, private val activity
         content.setChronometerCountDown(AndroidR.id.chronometer, isCountDown)
         content.setChronometer(AndroidR.id.chronometer, base, null, running)
         content.setTextViewText(AndroidR.id.state, stateText)
+        if (shouldColorize) {
+            val textColor = context.resources.getColor(android.R.color.black, null)
+            content.setTextColor(AndroidR.id.chronometer, textColor)
+            content.setTextColor(AndroidR.id.state, textColor)
+        }
         return content
     }
 
