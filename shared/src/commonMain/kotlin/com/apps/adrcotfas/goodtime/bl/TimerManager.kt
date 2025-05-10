@@ -39,7 +39,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.max
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 
@@ -134,8 +133,18 @@ class TimerManager(
         coroutineScope.launch {
             settingsRepo.settings.map { it.breakBudgetData }
                 .first().let {
-                    log.i { "new break budget: ${it.getRemainingBreakBudget(timeProvider.elapsedRealtime())}" }
-                    _timerData.update { data -> data.copy(breakBudgetData = it) }
+                    val elapsedRealtime = timeProvider.elapsedRealtime()
+                    val deviceWasRestarted = elapsedRealtime < it.breakBudgetStart
+                    // reset break budget start if the device was restarted else use the existing one
+                    val breakBudget = if (deviceWasRestarted) {
+                        val breakBudget = it.copy(breakBudgetStart = elapsedRealtime)
+                        settingsRepo.setBreakBudgetData(breakBudget)
+                        breakBudget
+                    } else {
+                        it
+                    }
+                    log.i { "new break budget: ${breakBudget.getRemainingBreakBudget(elapsedRealtime)}" }
+                    _timerData.update { data -> data.copy(breakBudgetData = breakBudget) }
                 }
         }
     }
@@ -183,7 +192,7 @@ class TimerManager(
         }
     }
 
-    private fun updateBreakBudgetIfNeeded(): Duration {
+    private fun updateBreakBudgetIfNeeded() {
         if (!timerData.value.label.isCountdown) {
             val elapsedRealtime = timeProvider.elapsedRealtime()
             val breakBudget = timerData.value.getBreakBudget(elapsedRealtime)
@@ -204,9 +213,7 @@ class TimerManager(
                     ),
                 )
             }
-            return breakBudget
         }
-        return 0.minutes
     }
 
     fun addOneMinute() {

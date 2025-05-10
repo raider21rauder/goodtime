@@ -38,6 +38,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -132,10 +133,15 @@ class TimerManagerTest {
         timerManager.restart()
         assertEquals(timerManager.timerData.value.longBreakData, customLongBreakData)
 
-        val customBreakBudgetData = BreakBudgetData(10.minutes, 42)
+        timeProvider.elapsedRealtime = 10.minutes.inWholeMilliseconds
+        val customBreakBudgetData = BreakBudgetData(10.minutes, timeProvider.elapsedRealtime)
         settingsRepo.setBreakBudgetData(customBreakBudgetData)
+
+        timeProvider.elapsedRealtime = 0.minutes.inWholeMilliseconds
         timerManager.restart()
-        assertEquals(timerManager.timerData.value.breakBudgetData, customBreakBudgetData)
+        timerManager.timerData.map { it.breakBudgetData }.test {
+            assertEquals(awaitItem(), BreakBudgetData(10.minutes, 0.minutes.inWholeMilliseconds))
+        }
     }
 
     @Test

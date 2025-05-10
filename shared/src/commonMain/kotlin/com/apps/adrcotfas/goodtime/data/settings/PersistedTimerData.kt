@@ -29,8 +29,8 @@ data class BreakBudgetData(
     val breakBudgetStart: Long = 0, // millis since boot
     val isAccumulating: Boolean = false,
 ) {
-    fun getRemainingBreakBudget(millis: Long): Duration {
-        val timeSinceBreakBudgetStart = millis - breakBudgetStart
+    fun getRemainingBreakBudget(elapsedRealtime: Long): Duration {
+        val timeSinceBreakBudgetStart = elapsedRealtime - breakBudgetStart
         val breakBudgetMs = breakBudget.inWholeMilliseconds
         return max(0, (breakBudgetMs - timeSinceBreakBudgetStart)).milliseconds
     }
