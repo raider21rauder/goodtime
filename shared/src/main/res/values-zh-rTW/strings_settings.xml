@@ -29,7 +29,7 @@
     <string name="settings_timer_style_title">定時器定制</string>
     <string name="settings_notifications_title">通知</string>
     <string name="settings_custom_start_of_day_title">自訂一天的開始</string>
-    <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>
+    <string name="settings_custom_start_of_day_desc">定義統計一天的開始時間</string>
     <string name="settings_start_of_the_week">一週的開始日</string>
     <string name="settings_theme">佈景主題</string>
     <string-array name="settings_theme_options">
@@ -76,8 +76,8 @@
     <string name="settings_auto_start_break_desc">工作後自動開始休息計時</string>
     <string name="settings_display_over_lock_screen">顯示鎖定畫面</string>
     <string name="settings_display_over_lock_screen_desc">保持應用程式在鎖定螢幕上可見</string>
-    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_title">計時器持續時間</string>
     <string name="settings_timer_durations_desc">設定工作和休息時間</string>
     <string name="settings_launcher_name">Launcher name</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_language">語言</string>
 </resources>

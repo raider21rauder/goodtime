@@ -76,8 +76,8 @@
     <string name="settings_auto_start_break_desc">Hasi etenaldia lan-saio baten ondoren erabiltzaile-interakziorik gabe</string>
     <string name="settings_display_over_lock_screen">Erakutsi blokeatutako pantailaren gainean</string>
     <string name="settings_display_over_lock_screen_desc">Mantendu aplikazioa blokeatutako pantailaren gainean ikusgai</string>
-    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_title">Tenporizadorearen iraupena</string>
     <string name="settings_timer_durations_desc">Ezarri iraupena lan- eta etenaldi-saioetarako</string>
     <string name="settings_launcher_name">Launcher name</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_language">Hizkuntza</string>
 </resources>

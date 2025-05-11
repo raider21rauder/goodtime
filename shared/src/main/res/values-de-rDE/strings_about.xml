@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_and_feedback_title">Über und Feedback</string>
+    <string name="about_and_feedback_title">Infos und Feedback</string>
     <string name="about_source_code">Quelltext</string>
     <string name="about_open_source_licenses">Open Source Lizenzen</string>
     <string name="about_app_intro">App-Einführung</string>

@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="main_navigate_back">Zurück navigieren</string>
+    <string name="main_navigate_back">Zurück</string>
     <string name="main_cancel">Abbrechen</string>
     <string name="main_delete">Löschen</string>
     <string name="main_edit">Bearbeiten</string>

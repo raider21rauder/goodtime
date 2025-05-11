@@ -32,7 +32,7 @@
         <item>Tage</item>
         <item>Wochen</item>
         <item>Monate</item>
-        <item>Quartiere</item>
+        <item>Quartale</item>
         <item>Jahre</item>
     </string-array>
     <string name="stats_productive_hours">produktive Stunden</string>

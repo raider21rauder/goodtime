@@ -76,8 +76,8 @@
     <string name="settings_auto_start_break_desc">Iniciar el descans després d\'una sessió de treball sense interacció d\'usuari</string>
     <string name="settings_display_over_lock_screen">Mostra sobre la pantalla de bloqueig</string>
     <string name="settings_display_over_lock_screen_desc">Manteniu l\'aplicació visible a la pantalla de bloqueig</string>
-    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_title">Durada del temporitzador</string>
     <string name="settings_timer_durations_desc">Estableix la durada per a les sessions de feina i de descans</string>
     <string name="settings_launcher_name">Launcher name</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_language">Idioma</string>
 </resources>

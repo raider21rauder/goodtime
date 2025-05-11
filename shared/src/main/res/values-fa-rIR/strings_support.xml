@@ -17,31 +17,31 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="unlock_premium">Unlock Premium</string>
-    <string name="unlock_premium_to_access_features">Unlock Premium to access features</string>
-    <string name="unlock_timer_style">Unlock Premium to save timer customization</string>
-    <string name="unlock_premium_tagline">One-time purchase. No subscriptions. Just better productivity.</string>
-    <string name="unlock_premium_desc1">%s is an indie open-source time management tool, designed for simplicity and a great user experience — without ads, tracking, or data collection.</string>
-    <string name="unlock_premium_desc2">If you find it useful, consider upgrading to the premium version to unlock more features.</string>
-    <string name="unlock_premium_desc3">Your support helps future improvements!</string>
-    <string name="support_development">Support development</string>
-    <string name="unlock_colors">Unlock colors</string>
-    <string name="support_donate_desc">If you find it useful, consider making a donation.</string>
+    <string name="unlock_premium">بازگشایی نسخه پولی</string>
+    <string name="unlock_premium_to_access_features">نسخه پولی را بازگشایی کنید تا به قابلیت‌ها دسترسی داشته باشید</string>
+    <string name="unlock_timer_style">نسخه پولی را بازگشایی کنید تا شخصی سازی زمان‌سنج را ذخیره کنید</string>
+    <string name="unlock_premium_tagline">یک‌بار بخرید. بدون حق اشتراک. فقط بهره‌وری بهتر.</string>
+    <string name="unlock_premium_desc1">%s یک ابزار مدیریت زمان متن باز مستقل است که برای استفاده راحت و تجربه کاربری عالی - بدون تبلیغات، رصد یا جمع‌آوری داده طراحی شده است.</string>
+    <string name="unlock_premium_desc2">اگر آن را مفید یافتید، ارتقاء به نسخه پولی برای بازگشایی امکانات بیشتر را مد نظر قرار دهید.</string>
+    <string name="unlock_premium_desc3">پشتیبانی شما به توسعه‌های آینده کمک می‌کند!</string>
+    <string name="support_development">پشتیبانی از توسعه دهنده</string>
+    <string name="unlock_colors">بازگشایی رنگ‌ها</string>
+    <string name="support_donate_desc">اگر آن را مفید یافتید، پشتیبانی مالی را در نظر بگیرید.</string>
     <string name="feature_labels_title">برچسب‌ها</string>
-    <string name="feature_labels_desc1">Assign colored labels with custom time profiles</string>
-    <string name="feature_labels_desc2">Archive labels for better organization</string>
-    <string name="feature_timer_customization_title">Timer Customization</string>
-    <string name="feature_timer_customization_desc1">Adjust size, weight, and immersive mode</string>
-    <string name="feature_timer_customization_desc2">Hide seconds and other indicators</string>
-    <string name="feature_notifications_title">Advanced Notifications</string>
-    <string name="feature_notifications_desc1">Enable torch and persistent alerts</string>
-    <string name="feature_stats_title">Enhanced statistics</string>
-    <string name="feature_stats_desc1">Visualize data based on labels</string>
-    <string name="feature_stats_desc2">Manually add or edit completed sessions</string>
-    <string name="feature_stats_desc3">Add notes to completed sessions</string>
-    <string name="feature_backup_title"><![CDATA[Backup & Export]]></string>
-    <string name="feature_backup_desc1">Export and import backups for labels and statistics</string>
-    <string name="feature_backup_desc2">Export statistics as CSV or JSON</string>
-    <string name="feature_support_title">Support development</string>
-    <string name="feature_support_desc1">Unlock all future features for free</string>
+    <string name="feature_labels_desc1">برچسب‌های رنگی با شناسه‌های زمانی مجزا اختصاص دهید</string>
+    <string name="feature_labels_desc2">بایگانی برچسب‌ها برای سازماندهی بهتر</string>
+    <string name="feature_timer_customization_title">سفارشی کردن زمان‌سنج</string>
+    <string name="feature_timer_customization_desc1">اندازه، حجم و حالت چشم گیر</string>
+    <string name="feature_timer_customization_desc2">ثانیه‌ها و بقیه شاخص‌ها را مخفی کنید</string>
+    <string name="feature_notifications_title">اعلان های پیشرفته</string>
+    <string name="feature_notifications_desc1">فعال کردن چراغ‌قوه و اعلان‌های ماندگار</string>
+    <string name="feature_stats_title">آماره‌های پیشرفته</string>
+    <string name="feature_stats_desc1">تصویر سازی داده بر اساس برچسب‌ها</string>
+    <string name="feature_stats_desc2">به طور دستی دوره‌ها را اضافه و ویرایش کنید</string>
+    <string name="feature_stats_desc3">به دوره‌های خاتمه یافته یاداشت اضافه کنید</string>
+    <string name="feature_backup_title"><![CDATA[پشتیبان گیری و خروجی گرفتن]]></string>
+    <string name="feature_backup_desc1">خروجی گرفتن و وارد کردن خروجی‌ها برای برچسب‌ها و آماره‌ها</string>
+    <string name="feature_backup_desc2">آماره‌ها را در فرمت CSV یا JSON خروجی بگیرید</string>
+    <string name="feature_support_title">پشتیبانی از توسعه دهنده</string>
+    <string name="feature_support_desc1">بازگشایی تمام امکانات آینده به طور رایگان</string>
 </resources>

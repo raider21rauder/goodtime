@@ -17,19 +17,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="intro1_title">"Stay Focused"</string>
-    <string name="intro1_desc1">"Boost productivity with timed work sessions."</string>
-    <string name="intro1_desc2">"Choose between a structured countdown or a flexible count-up timer."</string>
-    <string name="intro2_title">"Refresh Your Mind"</string>
-    <string name="intro2_desc1">"Take well-earned breaks to recharge and stay sharp."</string>
-    <string name="intro2_desc2">"For count-up timers, accumulate break time as you work."</string>
+    <string name="intro1_title">"متمرکز بمانید"</string>
+    <string name="intro1_desc1">"بهره‌وری را با دوره کار زمان‌بندی شده ارتقاء دهید."</string>
+    <string name="intro1_desc2">"بین شمارش معکوسی منسجم یا شمردن به بالایی انعطاف‌پذیر انتخاب کنید."</string>
+    <string name="intro2_title">"ذهن خود را تر و تازه کنید"</string>
+    <string name="intro2_desc1">"برای احیا شدن و هوشیار ماندن استراحت‌های شایسته بکنید."</string>
+    <string name="intro2_desc2">"برای زمان‌سنج‌های شمارش به بالا، زمان استراحت را در هنگام کار ذخیره کنید."</string>
     <string name="intro3_title">"شروع کنید"</string>
-    <string name="intro3_desc1">"Track your progress with detailed statistics."</string>
-    <string name="intro3_desc2">"Beat procrastination and enhance your focus."</string>
-    <string name="tutorial_title">Tutorial</string>
+    <string name="intro3_desc1">"پیشرفت خود را با آماره‌های جزئی پیگیری کنید."</string>
+    <string name="intro3_desc2">"اهمال کاری را شکست دهید و تمرکز خود را بهبود ببخشید."</string>
+    <string name="tutorial_title">آموزش</string>
     <string name="tutorial_tap">👆 برای شروع یا توقف ، زمان‌سنج را لمس کنید.</string>
     <string name="tutorial_swipe_right">👉 برای رد کردن تایمر فعال به راست یا چپ بکشید.</string>
     <string name="tutorial_swipe_up">☝️ برای افزودن یک دقیقه به بالا بکشید.</string>
-    <string name="tutorial_swipe_down">👇 Swipe down to stop.</string>
-    <string name="tutorial_time_profiles">To modify the time profile, edit the associated label</string>
+    <string name="tutorial_swipe_down">👇 برای خاتمه یافتن به سمت پایین بکشید.</string>
+    <string name="tutorial_time_profiles">برای تغییر پروفایل زمان، برچسب مربوط را ویرایش کنید</string>
 </resources>

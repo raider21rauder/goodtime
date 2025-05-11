@@ -31,7 +31,7 @@
     <string name="settings_custom_start_of_day_title">Prilagođeni početak dana</string>
     <string name="settings_custom_start_of_day_desc">Definira kada dan počinje za statistiku</string>
     <string name="settings_start_of_the_week">Početak tjedna</string>
-    <string name="settings_theme">Theme</string>
+    <string name="settings_theme">Tema</string>
     <string-array name="settings_theme_options">
         <item>Sustav</item>
         <item>Svjetlo</item>
@@ -76,8 +76,8 @@
     <string name="settings_auto_start_break_desc">Počnite pauzu nakon radne sesije bez interakcije korisnika</string>
     <string name="settings_display_over_lock_screen">Prikaži preko zaslona za zaključavanje</string>
     <string name="settings_display_over_lock_screen_desc">Održavajte aplikaciju vidljivom preko zaslona za zaključavanje</string>
-    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_title">Trajanje vremena</string>
     <string name="settings_timer_durations_desc">Odredi dužinu rada i odmora</string>
     <string name="settings_launcher_name">Launcher name</string>
-    <string name="settings_language">Language</string>
+    <string name="settings_language">Jezik</string>
 </resources>
