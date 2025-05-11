@@ -40,7 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.data.backup.RestoreActivityResultLauncherManager
+import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
@@ -56,7 +56,7 @@ import org.koin.compose.koinInject
 @Composable
 fun BackupScreen(
     viewModel: BackupViewModel = koinInject(),
-    activityResultLauncherManager: RestoreActivityResultLauncherManager = koinInject(),
+    activityResultLauncherManager: ActivityResultLauncherManager = koinInject(),
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
@@ -66,7 +66,7 @@ fun BackupScreen(
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val enabled = uiState.isPro
 
-    val restoreBackupLauncher = rememberLauncherForActivityResult(
+    val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
@@ -74,9 +74,18 @@ fun BackupScreen(
             }
         },
     )
+    val exportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+    ) { result ->
+        val data = result.data
+        val uri = data?.data
+        uri?.let {
+            activityResultLauncherManager.exportCallback(it)
+        }
+    }
 
     LaunchedEffect(Unit) {
-        activityResultLauncherManager.setImportActivityResultLauncher(restoreBackupLauncher)
+        activityResultLauncherManager.setup(importLauncher, exportLauncher)
     }
 
     LaunchedEffect(lifecycleState) {

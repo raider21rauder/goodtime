@@ -34,8 +34,8 @@ import com.apps.adrcotfas.goodtime.bl.notifications.SoundPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.SoundVibrationAndTorchPlayer
 import com.apps.adrcotfas.goodtime.bl.notifications.TorchManager
 import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
+import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
-import com.apps.adrcotfas.goodtime.data.backup.RestoreActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
 import com.apps.adrcotfas.goodtime.di.WORKER_SCOPE
@@ -66,16 +66,15 @@ class GoodtimeApplication : Application() {
         insertKoin(
             module {
                 single<Context> { this@GoodtimeApplication }
-                single(createdAtStart = true) { ActivityProvider(this@GoodtimeApplication) }
-                single<RestoreActivityResultLauncherManager> {
-                    RestoreActivityResultLauncherManager(
+                single<ActivityResultLauncherManager> {
+                    ActivityResultLauncherManager(
                         get(),
                         coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                     )
                 }
 
                 single<BackupPrompter> {
-                    AndroidBackupPrompter(get(), get(), get())
+                    AndroidBackupPrompter(get())
                 }
                 single<NotificationArchManager> {
                     NotificationArchManager(

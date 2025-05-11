@@ -21,91 +21,111 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.core.content.FileProvider
-import com.apps.adrcotfas.goodtime.ActivityProvider
+import androidx.activity.result.ActivityResult
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupType
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
-class RestoreActivityResultLauncherManager(
+class ActivityResultLauncherManager(
     private val context: Context,
     private val coroutineScope: CoroutineScope,
 ) {
     private var importActivityResultLauncher: ManagedActivityResultLauncher<String, Uri?>? = null
+    private var backupActivityResultLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>? = null
     private var importedFilePath: String? = null
-    private var importCallback: (suspend () -> Unit)? = null
+    private var exportedFilePath: okio.Path? = null
+    private var importCallback: (suspend (Boolean) -> Unit)? = null
+    private var exportCallback: (suspend (Boolean) -> Unit)? = null
 
-    fun setImportActivityResultLauncher(importActivityResultLauncher: ManagedActivityResultLauncher<String, Uri?>) {
+    fun setup(
+        importActivityResultLauncher: ManagedActivityResultLauncher<String, Uri?>,
+        backupActivityResultLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    ) {
         this.importActivityResultLauncher = importActivityResultLauncher
+        this.backupActivityResultLauncher = backupActivityResultLauncher
     }
 
-    fun launch(importedFilePath: String, callback: suspend () -> Unit) {
+    fun launchImport(importedFilePath: String, callback: suspend (Boolean) -> Unit) {
         this.importedFilePath = importedFilePath
         this.importCallback = callback
 
         importActivityResultLauncher?.launch("application/*")
     }
 
+    fun launchExport(intent: Intent, exportedFilePath: okio.Path, callback: suspend (Boolean) -> Unit) {
+        backupActivityResultLauncher?.launch(intent)
+        this.exportedFilePath = exportedFilePath
+        this.exportCallback = callback
+    }
+
     fun importCallback(uri: Uri?) {
         uri?.let {
-            val inputStream = context.contentResolver.openInputStream(it)
-            inputStream.use { input ->
-                Files.copy(
-                    input,
-                    Paths.get(importedFilePath!!),
-                    StandardCopyOption.REPLACE_EXISTING,
-                )
-            }
-
             coroutineScope.launch {
-                importCallback!!.invoke()
+                withContext(Dispatchers.IO) {
+                    context.contentResolver.openInputStream(it)?.let { input ->
+                        Files.copy(
+                            input,
+                            Paths.get(importedFilePath!!),
+                            StandardCopyOption.REPLACE_EXISTING,
+                        )
+                        input.close()
+                        importCallback!!.invoke(true)
+                    } ?: importCallback!!.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun exportCallback(uri: Uri?) {
+        uri?.let {
+            coroutineScope.launch {
+                withContext(Dispatchers.IO) {
+                    context.contentResolver.openOutputStream(it)?.let { output ->
+                        Files.newInputStream(exportedFilePath!!.toNioPath()).use { input ->
+                            input.copyTo(output)
+                        }
+                        output.close()
+                        exportCallback!!.invoke(true)
+                    } ?: exportCallback!!.invoke(false)
+                }
             }
         }
     }
 }
 
 class AndroidBackupPrompter(
-    private val context: Context,
-    private val activityProvider: ActivityProvider,
-    private val activityResultLauncherManager: RestoreActivityResultLauncherManager,
+    private val activityResultLauncherManager: ActivityResultLauncherManager,
 ) : BackupPrompter {
-    override suspend fun promptUserForBackup(backupType: BackupType, fileToSharePath: okio.Path) {
+    override suspend fun promptUserForBackup(
+        backupType: BackupType,
+        fileToSharePath: okio.Path,
+        callback: suspend (Boolean) -> Unit,
+    ) {
         delay(100)
         val intent = Intent().apply {
-            action = Intent.ACTION_SEND
+            action = Intent.ACTION_CREATE_DOCUMENT
             type = when (backupType) {
                 BackupType.DB -> "application/*"
                 BackupType.JSON -> "application/json"
                 BackupType.CSV -> "text/csv"
             }
-            putExtra(
-                Intent.EXTRA_STREAM,
-                FileProvider.getUriForFile(
-                    context,
-                    context.packageName + ".provider",
-                    fileToSharePath.toFile(),
-                ),
-            )
-            flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            addCategory(Intent.CATEGORY_OPENABLE)
+            putExtra(Intent.EXTRA_TITLE, fileToSharePath.name)
         }
-
-        activityProvider.activeActivity?.startActivity(
-            Intent.createChooser(
-                intent,
-                "Backup",
-            ),
-        ) ?: throw IllegalStateException("No activity found")
+        activityResultLauncherManager.launchExport(intent, fileToSharePath, callback)
     }
 
     override suspend fun promptUserForRestore(
         importedFilePath: String,
-        callback: suspend () -> Unit,
+        callback: suspend (Boolean) -> Unit,
     ) {
-        activityResultLauncherManager.launch(importedFilePath, callback)
+        activityResultLauncherManager.launchImport(importedFilePath, callback)
     }
 }

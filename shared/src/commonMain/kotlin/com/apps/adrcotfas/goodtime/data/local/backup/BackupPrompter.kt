@@ -24,6 +24,6 @@ enum class BackupType {
 }
 
 interface BackupPrompter {
-    suspend fun promptUserForBackup(backupType: BackupType, fileToSharePath: Path)
-    suspend fun promptUserForRestore(importedFilePath: String, callback: suspend () -> Unit)
+    suspend fun promptUserForBackup(backupType: BackupType, fileToSharePath: Path, callback: suspend (Boolean) -> Unit)
+    suspend fun promptUserForRestore(importedFilePath: String, callback: suspend (Boolean) -> Unit)
 }

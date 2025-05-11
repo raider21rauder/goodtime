@@ -64,8 +64,9 @@ class BackupManager(
             val tmpFilePath =
                 "$filesDirPath/${DB_BACKUP_PREFIX}${timeProvider.now().formatForBackupFileName()}"
             createBackup(tmpFilePath)
-            backupPrompter.promptUserForBackup(BackupType.DB, tmpFilePath.toPath())
-            onComplete(true)
+            backupPrompter.promptUserForBackup(BackupType.DB, tmpFilePath.toPath()) {
+                onComplete(it)
+            }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
             onComplete(false)
@@ -77,8 +78,9 @@ class BackupManager(
             val tmpFilePath =
                 "$filesDirPath/${PREFIX}${timeProvider.now().formatForBackupFileName()}.csv"
             createCsvBackup(tmpFilePath)
-            backupPrompter.promptUserForBackup(BackupType.CSV, tmpFilePath.toPath())
-            onComplete(true)
+            backupPrompter.promptUserForBackup(BackupType.CSV, tmpFilePath.toPath()) {
+                onComplete(it)
+            }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
             onComplete(false)
@@ -90,8 +92,9 @@ class BackupManager(
             val tmpFilePath =
                 "$filesDirPath/${PREFIX}${timeProvider.now().formatForBackupFileName()}.json"
             createJsonBackup(tmpFilePath)
-            backupPrompter.promptUserForBackup(BackupType.JSON, tmpFilePath.toPath())
-            onComplete(true)
+            backupPrompter.promptUserForBackup(BackupType.JSON, tmpFilePath.toPath()) {
+                onComplete(it)
+            }
         } catch (e: Exception) {
             logger.e(e) { "Backup failed" }
             onComplete(false)
