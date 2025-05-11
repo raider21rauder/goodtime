@@ -16,8 +16,8 @@ android {
         applicationId = packageName
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 323
-        versionName = "3.0.8"
+        versionCode = 324
+        versionName = "3.0.9"
     }
     buildFeatures {
         compose = true
