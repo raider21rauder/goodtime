@@ -65,10 +65,11 @@ fun AddEditSessionContent(
     onValidate: (Boolean) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = 16.dp)
-            .animateContentSize(),
+        modifier =
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 16.dp)
+                .animateContentSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
@@ -112,21 +113,23 @@ fun AddEditSessionContent(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                modifier = Modifier
-                    .weight(0.7f)
-                    .clickable {
-                        onOpenDatePicker()
-                    },
+                modifier =
+                    Modifier
+                        .weight(0.7f)
+                        .clickable {
+                            onOpenDatePicker()
+                        },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
             ) {
                 Icon(
-                    modifier = Modifier.padding(
-                        start = 28.dp,
-                        end = 16.dp,
-                        top = 16.dp,
-                        bottom = 16.dp,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            start = 28.dp,
+                            end = 16.dp,
+                            top = 16.dp,
+                            bottom = 16.dp,
+                        ),
                     imageVector = EvaIcons.Outline.Clock,
                     contentDescription = stringResource(R.string.stats_time),
                 )
@@ -137,12 +140,13 @@ fun AddEditSessionContent(
                 )
             }
             Row(
-                modifier = Modifier
-                    .height(48.dp)
-                    .weight(0.3f)
-                    .clickable {
-                        onOpenTimePicker()
-                    },
+                modifier =
+                    Modifier
+                        .height(48.dp)
+                        .weight(0.3f)
+                        .clickable {
+                            onOpenTimePicker()
+                        },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
             ) {
@@ -155,11 +159,12 @@ fun AddEditSessionContent(
             }
         }
         ListItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onOpenLabelSelector()
-                },
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onOpenLabelSelector()
+                    },
             leadingContent = {
                 Icon(
                     modifier = Modifier.padding(start = 12.dp),
@@ -175,9 +180,10 @@ fun AddEditSessionContent(
             },
         )
         Row(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxWidth(),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Top,
         ) {
@@ -188,9 +194,10 @@ fun AddEditSessionContent(
                 tint = MaterialTheme.colorScheme.onSurface,
             )
             TextBox(
-                modifier = Modifier
-                    .padding(top = 14.dp)
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .padding(top = 14.dp)
+                        .weight(1f),
                 value = session.notes,
                 onValueChange = { onUpdate(session.copy(notes = it)) },
                 placeholder = stringResource(R.string.stats_add_notes),

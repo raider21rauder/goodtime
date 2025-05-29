@@ -104,13 +104,14 @@ fun FinishedSessionSheet(
         },
         dragHandle = {
             DragHandle(
-                buttonText = if (isBreak) {
-                    stringResource(R.string.main_start_focus)
-                } else {
-                    stringResource(
-                        R.string.main_start_break,
-                    )
-                },
+                buttonText =
+                    if (isBreak) {
+                        stringResource(R.string.main_start_focus)
+                    } else {
+                        stringResource(
+                            R.string.main_start_break,
+                        )
+                    },
                 onClose = {
                     onUpdateNotes(notes)
                     onReset(updateWorkTime)
@@ -180,9 +181,10 @@ private fun FinishedSessionContent(
     onNotesChanged: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -224,9 +226,10 @@ private fun CurrentSessionCard(
 
     Card(modifier = Modifier.wrapContentSize()) {
         Column(
-            modifier = Modifier
-                .animateContentSize()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .animateContentSize()
+                    .padding(16.dp),
         ) {
             Text(
                 stringResource(R.string.main_this_session),
@@ -234,8 +237,9 @@ private fun CurrentSessionCard(
             )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(32.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -291,8 +295,9 @@ private fun CurrentSessionCard(
             if (!isBreak && idleMinutes > 0) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -315,14 +320,16 @@ private fun CurrentSessionCard(
 fun HistoryCard(historyUiState: HistoryUiState) {
     if (historyUiState.todayWorkMinutes > 0 || historyUiState.todayBreakMinutes > 0) {
         Card(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(),
+            modifier =
+                Modifier
+                    .wrapContentSize()
+                    .padding(),
         ) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .animateContentSize(),
+                modifier =
+                    Modifier
+                        .padding(16.dp)
+                        .animateContentSize(),
             ) {
                 Text(
                     stringResource(R.string.stats_today),
@@ -330,8 +337,9 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(32.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -389,16 +397,18 @@ fun HistoryCard(historyUiState: HistoryUiState) {
 @Composable
 fun FinishedSessionContentPreview() {
     FinishedSessionContent(
-        timerUiState = TimerUiState(
-            timerType = TimerType.WORK,
-            completedMinutes = 25,
-            timeSpentPaused = 3.minutes.inWholeMilliseconds,
-        ),
-        historyUiState = HistoryUiState(
-            todayWorkMinutes = 90,
-            todayBreakMinutes = 55,
-            todayInterruptedMinutes = 3,
-        ),
+        timerUiState =
+            TimerUiState(
+                timerType = TimerType.WORK,
+                completedMinutes = 25,
+                timeSpentPaused = 3.minutes.inWholeMilliseconds,
+            ),
+        historyUiState =
+            HistoryUiState(
+                todayWorkMinutes = 90,
+                todayBreakMinutes = 55,
+                todayInterruptedMinutes = 3,
+            ),
         elapsedRealtime = 3.minutes.inWholeMilliseconds,
         addIdleMinutes = false,
         onChangeAddIdleMinutes = {},

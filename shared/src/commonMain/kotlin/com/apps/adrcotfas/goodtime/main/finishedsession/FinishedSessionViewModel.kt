@@ -50,35 +50,38 @@ class FinishedSessionViewModel(
     private val localDataRepo: LocalDataRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
-    private val _historyUiState = MutableStateFlow(HistoryUiState())
-    val uiState = _historyUiState.onStart {
-        loadHistoryState()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HistoryUiState())
+    private val historyUiState = MutableStateFlow(HistoryUiState())
+    val uiState =
+        historyUiState
+            .onStart {
+                loadHistoryState()
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HistoryUiState())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadHistoryState() {
         viewModelScope.launch {
-            settingsRepo.settings.distinctUntilChanged { old, new ->
-                old.workdayStart == new.workdayStart && old.isPro == new.isPro
-            }.flatMapLatest { settings ->
-                _historyUiState.update { it.copy(isPro = settings.isPro) }
-                localDataRepo.selectSessionsAfter(toMillisOfToday(settings.workdayStart))
-            }.collect { sessions ->
-                val (todayWorkSessions, todayBreakSessions) =
-                    sessions.partition { session -> session.isWork }
+            settingsRepo.settings
+                .distinctUntilChanged { old, new ->
+                    old.workdayStart == new.workdayStart && old.isPro == new.isPro
+                }.flatMapLatest { settings ->
+                    historyUiState.update { it.copy(isPro = settings.isPro) }
+                    localDataRepo.selectSessionsAfter(toMillisOfToday(settings.workdayStart))
+                }.collect { sessions ->
+                    val (todayWorkSessions, todayBreakSessions) =
+                        sessions.partition { session -> session.isWork }
 
-                val todayWorkMinutes = todayWorkSessions.sumOf { it.duration }
-                val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
-                val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
+                    val todayWorkMinutes = todayWorkSessions.sumOf { it.duration }
+                    val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
+                    val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
 
-                _historyUiState.update {
-                    it.copy(
-                        todayWorkMinutes = todayWorkMinutes,
-                        todayBreakMinutes = todayBreakMinutes,
-                        todayInterruptedMinutes = todayInterruptedMinutes,
-                    )
+                    historyUiState.update {
+                        it.copy(
+                            todayWorkMinutes = todayWorkMinutes,
+                            todayBreakMinutes = todayBreakMinutes,
+                            todayInterruptedMinutes = todayInterruptedMinutes,
+                        )
+                    }
                 }
-            }
         }
     }
 

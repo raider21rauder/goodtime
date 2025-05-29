@@ -21,186 +21,194 @@ import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
 
-val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            "CREATE TABLE labels_new (title TEXT NOT NULL, colorId INTEGER NOT NULL, 'order' INTEGER NOT NULL DEFAULT 0, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(title, archived))",
-        )
-        connection.execSQL(
-            "INSERT INTO labels_new (title, colorId) SELECT label, color FROM LabelAndColor",
-        )
-        connection.execSQL("DROP TABLE LabelAndColor")
-        connection.execSQL("ALTER TABLE labels_new RENAME TO Label")
-        connection.execSQL(
-            "CREATE TABLE sessions_new (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
-        )
-        connection.execSQL(
-            "INSERT INTO sessions_new (timestamp, duration, label) SELECT endTime, totalTime, label FROM Session",
-        )
-        connection.execSQL("DROP TABLE Session")
-        connection.execSQL("ALTER TABLE sessions_new RENAME TO Session")
+val MIGRATION_1_2: Migration =
+    object : Migration(1, 2) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL(
+                "CREATE TABLE labels_new (title TEXT NOT NULL, colorId INTEGER NOT NULL, 'order' INTEGER NOT NULL DEFAULT 0, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(title, archived))",
+            )
+            connection.execSQL(
+                "INSERT INTO labels_new (title, colorId) SELECT label, color FROM LabelAndColor",
+            )
+            connection.execSQL("DROP TABLE LabelAndColor")
+            connection.execSQL("ALTER TABLE labels_new RENAME TO Label")
+            connection.execSQL(
+                "CREATE TABLE sessions_new (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
+            )
+            connection.execSQL(
+                "INSERT INTO sessions_new (timestamp, duration, label) SELECT endTime, totalTime, label FROM Session",
+            )
+            connection.execSQL("DROP TABLE Session")
+            connection.execSQL("ALTER TABLE sessions_new RENAME TO Session")
+        }
     }
-}
 
-val MIGRATION_2_3: Migration = object : Migration(2, 3) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            "CREATE TABLE Profile (name TEXT NOT NULL, durationWork INTEGER NOT NULL" +
-                ", durationBreak INTEGER NOT NULL" +
-                ", enableLongBreak INTEGER NOT NULL" +
-                ", durationLongBreak INTEGER NOT NULL" +
-                ", sessionsBeforeLongBreak INTEGER NOT NULL" +
-                ", PRIMARY KEY(name))",
-        )
+val MIGRATION_2_3: Migration =
+    object : Migration(2, 3) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL(
+                "CREATE TABLE Profile (name TEXT NOT NULL, durationWork INTEGER NOT NULL" +
+                    ", durationBreak INTEGER NOT NULL" +
+                    ", enableLongBreak INTEGER NOT NULL" +
+                    ", durationLongBreak INTEGER NOT NULL" +
+                    ", sessionsBeforeLongBreak INTEGER NOT NULL" +
+                    ", PRIMARY KEY(name))",
+            )
+        }
     }
-}
 
-val MIGRATION_3_4: Migration = object : Migration(3, 4) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            "CREATE TABLE sessions_new (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
-        )
-        connection.execSQL(
-            "INSERT INTO sessions_new (id, timestamp, duration, label, archived) SELECT id, timestamp, duration, label, archived FROM Session",
-        )
-        connection.execSQL("DROP TABLE Session")
-        connection.execSQL("ALTER TABLE sessions_new RENAME TO Session")
+val MIGRATION_3_4: Migration =
+    object : Migration(3, 4) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL(
+                "CREATE TABLE sessions_new (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
+            )
+            connection.execSQL(
+                "INSERT INTO sessions_new (id, timestamp, duration, label, archived) SELECT id, timestamp, duration, label, archived FROM Session",
+            )
+            connection.execSQL("DROP TABLE Session")
+            connection.execSQL("ALTER TABLE sessions_new RENAME TO Session")
+        }
     }
-}
 
-val MIGRATION_4_5: Migration = object : Migration(4, 5) {
-    override fun migrate(connection: SQLiteConnection) {
-        // do nothing here; it seems to be needed by the switch to kapt room compiler
+val MIGRATION_4_5: Migration =
+    object : Migration(4, 5) {
+        override fun migrate(connection: SQLiteConnection) {
+            // do nothing here; it seems to be needed by the switch to kapt room compiler
+        }
     }
-}
 
-val MIGRATION_5_6: Migration = object : Migration(5, 6) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            "CREATE TABLE SessionTmp (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
-        )
-        connection.execSQL(
-            "INSERT INTO SessionTmp (timestamp, duration, label) SELECT timestamp, duration, label FROM Session",
-        )
-        connection.execSQL("DROP TABLE Session")
-        connection.execSQL("ALTER TABLE SessionTmp RENAME TO Session")
+val MIGRATION_5_6: Migration =
+    object : Migration(5, 6) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL(
+                "CREATE TABLE SessionTmp (id INTEGER NOT NULL, timestamp INTEGER NOT NULL, duration INTEGER NOT NULL, label TEXT, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(id), FOREIGN KEY(label, archived) REFERENCES Label(title, archived) ON UPDATE CASCADE ON DELETE SET DEFAULT)",
+            )
+            connection.execSQL(
+                "INSERT INTO SessionTmp (timestamp, duration, label) SELECT timestamp, duration, label FROM Session",
+            )
+            connection.execSQL("DROP TABLE Session")
+            connection.execSQL("ALTER TABLE SessionTmp RENAME TO Session")
 
-        connection.execSQL(
-            "CREATE TABLE LabelTmp (title TEXT NOT NULL DEFAULT '', colorId INTEGER NOT NULL DEFAULT 0, 'order' INTEGER NOT NULL DEFAULT 0, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(title, archived))",
-        )
-        connection.execSQL(
-            "INSERT INTO LabelTmp (title, colorId, 'order', archived) SELECT title, colorId, 'order', archived FROM Label",
-        )
-        connection.execSQL("DROP TABLE Label")
-        connection.execSQL("ALTER TABLE LabelTmp RENAME TO Label")
+            connection.execSQL(
+                "CREATE TABLE LabelTmp (title TEXT NOT NULL DEFAULT '', colorId INTEGER NOT NULL DEFAULT 0, 'order' INTEGER NOT NULL DEFAULT 0, archived INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(title, archived))",
+            )
+            connection.execSQL(
+                "INSERT INTO LabelTmp (title, colorId, 'order', archived) SELECT title, colorId, 'order', archived FROM Label",
+            )
+            connection.execSQL("DROP TABLE Label")
+            connection.execSQL("ALTER TABLE LabelTmp RENAME TO Label")
+        }
     }
-}
 
-val MIGRATION_6_7: Migration = object : Migration(6, 7) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL("PRAGMA foreign_keys=off;")
+val MIGRATION_6_7: Migration =
+    object : Migration(6, 7) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL("PRAGMA foreign_keys=off;")
 
-        // labels
-        connection.execSQL(
-            """
-            CREATE TABLE IF NOT EXISTS labelTmp (
-                name TEXT PRIMARY KEY NOT NULL,
-                colorIndex INTEGER NOT NULL DEFAULT 24,
-                orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
-                useDefaultTimeProfile INTEGER NOT NULL DEFAULT 1,
+            // labels
+            connection.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS labelTmp (
+                    name TEXT PRIMARY KEY NOT NULL,
+                    colorIndex INTEGER NOT NULL DEFAULT 24,
+                    orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
+                    useDefaultTimeProfile INTEGER NOT NULL DEFAULT 1,
 
-                -- countdown columns
-                isCountdown INTEGER NOT NULL DEFAULT 1,
-                workDuration INTEGER NOT NULL DEFAULT 25,
-                isBreakEnabled INTEGER NOT NULL DEFAULT 1,
-                breakDuration INTEGER NOT NULL DEFAULT 5,
-                isLongBreakEnabled INTEGER NOT NULL DEFAULT 0,
-                longBreakDuration INTEGER NOT NULL DEFAULT 15,
-                sessionsBeforeLongBreak INTEGER NOT NULL DEFAULT 4,
+                    -- countdown columns
+                    isCountdown INTEGER NOT NULL DEFAULT 1,
+                    workDuration INTEGER NOT NULL DEFAULT 25,
+                    isBreakEnabled INTEGER NOT NULL DEFAULT 1,
+                    breakDuration INTEGER NOT NULL DEFAULT 5,
+                    isLongBreakEnabled INTEGER NOT NULL DEFAULT 0,
+                    longBreakDuration INTEGER NOT NULL DEFAULT 15,
+                    sessionsBeforeLongBreak INTEGER NOT NULL DEFAULT 4,
 
-                -- flow column
-                workBreakRatio INTEGER NOT NULL DEFAULT 3,
-                isArchived INTEGER NOT NULL DEFAULT 0
-            );
-            """.trimIndent(),
-        )
-        connection.execSQL(
-            """
-            INSERT INTO labelTmp(name, colorIndex, orderIndex, isArchived)
-            SELECT COALESCE(title, 'PRODUCTIVITY_DEFAULT_LABEL'), colorId, 'order', archived FROM Label;
-            """.trimIndent(),
-        )
-        connection.execSQL(
-            """
-            UPDATE labelTmp
-            SET colorIndex = 24
-            WHERE colorIndex = -1;
-            """.trimIndent(),
-        )
+                    -- flow column
+                    workBreakRatio INTEGER NOT NULL DEFAULT 3,
+                    isArchived INTEGER NOT NULL DEFAULT 0
+                );
+                """.trimIndent(),
+            )
+            connection.execSQL(
+                """
+                INSERT INTO labelTmp(name, colorIndex, orderIndex, isArchived)
+                SELECT COALESCE(title, 'PRODUCTIVITY_DEFAULT_LABEL'), colorId, 'order', archived FROM Label;
+                """.trimIndent(),
+            )
+            connection.execSQL(
+                """
+                UPDATE labelTmp
+                SET colorIndex = 24
+                WHERE colorIndex = -1;
+                """.trimIndent(),
+            )
 
-        connection.execSQL("DROP TABLE Label;")
-        connection.execSQL("ALTER TABLE labelTmp RENAME TO localLabel;")
+            connection.execSQL("DROP TABLE Label;")
+            connection.execSQL("ALTER TABLE labelTmp RENAME TO localLabel;")
 
-        connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_localLabel_name_isArchived ON localLabel(name, isArchived);")
+            connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_localLabel_name_isArchived ON localLabel(name, isArchived);")
 
-        // sessions
-        connection.execSQL(
-            """
-            CREATE TABLE IF NOT EXISTS sessionTmp (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                timestamp INTEGER NOT NULL,
-                duration INTEGER NOT NULL,
-                interruptions INTEGER NOT NULL DEFAULT 0,
-                labelName TEXT NOT NULL DEFAULT 'PRODUCTIVITY_DEFAULT_LABEL',
-                notes TEXT NOT NULL DEFAULT '',
-                isWork INTEGER NOT NULL DEFAULT 1,
-                isArchived INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY(labelName, isArchived) REFERENCES localLabel(name, isArchived)
-                ON UPDATE CASCADE
-                ON DELETE SET DEFAULT
-            );
-            """.trimIndent(),
-        )
-        connection.execSQL(
-            """
-            INSERT INTO sessionTmp(id, timestamp, duration, interruptions, labelName, isArchived)
-            SELECT id, timestamp, duration, 0, COALESCE(label, "PRODUCTIVITY_DEFAULT_LABEL"), archived
-            FROM Session;
-            """.trimIndent(),
-        )
-        connection.execSQL("DROP TABLE Session;")
-        connection.execSQL("ALTER TABLE sessionTmp RENAME TO localSession;")
+            // sessions
+            connection.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS sessionTmp (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    timestamp INTEGER NOT NULL,
+                    duration INTEGER NOT NULL,
+                    interruptions INTEGER NOT NULL DEFAULT 0,
+                    labelName TEXT NOT NULL DEFAULT 'PRODUCTIVITY_DEFAULT_LABEL',
+                    notes TEXT NOT NULL DEFAULT '',
+                    isWork INTEGER NOT NULL DEFAULT 1,
+                    isArchived INTEGER NOT NULL DEFAULT 0,
+                    FOREIGN KEY(labelName, isArchived) REFERENCES localLabel(name, isArchived)
+                    ON UPDATE CASCADE
+                    ON DELETE SET DEFAULT
+                );
+                """.trimIndent(),
+            )
+            connection.execSQL(
+                """
+                INSERT INTO sessionTmp(id, timestamp, duration, interruptions, labelName, isArchived)
+                SELECT id, timestamp, duration, 0, COALESCE(label, "PRODUCTIVITY_DEFAULT_LABEL"), archived
+                FROM Session;
+                """.trimIndent(),
+            )
+            connection.execSQL("DROP TABLE Session;")
+            connection.execSQL("ALTER TABLE sessionTmp RENAME TO localSession;")
 
-        // sessions indexes
-        connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_isArchived ON localSession(isArchived);")
-        connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_labelName ON localSession(labelName);")
-        connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_isWork ON localSession(isWork);")
-        connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_labelName_isArchived ON localSession(labelName, isArchived);")
+            // sessions indexes
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_isArchived ON localSession(isArchived);")
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_labelName ON localSession(labelName);")
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_isWork ON localSession(isWork);")
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localSession_labelName_isArchived ON localSession(labelName, isArchived);")
 
-        connection.execSQL("PRAGMA foreign_keys=on;")
-        // profile clean-up
-        connection.execSQL("DROP TABLE Profile;")
+            connection.execSQL("PRAGMA foreign_keys=on;")
+            // profile clean-up
+            connection.execSQL("DROP TABLE Profile;")
+        }
     }
-}
 
-val MIGRATION_7_8: Migration = object : Migration(7, 8) {
-    override fun migrate(connection: SQLiteConnection) {
-        connection.execSQL(
-            """
-            UPDATE localLabel
-            SET colorIndex = 24
-            WHERE colorIndex = 42;
-            """.trimIndent(),
-        )
+val MIGRATION_7_8: Migration =
+    object : Migration(7, 8) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL(
+                """
+                UPDATE localLabel
+                SET colorIndex = 24
+                WHERE colorIndex = 42;
+                """.trimIndent(),
+            )
+        }
     }
-}
 
-val MIGRATIONS = arrayOf(
-    MIGRATION_1_2,
-    MIGRATION_2_3,
-    MIGRATION_3_4,
-    MIGRATION_4_5,
-    MIGRATION_5_6,
-    MIGRATION_6_7,
-    MIGRATION_7_8,
-)
+val MIGRATIONS =
+    arrayOf(
+        MIGRATION_1_2,
+        MIGRATION_2_3,
+        MIGRATION_3_4,
+        MIGRATION_4_5,
+        MIGRATION_5_6,
+        MIGRATION_6_7,
+        MIGRATION_7_8,
+    )

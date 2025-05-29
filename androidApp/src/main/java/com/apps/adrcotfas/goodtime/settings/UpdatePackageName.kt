@@ -22,6 +22,7 @@ import android.content.pm.PackageManager
 import androidx.activity.ComponentActivity
 
 class GoodtimeLauncherAlias
+
 class ProductivityLauncherAlias
 
 fun updateLauncherName(
@@ -29,11 +30,12 @@ fun updateLauncherName(
     dynamicLauncherActivity: ComponentActivity,
     index: Int,
 ) {
-    val (aliasToEnable, aliasToDisable) = if (index == 0) {
-        GoodtimeLauncherAlias::class.java to ProductivityLauncherAlias::class.java
-    } else {
-        ProductivityLauncherAlias::class.java to GoodtimeLauncherAlias::class.java
-    }
+    val (aliasToEnable, aliasToDisable) =
+        if (index == 0) {
+            GoodtimeLauncherAlias::class.java to ProductivityLauncherAlias::class.java
+        } else {
+            ProductivityLauncherAlias::class.java to GoodtimeLauncherAlias::class.java
+        }
 
     packageManager.setComponentEnabledSetting(
         ComponentName(

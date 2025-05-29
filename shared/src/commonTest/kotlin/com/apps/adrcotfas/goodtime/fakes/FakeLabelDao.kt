@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FakeLabelDao : LabelDao {
-
     private val labels: MutableStateFlow<List<LocalLabel>> =
         MutableStateFlow(listOf(Label.defaultLabel().toLocal()))
 
@@ -49,58 +48,66 @@ class FakeLabelDao : LabelDao {
         newWorkBreakRatio: Int,
         name: String,
     ) {
-        labels.value = labels.value.map {
-            if (it.name == name) {
-                it.copy(
-                    name = newName,
-                    colorIndex = newColorIndex,
-                    useDefaultTimeProfile = newUseDefaultTimeProfile,
-                    isCountdown = newIsCountdown,
-                    workDuration = newWorkDuration,
-                    isBreakEnabled = newIsBreakEnabled,
-                    breakDuration = newBreakDuration,
-                    isLongBreakEnabled = newIsLongBreakEnabled,
-                    longBreakDuration = newLongBreakDuration,
-                    sessionsBeforeLongBreak = newSessionsBeforeLongBreak,
-                    workBreakRatio = newWorkBreakRatio,
-                )
-            } else {
-                it
+        labels.value =
+            labels.value.map {
+                if (it.name == name) {
+                    it.copy(
+                        name = newName,
+                        colorIndex = newColorIndex,
+                        useDefaultTimeProfile = newUseDefaultTimeProfile,
+                        isCountdown = newIsCountdown,
+                        workDuration = newWorkDuration,
+                        isBreakEnabled = newIsBreakEnabled,
+                        breakDuration = newBreakDuration,
+                        isLongBreakEnabled = newIsLongBreakEnabled,
+                        longBreakDuration = newLongBreakDuration,
+                        sessionsBeforeLongBreak = newSessionsBeforeLongBreak,
+                        workBreakRatio = newWorkBreakRatio,
+                    )
+                } else {
+                    it
+                }
+            }
+    }
+
+    override suspend fun updateOrderIndex(
+        newOrderIndex: Int,
+        name: String,
+    ) {
+        labels.value =
+            labels.value.map {
+                if (it.name == name) {
+                    it.copy(orderIndex = newOrderIndex.toLong())
+                } else {
+                    it
+                }
+            }
+    }
+
+    override suspend fun updateIsArchived(
+        isArchived: Boolean,
+        name: String,
+    ) {
+        labels.value =
+            labels.value.map {
+                if (it.name == name) {
+                    it.copy(isArchived = isArchived)
+                } else {
+                    it
+                }
+            }
+    }
+
+    override fun selectAll(): Flow<List<LocalLabel>> = labels
+
+    override fun selectByArchived(isArchived: Boolean): Flow<List<LocalLabel>> =
+        labels.map { labels ->
+            labels.filter {
+                it.isArchived == isArchived
             }
         }
-    }
 
-    override suspend fun updateOrderIndex(newOrderIndex: Int, name: String) {
-        labels.value = labels.value.map {
-            if (it.name == name) {
-                it.copy(orderIndex = newOrderIndex.toLong())
-            } else {
-                it
-            }
-        }
-    }
-
-    override suspend fun updateIsArchived(isArchived: Boolean, name: String) {
-        labels.value = labels.value.map {
-            if (it.name == name) {
-                it.copy(isArchived = isArchived)
-            } else {
-                it
-            }
-        }
-    }
-
-    override fun selectAll(): Flow<List<LocalLabel>> {
-        return labels
-    }
-
-    override fun selectByArchived(isArchived: Boolean): Flow<List<LocalLabel>> {
-        return labels.map { labels -> labels.filter { it.isArchived == isArchived } }
-    }
-
-    override fun selectByName(name: String): Flow<LocalLabel?> {
-        return labels.map { labels -> labels.find { it.name == name } }
-    }
+    override fun selectByName(name: String): Flow<LocalLabel?> = labels.map { labels -> labels.find { it.name == name } }
 
     override suspend fun deleteByName(name: String) {
         labels.value = labels.value.filter { it.name != name }
@@ -111,12 +118,13 @@ class FakeLabelDao : LabelDao {
     }
 
     override suspend fun archiveAllButDefault() {
-        labels.value = labels.value.map {
-            if (it.name != Label.DEFAULT_LABEL_NAME) {
-                it.copy(isArchived = true)
-            } else {
-                it
+        labels.value =
+            labels.value.map {
+                if (it.name != Label.DEFAULT_LABEL_NAME) {
+                    it.copy(isArchived = true)
+                } else {
+                    it
+                }
             }
-        }
     }
 }

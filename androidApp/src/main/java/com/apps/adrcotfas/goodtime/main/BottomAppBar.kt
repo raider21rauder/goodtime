@@ -91,9 +91,10 @@ fun BottomAppBar(
         val color = MaterialTheme.getLabelColor(labelData.colorIndex)
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -123,21 +124,22 @@ fun BottomAppBar(
 
             val textColor = MaterialTheme.colorScheme.onSurface
             val backgroundColor = MaterialTheme.colorScheme.surfaceContainer
-            val builder = rememberBalloonBuilder {
-                setArrowSize(10)
-                setArrowPosition(0.5f)
-                setElevation(1)
-                setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-                setWidth(BalloonSizeSpec.WRAP)
-                setHeight(BalloonSizeSpec.WRAP)
-                setBalloonAnimation(BalloonAnimation.FADE)
-                setPadding(12)
-                setMarginHorizontal(12)
-                setCornerRadius(8f)
-                setBackgroundColor(backgroundColor)
-                setTextColor(textColor)
-                setDismissWhenClicked(true)
-            }
+            val builder =
+                rememberBalloonBuilder {
+                    setArrowSize(10)
+                    setArrowPosition(0.5f)
+                    setElevation(1)
+                    setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                    setWidth(BalloonSizeSpec.WRAP)
+                    setHeight(BalloonSizeSpec.WRAP)
+                    setBalloonAnimation(BalloonAnimation.FADE)
+                    setPadding(12)
+                    setMarginHorizontal(12)
+                    setCornerRadius(8f)
+                    setBackgroundColor(backgroundColor)
+                    setTextColor(textColor)
+                    setDismissWhenClicked(true)
+                }
 
             Balloon(
                 builder = builder,
@@ -175,19 +177,21 @@ fun BottomAppBar(
                 navController.navigate(StatsDest)
             }) {
                 Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(CircleShape)
-                        .background(
-                            MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
-                        ),
+                    modifier =
+                        Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(
+                                MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
+                            ),
                 ) {
                     Text(
                         text = sessionCountToday.toString(),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        ),
+                        style =
+                            MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            ),
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }

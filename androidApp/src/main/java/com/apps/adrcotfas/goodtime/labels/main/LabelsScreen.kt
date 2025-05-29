@@ -137,9 +137,10 @@ fun LabelsScreen(
         Column(modifier = Modifier.padding(paddingValues)) {
             AnimatedVisibility(uiState.archivedLabelCount > 0) {
                 ListItem(
-                    modifier = Modifier.clickable {
-                        onNavigateToArchivedLabels()
-                    },
+                    modifier =
+                        Modifier.clickable {
+                            onNavigateToArchivedLabels()
+                        },
                     leadingContent = {
                         Icon(
                             imageVector = EvaIcons.Outline.Archive,
@@ -150,17 +151,19 @@ fun LabelsScreen(
                     headlineContent = {
                         Text(
                             text = stringResource(R.string.labels_archived_labels_title),
-                            style = MaterialTheme.typography.labelLarge.copy(
-                                color = MaterialTheme.colorScheme.secondary,
-                            ),
+                            style =
+                                MaterialTheme.typography.labelLarge.copy(
+                                    color = MaterialTheme.colorScheme.secondary,
+                                ),
                         )
                     },
                     trailingContent = {
                         Text(
                             text = "${uiState.archivedLabelCount}",
-                            style = MaterialTheme.typography.labelLarge.copy(
-                                color = MaterialTheme.colorScheme.secondary,
-                            ),
+                            style =
+                                MaterialTheme.typography.labelLarge.copy(
+                                    color = MaterialTheme.colorScheme.secondary,
+                                ),
                         )
                     },
                 )
@@ -177,11 +180,12 @@ fun LabelsScreen(
                         LabelListItem(
                             label = label,
                             isDragging = isDragging,
-                            dragModifier = Modifier.dragContainer(
-                                dragDropState = dragDropState,
-                                key = label.name,
-                                onDragFinished = { viewModel.rearrangeLabelsToDisk() },
-                            ),
+                            dragModifier =
+                                Modifier.dragContainer(
+                                    dragDropState = dragDropState,
+                                    key = label.name,
+                                    onDragFinished = { viewModel.rearrangeLabelsToDisk() },
+                                ),
                             onEdit = {
                                 onNavigateToLabel(AddEditLabelDest(label.name))
                             },

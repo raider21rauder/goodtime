@@ -25,11 +25,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-suspend inline fun <reified T> DataStore<Preferences>.add(key: Preferences.Key<String>, value: T) {
+suspend inline fun <reified T> DataStore<Preferences>.add(
+    key: Preferences.Key<String>,
+    value: T,
+) {
     val json = Json { ignoreUnknownKeys = true }
-    val existingValues = data.map {
-        it[key]?.let { content -> json.decodeFromString<MutableSet<T>>(content) } ?: mutableSetOf()
-    }.first()
+    val existingValues =
+        data
+            .map {
+                it[key]?.let { content -> json.decodeFromString<MutableSet<T>>(content) } ?: mutableSetOf()
+            }.first()
 
     existingValues.add(value)
     edit { it[key] = json.encodeToString(existingValues) }
@@ -41,9 +46,11 @@ suspend inline fun <reified T> DataStore<Preferences>.remove(
 ) {
     val json = Json { ignoreUnknownKeys = true }
 
-    val existingValues = data.map {
-        it[key]?.let { content -> json.decodeFromString<MutableSet<T>>(content) } ?: mutableSetOf()
-    }.first()
+    val existingValues =
+        data
+            .map {
+                it[key]?.let { content -> json.decodeFromString<MutableSet<T>>(content) } ?: mutableSetOf()
+            }.first()
 
     existingValues.remove(value)
     edit { it[key] = json.encodeToString(existingValues) }

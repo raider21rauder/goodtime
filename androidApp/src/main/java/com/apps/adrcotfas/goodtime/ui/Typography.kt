@@ -31,34 +31,37 @@ val bodyFontFamily = FontFamily(Font(resId = R.font.open_sans))
 
 val baseline = Typography()
 
-val AppTypography = Typography(
-    displayLarge = baseline.displayLarge,
-    displayMedium = baseline.displayMedium,
-    displaySmall = baseline.displaySmall,
-    headlineLarge = baseline.headlineLarge,
-    headlineMedium = baseline.headlineMedium,
-    headlineSmall = baseline.headlineSmall,
-    titleLarge = baseline.titleLarge.copy(fontFamily = bodyFontFamily),
-    titleMedium = baseline.titleMedium.copy(fontFamily = bodyFontFamily),
-    titleSmall = baseline.titleSmall.copy(fontFamily = bodyFontFamily),
-    bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
-    bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
-    bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
-    labelLarge = baseline.labelLarge,
-    labelMedium = baseline.labelMedium,
-    labelSmall = baseline.labelSmall,
-)
+val AppTypography =
+    Typography(
+        displayLarge = baseline.displayLarge,
+        displayMedium = baseline.displayMedium,
+        displaySmall = baseline.displaySmall,
+        headlineLarge = baseline.headlineLarge,
+        headlineMedium = baseline.headlineMedium,
+        headlineSmall = baseline.headlineSmall,
+        titleLarge = baseline.titleLarge.copy(fontFamily = bodyFontFamily),
+        titleMedium = baseline.titleMedium.copy(fontFamily = bodyFontFamily),
+        titleSmall = baseline.titleSmall.copy(fontFamily = bodyFontFamily),
+        bodyLarge = baseline.bodyLarge.copy(fontFamily = bodyFontFamily),
+        bodyMedium = baseline.bodyMedium.copy(fontFamily = bodyFontFamily),
+        bodySmall = baseline.bodySmall.copy(fontFamily = bodyFontFamily),
+        labelLarge = baseline.labelLarge,
+        labelMedium = baseline.labelMedium,
+        labelSmall = baseline.labelSmall,
+    )
 
 @OptIn(ExperimentalTextApi::class)
-fun timerFontWith(resId: Int, weight: Int): FontFamily {
-    return FontFamily(
+fun timerFontWith(
+    resId: Int,
+    weight: Int,
+): FontFamily =
+    FontFamily(
         Font(
             resId = resId,
             weight = FontWeight(weight),
             variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
         ),
     )
-}
 
 val timerFontWeights = listOf(100, 200, 300)
 
@@ -66,7 +69,8 @@ val timerFontWeights = listOf(100, 200, 300)
 val timerFontRobotoMap =
     timerFontWeights.associateWith { weight -> timerFontWith(R.font.roboto_mono, weight) }
 
-val timerTextRobotoStyle = TextStyle(
-    fontFamily = timerFontRobotoMap[100],
-    fontSize = 60.em,
-)
+val timerTextRobotoStyle =
+    TextStyle(
+        fontFamily = timerFontRobotoMap[100],
+        fontSize = 60.em,
+    )

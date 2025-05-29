@@ -52,14 +52,21 @@ class ActivityResultLauncherManager(
         this.backupActivityResultLauncher = backupActivityResultLauncher
     }
 
-    fun launchImport(importedFilePath: String, callback: suspend (Boolean) -> Unit) {
+    fun launchImport(
+        importedFilePath: String,
+        callback: suspend (Boolean) -> Unit,
+    ) {
         this.importedFilePath = importedFilePath
         this.importCallback = callback
 
         importActivityResultLauncher?.launch("application/*")
     }
 
-    fun launchExport(intent: Intent, exportedFilePath: okio.Path, callback: suspend (Boolean) -> Unit) {
+    fun launchExport(
+        intent: Intent,
+        exportedFilePath: okio.Path,
+        callback: suspend (Boolean) -> Unit,
+    ) {
         backupActivityResultLauncher?.launch(intent)
         this.exportedFilePath = exportedFilePath
         this.exportCallback = callback
@@ -109,16 +116,18 @@ class AndroidBackupPrompter(
         callback: suspend (Boolean) -> Unit,
     ) {
         delay(100)
-        val intent = Intent().apply {
-            action = Intent.ACTION_CREATE_DOCUMENT
-            type = when (backupType) {
-                BackupType.DB -> "application/*"
-                BackupType.JSON -> "application/json"
-                BackupType.CSV -> "text/csv"
+        val intent =
+            Intent().apply {
+                action = Intent.ACTION_CREATE_DOCUMENT
+                type =
+                    when (backupType) {
+                        BackupType.DB -> "application/*"
+                        BackupType.JSON -> "application/json"
+                        BackupType.CSV -> "text/csv"
+                    }
+                addCategory(Intent.CATEGORY_OPENABLE)
+                putExtra(Intent.EXTRA_TITLE, fileToSharePath.name)
             }
-            addCategory(Intent.CATEGORY_OPENABLE)
-            putExtra(Intent.EXTRA_TITLE, fileToSharePath.name)
-        }
         activityResultLauncherManager.launchExport(intent, fileToSharePath, callback)
     }
 

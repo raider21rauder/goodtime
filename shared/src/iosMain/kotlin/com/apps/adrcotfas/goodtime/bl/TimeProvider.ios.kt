@@ -22,7 +22,6 @@ import platform.Darwin.mach_timebase_info
 import platform.Darwin.mach_timebase_info_data_t
 
 class IosTimeProvider : TimeProvider {
-
     override fun elapsedRealtime(): Long {
         val timebase = mach_timebase_info_data_t()
         mach_timebase_info(timebase.ptr)
@@ -31,6 +30,4 @@ class IosTimeProvider : TimeProvider {
     }
 }
 
-actual fun createTimeProvider(): TimeProvider {
-    return IosTimeProvider()
-}
+actual fun createTimeProvider(): TimeProvider = IosTimeProvider()

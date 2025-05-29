@@ -25,12 +25,16 @@ import com.apps.adrcotfas.goodtime.di.injectLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class ReminderReceiver : BroadcastReceiver(), KoinComponent {
-
+class ReminderReceiver :
+    BroadcastReceiver(),
+    KoinComponent {
     private val notificationManager: NotificationArchManager by inject()
     private val logger by injectLogger(TAG)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         logger.d("onReceive")
         notificationManager.notifyReminder()
     }

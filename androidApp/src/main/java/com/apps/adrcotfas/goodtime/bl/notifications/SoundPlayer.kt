@@ -73,15 +73,15 @@ class SoundPlayer(
             logger.e(e) { "Failed to get method setLooping" }
         }
         ioScope.launch {
-            settingsRepo.settings.map { settings ->
-                SoundPlayerData(
-                    workSoundUri = settings.workFinishedSound,
-                    breakSoundUri = settings.breakFinishedSound,
-                    overrideSoundProfile = settings.overrideSoundProfile,
-                    loop = settings.insistentNotification,
-                )
-            }
-                .collect {
+            settingsRepo.settings
+                .map { settings ->
+                    SoundPlayerData(
+                        workSoundUri = settings.workFinishedSound,
+                        breakSoundUri = settings.breakFinishedSound,
+                        overrideSoundProfile = settings.overrideSoundProfile,
+                        loop = settings.insistentNotification,
+                    )
+                }.collect {
                     workRingTone = toSoundData(it.workSoundUri)
                     breakRingTone = toSoundData(it.breakSoundUri)
                     overrideSoundProfile = it.overrideSoundProfile
@@ -91,10 +91,11 @@ class SoundPlayer(
     }
 
     fun play(timerType: TimerType) {
-        val soundData = when (timerType) {
-            TimerType.WORK -> workRingTone
-            TimerType.BREAK, TimerType.LONG_BREAK -> breakRingTone
-        }
+        val soundData =
+            when (timerType) {
+                TimerType.WORK -> workRingTone
+                TimerType.BREAK, TimerType.LONG_BREAK -> breakRingTone
+            }
         play(soundData, loop)
     }
 
@@ -105,10 +106,11 @@ class SoundPlayer(
     ) {
         playerScope.launch {
             job?.cancelAndJoin()
-            job = playerScope.launch {
-                stopInternal()
-                playInternal(soundData, loop, forceSound)
-            }
+            job =
+                playerScope.launch {
+                    stopInternal()
+                    playInternal(soundData, loop, forceSound)
+                }
         }
     }
 
@@ -118,13 +120,14 @@ class SoundPlayer(
         forceSound: Boolean,
     ) {
         if (soundData.isSilent) return
-        val uri = soundData.uriString.let {
-            if (it.isEmpty()) {
-                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            } else {
-                it.toUri()
+        val uri =
+            soundData.uriString.let {
+                if (it.isEmpty()) {
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                } else {
+                    it.toUri()
+                }
             }
-        }
 
         audioManager = (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
 
@@ -137,12 +140,15 @@ class SoundPlayer(
                 AudioAttributes.USAGE_NOTIFICATION
             }
 
-        ringtone = RingtoneManager.getRingtone(context, uri).apply {
-            audioAttributes = AudioAttributes.Builder()
-                .setUsage(usage)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-        }
+        ringtone =
+            RingtoneManager.getRingtone(context, uri).apply {
+                audioAttributes =
+                    AudioAttributes
+                        .Builder()
+                        .setUsage(usage)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+            }
         try {
             if (loop) {
                 setLoopingMethod.invoke(ringtone, true)
@@ -160,9 +166,10 @@ class SoundPlayer(
     fun stop() {
         playerScope.launch {
             job?.cancelAndJoin()
-            job = playerScope.launch {
-                stopInternal()
-            }
+            job =
+                playerScope.launch {
+                    stopInternal()
+                }
         }
     }
 
@@ -177,13 +184,14 @@ class SoundPlayer(
 
     private fun areHeadphonesPluggedIn(audioManager: AudioManager): Boolean {
         val audioDevices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-        val list = mutableListOf(
-            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
-            AudioDeviceInfo.TYPE_WIRED_HEADSET,
-            AudioDeviceInfo.TYPE_USB_DEVICE,
-            AudioDeviceInfo.TYPE_USB_HEADSET,
-            AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
-        )
+        val list =
+            mutableListOf(
+                AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+                AudioDeviceInfo.TYPE_WIRED_HEADSET,
+                AudioDeviceInfo.TYPE_USB_DEVICE,
+                AudioDeviceInfo.TYPE_USB_HEADSET,
+                AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+            )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             list.add(AudioDeviceInfo.TYPE_BLE_SPEAKER)
         }

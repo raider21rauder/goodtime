@@ -52,7 +52,6 @@ class BackupManager(
     private val logger: Logger,
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : KoinComponent {
-
     private val importedTemporaryFileName = "$filesDirPath/last-import"
 
     init {
@@ -150,7 +149,9 @@ class BackupManager(
         withContext(defaultDispatcher) {
             fileSystem.sink(tmpFilePath.toPath()).buffer().use { sink ->
                 sink.writeUtf8("[\n")
-                localDataRepository.selectAllSessions().first()
+                localDataRepository
+                    .selectAllSessions()
+                    .first()
                     .forEachIndexed { index, session ->
                         val labelName =
                             if (session.label == Label.DEFAULT_LABEL_NAME) "" else session.label

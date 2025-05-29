@@ -42,22 +42,22 @@ fun sendFeedback(context: Context) {
     email.putExtra(
         Intent.EXTRA_TEXT,
         """
-     * Pick a category:
+        * Pick a category:
 
-     Feedback:
-        - What do you like about the app?
-        - What can be improved?
+        Feedback:
+           - What do you like about the app?
+           - What can be improved?
 
-     Feature Request:
-        - Describe the feature you would like to see.
-        - How would this feature benefit you?
+        Feature Request:
+           - Describe the feature you would like to see.
+           - How would this feature benefit you?
 
-     Found Bug:
-        - Describe the issue you encountered.
-        - What are the steps to reproduce the issue?
+        Found Bug:
+           - Describe the issue you encountered.
+           - What are the steps to reproduce the issue?
 
-     Device info: ${getDeviceInfo()}
-     App version: ${context.getVersionName()}(${context.getVersionCode()})
+        Device info: ${getDeviceInfo()}
+        App version: ${context.getVersionName()}(${context.getVersionCode()})
         """.trimIndent(),
     )
     try {

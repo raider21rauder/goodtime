@@ -25,7 +25,6 @@ class FdroidBilling(
     private val settingsRepository: SettingsRepository,
     private val ioScope: CoroutineScope,
 ) : BillingAbstract {
-
     override fun init() {
         ioScope.launch {
             settingsRepository.setPro(true)

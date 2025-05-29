@@ -9,3 +9,6 @@ captures
 local.properties
 xcuserdata
 .kotlin
+androidApp/build
+androidApp/google
+androidApp/fdroid

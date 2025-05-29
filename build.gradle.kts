@@ -29,7 +29,7 @@ subprojects {
         }
         format("xml") {
             target("**/*.xml")
-            targetExclude("**/build/**/*.xml")
+            targetExclude(listOf("**/build/**/*.xml", "google/**/*.xml"))
             licenseHeaderFile(rootProject.file(".spotless/license.xml"), "(<[^!?])")
             trimTrailingWhitespace()
             endWithNewline()

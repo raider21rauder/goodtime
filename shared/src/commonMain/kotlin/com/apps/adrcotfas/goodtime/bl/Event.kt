@@ -18,17 +18,36 @@
 package com.apps.adrcotfas.goodtime.bl
 
 sealed class Event {
-    data class Start(val autoStarted: Boolean = false, val endTime: Long) : Event()
+    data class Start(
+        val autoStarted: Boolean = false,
+        val endTime: Long,
+    ) : Event()
+
     data object Pause : Event()
-    data class AddOneMinute(val endTime: Long) : Event()
-    data class Finished(val type: TimerType, val autostartNextSession: Boolean = false) : Event()
+
+    data class AddOneMinute(
+        val endTime: Long,
+    ) : Event()
+
+    data class Finished(
+        val type: TimerType,
+        val autostartNextSession: Boolean = false,
+    ) : Event()
+
     data object Reset : Event()
-    data class SendToBackground(val isTimerRunning: Boolean, val endTime: Long) : Event()
+
+    data class SendToBackground(
+        val isTimerRunning: Boolean,
+        val endTime: Long,
+    ) : Event()
+
     data object BringToForeground : Event()
+
     data object UpdateActiveLabel : Event() // when in progress
 }
 
 interface EventListener {
     fun onEvent(event: Event)
+
     companion object
 }

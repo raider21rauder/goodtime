@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FakeSessionDao : SessionDao {
-
     private val sessions = MutableStateFlow<List<LocalSession>>(emptyList())
 
     override suspend fun insert(session: LocalSession): Long {
@@ -44,30 +43,35 @@ class FakeSessionDao : SessionDao {
         newIsWork: Boolean,
         id: Long,
     ) {
-        sessions.value = sessions.value.map {
-            if (it.id == id) {
-                it.copy(
-                    timestamp = newTimestamp,
-                    duration = newDuration,
-                    interruptions = newInterruptions,
-                    labelName = newLabel,
-                    notes = newNotes,
-                    isWork = newIsWork,
-                )
-            } else {
-                it
+        sessions.value =
+            sessions.value.map {
+                if (it.id == id) {
+                    it.copy(
+                        timestamp = newTimestamp,
+                        duration = newDuration,
+                        interruptions = newInterruptions,
+                        labelName = newLabel,
+                        notes = newNotes,
+                        isWork = newIsWork,
+                    )
+                } else {
+                    it
+                }
             }
-        }
     }
 
-    override suspend fun updateLabelByIds(newLabel: String, ids: List<Long>) {
-        sessions.value = sessions.value.map {
-            if (it.id in ids) {
-                it.copy(labelName = newLabel)
-            } else {
-                it
+    override suspend fun updateLabelByIds(
+        newLabel: String,
+        ids: List<Long>,
+    ) {
+        sessions.value =
+            sessions.value.map {
+                if (it.id in ids) {
+                    it.copy(labelName = newLabel)
+                } else {
+                    it
+                }
             }
-        }
     }
 
     override suspend fun updateLabelByIdsExcept(
@@ -76,63 +80,79 @@ class FakeSessionDao : SessionDao {
         labels: List<String>,
         considerBreaks: Boolean,
     ) {
-        sessions.value = sessions.value.map {
-            if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
-                it.copy(labelName = newLabel)
-            } else {
-                it
+        sessions.value =
+            sessions.value.map {
+                if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
+                    it.copy(labelName = newLabel)
+                } else {
+                    it
+                }
+            }
+    }
+
+    override fun selectAll(): Flow<List<LocalSession>> = sessions
+
+    override fun selectAfter(timestamp: Long): Flow<List<LocalSession>> =
+        sessions.map { sessions ->
+            sessions.filter {
+                it.timestamp > timestamp
             }
         }
-    }
 
-    override fun selectAll(): Flow<List<LocalSession>> {
-        return sessions
-    }
+    override fun selectById(id: Long): Flow<LocalSession> = sessions.map { sessions -> sessions.first { it.id == id } }
 
-    override fun selectAfter(timestamp: Long): Flow<List<LocalSession>> {
-        return sessions.map { sessions -> sessions.filter { it.timestamp > timestamp } }
-    }
+    override fun selectByIsArchived(isArchived: Boolean): Flow<List<LocalSession>> =
+        sessions.map { sessions ->
+            sessions.filter {
+                it.isArchived == isArchived
+            }
+        }
 
-    override fun selectById(id: Long): Flow<LocalSession> {
-        return sessions.map { sessions -> sessions.first { it.id == id } }
-    }
+    override fun selectByLabel(labelName: String): Flow<List<LocalSession>> =
+        sessions.map { sessions ->
+            sessions.filter {
+                it.labelName == labelName
+            }
+        }
 
-    override fun selectByIsArchived(isArchived: Boolean): Flow<List<LocalSession>> {
-        return sessions.map { sessions -> sessions.filter { it.isArchived == isArchived } }
-    }
+    override fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>> =
+        sessions.map { sessions ->
+            sessions.filter {
+                it.labelName in labelNames
+            }
+        }
 
-    override fun selectByLabel(labelName: String): Flow<List<LocalSession>> {
-        return sessions.map { sessions -> sessions.filter { it.labelName == labelName } }
-    }
-
-    override fun selectByLabels(labelNames: List<String>): Flow<List<LocalSession>> {
-        return sessions.map { sessions -> sessions.filter { it.labelName in labelNames } }
-    }
-
-    override fun selectByLabels(labelNames: List<String>, after: Long): Flow<List<LocalSession>> {
-        return sessions.map { sessions -> sessions.filter { it.labelName in labelNames && it.timestamp > after } }
-    }
+    override fun selectByLabels(
+        labelNames: List<String>,
+        after: Long,
+    ): Flow<List<LocalSession>> =
+        sessions.map { sessions ->
+            sessions.filter {
+                it.labelName in labelNames && it.timestamp > after
+            }
+        }
 
     override fun selectSessionsForTimelinePaged(
         labelNames: List<String>,
         considerBreaks: Boolean,
-    ): PagingSource<Int, LocalSession> {
-        return object : PagingSource<Int, LocalSession>() {
-            override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> {
-                return LoadResult.Page(
+    ): PagingSource<Int, LocalSession> =
+        object : PagingSource<Int, LocalSession>() {
+            override suspend fun load(params: LoadParams<Int>): LoadResult<Int, LocalSession> =
+                LoadResult.Page(
                     data = sessions.value.filter { it.labelName in labelNames && if (!considerBreaks) it.isWork else true },
                     prevKey = null,
                     nextKey = null,
                 )
-            }
 
             override fun getRefreshKey(state: PagingState<Int, LocalSession>): Int? = null
         }
-    }
 
-    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> {
-        return sessions.map { sessions -> sessions.count { it.timestamp >= timestamp } }
-    }
+    override fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int> =
+        sessions.map { sessions ->
+            sessions.count {
+                it.timestamp >= timestamp
+            }
+        }
 
     override suspend fun delete(ids: List<Long>) {
         sessions.value = sessions.value.filter { it.id !in ids }
@@ -143,20 +163,19 @@ class FakeSessionDao : SessionDao {
         labels: List<String>,
         considerBreaks: Boolean,
     ) {
-        sessions.value = sessions.value.mapNotNull {
-            if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
-                null
-            } else {
-                it
+        sessions.value =
+            sessions.value.mapNotNull {
+                if ((considerBreaks || it.isWork) && it.id !in ids && it.labelName in labels) {
+                    null
+                } else {
+                    it
+                }
             }
-        }
     }
 
     override suspend fun deleteAll() {
         sessions.value = emptyList()
     }
 
-    override fun checkpoint(query: RoomRawQuery): Int {
-        return 0
-    }
+    override fun checkpoint(query: RoomRawQuery): Int = 0
 }

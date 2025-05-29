@@ -27,7 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DialControlButton(enabled: Boolean, selected: Boolean, region: DialRegion) {
+fun DialControlButton(
+    enabled: Boolean,
+    selected: Boolean,
+    region: DialRegion,
+) {
     Box {
         IconButton(
             modifier = Modifier.align(Alignment.Center),
@@ -37,11 +41,12 @@ fun DialControlButton(enabled: Boolean, selected: Boolean, region: DialRegion) {
             Icon(
                 imageVector = region.icon,
                 contentDescription = null,
-                tint = if (selected) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    LocalContentColor.current
-                },
+                tint =
+                    if (selected) {
+                        MaterialTheme.colorScheme.onPrimary
+                    } else {
+                        LocalContentColor.current
+                    },
             )
         }
     }

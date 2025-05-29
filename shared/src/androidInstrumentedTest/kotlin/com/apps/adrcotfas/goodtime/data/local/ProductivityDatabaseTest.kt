@@ -29,10 +29,11 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class ProductivityDatabaseTest {
     @get:Rule
-    val helper: MigrationTestHelper = MigrationTestHelper(
-        InstrumentationRegistry.getInstrumentation(),
-        ProductivityDatabase::class.java,
-    )
+    val helper: MigrationTestHelper =
+        MigrationTestHelper(
+            InstrumentationRegistry.getInstrumentation(),
+            ProductivityDatabase::class.java,
+        )
 
     @Test
     @Throws(IOException::class)

@@ -42,7 +42,10 @@ import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.PreferenceGroupTitle
 
 @Composable
-fun ActionSection(notificationPermissionState: NotificationPermissionState, onNotificationPermissionGranted: (Boolean) -> Unit) {
+fun ActionSection(
+    notificationPermissionState: NotificationPermissionState,
+    onNotificationPermissionGranted: (Boolean) -> Unit,
+) {
     val context = LocalContext.current
     val notificationPermissionLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { granted ->
@@ -55,10 +58,11 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
         Column {
             PreferenceGroupTitle(
                 text = stringResource(R.string.settings_action_required),
-                paddingValues = PaddingValues(
-                    horizontal = 16.dp,
-                    vertical = 8.dp,
-                ),
+                paddingValues =
+                    PaddingValues(
+                        horizontal = 16.dp,
+                        vertical = 8.dp,
+                    ),
             )
             AnimatedVisibility(permissionsState.shouldAskForAlarmPermission) {
                 ActionCard(
@@ -80,7 +84,8 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
                     cta = stringResource(R.string.settings_allow),
                     description = stringResource(R.string.settings_allow_notifications),
                     onClick = {
-                        if (notificationPermissionState == NotificationPermissionState.DENIED && !shouldShowRequestPermissionRationale(
+                        if (notificationPermissionState == NotificationPermissionState.DENIED &&
+                            !shouldShowRequestPermissionRationale(
                                 context.findActivity()!!,
                                 Manifest.permission.POST_NOTIFICATIONS,
                             )
@@ -99,10 +104,11 @@ fun ActionSection(notificationPermissionState: NotificationPermissionState, onNo
 }
 
 private fun navigateToNotificationSettings(context: Context) {
-    val intent = Intent().apply {
-        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-    }
+    val intent =
+        Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        }
     context.startActivity(intent)
 }

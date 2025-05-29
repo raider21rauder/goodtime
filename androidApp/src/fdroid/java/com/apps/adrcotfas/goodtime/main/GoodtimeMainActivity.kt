@@ -24,7 +24,9 @@ import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
-open class GoodtimeMainActivity : ComponentActivity(), KoinComponent {
+open class GoodtimeMainActivity :
+    ComponentActivity(),
+    KoinComponent {
     internal val viewModel: MainViewModel by viewModel<MainViewModel>()
     val log: Logger by injectLogger("GoodtimeMainActivity")
 }

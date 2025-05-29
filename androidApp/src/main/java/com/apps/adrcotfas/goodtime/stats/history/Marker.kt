@@ -45,21 +45,22 @@ internal fun rememberMarker(
     valueFormatter: DefaultCartesianMarker.ValueFormatter =
         DefaultCartesianMarker.ValueFormatter.default(),
 ): CartesianMarker {
-    val labelBackgroundShape = markerCorneredShape(
-        CorneredShape.Corner.Relative(
-            sizePercent = 12,
-            treatment = CorneredShape.CornerTreatment.Rounded,
-        ),
-    )
+    val labelBackgroundShape =
+        markerCorneredShape(
+            CorneredShape.Corner.Relative(
+                sizePercent = 12,
+                treatment = CorneredShape.CornerTreatment.Rounded,
+            ),
+        )
     val labelBackground =
         rememberShapeComponent(
             fill = fill(MaterialTheme.colorScheme.surfaceContainer),
             shape = labelBackgroundShape,
             shadow =
-            shadow(
-                radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp,
-                y = LABEL_BACKGROUND_SHADOW_DY_DP.dp,
-            ),
+                shadow(
+                    radius = LABEL_BACKGROUND_SHADOW_RADIUS_DP.dp,
+                    y = LABEL_BACKGROUND_SHADOW_DY_DP.dp,
+                ),
         )
     val label =
         rememberTextComponent(

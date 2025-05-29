@@ -26,15 +26,20 @@ import com.apps.adrcotfas.goodtime.di.injectLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class TimerService : Service(), KoinComponent {
-
+class TimerService :
+    Service(),
+    KoinComponent {
     private val notificationManager: NotificationArchManager by inject()
     private val timerManager: TimerManager by inject()
     private val log: Logger by injectLogger("TimerService")
 
     override fun onBind(intent: Intent?) = null
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
         if (intent == null || intent.action == null) {
             log.w { "onStartCommand: intent or action is null" }
             // TODO: This is true when the service is killed after revoking the SCHEDULE_EXACT_ALARM permission
@@ -97,15 +102,18 @@ class TimerService : Service(), KoinComponent {
 
         private const val EXTRA_FINISHED_AUTOSTART = "EXTRA_FINISHED_AUTOSTART"
 
-        fun createIntentWithAction(context: Context, action: Action): Intent {
-            return Intent(context, TimerService::class.java).setAction(action.name)
-        }
+        fun createIntentWithAction(
+            context: Context,
+            action: Action,
+        ): Intent = Intent(context, TimerService::class.java).setAction(action.name)
 
-        fun createFinishEvent(context: Context, autostart: Boolean = false): Intent {
-            return Intent(context, TimerService::class.java).apply {
+        fun createFinishEvent(
+            context: Context,
+            autostart: Boolean = false,
+        ): Intent =
+            Intent(context, TimerService::class.java).apply {
                 action = Action.Finished.name
                 putExtra(EXTRA_FINISHED_AUTOSTART, autostart)
             }
-        }
     }
 }

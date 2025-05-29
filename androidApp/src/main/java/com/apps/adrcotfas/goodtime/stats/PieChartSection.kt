@@ -74,67 +74,74 @@ fun PieChartSection(
     val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
     val onBackgroundColor = MaterialTheme.colorScheme.onBackground.toArgb()
 
-    val workPerLabel = when (overviewDurationType) {
-        OverviewDurationType.TODAY -> overviewData.workTodayPerLabel.filterValues { it != 0L }
-        OverviewDurationType.THIS_WEEK -> overviewData.workThisWeekPerLabel.filterValues { it != 0L }
-        OverviewDurationType.THIS_MONTH -> overviewData.workThisMonthPerLabel.filterValues { it != 0L }
-        OverviewDurationType.TOTAL -> overviewData.workTotalPerLabel.filterValues { it != 0L }
-    }
+    val workPerLabel =
+        when (overviewDurationType) {
+            OverviewDurationType.TODAY -> overviewData.workTodayPerLabel.filterValues { it != 0L }
+            OverviewDurationType.THIS_WEEK -> overviewData.workThisWeekPerLabel.filterValues { it != 0L }
+            OverviewDurationType.THIS_MONTH -> overviewData.workThisMonthPerLabel.filterValues { it != 0L }
+            OverviewDurationType.TOTAL -> overviewData.workTotalPerLabel.filterValues { it != 0L }
+        }
 
     val entries = ArrayList<PieEntry>()
     for (label in workPerLabel.keys) {
-        val labelName = when (label) {
-            Label.DEFAULT_LABEL_NAME -> stringResource(R.string.labels_default_label_name)
-            Label.OTHERS_LABEL_NAME -> stringResource(R.string.labels_others)
-            else -> label
-        }
+        val labelName =
+            when (label) {
+                Label.DEFAULT_LABEL_NAME -> stringResource(R.string.labels_default_label_name)
+                Label.OTHERS_LABEL_NAME -> stringResource(R.string.labels_others)
+                else -> label
+            }
         entries.add(PieEntry(workPerLabel[label]!!.toFloat(), labelName))
     }
 
     val colors =
-        workPerLabel.keys.map {
-            when (it) {
-                Label.OTHERS_LABEL_NAME -> {
-                    MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong())
-                }
+        workPerLabel.keys
+            .map {
+                when (it) {
+                    Label.OTHERS_LABEL_NAME -> {
+                        MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong())
+                    }
 
-                else -> {
-                    MaterialTheme.getLabelColor(selectedLabels.first { label -> label.name == it }.colorIndex)
+                    else -> {
+                        MaterialTheme.getLabelColor(selectedLabels.first { label -> label.name == it }.colorIndex)
+                    }
                 }
-            }
-        }.map { it.toArgb() }
+            }.map { it.toArgb() }
 
     Utils.init(context)
-    val dataSet = PieDataSet(entries, "").apply {
-        this.colors = colors
-        yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-        xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-        valueLinePart1Length = 0.175f
-        sliceSpace = 4f
-        setUseValueColorForLine(true)
-    }
+    val dataSet =
+        PieDataSet(entries, "").apply {
+            this.colors = colors
+            yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            valueLinePart1Length = 0.175f
+            sliceSpace = 4f
+            setUseValueColorForLine(true)
+        }
 
     val data = PieData(dataSet)
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(R.string.stats_focus_distribution),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = color,
-                ),
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = color,
+                    ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -147,26 +154,29 @@ fun PieChartSection(
             )
         }
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(224.dp)
-                .align(Alignment.CenterHorizontally),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(224.dp)
+                    .align(Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.Center,
         ) {
             if (entries.isEmpty()) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = "No items",
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ),
+                    style =
+                        MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
                 )
             } else {
                 var showPercentages by rememberSaveable { mutableStateOf(true) }
                 AndroidView(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.CenterHorizontally),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .align(Alignment.CenterHorizontally),
                     factory = { context ->
                         PieChart(context).apply {
                             isDrawHoleEnabled = true
@@ -185,11 +195,12 @@ fun PieChartSection(
                             setEntryLabelTextSize(12f)
                             setNoDataText("")
                             setTouchEnabled(true)
-                            onChartGestureListener = object : PieChartGestureListener() {
-                                override fun onChartSingleTapped(me: MotionEvent) {
-                                    showPercentages = !showPercentages
+                            onChartGestureListener =
+                                object : PieChartGestureListener() {
+                                    override fun onChartSingleTapped(me: MotionEvent) {
+                                        showPercentages = !showPercentages
+                                    }
                                 }
-                            }
                         }
                     },
                 ) { chart ->
@@ -198,25 +209,26 @@ fun PieChartSection(
                     chart.setEntryLabelColor(onBackgroundColor)
 
                     chart.invalidate()
-                    chart.data = data.apply {
-                        setValueTextSize(12f)
-                        setValueTextColor(onBackgroundColor)
-                    }
+                    chart.data =
+                        data.apply {
+                            setValueTextSize(12f)
+                            setValueTextColor(onBackgroundColor)
+                        }
                     if (showPercentages) {
                         chart.setUsePercentValues(true)
                         data.setValueFormatter(PercentFormatter())
                     } else {
                         chart.setUsePercentValues(false)
-                        data.setValueFormatter(object : IValueFormatter {
-                            override fun getFormattedValue(
-                                value: Float,
-                                entry: Entry?,
-                                dataSetIndex: Int,
-                                viewPortHandler: ViewPortHandler?,
-                            ): String {
-                                return value.toLong().minutes.formatOverview()
-                            }
-                        })
+                        data.setValueFormatter(
+                            object : IValueFormatter {
+                                override fun getFormattedValue(
+                                    value: Float,
+                                    entry: Entry?,
+                                    dataSetIndex: Int,
+                                    viewPortHandler: ViewPortHandler?,
+                                ): String = value.toLong().minutes.formatOverview()
+                            },
+                        )
                     }
                 }
             }
@@ -226,10 +238,21 @@ fun PieChartSection(
 
 open class PieChartGestureListener : OnChartGestureListener {
     override fun onChartSingleTapped(me: MotionEvent) {}
-    override fun onChartGestureStart(me: MotionEvent, lastPerformedGesture: ChartGesture) {}
-    override fun onChartGestureEnd(me: MotionEvent, lastPerformedGesture: ChartGesture) {}
+
+    override fun onChartGestureStart(
+        me: MotionEvent,
+        lastPerformedGesture: ChartGesture,
+    ) {}
+
+    override fun onChartGestureEnd(
+        me: MotionEvent,
+        lastPerformedGesture: ChartGesture,
+    ) {}
+
     override fun onChartLongPressed(me: MotionEvent) {}
+
     override fun onChartDoubleTapped(me: MotionEvent) {}
+
     override fun onChartFling(
         me1: MotionEvent,
         me2: MotionEvent,
@@ -238,6 +261,15 @@ open class PieChartGestureListener : OnChartGestureListener {
     ) {
     }
 
-    override fun onChartScale(me: MotionEvent, scaleX: Float, scaleY: Float) {}
-    override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {}
+    override fun onChartScale(
+        me: MotionEvent,
+        scaleX: Float,
+        scaleY: Float,
+    ) {}
+
+    override fun onChartTranslate(
+        me: MotionEvent,
+        dX: Float,
+        dY: Float,
+    ) {}
 }

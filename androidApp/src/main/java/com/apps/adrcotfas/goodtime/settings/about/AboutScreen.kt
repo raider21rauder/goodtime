@@ -71,11 +71,12 @@ fun AboutScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
         ) {
             IconListItem(
                 title = stringResource(R.string.about_source_code),

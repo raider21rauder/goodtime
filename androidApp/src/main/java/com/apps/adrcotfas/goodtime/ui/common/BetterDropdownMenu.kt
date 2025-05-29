@@ -53,9 +53,10 @@ fun BetterDropdownMenu(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     DropdownMenu(
-        modifier = Modifier
-            .crop(vertical = DROPDOWN_MENU_CORNER.dp)
-            .clip(RoundedCornerShape(DROPDOWN_MENU_CORNER.dp)),
+        modifier =
+            Modifier
+                .crop(vertical = DROPDOWN_MENU_CORNER.dp)
+                .clip(RoundedCornerShape(DROPDOWN_MENU_CORNER.dp)),
         shape = MaterialTheme.shapes.medium,
         expanded = expanded,
         onDismissRequest = onDismissRequest,
@@ -80,19 +81,21 @@ fun BetterDropdownMenu(
             val isFirstIndex = index == 0
             val isLastIndex = index == dropdownMenuOptions.lastIndex
 
-            val indexModifier = if (isFirstIndex) {
-                firstMenuItemModifier
-            } else if (isLastIndex) {
-                lastMenuItemModifier
-            } else {
-                Modifier
-            }
+            val indexModifier =
+                if (isFirstIndex) {
+                    firstMenuItemModifier
+                } else if (isLastIndex) {
+                    lastMenuItemModifier
+                } else {
+                    Modifier
+                }
 
-            val selectionModifier = Modifier.background(
-                MaterialTheme.colorScheme.primary.copy(
-                    alpha = 0.1f,
-                ),
-            )
+            val selectionModifier =
+                Modifier.background(
+                    MaterialTheme.colorScheme.primary.copy(
+                        alpha = 0.1f,
+                    ),
+                )
 
             val modifier = if (isSelected) indexModifier.then(selectionModifier) else indexModifier
 
@@ -102,13 +105,14 @@ fun BetterDropdownMenu(
                     Text(
                         modifier = paddingModifier,
                         text = it,
-                        style = if (it == value) {
-                            textStyle.copy(
-                                color = MaterialTheme.colorScheme.primary,
-                            )
-                        } else {
-                            textStyle
-                        },
+                        style =
+                            if (it == value) {
+                                textStyle.copy(
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                            } else {
+                                textStyle
+                            },
                     )
                 },
                 onClick = {
@@ -131,13 +135,13 @@ fun DropdownMenuBox(
     var expanded by rememberSaveable { mutableStateOf(false) }
     Box {
         Row(
-            modifier = Modifier
-                .wrapContentSize()
-                .clip(MaterialTheme.shapes.medium)
-                .clickable {
-                    expanded = true
-                }
-                .padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+            modifier =
+                Modifier
+                    .wrapContentSize()
+                    .clip(MaterialTheme.shapes.medium)
+                    .clickable {
+                        expanded = true
+                    }.padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
         ) {
@@ -168,16 +172,18 @@ fun DropdownMenuBox(
 private const val DROPDOWN_MENU_CORNER = 8
 private const val DROPDOWN_MENU_END_PADDING = 32
 
-val firstMenuItemModifier = Modifier.clip(
-    RoundedCornerShape(
-        topStart = DROPDOWN_MENU_CORNER.dp,
-        topEnd = DROPDOWN_MENU_CORNER.dp,
-    ),
-)
+val firstMenuItemModifier =
+    Modifier.clip(
+        RoundedCornerShape(
+            topStart = DROPDOWN_MENU_CORNER.dp,
+            topEnd = DROPDOWN_MENU_CORNER.dp,
+        ),
+    )
 
-val lastMenuItemModifier = Modifier.clip(
-    RoundedCornerShape(
-        bottomStart = DROPDOWN_MENU_CORNER.dp,
-        bottomEnd = DROPDOWN_MENU_CORNER.dp,
-    ),
-)
+val lastMenuItemModifier =
+    Modifier.clip(
+        RoundedCornerShape(
+            bottomStart = DROPDOWN_MENU_CORNER.dp,
+            bottomEnd = DROPDOWN_MENU_CORNER.dp,
+        ),
+    )

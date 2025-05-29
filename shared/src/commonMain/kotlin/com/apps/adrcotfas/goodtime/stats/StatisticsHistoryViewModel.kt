@@ -52,78 +52,82 @@ class StatisticsHistoryViewModel(
     private val localDataRepo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(StatisticsHistoryUiState())
-    val uiState = _uiState
-        .onStart { loadData() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsHistoryUiState())
+    val uiState =
+        _uiState
+            .onStart { loadData() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsHistoryUiState())
 
     private fun loadData() {
         viewModelScope.launch {
             localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
                 _uiState.update {
                     it.copy(
-                        selectedLabels = labels.map { label ->
-                            LabelData(
-                                name = label.name,
-                                colorIndex = label.colorIndex,
-                            )
-                        },
+                        selectedLabels =
+                            labels.map { label ->
+                                LabelData(
+                                    name = label.name,
+                                    colorIndex = label.colorIndex,
+                                )
+                            },
                     )
                 }
             }
         }
 
         viewModelScope.launch {
-            settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
-                    old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart &&
-                    old.statisticsSettings.overviewType == new.statisticsSettings.overviewType &&
-                    old.historyChartSettings.isLineChart == new.historyChartSettings.isLineChart
-            }.collect { settings ->
-                val type = settings.historyChartSettings.intervalType
-                val overviewType = settings.statisticsSettings.overviewType
-                val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
-                _uiState.update { state ->
-                    state.copy(
-                        firstDayOfWeek = firstDayOfWeek,
-                        workdayStart = settings.workdayStart,
-                        type = type,
-                        overviewType = overviewType,
-                        isLineChart = settings.historyChartSettings.isLineChart,
-                    )
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            uiState.distinctUntilChanged { old, new ->
-                old.selectedLabels == new.selectedLabels &&
-                    old.type == new.type &&
-                    old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart &&
-                    old.overviewType == new.overviewType &&
-                    old.isLineChart == new.isLineChart
-            }.flatMapLatest {
-                localDataRepo.selectSessionsByLabels(
-                    it.selectedLabels.map { label -> label.name },
-                ).map { sessions ->
-                    withContext(Dispatchers.Default) {
-                        computeHistoryChartData(
-                            sessions = sessions,
-                            labels = it.selectedLabels.map { label -> label.name },
-                            type = it.type,
-                            overviewType = it.overviewType,
-                            firstDayOfWeek = it.firstDayOfWeek,
-                            workDayStart = it.workdayStart,
-                            aggregate = it.isLineChart,
+            settingsRepository.settings
+                .distinctUntilChanged { old, new ->
+                    old.historyChartSettings.intervalType == new.historyChartSettings.intervalType &&
+                        old.firstDayOfWeek == new.firstDayOfWeek &&
+                        old.workdayStart == new.workdayStart &&
+                        old.statisticsSettings.overviewType == new.statisticsSettings.overviewType &&
+                        old.historyChartSettings.isLineChart == new.historyChartSettings.isLineChart
+                }.collect { settings ->
+                    val type = settings.historyChartSettings.intervalType
+                    val overviewType = settings.statisticsSettings.overviewType
+                    val firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek)
+                    _uiState.update { state ->
+                        state.copy(
+                            firstDayOfWeek = firstDayOfWeek,
+                            workdayStart = settings.workdayStart,
+                            type = type,
+                            overviewType = overviewType,
+                            isLineChart = settings.historyChartSettings.isLineChart,
                         )
                     }
                 }
-            }.collect { data ->
-                _uiState.update { it.copy(data = data, isLoading = false) }
-            }
+        }
+
+        viewModelScope.launch {
+            uiState
+                .distinctUntilChanged { old, new ->
+                    old.selectedLabels == new.selectedLabels &&
+                        old.type == new.type &&
+                        old.firstDayOfWeek == new.firstDayOfWeek &&
+                        old.workdayStart == new.workdayStart &&
+                        old.overviewType == new.overviewType &&
+                        old.isLineChart == new.isLineChart
+                }.flatMapLatest {
+                    localDataRepo
+                        .selectSessionsByLabels(
+                            it.selectedLabels.map { label -> label.name },
+                        ).map { sessions ->
+                            withContext(Dispatchers.Default) {
+                                computeHistoryChartData(
+                                    sessions = sessions,
+                                    labels = it.selectedLabels.map { label -> label.name },
+                                    type = it.type,
+                                    overviewType = it.overviewType,
+                                    firstDayOfWeek = it.firstDayOfWeek,
+                                    workDayStart = it.workdayStart,
+                                    aggregate = it.isLineChart,
+                                )
+                            }
+                        }
+                }.collect { data ->
+                    _uiState.update { it.copy(data = data, isLoading = false) }
+                }
         }
     }
 

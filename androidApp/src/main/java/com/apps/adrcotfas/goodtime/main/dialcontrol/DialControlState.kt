@@ -38,7 +38,6 @@ class DialControlState<T>(
     private val density: Density,
     private val coroutineScope: CoroutineScope,
 ) {
-
     private var disabledOptions by mutableStateOf(emptyList<T>())
     var options by mutableStateOf(initialOptions)
         private set
@@ -63,11 +62,12 @@ class DialControlState<T>(
         } else {
             val degree = (180f / Math.PI) * atan2(y = offset.y, x = offset.x)
             val sweep = 360f / options.size
-            val index = options.indices.firstOrNull { index ->
-                val startAngle = calculateStartAngle(index, options.size)
-                val endAngle = startAngle + sweep
-                degree >= startAngle && degree < endAngle
-            } ?: options.lastIndex
+            val index =
+                options.indices.firstOrNull { index ->
+                    val startAngle = calculateStartAngle(index, options.size)
+                    val endAngle = startAngle + sweep
+                    degree >= startAngle && degree < endAngle
+                } ?: options.lastIndex
             options[index].let {
                 if (it in disabledOptions) null else it
             }
@@ -78,9 +78,7 @@ class DialControlState<T>(
         disabledOptions = options
     }
 
-    fun isDisabled(option: T): Boolean {
-        return disabledOptions.contains(option)
-    }
+    fun isDisabled(option: T): Boolean = disabledOptions.contains(option)
 
     fun onDown(position: Offset) {
         isPressed = true
@@ -110,7 +108,10 @@ class DialControlState<T>(
     }
 
     companion object {
-        internal fun calculateStartAngle(index: Int, count: Int): Float {
+        internal fun calculateStartAngle(
+            index: Int,
+            count: Int,
+        ): Float {
             val sweep = 360f / count
             return 0f + sweep * index - 90f - sweep / 2
         }

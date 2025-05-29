@@ -51,50 +51,51 @@ class MainViewModel(
     private val settingsRepository: SettingsRepository,
     private val timerManager: TimerManager,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState
 
     init {
         viewModelScope.launch {
-            settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.showOnboarding == new.showOnboarding &&
-                    old.uiSettings.dndDuringWork == new.uiSettings.dndDuringWork &&
-                    old.uiSettings.themePreference == new.uiSettings.themePreference &&
-                    old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
-                    old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
-                    old.uiSettings.keepScreenOn == new.uiSettings.keepScreenOn &&
-                    old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked &&
-                    old.shouldAskForReview == new.shouldAskForReview
-            }.collect { settings ->
-                _uiState.update {
-                    it.copy(
-                        loading = false,
-                        showOnboarding = settings.showOnboarding,
-                        dndDuringWork = settings.uiSettings.dndDuringWork,
-                        darkThemePreference = settings.uiSettings.themePreference,
-                        isDynamicColor = settings.uiSettings.useDynamicColor,
-                        fullscreenMode = settings.uiSettings.fullscreenMode,
-                        keepScreenOn = settings.uiSettings.keepScreenOn,
-                        showWhenLocked = settings.uiSettings.showWhenLocked,
-                        shouldAskForReview = settings.shouldAskForReview,
-                    )
+            settingsRepository.settings
+                .distinctUntilChanged { old, new ->
+                    old.showOnboarding == new.showOnboarding &&
+                        old.uiSettings.dndDuringWork == new.uiSettings.dndDuringWork &&
+                        old.uiSettings.themePreference == new.uiSettings.themePreference &&
+                        old.uiSettings.useDynamicColor == new.uiSettings.useDynamicColor &&
+                        old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
+                        old.uiSettings.keepScreenOn == new.uiSettings.keepScreenOn &&
+                        old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked &&
+                        old.shouldAskForReview == new.shouldAskForReview
+                }.collect { settings ->
+                    _uiState.update {
+                        it.copy(
+                            loading = false,
+                            showOnboarding = settings.showOnboarding,
+                            dndDuringWork = settings.uiSettings.dndDuringWork,
+                            darkThemePreference = settings.uiSettings.themePreference,
+                            isDynamicColor = settings.uiSettings.useDynamicColor,
+                            fullscreenMode = settings.uiSettings.fullscreenMode,
+                            keepScreenOn = settings.uiSettings.keepScreenOn,
+                            showWhenLocked = settings.uiSettings.showWhenLocked,
+                            shouldAskForReview = settings.shouldAskForReview,
+                        )
+                    }
                 }
-            }
         }
         viewModelScope.launch {
-            timerManager.timerData.distinctUntilChanged { old, new ->
-                old.state == new.state &&
-                    old.type == new.type
-            }.collect { timerData ->
-                _uiState.update {
-                    it.copy(
-                        isActive = timerData.state.isActive,
-                        isWorkSessionInProgress = timerData.state.isActive && timerData.type == TimerType.WORK,
-                        isFinished = timerData.state.isFinished,
-                    )
+            timerManager.timerData
+                .distinctUntilChanged { old, new ->
+                    old.state == new.state &&
+                        old.type == new.type
+                }.collect { timerData ->
+                    _uiState.update {
+                        it.copy(
+                            isActive = timerData.state.isActive,
+                            isWorkSessionInProgress = timerData.state.isActive && timerData.type == TimerType.WORK,
+                            isFinished = timerData.state.isFinished,
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -116,6 +117,5 @@ class MainViewModel(
         }
     }
 
-    fun resetShouldAskForReview() =
-        viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
+    fun resetShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
 }

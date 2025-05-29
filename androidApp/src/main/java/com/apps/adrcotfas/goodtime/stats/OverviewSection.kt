@@ -52,24 +52,27 @@ fun OverviewSection(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = stringResource(R.string.stats_overview),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = color,
-                ),
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = color,
+                    ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -83,29 +86,31 @@ fun OverviewSection(
         }
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 24.dp)
-                .horizontalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 24.dp)
+                    .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.Absolute.SpaceBetween,
             verticalAlignment = Alignment.Bottom,
         ) {
             OverviewDurationType.entries.forEach { overviewType ->
-                val valueWork = if (type == OverviewType.TIME) {
-                    when (overviewType) {
-                        OverviewDurationType.TODAY -> data.workToday
-                        OverviewDurationType.THIS_WEEK -> data.workThisWeek
-                        OverviewDurationType.THIS_MONTH -> data.workThisMonth
-                        OverviewDurationType.TOTAL -> data.workTotal
-                    }.minutes.formatOverview()
-                } else {
-                    when (overviewType) {
-                        OverviewDurationType.TODAY -> data.workSessionsToday
-                        OverviewDurationType.THIS_WEEK -> data.workSessionsThisWeek
-                        OverviewDurationType.THIS_MONTH -> data.workSessionsThisMonth
-                        OverviewDurationType.TOTAL -> data.workSessionsTotal
-                    }.toString()
-                }
+                val valueWork =
+                    if (type == OverviewType.TIME) {
+                        when (overviewType) {
+                            OverviewDurationType.TODAY -> data.workToday
+                            OverviewDurationType.THIS_WEEK -> data.workThisWeek
+                            OverviewDurationType.THIS_MONTH -> data.workThisMonth
+                            OverviewDurationType.TOTAL -> data.workTotal
+                        }.minutes.formatOverview()
+                    } else {
+                        when (overviewType) {
+                            OverviewDurationType.TODAY -> data.workSessionsToday
+                            OverviewDurationType.THIS_WEEK -> data.workSessionsThisWeek
+                            OverviewDurationType.THIS_MONTH -> data.workSessionsThisMonth
+                            OverviewDurationType.TOTAL -> data.workSessionsTotal
+                        }.toString()
+                    }
 
                 OverviewTypeSection(
                     modifier = Modifier.weight(1f / OverviewDurationType.entries.size),
@@ -131,10 +136,11 @@ fun OverviewTypeSection(
     ) {
         Text(
             valueWork,
-            style = MaterialTheme.typography.labelMedium.copy(
-                color = colorWork,
-                textAlign = TextAlign.Center,
-            ),
+            style =
+                MaterialTheme.typography.labelMedium.copy(
+                    color = colorWork,
+                    textAlign = TextAlign.Center,
+                ),
         )
         Text(
             title,

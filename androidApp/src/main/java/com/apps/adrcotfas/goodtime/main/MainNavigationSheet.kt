@@ -119,10 +119,11 @@ fun MainNavigationSheetContent(
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 16.dp)
-            .animateContentSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .padding(horizontal = 8.dp, vertical = 16.dp)
+                .animateContentSize()
+                .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top,
     ) {
@@ -139,9 +140,10 @@ fun MainNavigationSheetContent(
             )
             Text(
                 text = stringResource(R.string.product_name_long),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                ),
+                style =
+                    MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
         }
         Spacer(Modifier.height(16.dp))

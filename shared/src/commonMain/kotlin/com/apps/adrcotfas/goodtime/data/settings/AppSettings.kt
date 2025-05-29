@@ -30,10 +30,8 @@ data class AppSettings(
     val productivityReminderSettings: ProductivityReminderSettings = ProductivityReminderSettings(),
     val uiSettings: UiSettings = UiSettings(),
     val timerStyle: TimerStyleData = TimerStyleData(),
-
     val workdayStart: Int = LocalTime(5, 0).toSecondOfDay(),
     val firstDayOfWeek: Int = DayOfWeek.MONDAY.isoDayNumber,
-
     /** The name/URI of the sound file or empty for default*/
     val workFinishedSound: String = "",
     /** The name/URI of the sound file or empty for default*/
@@ -47,13 +45,11 @@ data class AppSettings(
     val autoStartWork: Boolean = false,
     /** only valid with insistentNotification off and for countdown timers **/
     val autoStartBreak: Boolean = false,
-
     val labelName: String = Label.DEFAULT_LABEL_NAME,
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
     val notificationPermissionState: NotificationPermissionState = NotificationPermissionState.NOT_ASKED,
     val lastInsertedSessionId: Long = Long.MAX_VALUE,
-
     val statisticsSettings: StatisticsSettings = StatisticsSettings(),
     val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
     val showOnboarding: Boolean = true,
@@ -95,10 +91,9 @@ enum class ThemePreference {
     DARK,
 }
 
-fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean {
-    return this == ThemePreference.DARK ||
+fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean =
+    this == ThemePreference.DARK ||
         (this == ThemePreference.SYSTEM && isSystemInDarkTheme)
-}
 
 @Serializable
 data class TimerStyleData(
@@ -112,7 +107,6 @@ data class TimerStyleData(
     val showStreak: Boolean = true,
     val showBreakBudget: Boolean = true,
 ) {
-
     fun inUseFontSize() = fontSize
 }
 

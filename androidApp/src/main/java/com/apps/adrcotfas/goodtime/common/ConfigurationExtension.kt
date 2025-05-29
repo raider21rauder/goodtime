@@ -32,6 +32,7 @@ val Configuration.screenWidth: Dp
 val Configuration.screenHeight: Dp
     get() = if (isPortrait) screenHeightDp.dp else screenWidthDp.dp
 
-fun convertSpToDp(density: Density, spValue: Float): Float {
-    return with(density) { spValue.sp.toDp().value }
-}
+fun convertSpToDp(
+    density: Density,
+    spValue: Float,
+): Float = with(density) { spValue.sp.toDp().value }

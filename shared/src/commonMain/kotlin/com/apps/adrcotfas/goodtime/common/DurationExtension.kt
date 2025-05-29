@@ -42,31 +42,37 @@ fun Duration.formatOverview(): String {
 
     return when {
         this.inWholeMinutes == 0L -> "0min"
-        else -> buildString {
-            if (hours != 0L) append("${hours}h ")
-            if (remMin != 0L) append("${remMin}min")
-        }.trim()
+        else ->
+            buildString {
+                if (hours != 0L) append("${hours}h ")
+                if (remMin != 0L) append("${remMin}min")
+            }.trim()
     }
 }
 
 object Time {
     fun startOfTodayAdjusted(secondOfDay: Int): Long {
-        val dateTime = currentDateTime().apply {
-            if (time.toSecondOfDay() < secondOfDay) {
-                minus(DatePeriod(days = 1))
+        val dateTime =
+            currentDateTime().apply {
+                if (time.toSecondOfDay() < secondOfDay) {
+                    minus(DatePeriod(days = 1))
+                }
             }
-        }
         val timeZone = TimeZone.currentSystemDefault()
         val startOfDay = dateTime.date.atStartOfDayIn(timeZone)
         return startOfDay.toEpochMilliseconds() + secondOfDay.seconds.inWholeMilliseconds
     }
 
-    fun startOfThisWeekAdjusted(startDayOfWeek: DayOfWeek, secondOfDay: Int): LocalDateTime {
-        val dateTime = currentDateTime().apply {
-            if (time.toSecondOfDay() < secondOfDay) {
-                minus(DatePeriod(days = 1))
+    fun startOfThisWeekAdjusted(
+        startDayOfWeek: DayOfWeek,
+        secondOfDay: Int,
+    ): LocalDateTime {
+        val dateTime =
+            currentDateTime().apply {
+                if (time.toSecondOfDay() < secondOfDay) {
+                    minus(DatePeriod(days = 1))
+                }
             }
-        }
         val timeZone = TimeZone.currentSystemDefault()
         var date = dateTime.date
         while (date.dayOfWeek != startDayOfWeek) {
@@ -78,16 +84,18 @@ object Time {
     }
 
     fun startOfThisMonth(secondOfDay: Int): LocalDateTime {
-        val dateTime = currentDateTime().apply {
-            if (time.toSecondOfDay() < secondOfDay) {
-                minus(DatePeriod(days = 1))
+        val dateTime =
+            currentDateTime().apply {
+                if (time.toSecondOfDay() < secondOfDay) {
+                    minus(DatePeriod(days = 1))
+                }
             }
-        }
-        val date = LocalDate(
-            dateTime.date.year,
-            dateTime.date.month,
-            1,
-        )
+        val date =
+            LocalDate(
+                dateTime.date.year,
+                dateTime.date.month,
+                1,
+            )
         val startOfMonthInstant = date.atStartOfDayIn(TimeZone.currentSystemDefault()).plus(secondOfDay.seconds)
         return startOfMonthInstant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
@@ -177,25 +185,22 @@ fun LocalDate.endOfWeekInThisWeek(startDayOfWeek: DayOfWeek): LocalDate {
 }
 
 fun LocalDate.firstDayOfThisQuarter(): LocalDate {
-    val firstMonthInQuarter = when (quarter) {
-        1 -> 1
-        2 -> 4
-        3 -> 7
-        4 -> 10
-        else -> throw IllegalArgumentException("Invalid quarter: $quarter. Valid values are 1-4.")
-    }
+    val firstMonthInQuarter =
+        when (quarter) {
+            1 -> 1
+            2 -> 4
+            3 -> 7
+            4 -> 10
+            else -> throw IllegalArgumentException("Invalid quarter: $quarter. Valid values are 1-4.")
+        }
     return LocalDate(year, firstMonthInQuarter, 1)
 }
 
 val LocalDate.quarter get() = (monthNumber - 1) / 3 + 1
 
-fun LocalDate.toEpochMilliseconds(): Long {
-    return this.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-}
+fun LocalDate.toEpochMilliseconds(): Long = this.atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 
-fun LocalDateTime.toEpochMilliseconds(): Long {
-    return this.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-}
+fun LocalDateTime.toEpochMilliseconds(): Long = this.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
 
 inline fun <reified T : Enum<T>> T.entriesStartingWithThis(): List<T> {
     val entries = enumValues<T>()

@@ -100,76 +100,79 @@ fun computeStatisticsData(
     val heatmapData = mutableMapOf<LocalDate, Float>()
     var maxHeatMapValue = 1f
 
-    val productiveHoursOfTheDay = mutableMapOf<Int, Float>().apply {
-        for (i in 0..23) {
-            this[i] = 0f
+    val productiveHoursOfTheDay =
+        mutableMapOf<Int, Float>().apply {
+            for (i in 0..23) {
+                this[i] = 0f
+            }
         }
-    }
 
     val oneYearAgoMillis = oneYearAgoLocalDate.toEpochMilliseconds()
 
-    sessions.asSequence().map {
-        val timestamp = it.timestamp
-        PreProcessingSession(
-            label = it.label,
-            timestamp = timestamp,
-            dateTime = toLocalDateTime(timestamp),
-            adjustedDateTime = toLocalDateTime(timestamp - secondOfDay.seconds.inWholeMilliseconds),
-            duration = it.duration,
-            isWork = it.isWork,
-        )
-    }.forEach { session ->
-        val date = session.adjustedDateTime.date
+    sessions
+        .asSequence()
+        .map {
+            val timestamp = it.timestamp
+            PreProcessingSession(
+                label = it.label,
+                timestamp = timestamp,
+                dateTime = toLocalDateTime(timestamp),
+                adjustedDateTime = toLocalDateTime(timestamp - secondOfDay.seconds.inWholeMilliseconds),
+                duration = it.duration,
+                isWork = it.isWork,
+            )
+        }.forEach { session ->
+            val date = session.adjustedDateTime.date
 
-        if (session.isWork) {
-            if (today - session.timestamp < oneYearAgoMillis) {
-                heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
-                maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
+            if (session.isWork) {
+                if (today - session.timestamp < oneYearAgoMillis) {
+                    heatmapData[date] = (heatmapData[date] ?: 0f) + session.duration
+                    maxHeatMapValue = maxOf(maxHeatMapValue, heatmapData[date] ?: 0f)
 
-                val weight = calculateSessionWeight(session.timestamp, today)
+                    val weight = calculateSessionWeight(session.timestamp, today)
 
-                val currentSplitByHour = splitSessionByHour(session.dateTime, session.duration)
-                currentSplitByHour.forEach { (hour, value) ->
-                    productiveHoursOfTheDay[hour] =
-                        (productiveHoursOfTheDay[hour] ?: 0f) + value * weight
+                    val currentSplitByHour = splitSessionByHour(session.dateTime, session.duration)
+                    currentSplitByHour.forEach { (hour, value) ->
+                        productiveHoursOfTheDay[hour] =
+                            (productiveHoursOfTheDay[hour] ?: 0f) + value * weight
+                    }
                 }
-            }
 
-            if (session.timestamp >= today) {
-                workToday += session.duration
-                workTodayPerLabel[session.label] =
-                    (workTodayPerLabel[session.label] ?: 0L) + session.duration
-                workSessionsToday++
+                if (session.timestamp >= today) {
+                    workToday += session.duration
+                    workTodayPerLabel[session.label] =
+                        (workTodayPerLabel[session.label] ?: 0L) + session.duration
+                    workSessionsToday++
+                }
+                if (session.timestamp >= startOfThisWeek) {
+                    workThisWeek += session.duration
+                    workThisWeekPerLabel[session.label] =
+                        (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
+                    workSessionsThisWeek++
+                }
+                if (session.timestamp >= startOfThisMonth) {
+                    workThisMonth += session.duration
+                    workThisMonthPerLabel[session.label] =
+                        (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
+                    workSessionsThisMonth++
+                }
+                workTotal += session.duration
+                workTotalPerLabel[session.label] =
+                    (workTotalPerLabel[session.label] ?: 0L) + session.duration
+                workSessionsTotal++
+            } else {
+                if (session.timestamp >= today) {
+                    breakToday += session.duration
+                }
+                if (session.timestamp >= startOfThisWeek) {
+                    breakThisWeek += session.duration
+                }
+                if (session.timestamp >= startOfThisMonth) {
+                    breakThisMonth += session.duration
+                }
+                breakTotal += session.duration
             }
-            if (session.timestamp >= startOfThisWeek) {
-                workThisWeek += session.duration
-                workThisWeekPerLabel[session.label] =
-                    (workThisWeekPerLabel[session.label] ?: 0L) + session.duration
-                workSessionsThisWeek++
-            }
-            if (session.timestamp >= startOfThisMonth) {
-                workThisMonth += session.duration
-                workThisMonthPerLabel[session.label] =
-                    (workThisMonthPerLabel[session.label] ?: 0L) + session.duration
-                workSessionsThisMonth++
-            }
-            workTotal += session.duration
-            workTotalPerLabel[session.label] =
-                (workTotalPerLabel[session.label] ?: 0L) + session.duration
-            workSessionsTotal++
-        } else {
-            if (session.timestamp >= today) {
-                breakToday += session.duration
-            }
-            if (session.timestamp >= startOfThisWeek) {
-                breakThisWeek += session.duration
-            }
-            if (session.timestamp >= startOfThisMonth) {
-                breakThisMonth += session.duration
-            }
-            breakTotal += session.duration
         }
-    }
 
     // normalize the values for the heatmap
     heatmapData.forEach {
@@ -181,24 +184,25 @@ fun computeStatisticsData(
         productiveHoursOfTheDay[it.key] = (it.value / maxProductiveHourOfTheDay).coerceIn(0f, 1f)
     }
 
-    val overviewData = SessionOverviewData(
-        workTodayPerLabel = aggregateDataIfNeeded(workTodayPerLabel),
-        workSessionsToday = workSessionsToday,
-        workToday = workToday,
-        breakToday = breakToday,
-        workThisWeekPerLabel = aggregateDataIfNeeded(workThisWeekPerLabel),
-        workSessionsThisWeek = workSessionsThisWeek,
-        workThisWeek = workThisWeek,
-        breakThisWeek = breakThisWeek,
-        workThisMonthPerLabel = aggregateDataIfNeeded(workThisMonthPerLabel),
-        workSessionsThisMonth = workSessionsThisMonth,
-        workThisMonth = workThisMonth,
-        breakThisMonth = breakThisMonth,
-        workTotalPerLabel = aggregateDataIfNeeded(workTotalPerLabel),
-        workSessionsTotal = workSessionsTotal,
-        workTotal = workTotal,
-        breakTotal = breakTotal,
-    )
+    val overviewData =
+        SessionOverviewData(
+            workTodayPerLabel = aggregateDataIfNeeded(workTodayPerLabel),
+            workSessionsToday = workSessionsToday,
+            workToday = workToday,
+            breakToday = breakToday,
+            workThisWeekPerLabel = aggregateDataIfNeeded(workThisWeekPerLabel),
+            workSessionsThisWeek = workSessionsThisWeek,
+            workThisWeek = workThisWeek,
+            breakThisWeek = breakThisWeek,
+            workThisMonthPerLabel = aggregateDataIfNeeded(workThisMonthPerLabel),
+            workSessionsThisMonth = workSessionsThisMonth,
+            workThisMonth = workThisMonth,
+            breakThisMonth = breakThisMonth,
+            workTotalPerLabel = aggregateDataIfNeeded(workTotalPerLabel),
+            workSessionsTotal = workSessionsTotal,
+            workTotal = workTotal,
+            breakTotal = breakTotal,
+        )
 
     return StatisticsData(
         overviewData = overviewData,
@@ -207,7 +211,10 @@ fun computeStatisticsData(
     )
 }
 
-fun splitSessionByHour(dateTime: LocalDateTime, durationMinutes: Long): Map<Int, Long> {
+fun splitSessionByHour(
+    dateTime: LocalDateTime,
+    durationMinutes: Long,
+): Map<Int, Long> {
     val timezone = TimeZone.currentSystemDefault()
     val result = mutableMapOf<Int, Long>()
     var remainingDuration = durationMinutes
@@ -233,7 +240,10 @@ fun splitSessionByHour(dateTime: LocalDateTime, durationMinutes: Long): Map<Int,
  * The older the session, the less weight it has.
  * For a session from 365 days ago, the weight is 0. For a session from today, the weight is 1.
  */
-fun calculateSessionWeight(sessionTimestamp: Long, todayTimestamp: Long): Float {
+fun calculateSessionWeight(
+    sessionTimestamp: Long,
+    todayTimestamp: Long,
+): Float {
     val daysDifference = (todayTimestamp - sessionTimestamp).milliseconds.inWholeDays
     return (365 - daysDifference).coerceIn(0L, 365L) / 365f
 }

@@ -79,11 +79,12 @@ fun NotificationsScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
         ) {
             BetterListItem(
                 title = stringResource(R.string.settings_focus_complete_sound),
@@ -163,11 +164,12 @@ fun NotificationsScreen(
         if (uiState.showTimePicker) {
             val reminderTime =
                 LocalTime.fromSecondOfDay(settings.productivityReminderSettings.secondOfDay)
-            val timePickerState = rememberTimePickerState(
-                initialHour = reminderTime.hour,
-                initialMinute = reminderTime.minute,
-                is24Hour = DateFormat.is24HourFormat(context),
-            )
+            val timePickerState =
+                rememberTimePickerState(
+                    initialHour = reminderTime.hour,
+                    initialMinute = reminderTime.minute,
+                    is24Hour = DateFormat.is24HourFormat(context),
+                )
             TimePicker(
                 onDismiss = { viewModel.setShowTimePicker(false) },
                 onConfirm = {

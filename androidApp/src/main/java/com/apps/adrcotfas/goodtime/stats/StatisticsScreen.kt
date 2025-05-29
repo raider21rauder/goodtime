@@ -75,7 +75,8 @@ import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
 private enum class TabType {
-    Overview, Timeline
+    Overview,
+    Timeline,
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -133,10 +134,11 @@ fun StatisticsScreen(
         },
     ) { paddingValues ->
         var type by rememberSaveable { mutableStateOf(TabType.Overview) }
-        val titles = listOf(
-            stringResource(R.string.stats_overview),
-            stringResource(R.string.stats_timeline),
-        )
+        val titles =
+            listOf(
+                stringResource(R.string.stats_overview),
+                stringResource(R.string.stats_timeline),
+            )
 
         Crossfade(isLoading) { isLoading ->
             if (isLoading) {
@@ -164,22 +166,23 @@ fun StatisticsScreen(
                     }
 
                     when (type) {
-                        TabType.Overview -> OverviewTab(
-                            firstDayOfWeek = uiState.firstDayOfWeek,
-                            workDayStart = uiState.workDayStart,
-                            statisticsSettings = uiState.statisticsSettings,
-                            statisticsData = uiState.statisticsData,
-                            onChangeOverviewType = {
-                                viewModel.setOverviewType(it)
-                            },
-                            onChangeOverviewDurationType = {
-                                viewModel.setOverviewDurationType(it)
-                            },
-                            onChangePieChartOverviewType = {
-                                viewModel.setPieChartViewType(it)
-                            },
-                            historyChartViewModel = historyViewModel,
-                        )
+                        TabType.Overview ->
+                            OverviewTab(
+                                firstDayOfWeek = uiState.firstDayOfWeek,
+                                workDayStart = uiState.workDayStart,
+                                statisticsSettings = uiState.statisticsSettings,
+                                statisticsData = uiState.statisticsData,
+                                onChangeOverviewType = {
+                                    viewModel.setOverviewType(it)
+                                },
+                                onChangeOverviewDurationType = {
+                                    viewModel.setOverviewDurationType(it)
+                                },
+                                onChangePieChartOverviewType = {
+                                    viewModel.setPieChartViewType(it)
+                                },
+                                historyChartViewModel = historyViewModel,
+                            )
 
                         TabType.Timeline -> {
                             TimelineTab(
@@ -215,16 +218,17 @@ fun StatisticsScreen(
                             DragHandle(
                                 buttonText = stringResource(R.string.main_save),
                                 isEnabled = uiState.canSave && uiState.isPro,
-                                buttonIcon = if (uiState.isPro) {
-                                    null
-                                } else {
-                                    {
-                                        Icon(
-                                            imageVector = EvaIcons.Outline.Lock,
-                                            contentDescription = stringResource(R.string.unlock_premium),
-                                        )
-                                    }
-                                },
+                                buttonIcon =
+                                    if (uiState.isPro) {
+                                        null
+                                    } else {
+                                        {
+                                            Icon(
+                                                imageVector = EvaIcons.Outline.Lock,
+                                                contentDescription = stringResource(R.string.unlock_premium),
+                                            )
+                                        }
+                                    },
                                 onClose = { hideSheet() },
                                 onClick = {
                                     viewModel.saveSession()
@@ -253,10 +257,13 @@ fun StatisticsScreen(
                     }
                 }
                 if (showDatePicker) {
-                    val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
+                    val dateTime =
+                        Instant
+                            .fromEpochMilliseconds(uiState.newSession.timestamp)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
                     val now =
-                        Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
+                        Instant
+                            .fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
                             .toLocalDateTime(TimeZone.currentSystemDefault())
                     val tomorrowMillis =
                         LocalDateTime(
@@ -266,22 +273,28 @@ fun StatisticsScreen(
                             TimeZone.currentSystemDefault(),
                         ).toEpochMilliseconds()
 
-                    val datePickerState = rememberDatePickerState(
-                        initialSelectedDateMillis = dateTime.toInstant(TimeZone.currentSystemDefault())
-                            .toEpochMilliseconds(),
-                        selectableDates = object : SelectableDates {
-                            override fun isSelectableDate(utcTimeMillis: Long) =
-                                utcTimeMillis < tomorrowMillis
-                        },
-                    )
+                    val datePickerState =
+                        rememberDatePickerState(
+                            initialSelectedDateMillis =
+                                dateTime
+                                    .toInstant(TimeZone.currentSystemDefault())
+                                    .toEpochMilliseconds(),
+                            selectableDates =
+                                object : SelectableDates {
+                                    override fun isSelectableDate(utcTimeMillis: Long) = utcTimeMillis < tomorrowMillis
+                                },
+                        )
                     DatePickerDialog(
                         onDismiss = { showDatePicker = false },
                         onConfirm = {
-                            val newDate = Instant.fromEpochMilliseconds(it)
-                                .toLocalDateTime(TimeZone.currentSystemDefault())
+                            val newDate =
+                                Instant
+                                    .fromEpochMilliseconds(it)
+                                    .toLocalDateTime(TimeZone.currentSystemDefault())
                             val newDateTime = LocalDateTime(newDate.date, dateTime.time)
                             val newTimestamp =
-                                newDateTime.toInstant(TimeZone.currentSystemDefault())
+                                newDateTime
+                                    .toInstant(TimeZone.currentSystemDefault())
                                     .toEpochMilliseconds()
                             viewModel.updateSessionToEdit(
                                 uiState.newSession.copy(
@@ -294,21 +307,25 @@ fun StatisticsScreen(
                     )
                 }
                 if (showTimePicker) {
-                    val dateTime = Instant.fromEpochMilliseconds(uiState.newSession.timestamp)
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
+                    val dateTime =
+                        Instant
+                            .fromEpochMilliseconds(uiState.newSession.timestamp)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
                     val time = dateTime.time
-                    val timePickerState = rememberTimePickerState(
-                        initialHour = time.hour,
-                        initialMinute = time.minute,
-                        is24Hour = DateFormat.is24HourFormat(context),
-                    )
+                    val timePickerState =
+                        rememberTimePickerState(
+                            initialHour = time.hour,
+                            initialMinute = time.minute,
+                            is24Hour = DateFormat.is24HourFormat(context),
+                        )
                     TimePicker(
                         onDismiss = { showTimePicker = false },
                         onConfirm = {
                             val newTime = it.toLocalTime()
                             val newDateTime = LocalDateTime(dateTime.date, newTime)
                             val newTimestamp =
-                                newDateTime.toInstant(TimeZone.currentSystemDefault())
+                                newDateTime
+                                    .toInstant(TimeZone.currentSystemDefault())
                                     .toEpochMilliseconds()
 
                             viewModel.updateSessionToEdit(
@@ -346,9 +363,10 @@ fun StatisticsScreen(
                         onConfirm = {
                             viewModel.setSelectedLabels(it)
 
-                            val labelData = uiState.labels.filter { label ->
-                                it.contains(label.name)
-                            }
+                            val labelData =
+                                uiState.labels.filter { label ->
+                                    it.contains(label.name)
+                                }
 
                             historyViewModel.setSelectedLabels(labelData)
                             showSelectVisibleLabelsDialog = false

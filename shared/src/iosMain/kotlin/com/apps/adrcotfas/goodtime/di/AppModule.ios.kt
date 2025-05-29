@@ -33,24 +33,26 @@ import platform.Foundation.NSUserDomainMask
 import kotlin.experimental.ExperimentalNativeApi
 
 @OptIn(ExperimentalForeignApi::class)
-actual val platformModule: Module = module {
-    single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder() }
+actual val platformModule: Module =
+    module {
+        single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder() }
 
-    single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
-        getDataStore(
-            producePath = {
-                val documentDirectory: NSURL? = NSFileManager.defaultManager.URLForDirectory(
-                    directory = NSDocumentDirectory,
-                    inDomain = NSUserDomainMask,
-                    appropriateForURL = null,
-                    create = false,
-                    error = null,
-                )
-                requireNotNull(documentDirectory).path + "/$SETTINGS_FILE_NAME"
-            },
-        )
+        single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
+            getDataStore(
+                producePath = {
+                    val documentDirectory: NSURL? =
+                        NSFileManager.defaultManager.URLForDirectory(
+                            directory = NSDocumentDirectory,
+                            inDomain = NSUserDomainMask,
+                            appropriateForURL = null,
+                            create = false,
+                            error = null,
+                        )
+                    requireNotNull(documentDirectory).path + "/$SETTINGS_FILE_NAME"
+                },
+            )
+        }
     }
-}
 
 @OptIn(ExperimentalNativeApi::class)
 actual fun isDebug(): Boolean = Platform.isDebugBinary

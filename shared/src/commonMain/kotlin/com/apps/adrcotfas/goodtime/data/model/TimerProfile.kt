@@ -50,18 +50,19 @@ data class TimerProfile(
  * @param timerType the type of the timer
  * @param elapsedRealTime the elapsed real time in milliseconds since boot, including time spent in sleep
  */
-fun TimerProfile.endTime(timerType: TimerType, elapsedRealTime: Long): Long {
-    return if (isCountdown) {
+fun TimerProfile.endTime(
+    timerType: TimerType,
+    elapsedRealTime: Long,
+): Long =
+    if (isCountdown) {
         elapsedRealTime + this.duration(timerType).minutes.inWholeMilliseconds
     } else {
         0
     }
-}
 
-fun TimerProfile.duration(timerType: TimerType): Int {
-    return when (timerType) {
+fun TimerProfile.duration(timerType: TimerType): Int =
+    when (timerType) {
         TimerType.WORK -> workDuration
         TimerType.BREAK -> breakDuration
         TimerType.LONG_BREAK -> longBreakDuration
     }
-}

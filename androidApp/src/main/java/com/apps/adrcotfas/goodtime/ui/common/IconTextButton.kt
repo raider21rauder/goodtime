@@ -53,10 +53,11 @@ fun IconTextButton(
         {
             val alignment = if (centered) Alignment.CenterHorizontally else Alignment.Start
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(if (isFilled) 42.dp else 48.dp)
-                    .then(if (isFilled) Modifier else Modifier.padding(horizontal = 12.dp)),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(if (isFilled) 42.dp else 48.dp)
+                        .then(if (isFilled) Modifier else Modifier.padding(horizontal = 12.dp)),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp, alignment),
             ) {
@@ -74,17 +75,21 @@ fun IconTextButton(
         }
 
     if (isFilled) {
-        val colors = ButtonDefaults.buttonColors()
-            .copy(
-                containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
-                contentColor = MaterialTheme.colorScheme.onSurface,
-            )
+        val colors =
+            ButtonDefaults
+                .buttonColors()
+                .copy(
+                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                )
         Button(colors = colors, onClick = onClick) {
             content()
         }
     } else {
-        val colors = ButtonDefaults.textButtonColors()
-            .copy(contentColor = MaterialTheme.colorScheme.onSurface)
+        val colors =
+            ButtonDefaults
+                .textButtonColors()
+                .copy(contentColor = MaterialTheme.colorScheme.onSurface)
         TextButton(colors = colors, onClick = onClick) {
             content()
         }

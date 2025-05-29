@@ -35,8 +35,8 @@ fun rememberCustomDialControlState(
     onTop: () -> Unit,
     onRight: () -> Unit,
     onBottom: () -> Unit,
-): DialControlState<DialRegion> {
-    return remember(density, config, coroutineScope) {
+): DialControlState<DialRegion> =
+    remember(density, config, coroutineScope) {
         DialControlState(
             initialOptions = DialRegion.entries,
             onSelected = {
@@ -52,7 +52,6 @@ fun rememberCustomDialControlState(
             coroutineScope = coroutineScope,
         )
     }
-}
 
 fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState) {
     val label = timerUiState.label
@@ -61,8 +60,9 @@ fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState
     val isCountUp = !label.profile.isCountdown
     val isCountUpWithoutBreaks = isCountUp && !label.profile.isBreakEnabled
 
-    val showSkip = (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
-        isCountUpWithoutBreaks
+    val showSkip =
+        (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
+            isCountUpWithoutBreaks
 
     val disabledOptions =
         buildList {

@@ -84,7 +84,7 @@ import java.util.Locale
 @Composable
 fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.data.x.isEmpty() || uiState.data.y.isEmpty()) return
@@ -98,9 +98,10 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     val primaryColor = MaterialTheme.colorScheme.primary
 
     val colors =
-        uiState.selectedLabels.map {
-            MaterialTheme.getLabelColor(it.colorIndex)
-        }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong()))
+        uiState.selectedLabels
+            .map {
+                MaterialTheme.getLabelColor(it.colorIndex)
+            }.plus(MaterialTheme.getLabelColor(Label.OTHERS_LABEL_COLOR_INDEX.toLong()))
 
     val x = remember(data) { data.x }
     val y = remember(data) { data.y }
@@ -109,12 +110,13 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 
     val daysOfTheWeekNames = getLocalizedDayNamesForStats(javaLocale)
     val monthsOfTheYear = getLocalizedMonthNamesForStats(javaLocale)
-    val bottomAxisStrings = remember(locale) {
-        BottomAxisStrings(
-            dayOfWeekNames = DayOfWeek.entries.map { daysOfTheWeekNames[it.ordinal].take(3) },
-            monthsOfYearNames = Month.entries.map { monthsOfTheYear[it.ordinal].take(3) },
-        )
-    }
+    val bottomAxisStrings =
+        remember(locale) {
+            BottomAxisStrings(
+                dayOfWeekNames = DayOfWeek.entries.map { daysOfTheWeekNames[it.ordinal].take(3) },
+                monthsOfYearNames = Month.entries.map { monthsOfTheYear[it.ordinal].take(3) },
+            )
+        }
 
     LaunchedEffect(data, isLineChart) {
         if (isLineChart) {
@@ -141,24 +143,27 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(R.string.stats_history_title),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = primaryColor,
-                ),
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = primaryColor,
+                    ),
             )
 
             DropdownMenuBox(
@@ -172,9 +177,10 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
             )
         }
 
-        val modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp)
+        val modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 32.dp, top = 16.dp, bottom = 16.dp)
         if (isLineChart) {
             LineHistoryChart(
                 modifier = modifier,
@@ -194,9 +200,10 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
 }
 
 private val yDecimalFormat = DecimalFormat("#.# h")
-private val timeStartAxisValueFormatter = CartesianValueFormatter { _, value, _ ->
-    yDecimalFormat.format(value / 60)
-}
+private val timeStartAxisValueFormatter =
+    CartesianValueFormatter { _, value, _ ->
+        yDecimalFormat.format(value / 60)
+    }
 private val timeStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 30.0 })
 private val sessionsStartAxisItemPlacer = VerticalAxis.ItemPlacer.step({ 5.0 })
 
@@ -212,25 +219,28 @@ private fun BarHistoryChart(
     val totalLabel = stringResource(id = R.string.stats_total)
     val othersLabelColor = colors.last().toArgb()
 
-    val scrollState = rememberVicoScrollState(
-        scrollEnabled = true,
-        initialScroll = Scroll.Absolute.End,
-        autoScrollCondition = AutoScrollCondition.OnModelGrowth,
-    )
+    val scrollState =
+        rememberVicoScrollState(
+            scrollEnabled = true,
+            initialScroll = Scroll.Absolute.End,
+            autoScrollCondition = AutoScrollCondition.OnModelGrowth,
+        )
 
-    val markerValueFormatter = HistoryBarChartMarkerValueFormatter(
-        defaultLabelName = defaultLabelName,
-        othersLabelName = othersLabelName,
-        othersLabelColor = othersLabelColor,
-        isTimeOverviewType = isTimeOverviewType,
-        totalLabel = totalLabel,
-    )
+    val markerValueFormatter =
+        HistoryBarChartMarkerValueFormatter(
+            defaultLabelName = defaultLabelName,
+            othersLabelName = othersLabelName,
+            othersLabelColor = othersLabelColor,
+            isTimeOverviewType = isTimeOverviewType,
+            totalLabel = totalLabel,
+        )
 
     ProvideVicoTheme(
         rememberM3VicoTheme(
-            lineColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = 0.5f,
-            ),
+            lineColor =
+                MaterialTheme.colorScheme.secondaryContainer.copy(
+                    alpha = 0.5f,
+                ),
         ),
     ) {
         CartesianChartHost(
@@ -238,39 +248,43 @@ private fun BarHistoryChart(
             scrollState = scrollState,
             zoomState = rememberVicoZoomState(zoomEnabled = false),
             chart =
-            rememberCartesianChart(
-                rememberColumnCartesianLayer(
-                    columnProvider =
-                    ColumnCartesianLayer.ColumnProvider.series(
-                        colors.mapIndexed { _, color ->
-                            rememberLineComponent(
-                                fill = fill(color),
-                                thickness = 12.dp,
-                            )
-                        },
+                rememberCartesianChart(
+                    rememberColumnCartesianLayer(
+                        columnProvider =
+                            ColumnCartesianLayer.ColumnProvider.series(
+                                colors.mapIndexed { _, color ->
+                                    rememberLineComponent(
+                                        fill = fill(color),
+                                        thickness = 12.dp,
+                                    )
+                                },
+                            ),
+                        columnCollectionSpacing = 24.dp,
+                        mergeMode = { ColumnCartesianLayer.MergeMode.stacked() },
                     ),
-                    columnCollectionSpacing = 24.dp,
-                    mergeMode = { ColumnCartesianLayer.MergeMode.stacked() },
+                    startAxis =
+                        VerticalAxis.rememberStart(
+                            label =
+                                rememberAxisLabelComponent(
+                                    textSize = MaterialTheme.typography.labelSmall.fontSize,
+                                ),
+                            valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                            itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
+                        ),
+                    bottomAxis =
+                        HorizontalAxis.rememberBottom(
+                            guideline = null,
+                            label =
+                                rememberAxisLabelComponent(
+                                    textSize = MaterialTheme.typography.labelSmall.fontSize,
+                                    lineCount = 2,
+                                    textAlignment = Layout.Alignment.ALIGN_CENTER,
+                                ),
+                            valueFormatter = BottomAxisValueFormatter,
+                            itemPlacer = HorizontalAxis.ItemPlacer.aligned(),
+                        ),
+                    marker = rememberMarker(markerValueFormatter),
                 ),
-                startAxis = VerticalAxis.rememberStart(
-                    label = rememberAxisLabelComponent(
-                        textSize = MaterialTheme.typography.labelSmall.fontSize,
-                    ),
-                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
-                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
-                ),
-                bottomAxis = HorizontalAxis.rememberBottom(
-                    guideline = null,
-                    label = rememberAxisLabelComponent(
-                        textSize = MaterialTheme.typography.labelSmall.fontSize,
-                        lineCount = 2,
-                        textAlignment = Layout.Alignment.ALIGN_CENTER,
-                    ),
-                    valueFormatter = BottomAxisValueFormatter,
-                    itemPlacer = HorizontalAxis.ItemPlacer.aligned(),
-                ),
-                marker = rememberMarker(markerValueFormatter),
-            ),
             modelProducer = modelProducer,
         )
     }
@@ -283,21 +297,24 @@ private fun LineHistoryChart(
     isTimeOverviewType: Boolean,
     primaryColor: Color,
 ) {
-    val scrollState = rememberVicoScrollState(
-        scrollEnabled = true,
-        initialScroll = Scroll.Absolute.End,
-        autoScrollCondition = AutoScrollCondition.OnModelGrowth,
-    )
+    val scrollState =
+        rememberVicoScrollState(
+            scrollEnabled = true,
+            initialScroll = Scroll.Absolute.End,
+            autoScrollCondition = AutoScrollCondition.OnModelGrowth,
+        )
 
-    val markerValueFormatter = HistoryLineChartMarkerValueFormatter(
-        isTimeOverviewType = isTimeOverviewType,
-    )
+    val markerValueFormatter =
+        HistoryLineChartMarkerValueFormatter(
+            isTimeOverviewType = isTimeOverviewType,
+        )
 
     ProvideVicoTheme(
         rememberM3VicoTheme(
-            lineColor = MaterialTheme.colorScheme.secondaryContainer.copy(
-                alpha = 0.5f,
-            ),
+            lineColor =
+                MaterialTheme.colorScheme.secondaryContainer.copy(
+                    alpha = 0.5f,
+                ),
         ),
     ) {
         CartesianChartHost(
@@ -305,44 +322,51 @@ private fun LineHistoryChart(
             scrollState = scrollState,
             zoomState = rememberVicoZoomState(zoomEnabled = false),
             chart =
-            rememberCartesianChart(
-                rememberLineCartesianLayer(
-                    pointSpacing = 36.dp,
-                    lineProvider =
-                    LineCartesianLayer.LineProvider.series(
-                        LineCartesianLayer.rememberLine(
-                            fill = LineCartesianLayer.LineFill.single(fill(primaryColor)),
-                            areaFill =
-                            LineCartesianLayer.AreaFill.single(
-                                fill(
-                                    primaryColor.copy(alpha = 0.3f),
+                rememberCartesianChart(
+                    rememberLineCartesianLayer(
+                        pointSpacing = 36.dp,
+                        lineProvider =
+                            LineCartesianLayer.LineProvider.series(
+                                LineCartesianLayer.rememberLine(
+                                    fill = LineCartesianLayer.LineFill.single(fill(primaryColor)),
+                                    areaFill =
+                                        LineCartesianLayer.AreaFill.single(
+                                            fill(
+                                                primaryColor.copy(alpha = 0.3f),
+                                            ),
+                                        ),
+                                    pointProvider =
+                                        LineCartesianLayer.PointProvider.single(
+                                            LineCartesianLayer.point(
+                                                size = 6.dp,
+                                                component = rememberShapeComponent(fill(primaryColor), CorneredShape.Pill),
+                                            ),
+                                        ),
                                 ),
                             ),
-                            pointProvider =
-                            LineCartesianLayer.PointProvider.single(
-                                LineCartesianLayer.point(size = 6.dp, component = rememberShapeComponent(fill(primaryColor), CorneredShape.Pill)),
-                            ),
+                    ),
+                    startAxis =
+                        VerticalAxis.rememberStart(
+                            label =
+                                rememberAxisLabelComponent(
+                                    textSize = MaterialTheme.typography.labelSmall.fontSize,
+                                ),
+                            valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
+                            itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
                         ),
-                    ),
+                    bottomAxis =
+                        HorizontalAxis.rememberBottom(
+                            guideline = null,
+                            label =
+                                rememberAxisLabelComponent(
+                                    textSize = MaterialTheme.typography.labelSmall.fontSize,
+                                    lineCount = 2,
+                                    textAlignment = Layout.Alignment.ALIGN_CENTER,
+                                ),
+                            valueFormatter = BottomAxisValueFormatter,
+                        ),
+                    marker = rememberMarker(markerValueFormatter),
                 ),
-                startAxis = VerticalAxis.rememberStart(
-                    label = rememberAxisLabelComponent(
-                        textSize = MaterialTheme.typography.labelSmall.fontSize,
-                    ),
-                    valueFormatter = if (isTimeOverviewType) timeStartAxisValueFormatter else CartesianValueFormatter.decimal(),
-                    itemPlacer = if (isTimeOverviewType) timeStartAxisItemPlacer else sessionsStartAxisItemPlacer,
-                ),
-                bottomAxis = HorizontalAxis.rememberBottom(
-                    guideline = null,
-                    label = rememberAxisLabelComponent(
-                        textSize = MaterialTheme.typography.labelSmall.fontSize,
-                        lineCount = 2,
-                        textAlignment = Layout.Alignment.ALIGN_CENTER,
-                    ),
-                    valueFormatter = BottomAxisValueFormatter,
-                ),
-                marker = rememberMarker(markerValueFormatter),
-            ),
             modelProducer = modelProducer,
         )
     }

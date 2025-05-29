@@ -21,12 +21,9 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.driver.NativeSQLiteDriver
 import com.apps.adrcotfas.goodtime.data.local.migrations.MIGRATIONS
 
-actual fun getRoomDatabase(
-    builder: RoomDatabase.Builder<ProductivityDatabase>,
-): ProductivityDatabase {
-    return builder
+actual fun getRoomDatabase(builder: RoomDatabase.Builder<ProductivityDatabase>): ProductivityDatabase =
+    builder
         .addMigrations(*MIGRATIONS)
         .fallbackToDestructiveMigration(dropAllTables = true)
         .setDriver(NativeSQLiteDriver())
         .build()
-}

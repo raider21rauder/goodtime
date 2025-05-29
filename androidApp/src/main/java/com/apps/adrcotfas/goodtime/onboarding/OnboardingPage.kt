@@ -29,25 +29,26 @@ data class OnboardingPage(
     @DrawableRes val image: Int,
 ) {
     companion object {
-        val pages = listOf(
-            OnboardingPage(
-                title = Mr.string.intro1_title,
-                description1 = Mr.string.intro1_desc1,
-                description2 = Mr.string.intro1_desc2,
-                image = R.drawable.intro1,
-            ),
-            OnboardingPage(
-                title = Mr.string.intro2_title,
-                description1 = Mr.string.intro2_desc1,
-                description2 = Mr.string.intro2_desc2,
-                image = R.drawable.intro2,
-            ),
-            OnboardingPage(
-                title = Mr.string.intro3_title,
-                description1 = Mr.string.intro3_desc1,
-                description2 = Mr.string.intro3_desc2,
-                image = R.drawable.intro3,
-            ),
-        )
+        val pages =
+            listOf(
+                OnboardingPage(
+                    title = Mr.string.intro1_title,
+                    description1 = Mr.string.intro1_desc1,
+                    description2 = Mr.string.intro1_desc2,
+                    image = R.drawable.intro1,
+                ),
+                OnboardingPage(
+                    title = Mr.string.intro2_title,
+                    description1 = Mr.string.intro2_desc1,
+                    description2 = Mr.string.intro2_desc2,
+                    image = R.drawable.intro2,
+                ),
+                OnboardingPage(
+                    title = Mr.string.intro3_title,
+                    description1 = Mr.string.intro3_desc1,
+                    description2 = Mr.string.intro3_desc2,
+                    image = R.drawable.intro3,
+                ),
+            )
     }
 }

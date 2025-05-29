@@ -46,11 +46,15 @@ data class SettingsUiState(
     val notificationSoundCandidate: String? = null,
 )
 
-class SettingsViewModel(private val settingsRepository: SettingsRepository) : ViewModel() {
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
-    val uiState = _uiState.onStart {
-        loadData()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState())
+    val uiState =
+        _uiState
+            .onStart {
+                loadData()
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsUiState())
 
     private fun loadData() {
         viewModelScope.launch {
@@ -347,11 +351,12 @@ class SettingsViewModel(private val settingsRepository: SettingsRepository) : Vi
     }
 
     companion object {
-        val firstDayOfWeekOptions = listOf(
-            DayOfWeek.MONDAY,
-            DayOfWeek.FRIDAY,
-            DayOfWeek.SATURDAY,
-            DayOfWeek.SUNDAY,
-        )
+        val firstDayOfWeekOptions =
+            listOf(
+                DayOfWeek.MONDAY,
+                DayOfWeek.FRIDAY,
+                DayOfWeek.SATURDAY,
+                DayOfWeek.SUNDAY,
+            )
     }
 }

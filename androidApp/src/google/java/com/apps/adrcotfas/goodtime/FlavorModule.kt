@@ -24,14 +24,15 @@ import com.apps.adrcotfas.goodtime.di.getWith
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val flavorModule = module {
-    single<BillingAbstract> {
-        GoogleBilling(
-            context = get(),
-            dataRepository = get(),
-            settingsRepository = get(),
-            coroutineScope = get(named(IO_SCOPE)),
-            log = getWith("GoogleBilling"),
-        )
+val flavorModule =
+    module {
+        single<BillingAbstract> {
+            GoogleBilling(
+                context = get(),
+                dataRepository = get(),
+                settingsRepository = get(),
+                coroutineScope = get(named(IO_SCOPE)),
+                log = getWith("GoogleBilling"),
+            )
+        }
     }
-}

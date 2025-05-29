@@ -39,7 +39,9 @@ data class DomainLabel(
     val profile: TimerProfile = TimerProfile(),
 ) {
     fun getLabelName() = label.name
+
     fun isDefault() = label.isDefault()
+
     val isCountdown = profile.isCountdown
 }
 
@@ -61,7 +63,6 @@ data class DomainTimerData(
      */
     val longBreakData: LongBreakData = LongBreakData(),
     val breakBudgetData: BreakBudgetData = BreakBudgetData(),
-
     /**
      * Bellow we have the dynamic data that is not stored in persistent storage.
      */
@@ -75,21 +76,18 @@ data class DomainTimerData(
     val timeSpentPaused: Long = 0, // millis spent in pause
     val completedMinutes: Long = 0, // minutes
 ) {
-    fun reset() = DomainTimerData(
-        isReady = isReady,
-        label = label,
-        state = TimerState.RESET,
-        longBreakData = longBreakData,
-        breakBudgetData = breakBudgetData,
-    )
+    fun reset() =
+        DomainTimerData(
+            isReady = isReady,
+            label = label,
+            state = TimerState.RESET,
+            longBreakData = longBreakData,
+            breakBudgetData = breakBudgetData,
+        )
 
-    fun getTimerProfile(): TimerProfile {
-        return label.profile
-    }
+    fun getTimerProfile(): TimerProfile = label.profile
 
-    fun getLabelName(): String {
-        return label.getLabelName()
-    }
+    fun getLabelName(): String = label.getLabelName()
 
     fun inUseSessionsBeforeLongBreak(): Int {
         val profile = label.profile
@@ -100,8 +98,11 @@ data class DomainTimerData(
         }
     }
 
-    fun getEndTime(timerType: TimerType, elapsedRealtime: Long): Long {
-        return if (getTimerProfile().isCountdown) {
+    fun getEndTime(
+        timerType: TimerType,
+        elapsedRealtime: Long,
+    ): Long =
+        if (getTimerProfile().isCountdown) {
             getTimerProfile().endTime(timerType, elapsedRealtime)
         } else if (timerType.isBreak) {
             val breakBudget = breakBudgetData.breakBudget.inWholeMilliseconds
@@ -109,7 +110,6 @@ data class DomainTimerData(
         } else {
             0
         }
-    }
 
     fun isDefaultLabel() = label.getLabelName() == Label.DEFAULT_LABEL_NAME
 
@@ -124,8 +124,8 @@ data class DomainTimerData(
                         (
                             (elapsedRealtime - lastStartTime).milliseconds /
                                 workBreakRatio
-                            ) + breakBudgetMillis
-                        ).let {
+                        ) + breakBudgetMillis
+                    ).let {
                         if (it.isNegative()) 0.minutes else it
                     }
                 }
@@ -136,13 +136,14 @@ data class DomainTimerData(
         }
     }
 
-    fun isCurrentSessionCountdown(): Boolean {
-        return getTimerProfile().isCountdown || type != TimerType.WORK
-    }
+    fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || type != TimerType.WORK
 }
 
 enum class TimerState {
-    RESET, RUNNING, PAUSED, FINISHED
+    RESET,
+    RUNNING,
+    PAUSED,
+    FINISHED,
 }
 
 val TimerState.isRunning: Boolean
@@ -161,7 +162,9 @@ val TimerState.isReset: Boolean
     get() = this == TimerState.RESET
 
 enum class TimerType {
-    WORK, BREAK, LONG_BREAK
+    WORK,
+    BREAK,
+    LONG_BREAK,
 }
 
 val TimerType.isBreak: Boolean
@@ -175,7 +178,9 @@ fun DomainTimerData.getBaseTime(timerProvider: TimeProvider): Long {
 
     if (state == TimerState.RESET) {
         return if (countdown) {
-            label.profile.duration(type).minutes.inWholeMilliseconds
+            label.profile
+                .duration(type)
+                .minutes.inWholeMilliseconds
         } else {
             0
         }

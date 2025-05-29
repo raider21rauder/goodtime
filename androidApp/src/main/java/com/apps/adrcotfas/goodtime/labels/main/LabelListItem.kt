@@ -77,33 +77,35 @@ fun LabelListItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
-            .clickable { onEdit() }
-            .let {
-                if (isDragging) {
-                    it.background(
-                        MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
-                    )
-                } else {
-                    it
-                }
-            }
-            .padding(4.dp),
+        modifier =
+            Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .clickable { onEdit() }
+                .let {
+                    if (isDragging) {
+                        it.background(
+                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.05f),
+                        )
+                    } else {
+                        it
+                    }
+                }.padding(4.dp),
     ) {
         Icon(
-            modifier = dragModifier.clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = {},
-            ),
+            modifier =
+                dragModifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {},
+                ),
             imageVector = Icons.Filled.DragIndicator,
             tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             contentDescription = "Drag indicator for $labelName",
         )
         Icon(
-            modifier = Modifier
-                .padding(8.dp),
+            modifier =
+                Modifier
+                    .padding(8.dp),
             imageVector = Icons.AutoMirrored.Outlined.Label,
             contentDescription = labelName,
             tint = MaterialTheme.getLabelColor(label.colorIndex),
@@ -198,11 +200,12 @@ fun LabelListItem(
 @Composable
 fun LabelCardPreview() {
     LabelListItem(
-        label = Label(
-            name = "Default",
-            useDefaultTimeProfile = false,
-            timerProfile = TimerProfile(sessionsBeforeLongBreak = 4),
-        ),
+        label =
+            Label(
+                name = "Default",
+                useDefaultTimeProfile = false,
+                timerProfile = TimerProfile(sessionsBeforeLongBreak = 4),
+            ),
         isDragging = false,
         dragModifier = Modifier,
         onEdit = {},

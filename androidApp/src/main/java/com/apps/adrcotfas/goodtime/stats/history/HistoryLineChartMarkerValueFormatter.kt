@@ -35,7 +35,10 @@ class HistoryLineChartMarkerValueFormatter(
             when (target) {
                 is LineCartesianLayerMarkerTarget -> {
                     if (target.points.all { it.entry.y == 0.0 }) return ""
-                    val entry = target.points.first().entry.y
+                    val entry =
+                        target.points
+                            .first()
+                            .entry.y
                     return if (isTimeOverviewType) {
                         entry.minutes.formatOverview()
                     } else {

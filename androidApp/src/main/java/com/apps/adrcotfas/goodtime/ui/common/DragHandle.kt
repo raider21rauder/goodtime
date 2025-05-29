@@ -38,15 +38,19 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DragHandle(startButton: @Composable () -> Unit, endButton: @Composable () -> Unit) {
+fun DragHandle(
+    startButton: @Composable () -> Unit,
+    endButton: @Composable () -> Unit,
+) {
     Box(
         contentAlignment = Alignment.TopCenter,
     ) {
         BottomSheetDefaults.DragHandle()
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {

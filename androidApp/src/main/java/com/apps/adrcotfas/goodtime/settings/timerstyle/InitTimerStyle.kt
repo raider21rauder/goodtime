@@ -53,7 +53,10 @@ fun InitTimerStyle(viewModel: TimerViewModel) {
 }
 
 @Composable
-private fun findMaxFontSize(style: TextStyle, containerWidth: Dp): Float {
+private fun findMaxFontSize(
+    style: TextStyle,
+    containerWidth: Dp,
+): Float {
     var currentFontSize = style.fontSize
     var textWidth = measureTextWidth(style.copy(fontSize = currentFontSize))
     while (textWidth > containerWidth) {

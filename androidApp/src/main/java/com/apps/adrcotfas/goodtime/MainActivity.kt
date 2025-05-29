@@ -99,7 +99,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
 
 class MainActivity : GoodtimeMainActivity() {
-
     private val notificationManager: NotificationArchManager by inject()
     private val timerViewModel: TimerViewModel by viewModel<TimerViewModel>()
     private var fullScreenJob: Job? = null
@@ -115,17 +114,20 @@ class MainActivity : GoodtimeMainActivity() {
     override fun onResume() {
         super.onResume()
         timerViewModel.onBringToForeground()
-        timerStateJob = lifecycleScope.launch {
-            timerViewModel.timerUiState.filter { it.isActive }
-                .map { it.isCountdown to it.baseTime }.collect {
-                    if (it.first && it.second < 500) {
-                        // the app is in foreground, trigger the end of the session
-                        timerViewModel.forceFinish()
-                    } else if (!it.first && it.second > COUNT_UP_HARD_LIMIT) {
-                        timerViewModel.resetTimer()
+        timerStateJob =
+            lifecycleScope.launch {
+                timerViewModel.timerUiState
+                    .filter { it.isActive }
+                    .map { it.isCountdown to it.baseTime }
+                    .collect {
+                        if (it.first && it.second < 500) {
+                            // the app is in foreground, trigger the end of the session
+                            timerViewModel.forceFinish()
+                        } else if (!it.first && it.second > COUNT_UP_HARD_LIMIT) {
+                            timerViewModel.resetTimer()
+                        }
                     }
-                }
-        }
+            }
     }
 
     override fun onDestroy() {
@@ -159,20 +161,21 @@ class MainActivity : GoodtimeMainActivity() {
                         darkTheme = uiState.darkThemePreference.isDarkTheme(systemDark) && !uiState.showOnboarding,
                         isDynamicTheme = uiState.isDynamicColor,
                     )
-                }
-                    .onEach { themeSettings = it }
+                }.onEach { themeSettings = it }
                     .map { it.darkTheme }
                     .distinctUntilChanged()
                     .collect { darkTheme ->
                         enableEdgeToEdge(
-                            statusBarStyle = SystemBarStyle.auto(
-                                lightScrim = android.graphics.Color.TRANSPARENT,
-                                darkScrim = android.graphics.Color.TRANSPARENT,
-                            ) { darkTheme },
-                            navigationBarStyle = SystemBarStyle.auto(
-                                lightScrim = lightScrim,
-                                darkScrim = darkScrim,
-                            ) { darkTheme },
+                            statusBarStyle =
+                                SystemBarStyle.auto(
+                                    lightScrim = android.graphics.Color.TRANSPARENT,
+                                    darkScrim = android.graphics.Color.TRANSPARENT,
+                                ) { darkTheme },
+                            navigationBarStyle =
+                                SystemBarStyle.auto(
+                                    lightScrim = lightScrim,
+                                    darkScrim = darkScrim,
+                                ) { darkTheme },
                         )
                     }
             }
@@ -211,14 +214,15 @@ class MainActivity : GoodtimeMainActivity() {
             val onSurfaceClick = {
                 if (fullscreenMode) {
                     fullScreenJob?.cancel()
-                    fullScreenJob = coroutineScope.launch {
-                        toggleFullscreen(false)
-                        hideBottomBar = false
-                        executeDelayed(3000) {
-                            toggleFullscreen(true)
-                            hideBottomBar = true
+                    fullScreenJob =
+                        coroutineScope.launch {
+                            toggleFullscreen(false)
+                            hideBottomBar = false
+                            executeDelayed(3000) {
+                                toggleFullscreen(true)
+                                hideBottomBar = true
+                            }
                         }
-                    }
                 }
             }
 
@@ -231,13 +235,14 @@ class MainActivity : GoodtimeMainActivity() {
                 }
             }
 
-            val startDestination = remember(mainUiState.showOnboarding) {
-                if (mainUiState.showOnboarding) {
-                    OnboardingDest
-                } else {
-                    MainDest
+            val startDestination =
+                remember(mainUiState.showOnboarding) {
+                    if (mainUiState.showOnboarding) {
+                        OnboardingDest
+                    } else {
+                        MainDest
+                    }
                 }
-            }
 
             ApplicationTheme(darkTheme = isDarkTheme, dynamicColor = themeSettings.isDynamicTheme) {
                 val navController = rememberNavController()
@@ -269,11 +274,12 @@ class MainActivity : GoodtimeMainActivity() {
                     coroutineScope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
 
-                        val result = snackbarHostState.showSnackbar(
-                            message = event.message,
-                            actionLabel = event.action?.name,
-                            duration = SnackbarDuration.Long,
-                        )
+                        val result =
+                            snackbarHostState.showSnackbar(
+                                message = event.message,
+                                actionLabel = event.action?.name,
+                                duration = SnackbarDuration.Long,
+                            )
 
                         if (result == SnackbarResult.ActionPerformed) {
                             event.action?.action?.invoke()
@@ -416,7 +422,10 @@ class MainActivity : GoodtimeMainActivity() {
         }
     }
 
-    private suspend fun executeDelayed(delay: Long, block: () -> Unit) {
+    private suspend fun executeDelayed(
+        delay: Long,
+        block: () -> Unit,
+    ) {
         coroutineScope {
             delay(delay)
             block()

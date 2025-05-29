@@ -75,9 +75,7 @@ fun ListItemDefaults.disabledColors(): ListItemColors {
 }
 
 @Composable
-fun ListItemDefaults.selectedColors(): ListItemColors {
-    return colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
-}
+fun ListItemDefaults.selectedColors(): ListItemColors = colors(containerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
 
 @Composable
 fun BetterListItem(
@@ -115,13 +113,14 @@ fun BetterListItem(
 ) {
     val internalModifier = modifier.padding(vertical = 4.dp)
     ListItem(
-        modifier = if (enabled && onClick != null) {
-            Modifier
-                .clickable(onClick = onClick)
-                .then(internalModifier)
-        } else {
-            internalModifier
-        },
+        modifier =
+            if (enabled && onClick != null) {
+                Modifier
+                    .clickable(onClick = onClick)
+                    .then(internalModifier)
+            } else {
+                internalModifier
+            },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
         leadingContent = leading,
         headlineContent = { Text(text = title) },
@@ -146,13 +145,14 @@ fun BetterListItem(
 ) {
     val modifier = Modifier.padding(vertical = 4.dp)
     ListItem(
-        modifier = if (enabled && onClick != null) {
-            Modifier
-                .clickable(onClick = onClick)
-                .then(modifier)
-        } else {
-            modifier
-        },
+        modifier =
+            if (enabled && onClick != null) {
+                Modifier
+                    .clickable(onClick = onClick)
+                    .then(modifier)
+            } else {
+                modifier
+            },
         colors = if (enabled) ListItemDefaults.enabledColors() else ListItemDefaults.disabledColors(),
         headlineContent = { Text(text = title) },
         supportingContent = supporting,
@@ -168,16 +168,18 @@ fun IconListItem(
     onClick: () -> Unit,
 ) {
     val modifier = Modifier.padding(vertical = 4.dp)
-    val colors = if (isSelected) {
-        ListItemDefaults.selectedColors()
-    } else {
-        ListItemDefaults.enabledColors()
-    }
+    val colors =
+        if (isSelected) {
+            ListItemDefaults.selectedColors()
+        } else {
+            ListItemDefaults.enabledColors()
+        }
 
     ListItem(
-        modifier = Modifier
-            .clickable(onClick = onClick)
-            .then(modifier),
+        modifier =
+            Modifier
+                .clickable(onClick = onClick)
+                .then(modifier),
         colors = colors,
         headlineContent = { Text(text = title) },
         supportingContent = {
@@ -253,15 +255,16 @@ fun CheckboxListItem(
     enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    val toggleableModifier = if (enabled) {
-        modifier.toggleable(
-            value = checked,
-            onValueChange = { onCheckedChange(!checked) },
-            role = Role.Checkbox,
-        )
-    } else {
-        modifier
-    }
+    val toggleableModifier =
+        if (enabled) {
+            modifier.toggleable(
+                value = checked,
+                onValueChange = { onCheckedChange(!checked) },
+                role = Role.Checkbox,
+            )
+        } else {
+            modifier
+        }
     BetterListItem(
         modifier = toggleableModifier,
         title = title,
@@ -274,11 +277,12 @@ fun CheckboxListItem(
             )
         },
         enabled = enabled,
-        onClick = if (enabled) {
-            { onCheckedChange.invoke(!checked) }
-        } else {
-            null
-        },
+        onClick =
+            if (enabled) {
+                { onCheckedChange.invoke(!checked) }
+            } else {
+                null
+            },
     )
 }
 
@@ -291,26 +295,28 @@ fun LockedCheckboxListItem(
     enabled: Boolean = true,
     onCheckedChange: (Boolean) -> Unit,
 ) {
-    val toggleableModifier = if (enabled) {
-        modifier.toggleable(
-            value = checked,
-            onValueChange = { onCheckedChange(!checked) },
-            role = Role.Checkbox,
-        )
-    } else {
-        modifier
-    }
-    val leading: @Composable (() -> Unit)? = if (!enabled) {
-        {
-            Icon(
-                imageVector = EvaIcons.Outline.Lock,
-                tint = ListItemDefaults.disabledColors().disabledHeadlineColor,
-                contentDescription = null,
+    val toggleableModifier =
+        if (enabled) {
+            modifier.toggleable(
+                value = checked,
+                onValueChange = { onCheckedChange(!checked) },
+                role = Role.Checkbox,
             )
+        } else {
+            modifier
         }
-    } else {
-        null
-    }
+    val leading: @Composable (() -> Unit)? =
+        if (!enabled) {
+            {
+                Icon(
+                    imageVector = EvaIcons.Outline.Lock,
+                    tint = ListItemDefaults.disabledColors().disabledHeadlineColor,
+                    contentDescription = null,
+                )
+            }
+        } else {
+            null
+        }
 
     BetterListItem(
         modifier = toggleableModifier,
@@ -325,11 +331,12 @@ fun LockedCheckboxListItem(
             )
         },
         enabled = enabled,
-        onClick = if (enabled) {
-            { onCheckedChange.invoke(!checked) }
-        } else {
-            null
-        },
+        onClick =
+            if (enabled) {
+                { onCheckedChange.invoke(!checked) }
+            } else {
+                null
+            },
     )
 }
 
@@ -343,11 +350,12 @@ fun SwitchListItem(
     onCheckedChange: (Boolean) -> Unit,
 ) {
     BetterListItem(
-        modifier = modifier.toggleable(
-            value = checked,
-            onValueChange = { onCheckedChange(!checked) },
-            role = Role.Switch,
-        ),
+        modifier =
+            modifier.toggleable(
+                value = checked,
+                onValueChange = { onCheckedChange(!checked) },
+                role = Role.Switch,
+            ),
         title = title,
         subtitle = subtitle,
         trailing = {

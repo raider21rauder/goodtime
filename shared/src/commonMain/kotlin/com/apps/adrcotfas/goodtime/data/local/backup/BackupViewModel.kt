@@ -45,10 +45,11 @@ class BackupViewModel(
     private val settingsRepository: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(BackupUiState())
-    val uiState = _uiState.onStart { loadData() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BackupUiState())
+    val uiState =
+        _uiState
+            .onStart { loadData() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), BackupUiState())
 
     private fun loadData() {
         viewModelScope.launch {
@@ -114,13 +115,16 @@ class BackupViewModel(
     }
 
     fun clearBackupError() = _uiState.update { it.copy(backupResult = null) }
+
     fun clearRestoreError() = _uiState.update { it.copy(restoreResult = null) }
-    fun clearProgress() = _uiState.update {
-        it.copy(
-            isBackupInProgress = false,
-            isRestoreInProgress = false,
-            isCsvBackupInProgress = false,
-            isJsonBackupInProgress = false,
-        )
-    }
+
+    fun clearProgress() =
+        _uiState.update {
+            it.copy(
+                isBackupInProgress = false,
+                isRestoreInProgress = false,
+                isCsvBackupInProgress = false,
+                isJsonBackupInProgress = false,
+            )
+        }
 }

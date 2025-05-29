@@ -17,9 +17,10 @@
  */
 package com.apps.adrcotfas.goodtime.labels.utils
 
-fun generateUniqueNameForDuplicate(name: String, existingNames: List<String>): String {
-    return generateUniqueNameForDuplicate(name, existingNames, null)
-}
+fun generateUniqueNameForDuplicate(
+    name: String,
+    existingNames: List<String>,
+): String = generateUniqueNameForDuplicate(name, existingNames, null)
 
 private tailrec fun generateUniqueNameForDuplicate(
     name: String,
@@ -27,9 +28,10 @@ private tailrec fun generateUniqueNameForDuplicate(
     suffix: Int? = null,
 ): String {
     val tmpSuffix = suffix ?: suffix ?: name.getNumberSuffix()
-    val newName = tmpSuffix?.let {
-        name.dropLast(tmpSuffix.toString().length) + (tmpSuffix + 1)
-    } ?: (name + "2")
+    val newName =
+        tmpSuffix?.let {
+            name.dropLast(tmpSuffix.toString().length) + (tmpSuffix + 1)
+        } ?: (name + "2")
     return if (existingNames.any { it == newName }) {
         generateUniqueNameForDuplicate(newName, existingNames, tmpSuffix?.let { it + 1 } ?: 2)
     } else {

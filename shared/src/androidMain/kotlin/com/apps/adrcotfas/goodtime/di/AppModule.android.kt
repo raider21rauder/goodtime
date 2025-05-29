@@ -35,25 +35,26 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
-    single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder(get<Context>()) }
-    single<FileSystem> { FileSystem.SYSTEM }
-    single<String>(named(DB_PATH_KEY)) { getDbPath { get<Context>().getDatabasePath(DATABASE_NAME).absolutePath } }
-    single<String>(named(FILES_DIR_PATH_KEY)) { getTmpPath { get<Context>().filesDir.absolutePath + "/tmp" } }
+actual val platformModule: Module =
+    module {
+        single<RoomDatabase.Builder<ProductivityDatabase>> { getDatabaseBuilder(get<Context>()) }
+        single<FileSystem> { FileSystem.SYSTEM }
+        single<String>(named(DB_PATH_KEY)) { getDbPath { get<Context>().getDatabasePath(DATABASE_NAME).absolutePath } }
+        single<String>(named(FILES_DIR_PATH_KEY)) { getTmpPath { get<Context>().filesDir.absolutePath + "/tmp" } }
 
-    single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
-        getDataStore(
-            producePath = { get<Context>().filesDir.resolve(SETTINGS_FILE_NAME).absolutePath },
-        )
+        single<DataStore<Preferences>>(named(SETTINGS_NAME)) {
+            getDataStore(
+                producePath = { get<Context>().filesDir.resolve(SETTINGS_FILE_NAME).absolutePath },
+            )
+        }
+        single<List<EventListener>> {
+            listOf(
+                get<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)),
+                get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
+                get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
+                get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
+            )
+        }
     }
-    single<List<EventListener>> {
-        listOf(
-            get<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)),
-            get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
-            get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
-            get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
-        )
-    }
-}
 
 actual fun isDebug(): Boolean = BuildConfig.DEBUG

@@ -18,7 +18,7 @@
 package com.apps.adrcotfas.goodtime.stats
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -75,7 +75,7 @@ fun HeatmapSection(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val density = LocalDensity.current
     val endLocalDate = remember { Time.currentDateTime().date }
@@ -83,13 +83,14 @@ fun HeatmapSection(
 
     val startAtStartOfWeek = remember { startLocalDate.firstDayOfWeekInThisWeek(firstDayOfWeek) }
     val endAtEndOfWeek = remember { endLocalDate.endOfWeekInThisWeek(firstDayOfWeek) }
-    val numberOfWeeks = remember {
-        if (startLocalDate.daysUntil(endAtEndOfWeek) % 7 == 0) {
-            52
-        } else {
-            53
+    val numberOfWeeks =
+        remember {
+            if (startLocalDate.daysUntil(endAtEndOfWeek) % 7 == 0) {
+                52
+            } else {
+                53
+            }
         }
-    }
 
     val fontSizeStyle = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Thin)
     val cellSize = remember { (convertSpToDp(density, fontSizeStyle.fontSize.value) * 1.5f).dp }
@@ -99,67 +100,75 @@ fun HeatmapSection(
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = numberOfWeeks - 1)
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(R.string.stats_heatmap),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = color,
-                ),
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = color,
+                    ),
             )
         }
 
         CompositionLocalProvider(
-            LocalOverscrollConfiguration provides null,
+            LocalOverscrollFactory provides null,
         ) {
             Row(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(
-                        top = 16.dp,
-                        bottom = 16.dp,
-                        start = cellSize,
-                        end = 32.dp,
-                    ),
+                modifier =
+                    Modifier
+                        .wrapContentSize()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(
+                            top = 16.dp,
+                            bottom = 16.dp,
+                            start = cellSize,
+                            end = 32.dp,
+                        ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .wrapContentHeight(),
+                    modifier =
+                        Modifier
+                            .wrapContentHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Box(
-                        modifier = Modifier
-                            .size(cellSize),
+                        modifier =
+                            Modifier
+                                .size(cellSize),
                     )
                     val labeledDays = mutableListOf(1, 3, 5)
 
                     daysInOrder.forEach {
                         if (labeledDays.contains(it.isoDayNumber)) {
                             Text(
-                                modifier = Modifier
-                                    .padding(cellSpacing)
-                                    .height(cellSize),
+                                modifier =
+                                    Modifier
+                                        .padding(cellSpacing)
+                                        .height(cellSize),
                                 text = getLocalizedDayNamesForStats(javaLocale)[it.ordinal],
                                 style = MaterialTheme.typography.labelSmall,
                             )
                         } else {
                             Box(
-                                modifier = Modifier
-                                    .padding(cellSpacing)
-                                    .size(cellSize),
+                                modifier =
+                                    Modifier
+                                        .padding(cellSpacing)
+                                        .size(cellSize),
                             )
                         }
                     }
@@ -172,15 +181,18 @@ fun HeatmapSection(
                     ) {
                         items(numberOfWeeks) { index ->
                             Column(
-                                modifier = Modifier
-                                    .wrapContentHeight(),
+                                modifier =
+                                    Modifier
+                                        .wrapContentHeight(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 val currentWeekStart =
                                     remember(index) { startAtStartOfWeek.plus(DatePeriod(days = index * 7)) }
 
                                 val monthName = getLocalizedMonthNamesForStats(javaLocale)[currentWeekStart.month.ordinal]
-                                if (currentWeekStart == startAtStartOfWeek || currentWeekStart == currentWeekStart.firstDayOfWeekInMonth(
+                                if (currentWeekStart == startAtStartOfWeek ||
+                                    currentWeekStart ==
+                                    currentWeekStart.firstDayOfWeekInMonth(
                                         firstDayOfWeek,
                                     )
                                 ) {
@@ -194,39 +206,44 @@ fun HeatmapSection(
                                 }
 
                                 daysInOrder.forEach { dayOfWeek ->
-                                    val currentDay = remember(
-                                        index,
-                                        dayOfWeek,
-                                    ) { currentWeekStart.at(dayOfWeek) }
+                                    val currentDay =
+                                        remember(
+                                            index,
+                                            dayOfWeek,
+                                        ) { currentWeekStart.at(dayOfWeek) }
                                     if (currentDay in startLocalDate..endLocalDate) {
                                         Box(modifier = Modifier.padding(cellSpacing)) {
                                             Box(
-                                                modifier = Modifier
-                                                    .size(cellSize)
-                                                    .clip(MaterialTheme.shapes.extraSmall)
-                                                    .background(
-                                                        MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                            alpha = 0.5f,
+                                                modifier =
+                                                    Modifier
+                                                        .size(cellSize)
+                                                        .clip(MaterialTheme.shapes.extraSmall)
+                                                        .background(
+                                                            MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                                alpha = 0.5f,
+                                                            ),
                                                         ),
-                                                    ),
                                             )
                                             Box(
-                                                modifier = Modifier
-                                                    .size(cellSize)
-                                                    .clip(MaterialTheme.shapes.extraSmall)
-                                                    .background(
-                                                        color.copy(
-                                                            alpha = data[currentDay]?.plus(0.2f)
-                                                                ?: 0f,
+                                                modifier =
+                                                    Modifier
+                                                        .size(cellSize)
+                                                        .clip(MaterialTheme.shapes.extraSmall)
+                                                        .background(
+                                                            color.copy(
+                                                                alpha =
+                                                                    data[currentDay]?.plus(0.2f)
+                                                                        ?: 0f,
+                                                            ),
                                                         ),
-                                                    ),
                                             )
                                         }
                                     } else {
                                         Box(
-                                            modifier = Modifier
-                                                .padding(cellSpacing)
-                                                .size(cellSize),
+                                            modifier =
+                                                Modifier
+                                                    .padding(cellSpacing)
+                                                    .size(cellSize),
                                         )
                                     }
                                 }

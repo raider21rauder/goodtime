@@ -20,8 +20,8 @@ package com.apps.adrcotfas.goodtime.settings.notifications
 import com.apps.adrcotfas.goodtime.data.settings.SoundData
 import kotlinx.serialization.json.Json
 
-fun toSoundData(ringtoneRaw: String): SoundData {
-    return if (ringtoneRaw.isNotEmpty()) {
+fun toSoundData(ringtoneRaw: String): SoundData =
+    if (ringtoneRaw.isNotEmpty()) {
         Json.decodeFromString(
             SoundData.serializer(),
             ringtoneRaw,
@@ -29,4 +29,3 @@ fun toSoundData(ringtoneRaw: String): SoundData {
     } else {
         SoundData()
     }
-}

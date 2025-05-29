@@ -20,7 +20,9 @@ package com.apps.adrcotfas.goodtime.bl
 import android.content.Context
 import com.apps.adrcotfas.goodtime.bl.TimerService.Companion.Action
 
-class TimerServiceStarter(private val context: Context) : EventListener {
+class TimerServiceStarter(
+    private val context: Context,
+) : EventListener {
     override fun onEvent(event: Event) {
         when (event) {
             is Event.Start, is Event.Pause, is Event.AddOneMinute, is Event.UpdateActiveLabel -> startService()

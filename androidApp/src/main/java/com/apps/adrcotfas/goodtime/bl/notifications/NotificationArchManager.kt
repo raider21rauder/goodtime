@@ -37,8 +37,10 @@ import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import com.apps.adrcotfas.goodtime.R as AndroidR
 
-class NotificationArchManager(private val context: Context, private val activityClass: Class<*>) {
-
+class NotificationArchManager(
+    private val context: Context,
+    private val activityClass: Class<*>,
+) {
     private val notificationManager: NotificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -54,138 +56,160 @@ class NotificationArchManager(private val context: Context, private val activity
         val timerType = data.type
         val labelName = data.getLabelName()
         val isDefaultLabel = data.label.isDefault()
-        val prefix = if (isDefaultLabel) {
-            ""
-        } else {
-            "$labelName - "
-        }
-        val stateText = prefix + if (timerType.isWork) {
-            if (running) {
-                context.getString(R.string.main_focus_session_in_progress)
+        val prefix =
+            if (isDefaultLabel) {
+                ""
             } else {
-                context.getString(R.string.main_focus_session_paused)
+                "$labelName - "
             }
-        } else {
-            context.getString(R.string.main_break_in_progress)
-        }
+        val stateText =
+            prefix +
+                if (timerType.isWork) {
+                    if (running) {
+                        context.getString(R.string.main_focus_session_in_progress)
+                    } else {
+                        context.getString(R.string.main_focus_session_paused)
+                    }
+                } else {
+                    context.getString(R.string.main_break_in_progress)
+                }
 
-        val colorIndex = data.label.label.colorIndex.toInt()
+        val colorIndex =
+            data.label.label.colorIndex
+                .toInt()
         val shouldColorize = colorIndex != DEFAULT_LABEL_COLOR_INDEX
 
         val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
-        val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-            setSmallIcon(icon)
-            setCategory(NotificationCompat.CATEGORY_PROGRESS)
-            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            setContentIntent(createOpenActivityIntent(activityClass))
-            setOngoing(true)
-            setSilent(true)
-            setShowWhen(false)
-            if (shouldColorize) {
-                setColorized(true)
-                setColor(lightPalette[colorIndex].toColorInt())
+        val builder =
+            NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
+                setSmallIcon(icon)
+                setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                setContentIntent(createOpenActivityIntent(activityClass))
+                setOngoing(true)
+                setSilent(true)
+                setShowWhen(false)
+                if (shouldColorize) {
+                    setColorized(true)
+                    setColor(lightPalette[colorIndex].toColorInt())
+                }
+                setAutoCancel(false)
+                setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                setCustomContentView(
+                    buildChronometer(
+                        base = baseTime,
+                        running = running,
+                        stateText = stateText,
+                        shouldColorize = shouldColorize,
+                        isCountDown = isCountDown,
+                    ),
+                )
             }
-            setAutoCancel(false)
-            setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            setCustomContentView(
-                buildChronometer(
-                    base = baseTime,
-                    running = running,
-                    stateText = stateText,
-                    shouldColorize = shouldColorize,
-                    isCountDown = isCountDown,
-                ),
-            )
-        }
         if (isCountDown) {
             if (timerType == TimerType.WORK) {
                 if (running) {
-                    val pauseAction = createNotificationAction(
-                        title = context.getString(R.string.main_pause),
-                        action = TimerService.Companion.Action.Toggle,
-                    )
+                    val pauseAction =
+                        createNotificationAction(
+                            title = context.getString(R.string.main_pause),
+                            action = TimerService.Companion.Action.Toggle,
+                        )
                     builder.addAction(pauseAction)
-                    val addOneMinuteAction = createNotificationAction(
-                        title = context.getString(R.string.main_plus_1_min),
-                        action = TimerService.Companion.Action.AddOneMinute,
-                    )
+                    val addOneMinuteAction =
+                        createNotificationAction(
+                            title = context.getString(R.string.main_plus_1_min),
+                            action = TimerService.Companion.Action.AddOneMinute,
+                        )
                     builder.addAction(addOneMinuteAction)
                 } else {
-                    val resumeAction = createNotificationAction(
-                        title = context.getString(R.string.main_resume),
-                        action = TimerService.Companion.Action.Toggle,
-                    )
+                    val resumeAction =
+                        createNotificationAction(
+                            title = context.getString(R.string.main_resume),
+                            action = TimerService.Companion.Action.Toggle,
+                        )
                     builder.addAction(resumeAction)
-                    val stopAction = createNotificationAction(
-                        title = context.getString(R.string.main_stop),
-                        action = TimerService.Companion.Action.DoReset,
-                    )
+                    val stopAction =
+                        createNotificationAction(
+                            title = context.getString(R.string.main_stop),
+                            action = TimerService.Companion.Action.DoReset,
+                        )
                     builder.addAction(stopAction)
                 }
             } else {
-                val stopAction = createNotificationAction(
-                    title = context.getString(R.string.main_stop),
-                    action = TimerService.Companion.Action.DoReset,
-                )
+                val stopAction =
+                    createNotificationAction(
+                        title = context.getString(R.string.main_stop),
+                        action = TimerService.Companion.Action.DoReset,
+                    )
                 builder.addAction(stopAction)
-                val addOneMinuteAction = createNotificationAction(
-                    title = context.getString(R.string.main_plus_1_min),
-                    action = TimerService.Companion.Action.AddOneMinute,
-                )
+                val addOneMinuteAction =
+                    createNotificationAction(
+                        title = context.getString(R.string.main_plus_1_min),
+                        action = TimerService.Companion.Action.AddOneMinute,
+                    )
                 builder.addAction(addOneMinuteAction)
             }
-            val nextActionTitle = if (timerType == TimerType.WORK) {
-                context.getString(R.string.main_start_break)
-            } else {
-                context.getString(R.string.main_start_focus)
-            }
-            val nextAction = createNotificationAction(
-                title = nextActionTitle,
-                action = TimerService.Companion.Action.Skip,
-            )
+            val nextActionTitle =
+                if (timerType == TimerType.WORK) {
+                    context.getString(R.string.main_start_break)
+                } else {
+                    context.getString(R.string.main_start_focus)
+                }
+            val nextAction =
+                createNotificationAction(
+                    title = nextActionTitle,
+                    action = TimerService.Companion.Action.Skip,
+                )
             if (data.label.profile.isBreakEnabled) {
                 builder.addAction(nextAction)
             }
         } else {
-            val stopAction = createNotificationAction(
-                title = context.getString(R.string.main_stop),
-                action = TimerService.Companion.Action.DoReset,
-            )
+            val stopAction =
+                createNotificationAction(
+                    title = context.getString(R.string.main_stop),
+                    action = TimerService.Companion.Action.DoReset,
+                )
             builder.addAction(stopAction)
         }
         return builder.build()
     }
 
-    fun notifyFinished(data: DomainTimerData, withActions: Boolean) {
+    fun notifyFinished(
+        data: DomainTimerData,
+        withActions: Boolean,
+    ) {
         val timerType = data.type
         val labelName = data.getLabelName()
 
-        val mainStateText = if (timerType == TimerType.WORK) {
-            context.getString(R.string.main_focus_session_finished)
-        } else {
-            context.getString(R.string.main_break_finished)
-        }
+        val mainStateText =
+            if (timerType == TimerType.WORK) {
+                context.getString(R.string.main_focus_session_finished)
+            } else {
+                context.getString(R.string.main_break_finished)
+            }
         val labelText = if (data.isDefaultLabel()) "" else "$labelName - "
         val stateText = "$labelText$mainStateText"
 
-        val builder = NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
-            setSmallIcon(R.drawable.ic_status_goodtime)
-            setCategory(NotificationCompat.CATEGORY_PROGRESS)
-            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            setContentIntent(createOpenActivityIntent(activityClass))
-            setOngoing(false)
-            val colorIndex = data.label.label.colorIndex.toInt()
-            if (colorIndex != DEFAULT_LABEL_COLOR_INDEX) {
-                setColorized(true)
-                val color = lightPalette[colorIndex].toColorInt()
-                setColor(color)
+        val builder =
+            NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
+                setSmallIcon(R.drawable.ic_status_goodtime)
+                setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                setContentIntent(createOpenActivityIntent(activityClass))
+                setOngoing(false)
+                val colorIndex =
+                    data.label.label.colorIndex
+                        .toInt()
+                if (colorIndex != DEFAULT_LABEL_COLOR_INDEX) {
+                    setColorized(true)
+                    val color = lightPalette[colorIndex].toColorInt()
+                    setColor(color)
+                }
+                setSilent(true)
+                setShowWhen(false)
+                setAutoCancel(true)
+                setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                setContentTitle(stateText)
             }
-            setSilent(true)
-            setShowWhen(false)
-            setAutoCancel(true)
-            setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            setContentTitle(stateText)
-        }
         val extender = NotificationCompat.WearableExtender()
         if (withActions) {
             builder.setContentText(context.getString(R.string.main_continue))
@@ -195,10 +219,11 @@ class NotificationArchManager(private val context: Context, private val activity
                 } else {
                     context.getString(R.string.main_start_focus)
                 }
-            val nextAction = createNotificationAction(
-                title = nextActionTitle,
-                action = TimerService.Companion.Action.Next,
-            )
+            val nextAction =
+                createNotificationAction(
+                    title = nextActionTitle,
+                    action = TimerService.Companion.Action.Next,
+                )
             extender.addAction(nextAction)
             builder.addAction(nextAction)
         }
@@ -212,38 +237,42 @@ class NotificationArchManager(private val context: Context, private val activity
 
     fun notifyReminder() {
         val pendingIntent = createOpenActivityIntent(activityClass)
-        val builder = NotificationCompat.Builder(context, REMINDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_status_goodtime)
-            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setContentIntent(pendingIntent)
-            .setShowWhen(false)
-            .setAutoCancel(true)
-            .setOnlyAlertOnce(true)
-            .setContentTitle(context.getString(R.string.settings_productivity_reminder_title))
-            .setContentText(context.getString(R.string.main_productivity_reminder_desc))
+        val builder =
+            NotificationCompat
+                .Builder(context, REMINDER_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_status_goodtime)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent)
+                .setShowWhen(false)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .setContentTitle(context.getString(R.string.settings_productivity_reminder_title))
+                .setContentText(context.getString(R.string.main_productivity_reminder_desc))
         notificationManager.notify(REMINDER_NOTIFICATION_ID, builder.build())
     }
 
     private fun createMainNotificationChannel() {
         val name = context.getString(R.string.main_notifications_channel_name)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(MAIN_CHANNEL_ID, name, importance).apply {
-            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            setSound(null, null)
-            enableVibration(false)
-            setBypassDnd(true)
-            setShowBadge(true)
-        }
+        val channel =
+            NotificationChannel(MAIN_CHANNEL_ID, name, importance).apply {
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                setSound(null, null)
+                enableVibration(false)
+                setBypassDnd(true)
+                setShowBadge(true)
+            }
         notificationManager.createNotificationChannel(channel)
     }
 
     private fun createReminderChannel() {
         val name = context.getString(R.string.main_reminder_channel_name)
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(REMINDER_CHANNEL_ID, name, importance).apply {
-            setShowBadge(true)
-        }
+        val channel =
+            NotificationChannel(REMINDER_CHANNEL_ID, name, importance).apply {
+                setShowBadge(true)
+            }
         notificationManager.createNotificationChannel(channel)
     }
 
@@ -267,9 +296,7 @@ class NotificationArchManager(private val context: Context, private val activity
         return content
     }
 
-    private fun createOpenActivityIntent(
-        activityClass: Class<*>,
-    ): PendingIntent {
+    private fun createOpenActivityIntent(activityClass: Class<*>): PendingIntent {
         val intent = Intent(context, activityClass)
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         return PendingIntent.getActivity(
@@ -284,18 +311,18 @@ class NotificationArchManager(private val context: Context, private val activity
         icon: IconCompat? = null,
         title: String,
         action: TimerService.Companion.Action,
-    ): NotificationCompat.Action {
-        return NotificationCompat.Action.Builder(
-            icon,
-            title,
-            PendingIntent.getService(
-                context,
-                0,
-                TimerService.createIntentWithAction(context, action),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-            ),
-        ).build()
-    }
+    ): NotificationCompat.Action =
+        NotificationCompat.Action
+            .Builder(
+                icon,
+                title,
+                PendingIntent.getService(
+                    context,
+                    0,
+                    TimerService.createIntentWithAction(context, action),
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                ),
+            ).build()
 
     fun toggleDndMode(enabled: Boolean) {
         if (enabled) {
@@ -305,9 +332,7 @@ class NotificationArchManager(private val context: Context, private val activity
         }
     }
 
-    fun isNotificationPolicyAccessGranted(): Boolean {
-        return notificationManager.isNotificationPolicyAccessGranted
-    }
+    fun isNotificationPolicyAccessGranted(): Boolean = notificationManager.isNotificationPolicyAccessGranted
 
     companion object {
         const val MAIN_CHANNEL_ID = "goodtime.notification"

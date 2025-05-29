@@ -23,7 +23,11 @@ import com.google.android.play.core.ktx.requestUpdateFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 
-class UpdateManager(private val appUpdateManager: AppUpdateManager) {
-    val appUpdateResultFlow: Flow<AppUpdateResult> = appUpdateManager.requestUpdateFlow()
-        .catch { emit(AppUpdateResult.NotAvailable) }
+class UpdateManager(
+    private val appUpdateManager: AppUpdateManager,
+) {
+    val appUpdateResultFlow: Flow<AppUpdateResult> =
+        appUpdateManager
+            .requestUpdateFlow()
+            .catch { emit(AppUpdateResult.NotAvailable) }
 }

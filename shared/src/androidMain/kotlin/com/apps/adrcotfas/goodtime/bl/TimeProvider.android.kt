@@ -20,12 +20,7 @@ package com.apps.adrcotfas.goodtime.bl
 import android.os.SystemClock
 
 class AndroidTimeProvider : TimeProvider {
-
-    override fun elapsedRealtime(): Long {
-        return SystemClock.elapsedRealtime()
-    }
+    override fun elapsedRealtime(): Long = SystemClock.elapsedRealtime()
 }
 
-actual fun createTimeProvider(): TimeProvider {
-    return AndroidTimeProvider()
-}
+actual fun createTimeProvider(): TimeProvider = AndroidTimeProvider()

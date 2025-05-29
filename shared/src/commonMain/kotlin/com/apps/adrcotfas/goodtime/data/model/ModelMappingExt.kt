@@ -20,8 +20,8 @@ package com.apps.adrcotfas.goodtime.data.model
 import com.apps.adrcotfas.goodtime.data.local.LocalLabel
 import com.apps.adrcotfas.goodtime.data.local.LocalSession
 
-fun Label.toLocal(): LocalLabel {
-    return LocalLabel(
+fun Label.toLocal(): LocalLabel =
+    LocalLabel(
         name = name,
         colorIndex = colorIndex,
         orderIndex = orderIndex,
@@ -36,46 +36,47 @@ fun Label.toLocal(): LocalLabel {
         workBreakRatio = timerProfile.workBreakRatio,
         isArchived = isArchived,
     )
-}
 
-fun LocalLabel.toExternal(): Label {
-    return Label(
+fun LocalLabel.toExternal(): Label =
+    Label(
         name = name,
         colorIndex = colorIndex,
         orderIndex = orderIndex,
         useDefaultTimeProfile = useDefaultTimeProfile,
-        timerProfile = TimerProfile(
-            isCountdown = isCountdown,
-            workDuration = workDuration,
-            isBreakEnabled = isBreakEnabled,
-            breakDuration = breakDuration,
-            isLongBreakEnabled = isLongBreakEnabled,
-            longBreakDuration = longBreakDuration,
-            sessionsBeforeLongBreak = sessionsBeforeLongBreak,
-            workBreakRatio = workBreakRatio,
-        ),
+        timerProfile =
+            TimerProfile(
+                isCountdown = isCountdown,
+                workDuration = workDuration,
+                isBreakEnabled = isBreakEnabled,
+                breakDuration = breakDuration,
+                isLongBreakEnabled = isLongBreakEnabled,
+                longBreakDuration = longBreakDuration,
+                sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+                workBreakRatio = workBreakRatio,
+            ),
         isArchived = isArchived,
     )
-}
 
-fun Session.toLocal() = LocalSession(
-    id = id,
-    timestamp = timestamp,
-    duration = duration,
-    interruptions = interruptions,
-    labelName = label,
-    notes = notes,
-    isWork = isWork,
-    isArchived = isArchived,
-)
+fun Session.toLocal() =
+    LocalSession(
+        id = id,
+        timestamp = timestamp,
+        duration = duration,
+        interruptions = interruptions,
+        labelName = label,
+        notes = notes,
+        isWork = isWork,
+        isArchived = isArchived,
+    )
 
-fun LocalSession.toExternal() = Session(
-    id = id,
-    timestamp = timestamp,
-    duration = duration,
-    interruptions = interruptions,
-    label = labelName,
-    notes = notes,
-    isWork = isWork,
-    isArchived = isArchived,
-)
+fun LocalSession.toExternal() =
+    Session(
+        id = id,
+        timestamp = timestamp,
+        duration = duration,
+        interruptions = interruptions,
+        label = labelName,
+        notes = notes,
+        isWork = isWork,
+        isArchived = isArchived,
+    )

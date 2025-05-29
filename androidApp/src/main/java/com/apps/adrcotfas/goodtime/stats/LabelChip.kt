@@ -70,10 +70,11 @@ fun LabelChip(
     val labelName = if (name == Label.DEFAULT_LABEL_NAME) defaultLabelName else name
     val transparentColor = color.copy(alpha = 0.15f)
 
-    val chipColors = AssistChipDefaults.assistChipColors(
-        containerColor = transparentColor,
-        labelColor = color,
-    )
+    val chipColors =
+        AssistChipDefaults.assistChipColors(
+            containerColor = transparentColor,
+            labelColor = color,
+        )
 
     AssistChip(
         leadingIcon = {
@@ -89,10 +90,11 @@ fun LabelChip(
         onClick = onClick,
         colors = chipColors,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(
-            width = 0.dp,
-            color = Color.Transparent,
-        ),
+        border =
+            BorderStroke(
+                width = 0.dp,
+                color = Color.Transparent,
+            ),
     )
 }
 
@@ -115,11 +117,11 @@ fun SmallLabelChip(
 
     Row(
         modifier =
-        Modifier
-            .wrapContentWidth()
-            .widthIn(min = 32.dp)
-            .clip(RoundedCornerShape(6.0.dp))
-            .background(color.copy(alpha = 0.15f)),
+            Modifier
+                .wrapContentWidth()
+                .widthIn(min = 32.dp)
+                .clip(RoundedCornerShape(6.0.dp))
+                .background(color.copy(alpha = 0.15f)),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {

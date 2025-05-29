@@ -11,11 +11,20 @@ plugins {
 android {
     val packageName = "com.apps.adrcotfas.goodtime"
     namespace = packageName
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
     defaultConfig {
         applicationId = packageName
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 325
         versionName = "3.0.9"
     }
@@ -75,8 +84,8 @@ android {
     }
 
     aboutLibraries {
-        configPath = "androidApp/config"
-        duplicationMode = DuplicateMode.MERGE
+        collect.configPath = file("config")
+        library.duplicationMode = DuplicateMode.MERGE
     }
 }
 

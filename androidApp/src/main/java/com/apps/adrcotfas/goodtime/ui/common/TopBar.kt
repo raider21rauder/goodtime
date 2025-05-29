@@ -49,9 +49,10 @@ fun TopBar(
 ) {
     Column {
         CenterAlignedTopAppBar(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .alpha(if (isVisible) 1f else 0f),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .alpha(if (isVisible) 1f else 0f),
             title = { Text(text = title, maxLines = 1) },
             navigationIcon = {
                 if (onNavigateBack != null) {
@@ -63,9 +64,10 @@ fun TopBar(
                     }
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Transparent,
-            ),
+            colors =
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                ),
             actions = actions,
             scrollBehavior = scrollBehavior,
         )

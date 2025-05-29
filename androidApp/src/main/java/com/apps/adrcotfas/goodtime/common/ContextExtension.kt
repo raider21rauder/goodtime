@@ -39,17 +39,20 @@ import androidx.core.net.toUri
 import java.io.File
 import kotlin.time.Duration.Companion.days
 
-tailrec fun Context.findActivity(): ComponentActivity? = when (this) {
-    is ComponentActivity -> this
-    is ContextWrapper -> baseContext.findActivity()
-    else -> null
-}
+tailrec fun Context.findActivity(): ComponentActivity? =
+    when (this) {
+        is ComponentActivity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
+    }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 fun Context.getAppLanguage(): String {
     val locale = resources.configuration.locales[0]
-    val currentAppLocales: LocaleList = this
-        .getSystemService(LocaleManager::class.java).getApplicationLocales(this.packageName)
+    val currentAppLocales: LocaleList =
+        this
+            .getSystemService(LocaleManager::class.java)
+            .getApplicationLocales(this.packageName)
 
     return (
         if (!currentAppLocales.isEmpty) {
@@ -57,20 +60,22 @@ fun Context.getAppLanguage(): String {
         } else {
             locale.displayLanguage
         }
-        ).replaceFirstChar { it.uppercase() }
+    ).replaceFirstChar { it.uppercase() }
 }
 
-fun Context.getFileName(uri: Uri): String? = when (uri.scheme) {
-    ContentResolver.SCHEME_CONTENT -> getContentFileName(uri)
-    else -> uri.path?.let(::File)?.name
-}?.substringBeforeLast('.')
+fun Context.getFileName(uri: Uri): String? =
+    when (uri.scheme) {
+        ContentResolver.SCHEME_CONTENT -> getContentFileName(uri)
+        else -> uri.path?.let(::File)?.name
+    }?.substringBeforeLast('.')
 
-private fun Context.getContentFileName(uri: Uri): String? = runCatching {
-    contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-        cursor.moveToFirst()
-        return@use cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME).let(cursor::getString)
-    }
-}.getOrNull()
+private fun Context.getContentFileName(uri: Uri): String? =
+    runCatching {
+        contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            cursor.moveToFirst()
+            return@use cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME).let(cursor::getString)
+        }
+    }.getOrNull()
 
 fun Context.getVersionName(): String {
     val packageInfo = packageManager.getPackageInfo(packageName, 0)
@@ -93,9 +98,10 @@ fun Context.askForDisableBatteryOptimization() {
 
 fun Context.askForAlarmPermission() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        val intent = Intent().apply {
-            action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-        }
+        val intent =
+            Intent().apply {
+                action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+            }
         this.startActivity(intent)
     }
 }
@@ -111,19 +117,18 @@ fun Context.shouldAskForAlarmPermission(): Boolean {
         (
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
                 Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
-            ) &&
+        ) &&
             !alarmManager.canScheduleExactAlarms()
-        )
+    )
 }
 
-fun Context.areNotificationsEnabled(): Boolean {
-    return NotificationManagerCompat.from(this).areNotificationsEnabled()
-}
+fun Context.areNotificationsEnabled(): Boolean = NotificationManagerCompat.from(this).areNotificationsEnabled()
 
 fun Context.openUrl(url: String) {
-    val intent = Intent(Intent.ACTION_VIEW).apply {
-        data = url.toUri()
-    }
+    val intent =
+        Intent(Intent.ACTION_VIEW).apply {
+            data = url.toUri()
+        }
     startActivity(intent)
 }
 

@@ -54,30 +54,33 @@ fun RadioGroupDialog(
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
-            modifier = Modifier
-                .background(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface,
-                ),
+            modifier =
+                Modifier
+                    .background(
+                        shape = MaterialTheme.shapes.extraLarge,
+                        color = MaterialTheme.colorScheme.surface,
+                    ),
         ) {
             val radioOptionsIndexes = radioOptions.indices.toList()
-            val (selectedOption, onOptionSelected) = remember {
-                mutableIntStateOf(
-                    radioOptionsIndexes[initialIndex],
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(
-                        top = 24.dp,
+            val (selectedOption, onOptionSelected) =
+                remember {
+                    mutableIntStateOf(
+                        radioOptionsIndexes[initialIndex],
                     )
-                    .fillMaxWidth()
-                    .selectableGroup(),
+                }
+            Column(
+                modifier =
+                    Modifier
+                        .padding(
+                            top = 24.dp,
+                        ).fillMaxWidth()
+                        .selectableGroup(),
             ) {
                 Text(
-                    modifier = Modifier
-                        .padding(start = 24.dp, bottom = 20.dp)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp, bottom = 20.dp)
+                            .fillMaxWidth(),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -95,8 +98,7 @@ fun RadioGroupDialog(
                                     onDismiss()
                                 },
                                 role = Role.RadioButton,
-                            )
-                            .padding(horizontal = 24.dp)
+                            ).padding(horizontal = 24.dp)
                             .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -112,9 +114,10 @@ fun RadioGroupDialog(
                     }
                 }
                 TextButton(
-                    modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 8.dp, bottom = 4.dp),
+                    modifier =
+                        Modifier
+                            .align(Alignment.End)
+                            .padding(end = 8.dp, bottom = 4.dp),
                     onClick = onDismiss,
                 ) { Text(stringResource(id = android.R.string.cancel)) }
             }

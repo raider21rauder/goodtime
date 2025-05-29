@@ -50,7 +50,10 @@ interface SessionDao {
     )
 
     @Query("UPDATE localSession SET labelName = :newLabel WHERE id IN (:ids)")
-    suspend fun updateLabelByIds(newLabel: String, ids: List<Long>)
+    suspend fun updateLabelByIds(
+        newLabel: String,
+        ids: List<Long>,
+    )
 
     @Query(
         """
@@ -126,7 +129,11 @@ interface SessionDao {
         AND (:considerBreaks = 1 OR isWork = 1)
         """,
     )
-    suspend fun deleteExcept(ids: List<Long>, labels: List<String>, considerBreaks: Boolean)
+    suspend fun deleteExcept(
+        ids: List<Long>,
+        labels: List<String>,
+        considerBreaks: Boolean,
+    )
 
     @Query("DELETE FROM localSession")
     suspend fun deleteAll()

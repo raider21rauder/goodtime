@@ -92,29 +92,33 @@ fun NotificationSoundPickerDialog(
     val activity = context.findActivity()
     val soundPlayer = koinInject<SoundPlayer>()
 
-    val pickSoundLauncher = rememberLauncherForActivityResult(
-        contract = object : ActivityResultContracts.OpenDocument() {
-            override fun createIntent(context: Context, input: Array<String>): Intent {
-                return super.createIntent(context, input).apply {
-                    addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "audio/*"
+    val pickSoundLauncher =
+        rememberLauncherForActivityResult(
+            contract =
+                object : ActivityResultContracts.OpenDocument() {
+                    override fun createIntent(
+                        context: Context,
+                        input: Array<String>,
+                    ): Intent =
+                        super.createIntent(context, input).apply {
+                            addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "audio/*"
+                        }
+                },
+        ) { uri ->
+            if (uri != null) {
+                context.getFileName(uri)?.let {
+                    val soundData = SoundData(name = it, uriString = uri.toString())
+                    context.contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                    )
+                    viewModel.saveUserSound(soundData)
+                    onSelected(soundData)
                 }
             }
-        },
-    ) { uri ->
-        if (uri != null) {
-            context.getFileName(uri)?.let {
-                val soundData = SoundData(name = it, uriString = uri.toString())
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION,
-                )
-                viewModel.saveUserSound(soundData)
-                onSelected(soundData)
-            }
         }
-    }
 
     activity?.let {
         LaunchedEffect(Unit) {
@@ -171,22 +175,25 @@ private fun NotificationSoundPickerDialogContent(
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
-            modifier = Modifier
-                .background(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface,
-                ),
+            modifier =
+                Modifier
+                    .background(
+                        shape = MaterialTheme.shapes.extraLarge,
+                        color = MaterialTheme.colorScheme.surface,
+                    ),
         ) {
             Column(
-                modifier = Modifier
-                    .padding(top = 24.dp)
-                    .fillMaxHeight(0.75f),
+                modifier =
+                    Modifier
+                        .padding(top = 24.dp)
+                        .fillMaxHeight(0.75f),
                 verticalArrangement = Arrangement.Top,
             ) {
                 Text(
-                    modifier = Modifier
-                        .padding(start = 24.dp)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .padding(start = 24.dp)
+                            .fillMaxWidth(),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -195,9 +202,10 @@ private fun NotificationSoundPickerDialogContent(
                     item(key = "user sounds") {
                         PreferenceGroupTitle(
                             modifier = Modifier.animateItem(),
-                            text = stringResource(
-                                R.string.settings_your_sounds,
-                            ),
+                            text =
+                                stringResource(
+                                    R.string.settings_your_sounds,
+                                ),
                         )
                     }
                     items(userItems.toList(), key = { "user" + it.uriString }) { item ->
@@ -221,9 +229,10 @@ private fun NotificationSoundPickerDialogContent(
                     item(key = "system sounds") {
                         PreferenceGroupTitle(
                             modifier = Modifier.animateItem(),
-                            text = stringResource(
-                                R.string.settings_system_sounds,
-                            ),
+                            text =
+                                stringResource(
+                                    R.string.settings_system_sounds,
+                                ),
                         )
                     }
                     item(key = "silent") {
@@ -266,27 +275,27 @@ fun NotificationSoundItem(
 ) {
     var dropDownMenuExpanded by remember { mutableStateOf(false) }
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .let {
-                if (isSelected) {
-                    it.background(
-                        MaterialTheme.colorScheme.inverseSurface.copy(
-                            alpha = 0.1f,
-                        ),
-                    )
-                } else {
-                    it
-                }
-            }
-            .combinedClickable(onClick = {
-                onSelected()
-            }, onLongClick = {
-                if (onRemove != null) {
-                    dropDownMenuExpanded = true
-                }
-            })
-            .padding(horizontal = 24.dp, vertical = 12.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .let {
+                    if (isSelected) {
+                        it.background(
+                            MaterialTheme.colorScheme.inverseSurface.copy(
+                                alpha = 0.1f,
+                            ),
+                        )
+                    } else {
+                        it
+                    }
+                }.combinedClickable(onClick = {
+                    onSelected()
+                }, onLongClick = {
+                    if (onRemove != null) {
+                        dropDownMenuExpanded = true
+                    }
+                })
+                .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onRemove != null) {
@@ -314,13 +323,13 @@ fun NotificationSoundItem(
 
         Icon(
             imageVector =
-            if (isCustomSound) {
-                EvaIcons.Fill.Music
-            } else if (isSilent) {
-                EvaIcons.Outline.BellOff
-            } else {
-                EvaIcons.Outline.Bell
-            },
+                if (isCustomSound) {
+                    EvaIcons.Fill.Music
+                } else if (isSilent) {
+                    EvaIcons.Outline.BellOff
+                } else {
+                    EvaIcons.Outline.Bell
+                },
             contentDescription = null,
             modifier = Modifier.padding(end = 16.dp),
             tint = MaterialTheme.colorScheme.primary,
@@ -334,7 +343,7 @@ fun NotificationSoundItem(
         if (isSelected) {
             Icon(
                 imageVector =
-                EvaIcons.Outline.CheckmarkCircle2,
+                    EvaIcons.Outline.CheckmarkCircle2,
                 tint = MaterialTheme.colorScheme.primary,
                 contentDescription = null,
             )
@@ -343,12 +352,16 @@ fun NotificationSoundItem(
 }
 
 @Composable
-fun AddCustomSoundButton(modifier: Modifier = Modifier, onAddUserSound: () -> Unit) {
+fun AddCustomSoundButton(
+    modifier: Modifier = Modifier,
+    onAddUserSound: () -> Unit,
+) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onAddUserSound() }
-            .padding(horizontal = 24.dp, vertical = 12.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable { onAddUserSound() }
+                .padding(horizontal = 24.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
@@ -377,14 +390,16 @@ private fun ButtonsRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TextButton(
-            modifier = Modifier
-                .padding(end = 8.dp, bottom = 4.dp),
+            modifier =
+                Modifier
+                    .padding(end = 8.dp, bottom = 4.dp),
             onClick = onDismiss,
         ) { Text(stringResource(id = android.R.string.cancel)) }
 
         TextButton(
-            modifier = Modifier
-                .padding(end = 8.dp, bottom = 4.dp),
+            modifier =
+                Modifier
+                    .padding(end = 8.dp, bottom = 4.dp),
             onClick = {
                 onSave(selectedItem)
                 onDismiss()
@@ -403,16 +418,18 @@ fun NotificationSoundPickerDialogPreview() {
         onSave = {},
         onDismiss = {},
         onAddSoundClick = { },
-        userItems = setOf(
-            SoundData("Custom 1", "Custom 1"),
-            SoundData("Custom 2", "Custom 2"),
-            SoundData("Custom 3", "Custom 3"),
-        ),
-        items = setOf(
-            SoundData("Coconuts", "Coconuts"),
-            SoundData("Mallet", "Mallet"),
-            SoundData("Music Box", "Music Box"),
-        ),
+        userItems =
+            setOf(
+                SoundData("Custom 1", "Custom 1"),
+                SoundData("Custom 2", "Custom 2"),
+                SoundData("Custom 3", "Custom 3"),
+            ),
+        items =
+            setOf(
+                SoundData("Coconuts", "Coconuts"),
+                SoundData("Mallet", "Mallet"),
+                SoundData("Music Box", "Music Box"),
+            ),
         onRemoveUserSound = {},
     )
 }

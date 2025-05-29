@@ -39,7 +39,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class StatsViewModelTest {
-
     private lateinit var fakeSessionDao: FakeSessionDao
     private lateinit var fakeLabelDao: FakeLabelDao
     private lateinit var localDataRepository: LocalDataRepository
@@ -49,101 +48,108 @@ class StatsViewModelTest {
     private lateinit var viewModel: StatisticsViewModel
 
     @BeforeTest
-    fun setup() = runTest {
-        fakeSessionDao = FakeSessionDao()
-        fakeLabelDao = FakeLabelDao()
-        timeProvider = FakeTimeProvider()
-        localDataRepository = LocalDataRepositoryImpl(fakeSessionDao, fakeLabelDao, this)
-        settingsRepository = FakeSettingsRepository()
-        viewModel = StatisticsViewModel(localDataRepository, settingsRepository, timeProvider)
-        populateRepo()
+    fun setup() =
+        runTest {
+            fakeSessionDao = FakeSessionDao()
+            fakeLabelDao = FakeLabelDao()
+            timeProvider = FakeTimeProvider()
+            localDataRepository = LocalDataRepositoryImpl(fakeSessionDao, fakeLabelDao, this)
+            settingsRepository = FakeSettingsRepository()
+            viewModel = StatisticsViewModel(localDataRepository, settingsRepository, timeProvider)
+            populateRepo()
 
-        viewModel.uiState.test {
-            assertTrue { awaitItem() == StatisticsUiState() }
-            assertTrue { awaitItem().labels.isNotEmpty() }
-            cancelAndIgnoreRemainingEvents()
+            viewModel.uiState.test {
+                assertTrue { awaitItem() == StatisticsUiState() }
+                assertTrue { awaitItem().labels.isNotEmpty() }
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @AfterTest
-    fun tearDown() = runTest {
-        fakeSessionDao.deleteAll()
-        fakeLabelDao.deleteAll()
-    }
+    fun tearDown() =
+        runTest {
+            fakeSessionDao.deleteAll()
+            fakeLabelDao.deleteAll()
+        }
 
     @Test
-    fun `Add and delete the same session`() = runTest {
-        var sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.isNotEmpty() }
-        val sessionsSize = sessions.size
-        viewModel.onAddEditSession()
-        viewModel.saveSession()
-        advanceUntilIdle()
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessionsSize + 1 == sessions.size }
+    fun `Add and delete the same session`() =
+        runTest {
+            var sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.isNotEmpty() }
+            val sessionsSize = sessions.size
+            viewModel.onAddEditSession()
+            viewModel.saveSession()
+            advanceUntilIdle()
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessionsSize + 1 == sessions.size }
 
-        viewModel.toggleSessionIsSelected(0)
-        viewModel.deleteSelectedSessions()
-        advanceUntilIdle()
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessionsSize == sessions.size }
-    }
-
-    @Test
-    fun `Select all sessions and delete`() = runTest {
-        var sessions = viewModel.pagedSessions.asSnapshot()
-        val sessionsSize = sessions.size
-        viewModel.selectAllSessions(sessionsSize)
-        viewModel.deleteSelectedSessions()
-        advanceUntilIdle()
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.isEmpty() }
-    }
+            viewModel.toggleSessionIsSelected(0)
+            viewModel.deleteSelectedSessions()
+            advanceUntilIdle()
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessionsSize == sessions.size }
+        }
 
     @Test
-    fun `Select all sessions except one and delete`() = runTest {
-        var sessions = viewModel.pagedSessions.asSnapshot()
-        val sessionsSize = sessions.size
-        viewModel.selectAllSessions(sessionsSize)
-        viewModel.toggleSessionIsSelected(1)
-        viewModel.deleteSelectedSessions()
-        advanceUntilIdle()
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.first().id == 1L }
-    }
+    fun `Select all sessions and delete`() =
+        runTest {
+            var sessions = viewModel.pagedSessions.asSnapshot()
+            val sessionsSize = sessions.size
+            viewModel.selectAllSessions(sessionsSize)
+            viewModel.deleteSelectedSessions()
+            advanceUntilIdle()
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.isEmpty() }
+        }
 
     @Test
-    fun `Select label A and delete all`() = runTest {
-        viewModel.setSelectedLabels(listOf("A"))
-        delay(10)
-        val selected = viewModel.uiState.value.selectedLabels
-        assertEquals(selected, listOf("A"))
-        var sessions = viewModel.pagedSessions.asSnapshot()
-
-        assertTrue { sessions.size == 3 }
-        viewModel.selectAllSessions(sessions.size)
-        viewModel.deleteSelectedSessions()
-        advanceUntilIdle()
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.isEmpty() }
-
-        viewModel.setSelectedLabels(listOf("A", "B", "C"))
-        sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.firstOrNull { it.label == "A" } == null }
-        assertTrue { sessions.size == 6 }
-    }
+    fun `Select all sessions except one and delete`() =
+        runTest {
+            var sessions = viewModel.pagedSessions.asSnapshot()
+            val sessionsSize = sessions.size
+            viewModel.selectAllSessions(sessionsSize)
+            viewModel.toggleSessionIsSelected(1)
+            viewModel.deleteSelectedSessions()
+            advanceUntilIdle()
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.first().id == 1L }
+        }
 
     @Test
-    fun `Bulk edit label`() = runTest {
-        viewModel.selectAllSessions(viewModel.pagedSessions.asSnapshot().size)
-        viewModel.setSelectedLabelToBulkEdit("B")
-        viewModel.bulkEditLabel()
-        advanceUntilIdle()
-        val sessions = viewModel.pagedSessions.asSnapshot()
-        assertTrue { sessions.firstOrNull { it.label == "A" } == null }
-        assertTrue { sessions.size == 9 }
-        assertTrue { sessions.firstOrNull { it.label != "B" } == null }
-    }
+    fun `Select label A and delete all`() =
+        runTest {
+            viewModel.setSelectedLabels(listOf("A"))
+            delay(10)
+            val selected = viewModel.uiState.value.selectedLabels
+            assertEquals(selected, listOf("A"))
+            var sessions = viewModel.pagedSessions.asSnapshot()
+
+            assertTrue { sessions.size == 3 }
+            viewModel.selectAllSessions(sessions.size)
+            viewModel.deleteSelectedSessions()
+            advanceUntilIdle()
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.isEmpty() }
+
+            viewModel.setSelectedLabels(listOf("A", "B", "C"))
+            sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.firstOrNull { it.label == "A" } == null }
+            assertTrue { sessions.size == 6 }
+        }
+
+    @Test
+    fun `Bulk edit label`() =
+        runTest {
+            viewModel.selectAllSessions(viewModel.pagedSessions.asSnapshot().size)
+            viewModel.setSelectedLabelToBulkEdit("B")
+            viewModel.bulkEditLabel()
+            advanceUntilIdle()
+            val sessions = viewModel.pagedSessions.asSnapshot()
+            assertTrue { sessions.firstOrNull { it.label == "A" } == null }
+            assertTrue { sessions.size == 9 }
+            assertTrue { sessions.firstOrNull { it.label != "B" } == null }
+        }
 
     private suspend fun populateRepo() {
         val labelA = Label.defaultLabel().copy(name = "A").toLocal()

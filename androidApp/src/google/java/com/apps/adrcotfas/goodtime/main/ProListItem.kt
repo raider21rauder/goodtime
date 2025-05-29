@@ -27,7 +27,11 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Unlock
 
 @Composable
-fun ProListItem(subtitle: String? = null, centered: Boolean = false, onClick: () -> Unit) {
+fun ProListItem(
+    subtitle: String? = null,
+    centered: Boolean = false,
+    onClick: () -> Unit,
+) {
     IconTextButton(
         title = stringResource(R.string.unlock_premium),
         subtitle = subtitle,

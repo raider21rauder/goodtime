@@ -45,32 +45,39 @@ val AddEditLabelUiState.existingLabelNames: List<String>
 
 fun AddEditLabelUiState.labelNameIsValid(): Boolean {
     val name = newLabel.name.trim()
-    return name.isNotEmpty() && !existingLabelNames.map { labels -> labels.lowercase() }
-        .minus(labelToEdit?.name?.lowercase())
-        .contains(name.lowercase()) && name.lowercase() != defaultLabelDisplayName.lowercase()
+    return name.isNotEmpty() &&
+        !existingLabelNames
+            .map { labels -> labels.lowercase() }
+            .minus(labelToEdit?.name?.lowercase())
+            .contains(name.lowercase()) &&
+        name.lowercase() != defaultLabelDisplayName.lowercase()
 }
 
 class AddEditLabelViewModel(
     private val repo: LocalDataRepository,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(AddEditLabelUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun init(labelToEditName: String? = null, defaultLabelName: String) {
+    fun init(
+        labelToEditName: String? = null,
+        defaultLabelName: String,
+    ) {
         viewModelScope.launch {
-            settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.labelName == new.labelName &&
-                    old.isPro == new.isPro
-            }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
-                activeLabelName to labels
-            }.distinctUntilChanged()
+            settingsRepository.settings
+                .distinctUntilChanged { old, new ->
+                    old.labelName == new.labelName &&
+                        old.isPro == new.isPro
+                }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
+                    activeLabelName to labels
+                }.distinctUntilChanged()
                 .collect { (settings, labels) ->
 
-                    val labelToEdit = labelToEditName?.let { name ->
-                        labels.find { label -> label.name == name }
-                    }
+                    val labelToEdit =
+                        labelToEditName?.let { name ->
+                            labels.find { label -> label.name == name }
+                        }
 
                     _uiState.update {
                         it.copy(
@@ -78,8 +85,9 @@ class AddEditLabelViewModel(
                             isPro = settings.isPro,
                             defaultLabelDisplayName = defaultLabelName,
                             labelToEdit = labelToEdit,
-                            newLabel = labelToEdit
-                                ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
+                            newLabel =
+                                labelToEdit
+                                    ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
                             activeLabelName = settings.labelName,
                             labels = labels,
                         )
@@ -94,7 +102,10 @@ class AddEditLabelViewModel(
         }
     }
 
-    fun updateLabel(labelName: String, label: Label) {
+    fun updateLabel(
+        labelName: String,
+        label: Label,
+    ) {
         viewModelScope.launch {
             repo.updateLabel(labelName, label.copy(name = label.name.trim()))
             val isRenamingActiveLabel =

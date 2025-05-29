@@ -39,6 +39,7 @@ data class Label(
         const val DEFAULT_LABEL_COLOR_INDEX = 24
         const val OTHERS_LABEL_COLOR_INDEX = 24
         const val LABEL_NAME_MAX_LENGTH = 32
+
         fun defaultLabel() =
             Label(
                 name = DEFAULT_LABEL_NAME,
@@ -46,13 +47,10 @@ data class Label(
                 orderIndex = 0,
             )
 
-        fun newLabelWithRandomColorIndex(lastIndex: Int) =
-            Label(name = "", colorIndex = Random.nextInt(lastIndex).toLong())
+        fun newLabelWithRandomColorIndex(lastIndex: Int) = Label(name = "", colorIndex = Random.nextInt(lastIndex).toLong())
     }
 
-    fun isSameAs(label: Label): Boolean {
-        return this.copy(orderIndex = 0) == label.copy(orderIndex = 0)
-    }
+    fun isSameAs(label: Label): Boolean = this.copy(orderIndex = 0) == label.copy(orderIndex = 0)
 }
 
 fun Label.isDefault() = name == Label.DEFAULT_LABEL_NAME

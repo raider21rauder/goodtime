@@ -29,7 +29,6 @@ class AlarmManagerHandler(
     private val timeProvider: TimeProvider,
     private val log: Logger,
 ) : EventListener {
-
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     private var isForeground = true
@@ -91,12 +90,11 @@ class AlarmManagerHandler(
         pendingIntent.cancel()
     }
 
-    private fun getAlarmPendingIntent(): PendingIntent {
-        return PendingIntent.getBroadcast(
+    private fun getAlarmPendingIntent(): PendingIntent =
+        PendingIntent.getBroadcast(
             context,
             0,
             Intent(context, AlarmReceiver::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
-    }
 }

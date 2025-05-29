@@ -39,7 +39,10 @@ class HistoryBarChartMarkerValueFormatter(
     private val isTimeOverviewType: Boolean,
     private val totalLabel: String,
 ) : DefaultCartesianMarker.ValueFormatter {
-    private fun SpannableStringBuilder.append(y: Double, color: Int? = null) {
+    private fun SpannableStringBuilder.append(
+        y: Double,
+        color: Int? = null,
+    ) {
         val valueFormatted =
             if (isTimeOverviewType) y.minutes.formatOverview() else y.toInt().toString()
         if (color != null) {
@@ -53,7 +56,10 @@ class HistoryBarChartMarkerValueFormatter(
         }
     }
 
-    private fun SpannableStringBuilder.append(text: String, color: Int? = null) {
+    private fun SpannableStringBuilder.append(
+        text: String,
+        color: Int? = null,
+    ) {
         if (color != null) {
             appendCompat2(
                 text,
@@ -81,14 +87,16 @@ class HistoryBarChartMarkerValueFormatter(
                 val lastColumn = target.columns.last { it.entry.y > 0 }
                 target.columns.forEachIndexed { index, column ->
                     if (column.entry.y > 0) {
-                        val label = labels.elementAtOrNull(index)?.let {
-                            val localizedName = when (it) {
-                                Label.DEFAULT_LABEL_NAME -> defaultLabelName to column.color
-                                Label.OTHERS_LABEL_NAME -> othersLabelName to othersLabelColor
-                                else -> it to column.color
-                            }
-                            "${localizedName.first}: " to localizedName.second
-                        } ?: ("" to null)
+                        val label =
+                            labels.elementAtOrNull(index)?.let {
+                                val localizedName =
+                                    when (it) {
+                                        Label.DEFAULT_LABEL_NAME -> defaultLabelName to column.color
+                                        Label.OTHERS_LABEL_NAME -> othersLabelName to othersLabelColor
+                                        else -> it to column.color
+                                    }
+                                "${localizedName.first}: " to localizedName.second
+                            } ?: ("" to null)
                         append(label.first, label.second)
                         append(" ")
                         append(column.entry.y, label.second)

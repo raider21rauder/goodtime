@@ -30,6 +30,7 @@ import androidx.room.RoomDatabaseConstructor
 @ConstructedBy(ProductivityDatabaseConstructor::class)
 abstract class ProductivityDatabase : RoomDatabase() {
     abstract fun labelsDao(): LabelDao
+
     abstract fun sessionsDao(): SessionDao
 }
 
@@ -38,8 +39,6 @@ expect object ProductivityDatabaseConstructor : RoomDatabaseConstructor<Producti
     override fun initialize(): ProductivityDatabase
 }
 
-expect fun getRoomDatabase(
-    builder: RoomDatabase.Builder<ProductivityDatabase>,
-): ProductivityDatabase
+expect fun getRoomDatabase(builder: RoomDatabase.Builder<ProductivityDatabase>): ProductivityDatabase
 
 const val DATABASE_NAME = "goodtime-db"

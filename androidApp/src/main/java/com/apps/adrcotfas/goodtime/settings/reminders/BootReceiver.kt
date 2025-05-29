@@ -29,13 +29,17 @@ import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 import java.lang.RuntimeException
 
-class BootReceiver : BroadcastReceiver(), KoinComponent {
-
+class BootReceiver :
+    BroadcastReceiver(),
+    KoinComponent {
     private val reminderHelper: ReminderHelper by inject()
     private val sessionResetHandler: EventListener by inject(named(EventListener.SESSION_RESET_HANDLER))
     private val logger by injectLogger(TAG)
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         if (intent.action == null) return
         try {
             if (Intent.ACTION_BOOT_COMPLETED == intent.action) {

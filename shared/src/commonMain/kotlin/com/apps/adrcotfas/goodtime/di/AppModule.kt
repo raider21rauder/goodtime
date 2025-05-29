@@ -54,14 +54,18 @@ const val WORKER_SCOPE = "worker_scope"
 const val MAIN_SCOPE = "main_scope"
 const val IO_SCOPE = "io_scope"
 
-private val coroutineScopeModule = module {
-    single<CoroutineScope>(named(WORKER_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
-    single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
-    single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
-}
+private val coroutineScopeModule =
+    module {
+        single<CoroutineScope>(named(WORKER_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
+        single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
+        single<CoroutineScope>(named(IO_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+    }
 
-fun insertKoin(appModule: Module, flavorModule: Module): KoinApplication {
-    return startKoin {
+fun insertKoin(
+    appModule: Module,
+    flavorModule: Module,
+): KoinApplication =
+    startKoin {
         modules(
             appModule,
             flavorModule,
@@ -74,73 +78,74 @@ fun insertKoin(appModule: Module, flavorModule: Module): KoinApplication {
             mainModule,
         )
     }
-}
 
 expect fun isDebug(): Boolean
+
 expect val platformModule: Module
 
-private val coreModule = module {
-    val baseLogger =
-        Logger(
-            config = StaticConfig(
-                logWriterList = listOf(platformLogWriter()),
-                minSeverity = if (isDebug()) Severity.Verbose else Severity.Info,
-            ),
-            tag = "Goodtime",
-        )
-    factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
+private val coreModule =
+    module {
+        val baseLogger =
+            Logger(
+                config =
+                    StaticConfig(
+                        logWriterList = listOf(platformLogWriter()),
+                        minSeverity = if (isDebug()) Severity.Verbose else Severity.Info,
+                    ),
+                tag = "Goodtime",
+            )
+        factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
 
-    single<LocalDataRepository> {
-        LocalDataRepositoryImpl(
-            get<ProductivityDatabase>().sessionsDao(),
-            get<ProductivityDatabase>().labelsDao(),
-            get<CoroutineScope>(named(IO_SCOPE)),
-        )
-    }
-    single<SettingsRepository> {
-        SettingsRepositoryImpl(
-            get<DataStore<Preferences>>(named(SETTINGS_NAME)),
-            getWith("SettingsRepository"),
-        )
-    }
-    single<TimeProvider> {
-        createTimeProvider()
-    }
+        single<LocalDataRepository> {
+            LocalDataRepositoryImpl(
+                get<ProductivityDatabase>().sessionsDao(),
+                get<ProductivityDatabase>().labelsDao(),
+                get<CoroutineScope>(named(IO_SCOPE)),
+            )
+        }
+        single<SettingsRepository> {
+            SettingsRepositoryImpl(
+                get<DataStore<Preferences>>(named(SETTINGS_NAME)),
+                getWith("SettingsRepository"),
+            )
+        }
+        single<TimeProvider> {
+            createTimeProvider()
+        }
 
-    single<FinishedSessionsHandler> {
-        FinishedSessionsHandler(
-            get<CoroutineScope>(named(IO_SCOPE)),
-            get<LocalDataRepository>(),
-            get<SettingsRepository>(),
-            getWith("FinishedSessionsHandler"),
-        )
-    }
+        single<FinishedSessionsHandler> {
+            FinishedSessionsHandler(
+                get<CoroutineScope>(named(IO_SCOPE)),
+                get<LocalDataRepository>(),
+                get<SettingsRepository>(),
+                getWith("FinishedSessionsHandler"),
+            )
+        }
 
-    single<BackupManager> {
-        BackupManager(
-            get<FileSystem>(),
-            get<String>(named(DB_PATH_KEY)),
-            get<String>(named(FILES_DIR_PATH_KEY)),
-            get<ProductivityDatabase>(),
-            get<TimeProvider>(),
-            get<BackupPrompter>(),
-            get<LocalDataRepository>(),
-            getWith("BackupManager"),
-        )
+        single<BackupManager> {
+            BackupManager(
+                get<FileSystem>(),
+                get<String>(named(DB_PATH_KEY)),
+                get<String>(named(FILES_DIR_PATH_KEY)),
+                get<ProductivityDatabase>(),
+                get<TimeProvider>(),
+                get<BackupPrompter>(),
+                get<LocalDataRepository>(),
+                getWith("BackupManager"),
+            )
+        }
     }
-}
 
 internal const val SETTINGS_NAME = "productivity_settings.preferences"
 internal const val SETTINGS_FILE_NAME = SETTINGS_NAME + "_pb"
 internal const val DB_PATH_KEY = "db_path"
 internal const val FILES_DIR_PATH_KEY = "tmp_path"
 
-internal fun getDataStore(producePath: () -> String): DataStore<Preferences> {
-    return PreferenceDataStoreFactory.createWithPath(produceFile = { producePath().toPath() })
-}
+internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =
+    PreferenceDataStoreFactory.createWithPath(produceFile = {
+        producePath().toPath()
+    })
 
-inline fun <reified T> Scope.getWith(vararg params: Any?): T {
-    return get(parameters = { parametersOf(*params) })
-}
+inline fun <reified T> Scope.getWith(vararg params: Any?): T = get(parameters = { parametersOf(*params) })
 
 fun KoinComponent.injectLogger(tag: String): Lazy<Logger> = inject { parametersOf(tag) }

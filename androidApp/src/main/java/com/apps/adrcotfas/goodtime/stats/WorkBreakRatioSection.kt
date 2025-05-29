@@ -48,42 +48,47 @@ fun WorkBreakRatioSection(
     typeNames: Map<OverviewDurationType, String>,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    val totalWork = when (overviewDurationType) {
-        OverviewDurationType.TODAY -> overviewData.workToday
-        OverviewDurationType.THIS_WEEK -> overviewData.workThisWeek
-        OverviewDurationType.THIS_MONTH -> overviewData.workThisMonth
-        OverviewDurationType.TOTAL -> overviewData.workTotal
-    }
-    val totalBreak = when (overviewDurationType) {
-        OverviewDurationType.TODAY -> overviewData.breakToday
-        OverviewDurationType.THIS_WEEK -> overviewData.breakThisWeek
-        OverviewDurationType.THIS_MONTH -> overviewData.breakThisMonth
-        OverviewDurationType.TOTAL -> overviewData.breakTotal
-    }
+    val totalWork =
+        when (overviewDurationType) {
+            OverviewDurationType.TODAY -> overviewData.workToday
+            OverviewDurationType.THIS_WEEK -> overviewData.workThisWeek
+            OverviewDurationType.THIS_MONTH -> overviewData.workThisMonth
+            OverviewDurationType.TOTAL -> overviewData.workTotal
+        }
+    val totalBreak =
+        when (overviewDurationType) {
+            OverviewDurationType.TODAY -> overviewData.breakToday
+            OverviewDurationType.THIS_WEEK -> overviewData.breakThisWeek
+            OverviewDurationType.THIS_MONTH -> overviewData.breakThisMonth
+            OverviewDurationType.TOTAL -> overviewData.breakTotal
+        }
 
     val denominator = totalWork + totalBreak
     val workPercentage = if (denominator > 0) round((totalWork.toDouble() * 100) / denominator) else 0.0
     val breakPercentage = if (denominator > 0) round(100 - workPercentage) else 0.0
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 8.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 stringResource(R.string.stats_focus_break_ratio),
-                style = MaterialTheme.typography.labelLarge.copy(
-                    fontWeight = FontWeight.Medium,
-                    color = color,
-                ),
+                style =
+                    MaterialTheme.typography.labelLarge.copy(
+                        fontWeight = FontWeight.Medium,
+                        color = color,
+                    ),
             )
             DropdownMenuBox(
                 textStyle = MaterialTheme.typography.bodySmall,
@@ -97,9 +102,10 @@ fun WorkBreakRatioSection(
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp, horizontal = 32.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp, horizontal = 32.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Row(
@@ -117,9 +123,10 @@ fun WorkBreakRatioSection(
                 )
             }
             LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(10.dp),
                 progress = { workPercentage.toFloat() / 100 },
                 drawStopIndicator = {},
             )

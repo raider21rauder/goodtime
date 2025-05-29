@@ -20,10 +20,20 @@ package com.apps.adrcotfas.goodtime.data.local.backup
 import okio.Path
 
 enum class BackupType {
-    DB, JSON, CSV
+    DB,
+    JSON,
+    CSV,
 }
 
 interface BackupPrompter {
-    suspend fun promptUserForBackup(backupType: BackupType, fileToSharePath: Path, callback: suspend (Boolean) -> Unit)
-    suspend fun promptUserForRestore(importedFilePath: String, callback: suspend (Boolean) -> Unit)
+    suspend fun promptUserForBackup(
+        backupType: BackupType,
+        fileToSharePath: Path,
+        callback: suspend (Boolean) -> Unit,
+    )
+
+    suspend fun promptUserForRestore(
+        importedFilePath: String,
+        callback: suspend (Boolean) -> Unit,
+    )
 }

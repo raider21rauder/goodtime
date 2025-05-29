@@ -22,7 +22,5 @@ import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.RobolectricTest
 
 actual abstract class RoomDatabaseTest : RobolectricTest() {
-    actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> {
-        return Room.inMemoryDatabaseBuilder()
-    }
+    actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<ProductivityDatabase> = Room.inMemoryDatabaseBuilder()
 }

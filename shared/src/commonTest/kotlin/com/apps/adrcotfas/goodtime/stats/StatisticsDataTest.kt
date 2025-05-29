@@ -27,7 +27,6 @@ import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.days
 
 class StatisticsDataTest {
-
     @Test
     fun calculateSessionWeightTest() {
         val todayTimestamp = 641131200000L

@@ -32,9 +32,7 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LicensesScreen(
-    onNavigateBack: () -> Boolean,
-) {
+fun LicensesScreen(onNavigateBack: () -> Boolean) {
     val listState = rememberLazyListState()
 
     Scaffold(
@@ -47,9 +45,10 @@ fun LicensesScreen(
         },
     ) { paddingValues ->
         LibrariesContainer(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
             lazyListState = listState,
             contentPadding = paddingValues,
             showLicenseBadges = false,

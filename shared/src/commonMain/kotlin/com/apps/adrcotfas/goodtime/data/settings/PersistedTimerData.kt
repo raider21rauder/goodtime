@@ -42,6 +42,4 @@ data class LongBreakData(
     val lastWorkEndTime: Long = 0, // millis since boot
 )
 
-fun LongBreakData.streakInUse(sessionsBeforeLongBreak: Int): Int {
-    return streak % sessionsBeforeLongBreak
-}
+fun LongBreakData.streakInUse(sessionsBeforeLongBreak: Int): Int = streak % sessionsBeforeLongBreak

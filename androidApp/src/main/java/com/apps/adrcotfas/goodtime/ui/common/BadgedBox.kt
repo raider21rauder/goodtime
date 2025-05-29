@@ -25,7 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun BadgedBoxWithCount(modifier: Modifier = Modifier, count: Int, content: @Composable () -> Unit) {
+fun BadgedBoxWithCount(
+    modifier: Modifier = Modifier,
+    count: Int,
+    content: @Composable () -> Unit,
+) {
     BadgedBox(
         modifier = modifier,
         badge = {

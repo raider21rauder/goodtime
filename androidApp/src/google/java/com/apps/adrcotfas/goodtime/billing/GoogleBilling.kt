@@ -61,26 +61,30 @@ class GoogleBilling(
     private val dataRepository: LocalDataRepository,
     private val coroutineScope: CoroutineScope,
     private val log: Logger,
-) : BillingAbstract, PurchasesUpdatedListener, ProductDetailsResponseListener {
-
+) : BillingAbstract,
+    PurchasesUpdatedListener,
+    ProductDetailsResponseListener {
     private val _productDetails = MutableStateFlow<ProductDetails?>(null)
     val productDetails: StateFlow<ProductDetails?> = _productDetails
 
     private val purchases = MutableStateFlow<List<Purchase>?>(null)
-    private val hasPro: Flow<Boolean?> = purchases.map { purchaseList ->
-        purchaseList?.any { purchase ->
-            purchase.products.contains(PRO_VERSION)
+    private val hasPro: Flow<Boolean?> =
+        purchases.map { purchaseList ->
+            purchaseList?.any { purchase ->
+                purchase.products.contains(PRO_VERSION)
+            }
         }
-    }
     private val _purchasePending = MutableStateFlow(false)
     val purchasePending = _purchasePending.asStateFlow()
 
-    private val _isPurchaseAcknowledged = MutableStateFlow(value = false)
+    private val isPurchaseAcknowledged = MutableStateFlow(value = false)
 
-    private val billingClient = BillingClient.newBuilder(context)
-        .setListener(this)
-        .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
-        .build()
+    private val billingClient =
+        BillingClient
+            .newBuilder(context)
+            .setListener(this)
+            .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+            .build()
 
     val isPro = settingsRepository.settings.map { it.isPro }.distinctUntilChanged()
 
@@ -93,7 +97,8 @@ class GoogleBilling(
         log.d { "buy: attempt to upgrade to PRO" }
         productDetails.value?.let {
             launchBillingFlow(
-                activity, billingFlowParamsBuilder(productDetails = it).build(),
+                activity,
+                billingFlowParamsBuilder(productDetails = it).build(),
             )
         } ?: log.e("buy: Invalid product details")
     }
@@ -107,7 +112,11 @@ class GoogleBilling(
              * [hasPro] - whether the billing client states that the user has the pro version
              * [acknowledged] - whether the purchase has been acknowledged
              */
-            data class ProState(val isPro: Boolean, val hasPro: Boolean?, val acknowledged: Boolean)
+            data class ProState(
+                val isPro: Boolean,
+                val hasPro: Boolean?,
+                val acknowledged: Boolean,
+            )
             combine(
                 settingsRepository.settings.distinctUntilChanged().map { it.isPro },
                 hasPro,
@@ -132,22 +141,24 @@ class GoogleBilling(
             }
         }
 
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingResponseCode.OK) {
-                    log.d("Billing response OK")
-                    queryPurchases()
-                    queryProductDetails()
-                } else {
-                    log.e(billingResult.debugMessage)
+        billingClient.startConnection(
+            object : BillingClientStateListener {
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (billingResult.responseCode == BillingResponseCode.OK) {
+                        log.d("Billing response OK")
+                        queryPurchases()
+                        queryProductDetails()
+                    } else {
+                        log.e(billingResult.debugMessage)
+                    }
                 }
-            }
 
-            override fun onBillingServiceDisconnected() {
-                log.d("Billing connection disconnected")
-                retryBillingServiceConnection()
-            }
-        })
+                override fun onBillingServiceDisconnected() {
+                    log.d("Billing connection disconnected")
+                    retryBillingServiceConnection()
+                }
+            },
+        )
     }
 
     override fun terminate() {
@@ -161,21 +172,24 @@ class GoogleBilling(
         var isConnectionEstablished = false
         do {
             try {
-                billingClient.startConnection(object : BillingClientStateListener {
-                    override fun onBillingServiceDisconnected() {}
-                    override fun onBillingSetupFinished(billingResult: BillingResult) {
-                        if (billingResult.responseCode == BillingResponseCode.OK) {
-                            queryPurchases()
-                            queryProductDetails()
-                            isConnectionEstablished = true
-                            log.d("Billing connection retry succeeded.")
-                        } else {
-                            log.e(
-                                "Billing connection retry failed: ${billingResult.debugMessage}",
-                            )
+                billingClient.startConnection(
+                    object : BillingClientStateListener {
+                        override fun onBillingServiceDisconnected() {}
+
+                        override fun onBillingSetupFinished(billingResult: BillingResult) {
+                            if (billingResult.responseCode == BillingResponseCode.OK) {
+                                queryPurchases()
+                                queryProductDetails()
+                                isConnectionEstablished = true
+                                log.d("Billing connection retry succeeded.")
+                            } else {
+                                log.e(
+                                    "Billing connection retry failed: ${billingResult.debugMessage}",
+                                )
+                            }
                         }
-                    }
-                })
+                    },
+                )
             } catch (e: Exception) {
                 e.message?.let { log.e(it) }
             } finally {
@@ -189,7 +203,9 @@ class GoogleBilling(
             log.e("queryPurchases: BillingClient is not ready")
         }
         billingClient.queryPurchasesAsync(
-            QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
+            QueryPurchasesParams
+                .newBuilder()
+                .setProductType(BillingClient.ProductType.INAPP)
                 .build(),
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingResponseCode.OK) {
@@ -213,7 +229,8 @@ class GoogleBilling(
         val params = QueryProductDetailsParams.newBuilder()
         val productList = mutableListOf<QueryProductDetailsParams.Product>()
         productList.add(
-            QueryProductDetailsParams.Product.newBuilder()
+            QueryProductDetailsParams.Product
+                .newBuilder()
                 .setProductId(PRO_VERSION)
                 .setProductType(BillingClient.ProductType.INAPP)
                 .build(),
@@ -257,7 +274,10 @@ class GoogleBilling(
         }
     }
 
-    private fun launchBillingFlow(activity: Activity, params: BillingFlowParams) {
+    private fun launchBillingFlow(
+        activity: Activity,
+        params: BillingFlowParams,
+    ) {
         log.d("launchBillingFlow...")
         if (!billingClient.isReady) {
             log.e("launchBillingFlow: BillingClient is not ready")
@@ -297,9 +317,11 @@ class GoogleBilling(
 
     private fun acknowledge(purchaseToken: String): BillingResult {
         log.d("Acknowledge: $purchaseToken")
-        val params = AcknowledgePurchaseParams.newBuilder()
-            .setPurchaseToken(purchaseToken)
-            .build()
+        val params =
+            AcknowledgePurchaseParams
+                .newBuilder()
+                .setPurchaseToken(purchaseToken)
+                .build()
         var ackResult = BillingResult()
         billingClient.acknowledgePurchase(params) { billingResult ->
             ackResult = billingResult
@@ -328,7 +350,8 @@ class GoogleBilling(
                     // Querying purchases again.
                     log.d("Acknowledgement failed with ITEM_NOT_OWNED")
                     billingClient.queryPurchasesAsync(
-                        QueryPurchasesParams.newBuilder()
+                        QueryPurchasesParams
+                            .newBuilder()
                             .setProductType(BillingClient.ProductType.INAPP)
                             .build(),
                     ) { billingResult, purchaseList ->
@@ -342,7 +365,8 @@ class GoogleBilling(
                     }
                 }
 
-                in setOf(
+                in
+                setOf(
                     BillingResponseCode.ERROR,
                     BillingResponseCode.SERVICE_DISCONNECTED,
                     BillingResponseCode.SERVICE_UNAVAILABLE,
@@ -350,9 +374,9 @@ class GoogleBilling(
                 -> {
                     log.d(
                         """
-                            Acknowledgement failed, but can be retried --
-                            Response Code: ${acknowledgePurchaseResult.responseCode} --
-                            Debug Message: ${acknowledgePurchaseResult.debugMessage}
+                        Acknowledgement failed, but can be retried --
+                        Response Code: ${acknowledgePurchaseResult.responseCode} --
+                        Debug Message: ${acknowledgePurchaseResult.debugMessage}
                         """.trimIndent(),
                     )
                     runBlocking {
@@ -364,7 +388,8 @@ class GoogleBilling(
                     }
                 }
 
-                in setOf(
+                in
+                setOf(
                     BillingResponseCode.BILLING_UNAVAILABLE,
                     BillingResponseCode.DEVELOPER_ERROR,
                     BillingResponseCode.FEATURE_NOT_SUPPORTED,
@@ -372,9 +397,9 @@ class GoogleBilling(
                 -> {
                     log.e(
                         """
-                            Acknowledgement failed and cannot be retried --
-                            Response Code: ${acknowledgePurchaseResult.responseCode} --
-                            Debug Message: ${acknowledgePurchaseResult.debugMessage}
+                        Acknowledgement failed and cannot be retried --
+                        Response Code: ${acknowledgePurchaseResult.responseCode} --
+                        Debug Message: ${acknowledgePurchaseResult.debugMessage}
                         """.trimIndent(),
                     )
                 }
@@ -394,16 +419,14 @@ class GoogleBilling(
             runCatching {
                 delay(currentDelay)
                 block()
+            }.onSuccess {
+                log.d("Retry succeeded")
+                return@onSuccess
+            }.onFailure { throwable ->
+                log.e(
+                    "Retry Failed -- Cause: ${throwable.cause} -- Message: ${throwable.message}",
+                )
             }
-                .onSuccess {
-                    log.d("Retry succeeded")
-                    return@onSuccess
-                }
-                .onFailure { throwable ->
-                    log.e(
-                        "Retry Failed -- Cause: ${throwable.cause} -- Message: ${throwable.message}",
-                    )
-                }
             currentDelay *= retryFactor
             retryAttempt++
         } while (retryAttempt < maxTries)
@@ -414,7 +437,8 @@ class GoogleBilling(
     private fun billingFlowParamsBuilder(productDetails: ProductDetails) =
         BillingFlowParams.newBuilder().setProductDetailsParamsList(
             listOf(
-                BillingFlowParams.ProductDetailsParams.newBuilder()
+                BillingFlowParams.ProductDetailsParams
+                    .newBuilder()
                     .setProductDetails(productDetails)
                     .build(),
             ),
@@ -443,12 +467,13 @@ class GoogleBilling(
 
     private suspend fun resetTimerStyle() {
         val oldTimerStyle = settingsRepository.settings.first().timerStyle
-        val newTimerStyle = TimerStyleData(
-            minSize = oldTimerStyle.minSize,
-            maxSize = oldTimerStyle.maxSize,
-            fontSize = floor(oldTimerStyle.maxSize * 0.9f),
-            currentScreenWidth = oldTimerStyle.currentScreenWidth,
-        )
+        val newTimerStyle =
+            TimerStyleData(
+                minSize = oldTimerStyle.minSize,
+                maxSize = oldTimerStyle.maxSize,
+                fontSize = floor(oldTimerStyle.maxSize * 0.9f),
+                currentScreenWidth = oldTimerStyle.currentScreenWidth,
+            )
         settingsRepository.updateTimerStyle { newTimerStyle }
     }
 

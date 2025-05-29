@@ -40,17 +40,18 @@ object TimeUtils {
     fun Long.formatForBackupFileName(): String {
         val instant = Instant.fromEpochMilliseconds(this)
         val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-        val format = LocalDateTime.Format {
-            year()
-            char('-')
-            monthNumber()
-            char('-')
-            dayOfMonth()
-            char('-')
-            hour()
-            char('-')
-            minute()
-        }
+        val format =
+            LocalDateTime.Format {
+                year()
+                char('-')
+                monthNumber()
+                char('-')
+                dayOfMonth()
+                char('-')
+                hour()
+                char('-')
+                minute()
+            }
         return format.format(dateTime)
     }
 

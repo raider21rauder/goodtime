@@ -21,7 +21,6 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class NumberSuffixTest {
-
     @Test
     fun `Generate Unique Name For Duplicate`() {
         val existingNames = listOf("Default", "Label1", "Label2", "Label3", "Label666")

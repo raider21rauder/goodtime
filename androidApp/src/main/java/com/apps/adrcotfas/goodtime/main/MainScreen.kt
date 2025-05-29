@@ -116,37 +116,40 @@ fun MainScreen(
     val configuration = LocalConfiguration.current
     val haptic = LocalHapticFeedback.current
 
-    val dialControlState = rememberCustomDialControlState(
-        config = DialConfig(),
-        onLeft = viewModel::skip,
-        onTop = viewModel::addOneMinute,
-        onRight = viewModel::skip,
-        onBottom = viewModel::resetTimer,
-    )
+    val dialControlState =
+        rememberCustomDialControlState(
+            config = DialConfig(),
+            onLeft = viewModel::skip,
+            onTop = viewModel::addOneMinute,
+            onRight = viewModel::skip,
+            onBottom = viewModel::resetTimer,
+        )
 
     dialControlState.updateEnabledOptions(timerUiState)
-    val gestureModifier = dialControlState.let {
-        Modifier
-            .pointerInput(it) {
-                awaitEachGesture {
-                    val down = awaitFirstDown(requireUnconsumed = false)
-                    it.onDown(position = down.position)
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    var change =
-                        awaitTouchSlopOrCancellation(pointerId = down.id) { change, _ ->
-                            change.consume()
-                        }
-                    while (change != null && change.pressed) {
-                        change = awaitDragOrCancellation(change.id)?.also { inputChange ->
-                            if (inputChange.pressed && timerUiState.isActive) {
-                                dialControlState.onDrag(dragAmount = inputChange.positionChange())
+    val gestureModifier =
+        dialControlState.let {
+            Modifier
+                .pointerInput(it) {
+                    awaitEachGesture {
+                        val down = awaitFirstDown(requireUnconsumed = false)
+                        it.onDown(position = down.position)
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        var change =
+                            awaitTouchSlopOrCancellation(pointerId = down.id) { change, _ ->
+                                change.consume()
                             }
+                        while (change != null && change.pressed) {
+                            change =
+                                awaitDragOrCancellation(change.id)?.also { inputChange ->
+                                    if (inputChange.pressed && timerUiState.isActive) {
+                                        dialControlState.onDrag(dragAmount = inputChange.positionChange())
+                                    }
+                                }
                         }
+                        it.onRelease()
                     }
-                    it.onRelease()
                 }
-            }
-    }
+        }
 
     val yOffset = remember { Animatable(0f) }
     ScreensaverMode(
@@ -184,39 +187,43 @@ fun MainScreen(
     ) {
         Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
             Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(backgroundColor)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                    ) {
-                        onSurfaceClick()
-                    },
-            ) {
-                Box(
-                    modifier = Modifier
+                modifier =
+                    Modifier
                         .fillMaxSize()
                         .background(backgroundColor)
-                        .padding(padding),
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                        ) {
+                            onSurfaceClick()
+                        },
+            ) {
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(backgroundColor)
+                            .padding(padding),
                     contentAlignment = Alignment.Center,
                 ) {
                     val tutorialModifier =
                         if (showTutorial) Modifier.blur(radius = 4.dp) else Modifier
-                    val modifier = Modifier.offset {
-                        if (configuration.isPortrait) {
-                            IntOffset(
-                                0,
-                                yOffset.value.roundToInt(),
-                            )
-                        } else {
-                            IntOffset(yOffset.value.roundToInt(), 0)
+                    val modifier =
+                        Modifier.offset {
+                            if (configuration.isPortrait) {
+                                IntOffset(
+                                    0,
+                                    yOffset.value.roundToInt(),
+                                )
+                            } else {
+                                IntOffset(yOffset.value.roundToInt(), 0)
+                            }
                         }
-                    }
 
-                    val alphaModifier = Modifier.graphicsLayer {
-                        alpha = if (dialControlState.isDragging) 0.38f else 1f
-                    }
+                    val alphaModifier =
+                        Modifier.graphicsLayer {
+                            alpha = if (dialControlState.isDragging) 0.38f else 1f
+                        }
                     MainTimerView(
                         modifier = alphaModifier.then(modifier),
                         state = dialControlState,
@@ -348,14 +355,16 @@ fun MainScreen(
 
 private suspend fun showAlarmPermissionSnackbar(context: Context) {
     SnackbarController.sendEvent(
-        event = SnackbarEvent(
-            message = context.getString(R.string.settings_allow_alarms),
-            action = SnackbarAction(
-                name = context.getString(R.string.settings_allow),
-                action = {
-                    context.askForAlarmPermission()
-                },
+        event =
+            SnackbarEvent(
+                message = context.getString(R.string.settings_allow_alarms),
+                action =
+                    SnackbarAction(
+                        name = context.getString(R.string.settings_allow),
+                        action = {
+                            context.askForAlarmPermission()
+                        },
+                    ),
             ),
-        ),
     )
 }

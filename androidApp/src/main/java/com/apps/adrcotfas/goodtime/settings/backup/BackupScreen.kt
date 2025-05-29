@@ -66,23 +66,25 @@ fun BackupScreen(
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val enabled = uiState.isPro
 
-    val importLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let {
+                    activityResultLauncherManager.importCallback(it)
+                }
+            },
+        )
+    val exportLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) { result ->
+            val data = result.data
+            val uri = data?.data
             uri?.let {
-                activityResultLauncherManager.importCallback(it)
+                activityResultLauncherManager.exportCallback(it)
             }
-        },
-    )
-    val exportLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-    ) { result ->
-        val data = result.data
-        val uri = data?.data
-        uri?.let {
-            activityResultLauncherManager.exportCallback(it)
         }
-    }
 
     LaunchedEffect(Unit) {
         activityResultLauncherManager.setup(importLauncher, exportLauncher)
@@ -102,34 +104,36 @@ fun BackupScreen(
 
     LaunchedEffect(uiState.backupResult) {
         uiState.backupResult?.let {
-            Toast.makeText(
-                context,
-                if (it) {
-                    context.getString(R.string.backup_completed_successfully)
-                } else {
-                    context.getString(
-                        R.string.backup_failed_please_try_again,
-                    )
-                },
-                Toast.LENGTH_SHORT,
-            ).show()
+            Toast
+                .makeText(
+                    context,
+                    if (it) {
+                        context.getString(R.string.backup_completed_successfully)
+                    } else {
+                        context.getString(
+                            R.string.backup_failed_please_try_again,
+                        )
+                    },
+                    Toast.LENGTH_SHORT,
+                ).show()
             viewModel.clearBackupError()
         }
     }
 
     LaunchedEffect(uiState.restoreResult) {
         uiState.restoreResult?.let {
-            Toast.makeText(
-                context,
-                if (it) {
-                    context.getString(R.string.backup_restore_completed_successfully)
-                } else {
-                    context.getString(
-                        R.string.backup_restore_failed_please_try_again,
-                    )
-                },
-                Toast.LENGTH_SHORT,
-            ).show()
+            Toast
+                .makeText(
+                    context,
+                    if (it) {
+                        context.getString(R.string.backup_restore_completed_successfully)
+                    } else {
+                        context.getString(
+                            R.string.backup_restore_failed_please_try_again,
+                        )
+                    },
+                    Toast.LENGTH_SHORT,
+                ).show()
             viewModel.clearRestoreError()
         }
     }
@@ -144,11 +148,12 @@ fun BackupScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
         ) {
             if (!enabled) {
                 ActionCard(icon = {

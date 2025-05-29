@@ -28,7 +28,11 @@ import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Info
 
 @Composable
-fun InfoDialog(title: String, subtitle: String, onDismiss: () -> Unit) {
+fun InfoDialog(
+    title: String,
+    subtitle: String,
+    onDismiss: () -> Unit,
+) {
     AlertDialog(
         icon = {
             Icon(imageVector = EvaIcons.Outline.Info, contentDescription = null)

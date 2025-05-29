@@ -19,7 +19,7 @@ package com.apps.adrcotfas.goodtime.stats
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.LocalOverscrollConfiguration
+import androidx.compose.foundation.LocalOverscrollFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -57,15 +57,21 @@ import com.apps.adrcotfas.goodtime.common.convertSpToDp
 import com.apps.adrcotfas.goodtime.shared.R
 import kotlinx.datetime.LocalTime
 
-private fun Int.toFormattedHour(is24HourFormat: Boolean): String {
-    return if (is24HourFormat) {
+private fun Int.toFormattedHour(is24HourFormat: Boolean): String =
+    if (is24HourFormat) {
         "$this"
     } else {
-        val hour = if (this == 0) 12 else if (this > 12) this - 12 else this
+        val hour =
+            if (this == 0) {
+                12
+            } else if (this > 12) {
+                this - 12
+            } else {
+                this
+            }
         val amPm = if (this < 12) "AM" else "PM"
         "$hour\n$amPm"
     }
-}
 
 fun <K, V> Map<K, V>.rotate(startKey: K): Map<K, V> {
     val startIndex = this.keys.indexOf(startKey)
@@ -91,47 +97,52 @@ fun ProductiveTimeSection(
     val sortedData = productiveHoursOfTheDay.rotate(workdayStartHour)
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             text = stringResource(R.string.stats_productive_hours),
-            style = MaterialTheme.typography.labelLarge.copy(
-                fontWeight = FontWeight.Medium,
-                color = color,
-            ),
+            style =
+                MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = FontWeight.Medium,
+                    color = color,
+                ),
         )
         val density = LocalDensity.current
         val cellSize = remember { (convertSpToDp(density, 12.sp.value) * 1.5f).dp }
         val cellSpacing = remember { cellSize / 6f }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 24.dp,
-                    bottom = 16.dp,
-                    start = cellSize,
-                    end = 32.dp,
-                ),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 24.dp,
+                        bottom = 16.dp,
+                        start = cellSize,
+                        end = 32.dp,
+                    ),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             CompositionLocalProvider(
-                LocalOverscrollConfiguration provides null,
+                LocalOverscrollFactory provides null,
             ) {
                 val listState = rememberLazyListState()
 
                 Row {
                     // the only reason for this is to have it aligned to the Heatmap section
                     Text(
-                        modifier = Modifier
-                            .alpha(0f)
-                            .padding(cellSpacing),
+                        modifier =
+                            Modifier
+                                .alpha(0f)
+                                .padding(cellSpacing),
                         text = "mmm",
                         maxLines = 1,
                         style = MaterialTheme.typography.labelSmall,
@@ -148,24 +159,26 @@ fun ProductiveTimeSection(
                             ) {
                                 Box(modifier = Modifier.padding(cellSpacing)) {
                                     Box(
-                                        modifier = Modifier
-                                            .size(cellSize)
-                                            .clip(MaterialTheme.shapes.extraSmall)
-                                            .background(
-                                                MaterialTheme.colorScheme.secondaryContainer.copy(
-                                                    alpha = 0.5f,
+                                        modifier =
+                                            Modifier
+                                                .size(cellSize)
+                                                .clip(MaterialTheme.shapes.extraSmall)
+                                                .background(
+                                                    MaterialTheme.colorScheme.secondaryContainer.copy(
+                                                        alpha = 0.5f,
+                                                    ),
                                                 ),
-                                            ),
                                     )
                                     Box(
-                                        modifier = Modifier
-                                            .size(cellSize)
-                                            .clip(MaterialTheme.shapes.extraSmall)
-                                            .background(
-                                                color.copy(
-                                                    alpha = value,
+                                        modifier =
+                                            Modifier
+                                                .size(cellSize)
+                                                .clip(MaterialTheme.shapes.extraSmall)
+                                                .background(
+                                                    color.copy(
+                                                        alpha = value,
+                                                    ),
                                                 ),
-                                            ),
                                     )
                                 }
                                 if (hour % 3 == 0) {

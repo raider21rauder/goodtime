@@ -38,7 +38,6 @@ class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
     private val log: Logger,
 ) : SettingsRepository {
-
     private val json = Json { ignoreUnknownKeys = true }
 
     private object Keys {
@@ -71,78 +70,94 @@ class SettingsRepositoryImpl(
         val showTimeProfileTutorialKey = booleanPreferencesKey("showTimeProfileTutorialKey")
     }
 
-    override val settings: Flow<AppSettings> = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                log.e("Error reading settings", exception)
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }.map {
-            val default = AppSettings()
-            AppSettings(
-                isPro = it[Keys.isProKey] ?: default.isPro,
-                shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
-                productivityReminderSettings = it[Keys.productivityReminderSettingsKey]?.let { p ->
-                    json.decodeFromString<ProductivityReminderSettings>(p)
-                } ?: default.productivityReminderSettings,
-                uiSettings = it[Keys.uiSettingsKey]?.let { u ->
-                    json.decodeFromString<UiSettings>(u)
-                } ?: default.uiSettings,
-                statisticsSettings = it[Keys.statisticsSettingsKey]?.let { s ->
-                    json.decodeFromString<StatisticsSettings>(s)
-                } ?: default.statisticsSettings,
-                historyChartSettings = it[Keys.historyChartSettingsKey]?.let { h ->
-                    json.decodeFromString<HistoryChartSettings>(h)
-                } ?: default.historyChartSettings,
-                timerStyle = it[Keys.timerStyleKey]?.let { t ->
-                    json.decodeFromString<TimerStyleData>(t)
-                } ?: default.timerStyle,
-                workdayStart = it[Keys.workdayStartKey] ?: default.workdayStart,
-                firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
-                workFinishedSound = it[Keys.workFinishedSoundKey]
-                    ?: default.workFinishedSound,
-                breakFinishedSound = it[Keys.breakFinishedSoundKey]
-                    ?: default.breakFinishedSound,
-                userSounds = it[Keys.userSoundsKey]?.let { u ->
-                    json.decodeFromString<Set<SoundData>>(u)
-                } ?: emptySet(),
-                vibrationStrength = it[Keys.vibrationStrengthKey]
-                    ?: default.vibrationStrength,
-                enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
-                overrideSoundProfile = it[Keys.overrideSoundProfile]
-                    ?: default.overrideSoundProfile,
-                insistentNotification = it[Keys.insistentNotificationKey]
-                    ?: default.insistentNotification,
-                autoStartWork = it[Keys.autoStartWorkKey] ?: default.autoStartWork,
-                autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
-                labelName = it[Keys.labelNameKey] ?: default.labelName,
-                longBreakData = it[Keys.longBreakDataKey]?.let { l ->
-                    json.decodeFromString<LongBreakData>(l)
-                } ?: LongBreakData(),
-                breakBudgetData = it[Keys.breakBudgetDataKey]?.let { b ->
-                    json.decodeFromString<BreakBudgetData>(b)
-                } ?: BreakBudgetData(),
-                notificationPermissionState = it[Keys.notificationPermissionStateKey]?.let { key ->
-                    NotificationPermissionState.entries[key]
-                } ?: default.notificationPermissionState,
-                lastInsertedSessionId = it[Keys.lastInsertedSessionIdKey]
-                    ?: default.lastInsertedSessionId,
-                showOnboarding = it[Keys.showOnboardingKey]
-                    ?: default.showOnboarding,
-                showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
-                showTimeProfileTutorial = it[Keys.showTimeProfileTutorialKey]
-                    ?: default.showTimeProfileTutorial,
-            )
-        }.catch {
-            log.e("Error parsing settings", it)
-            emit(AppSettings())
-        }.distinctUntilChanged()
+    override val settings: Flow<AppSettings> =
+        dataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    log.e("Error reading settings", exception)
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }.map {
+                val default = AppSettings()
+                AppSettings(
+                    isPro = it[Keys.isProKey] ?: default.isPro,
+                    shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
+                    productivityReminderSettings =
+                        it[Keys.productivityReminderSettingsKey]?.let { p ->
+                            json.decodeFromString<ProductivityReminderSettings>(p)
+                        } ?: default.productivityReminderSettings,
+                    uiSettings =
+                        it[Keys.uiSettingsKey]?.let { u ->
+                            json.decodeFromString<UiSettings>(u)
+                        } ?: default.uiSettings,
+                    statisticsSettings =
+                        it[Keys.statisticsSettingsKey]?.let { s ->
+                            json.decodeFromString<StatisticsSettings>(s)
+                        } ?: default.statisticsSettings,
+                    historyChartSettings =
+                        it[Keys.historyChartSettingsKey]?.let { h ->
+                            json.decodeFromString<HistoryChartSettings>(h)
+                        } ?: default.historyChartSettings,
+                    timerStyle =
+                        it[Keys.timerStyleKey]?.let { t ->
+                            json.decodeFromString<TimerStyleData>(t)
+                        } ?: default.timerStyle,
+                    workdayStart = it[Keys.workdayStartKey] ?: default.workdayStart,
+                    firstDayOfWeek = it[Keys.firstDayOfWeekKey] ?: default.firstDayOfWeek,
+                    workFinishedSound =
+                        it[Keys.workFinishedSoundKey]
+                            ?: default.workFinishedSound,
+                    breakFinishedSound =
+                        it[Keys.breakFinishedSoundKey]
+                            ?: default.breakFinishedSound,
+                    userSounds =
+                        it[Keys.userSoundsKey]?.let { u ->
+                            json.decodeFromString<Set<SoundData>>(u)
+                        } ?: emptySet(),
+                    vibrationStrength =
+                        it[Keys.vibrationStrengthKey]
+                            ?: default.vibrationStrength,
+                    enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
+                    overrideSoundProfile =
+                        it[Keys.overrideSoundProfile]
+                            ?: default.overrideSoundProfile,
+                    insistentNotification =
+                        it[Keys.insistentNotificationKey]
+                            ?: default.insistentNotification,
+                    autoStartWork = it[Keys.autoStartWorkKey] ?: default.autoStartWork,
+                    autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
+                    labelName = it[Keys.labelNameKey] ?: default.labelName,
+                    longBreakData =
+                        it[Keys.longBreakDataKey]?.let { l ->
+                            json.decodeFromString<LongBreakData>(l)
+                        } ?: LongBreakData(),
+                    breakBudgetData =
+                        it[Keys.breakBudgetDataKey]?.let { b ->
+                            json.decodeFromString<BreakBudgetData>(b)
+                        } ?: BreakBudgetData(),
+                    notificationPermissionState =
+                        it[Keys.notificationPermissionStateKey]?.let { key ->
+                            NotificationPermissionState.entries[key]
+                        } ?: default.notificationPermissionState,
+                    lastInsertedSessionId =
+                        it[Keys.lastInsertedSessionIdKey]
+                            ?: default.lastInsertedSessionId,
+                    showOnboarding =
+                        it[Keys.showOnboardingKey]
+                            ?: default.showOnboarding,
+                    showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
+                    showTimeProfileTutorial =
+                        it[Keys.showTimeProfileTutorialKey]
+                            ?: default.showTimeProfileTutorial,
+                )
+            }.catch {
+                log.e("Error parsing settings", it)
+                emit(AppSettings())
+            }.distinctUntilChanged()
 
-    override suspend fun updateReminderSettings(
-        transform: (ProductivityReminderSettings) -> ProductivityReminderSettings,
-    ) {
+    override suspend fun updateReminderSettings(transform: (ProductivityReminderSettings) -> ProductivityReminderSettings) {
         dataStore.edit {
             val previous =
                 it[Keys.productivityReminderSettingsKey]?.let { p -> json.decodeFromString(p) }
@@ -152,12 +167,11 @@ class SettingsRepositoryImpl(
         }
     }
 
-    override suspend fun updateUiSettings(
-        transform: (UiSettings) -> UiSettings,
-    ) {
+    override suspend fun updateUiSettings(transform: (UiSettings) -> UiSettings) {
         dataStore.edit {
-            val previous = it[Keys.uiSettingsKey]?.let { u -> json.decodeFromString(u) }
-                ?: UiSettings()
+            val previous =
+                it[Keys.uiSettingsKey]?.let { u -> json.decodeFromString(u) }
+                    ?: UiSettings()
             val new = transform(previous)
             it[Keys.uiSettingsKey] = json.encodeToString(new)
         }
@@ -165,30 +179,29 @@ class SettingsRepositoryImpl(
 
     override suspend fun updateStatisticsSettings(transform: (StatisticsSettings) -> StatisticsSettings) {
         dataStore.edit {
-            val previous = it[Keys.statisticsSettingsKey]?.let { s -> json.decodeFromString(s) }
-                ?: StatisticsSettings()
+            val previous =
+                it[Keys.statisticsSettingsKey]?.let { s -> json.decodeFromString(s) }
+                    ?: StatisticsSettings()
             val new = transform(previous)
             it[Keys.statisticsSettingsKey] = json.encodeToString(new)
         }
     }
 
-    override suspend fun updateHistoryChartSettings(
-        transform: (HistoryChartSettings) -> HistoryChartSettings,
-    ) {
+    override suspend fun updateHistoryChartSettings(transform: (HistoryChartSettings) -> HistoryChartSettings) {
         dataStore.edit {
-            val previous = it[Keys.historyChartSettingsKey]?.let { s -> json.decodeFromString(s) }
-                ?: HistoryChartSettings()
+            val previous =
+                it[Keys.historyChartSettingsKey]?.let { s -> json.decodeFromString(s) }
+                    ?: HistoryChartSettings()
             val new = transform(previous)
             it[Keys.historyChartSettingsKey] = json.encodeToString(new)
         }
     }
 
-    override suspend fun updateTimerStyle(
-        transform: (TimerStyleData) -> TimerStyleData,
-    ) {
+    override suspend fun updateTimerStyle(transform: (TimerStyleData) -> TimerStyleData) {
         dataStore.edit {
-            val previous = it[Keys.timerStyleKey]?.let { t -> json.decodeFromString(t) }
-                ?: TimerStyleData()
+            val previous =
+                it[Keys.timerStyleKey]?.let { t -> json.decodeFromString(t) }
+                    ?: TimerStyleData()
             val new = transform(previous)
             it[Keys.timerStyleKey] = json.encodeToString(new)
         }
@@ -259,6 +272,7 @@ class SettingsRepositoryImpl(
     }
 
     override suspend fun activateDefaultLabel() = activateLabelWithName(Label.DEFAULT_LABEL_NAME)
+
     override suspend fun setLastInsertedSessionId(id: Long) {
         dataStore.edit { it[Keys.lastInsertedSessionIdKey] = id }
     }

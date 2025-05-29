@@ -26,16 +26,17 @@ import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val timerManagerModule = module {
-    single<TimerManager> {
-        TimerManager(
-            get<LocalDataRepository>(),
-            get<SettingsRepository>(),
-            get<List<EventListener>>(),
-            get<TimeProvider>(),
-            get<FinishedSessionsHandler>(),
-            getWith("TimerManager"),
-            coroutineScope = get(named(IO_SCOPE)),
-        )
+val timerManagerModule =
+    module {
+        single<TimerManager> {
+            TimerManager(
+                get<LocalDataRepository>(),
+                get<SettingsRepository>(),
+                get<List<EventListener>>(),
+                get<TimeProvider>(),
+                get<FinishedSessionsHandler>(),
+                getWith("TimerManager"),
+                coroutineScope = get(named(IO_SCOPE)),
+            )
+        }
     }
-}

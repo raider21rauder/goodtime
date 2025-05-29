@@ -103,7 +103,7 @@ fun SettingsScreen(
     val settings = uiState.settings
 
     val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
@@ -126,7 +126,8 @@ fun SettingsScreen(
         }
     }
 
-    val notificationPermissionState by viewModel.uiState.map { it.settings.notificationPermissionState }
+    val notificationPermissionState by viewModel.uiState
+        .map { it.settings.notificationPermissionState }
         .collectAsStateWithLifecycle(initialValue = NotificationPermissionState.NOT_ASKED)
 
     val listState = rememberScrollState()
@@ -141,11 +142,12 @@ fun SettingsScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .animateContentSize(),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .animateContentSize(),
         ) {
             ActionSection(
                 notificationPermissionState = notificationPermissionState,
@@ -223,18 +225,20 @@ fun SettingsScreen(
             BetterListItem(
                 title = stringResource(R.string.settings_custom_start_of_day_title),
                 subtitle = stringResource(R.string.settings_custom_start_of_day_desc),
-                trailing = secondsOfDayToTimerFormat(
-                    uiState.settings.workdayStart,
-                    DateFormat.is24HourFormat(context),
-                ),
+                trailing =
+                    secondsOfDayToTimerFormat(
+                        uiState.settings.workdayStart,
+                        DateFormat.is24HourFormat(context),
+                    ),
                 onClick = {
                     viewModel.setShowWorkdayStartPicker(true)
                 },
             )
 
-            val days = firstDayOfWeekOptions.map {
-                it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, Locale.getDefault())
-            }
+            val days =
+                firstDayOfWeekOptions.map {
+                    it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, Locale.getDefault())
+                }
 
             DropdownMenuListItem(
                 title = stringResource(R.string.settings_start_of_the_week),
@@ -375,11 +379,12 @@ fun SettingsScreen(
         }
         if (uiState.showWorkdayStartPicker) {
             val workdayStart = LocalTime.fromSecondOfDay(uiState.settings.workdayStart)
-            val timePickerState = rememberTimePickerState(
-                initialHour = workdayStart.hour,
-                initialMinute = workdayStart.minute,
-                is24Hour = DateFormat.is24HourFormat(context),
-            )
+            val timePickerState =
+                rememberTimePickerState(
+                    initialHour = workdayStart.hour,
+                    initialMinute = workdayStart.minute,
+                    is24Hour = DateFormat.is24HourFormat(context),
+                )
             TimePicker(
                 onDismiss = { viewModel.setShowWorkdayStartPicker(false) },
                 onConfirm = {
@@ -392,11 +397,12 @@ fun SettingsScreen(
         if (uiState.showTimePicker) {
             val reminderTime =
                 LocalTime.fromSecondOfDay(settings.productivityReminderSettings.secondOfDay)
-            val timePickerState = rememberTimePickerState(
-                initialHour = reminderTime.hour,
-                initialMinute = reminderTime.minute,
-                is24Hour = DateFormat.is24HourFormat(context),
-            )
+            val timePickerState =
+                rememberTimePickerState(
+                    initialHour = reminderTime.hour,
+                    initialMinute = reminderTime.minute,
+                    is24Hour = DateFormat.is24HourFormat(context),
+                )
             TimePicker(
                 onDismiss = { viewModel.setShowTimePicker(false) },
                 onConfirm = {

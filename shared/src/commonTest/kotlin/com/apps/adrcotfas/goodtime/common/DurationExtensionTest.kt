@@ -24,11 +24,24 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 class DurationExtensionTest {
-
     @Test
     fun testFormatMinutes() {
-        assertEquals(1.days.plus(2.hours).plus(30.minutes).formatOverview(), "26h 30min")
-        assertEquals(40.days.plus(2.hours).plus(30.minutes).formatOverview(), "962h 30min")
+        assertEquals(
+            1
+                .days
+                .plus(2.hours)
+                .plus(30.minutes)
+                .formatOverview(),
+            "26h 30min",
+        )
+        assertEquals(
+            40
+                .days
+                .plus(2.hours)
+                .plus(30.minutes)
+                .formatOverview(),
+            "962h 30min",
+        )
         assertEquals(99999.hours.plus(30.minutes).formatOverview(), "99999h 30min")
     }
 }

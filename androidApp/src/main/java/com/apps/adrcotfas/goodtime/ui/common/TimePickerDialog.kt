@@ -63,11 +63,12 @@ fun TimePicker(
     timePickerState: TimePickerState,
 ) {
     var showDial by remember { mutableStateOf(true) }
-    val toggleIcon = if (showDial) {
-        Icons.Outlined.KeyboardAlt
-    } else {
-        Icons.Filled.AccessTime
-    }
+    val toggleIcon =
+        if (showDial) {
+            Icons.Outlined.KeyboardAlt
+        } else {
+            Icons.Filled.AccessTime
+        }
 
     TimePickerDialog(
         title = title,
@@ -112,30 +113,32 @@ fun TimePickerDialog(
             shape = MaterialTheme.shapes.extraLarge,
             tonalElevation = 6.dp,
             modifier =
-            Modifier
-                .width(IntrinsicSize.Min)
-                .height(IntrinsicSize.Min)
-                .background(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme.colorScheme.surface,
-                ),
+                Modifier
+                    .width(IntrinsicSize.Min)
+                    .height(IntrinsicSize.Min)
+                    .background(
+                        shape = MaterialTheme.shapes.extraLarge,
+                        color = MaterialTheme.colorScheme.surface,
+                    ),
         ) {
             Column(
                 modifier = Modifier.padding(top = 24.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, bottom = 20.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, bottom = 20.dp),
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
                 )
                 content()
                 Row(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .height(40.dp)
+                            .fillMaxWidth(),
                 ) {
                     toggle()
                     Spacer(modifier = Modifier.weight(1f))
@@ -160,11 +163,7 @@ fun TimePickerDialogPreview() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.toLocalTime(): LocalTime {
-    return LocalTime(hour = hour, minute = minute)
-}
+fun TimePickerState.toLocalTime(): LocalTime = LocalTime(hour = hour, minute = minute)
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.toSecondOfDay(): Int {
-    return this.toLocalTime().toSecondOfDay()
-}
+fun TimePickerState.toSecondOfDay(): Int = this.toLocalTime().toSecondOfDay()

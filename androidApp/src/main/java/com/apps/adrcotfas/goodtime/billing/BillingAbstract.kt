@@ -19,5 +19,6 @@ package com.apps.adrcotfas.goodtime.billing
 
 interface BillingAbstract {
     fun init()
+
     fun terminate()
 }

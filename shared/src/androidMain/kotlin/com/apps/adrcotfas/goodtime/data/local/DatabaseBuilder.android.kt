@@ -24,8 +24,9 @@ import androidx.room.RoomDatabase
 fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<ProductivityDatabase> {
     val appContext = context.applicationContext
     val dbFile = appContext.getDatabasePath(DATABASE_NAME)
-    return Room.databaseBuilder<ProductivityDatabase>(
-        context = appContext,
-        name = dbFile.absolutePath,
-    ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
+    return Room
+        .databaseBuilder<ProductivityDatabase>(
+            context = appContext,
+            name = dbFile.absolutePath,
+        ).setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
 }

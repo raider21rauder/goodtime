@@ -23,8 +23,9 @@ import com.apps.adrcotfas.goodtime.di.IO_SCOPE
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val flavorModule = module {
-    single<BillingAbstract> {
-        FdroidBilling(get(), get(named(IO_SCOPE)))
+val flavorModule =
+    module {
+        single<BillingAbstract> {
+            FdroidBilling(get(), get(named(IO_SCOPE)))
+        }
     }
-}

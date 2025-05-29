@@ -25,35 +25,36 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
 class ModelMappingsExtTest {
-
     @Test
     fun `Convert local session to external and back`() {
-        val localSession = LocalSession(
-            id = 1,
-            timestamp = 3.minutes.inWholeMilliseconds,
-            duration = 3.minutes.toLong(DurationUnit.MINUTES),
-            interruptions = 0,
-            labelName = "label",
-            notes = "notes",
-            isWork = true,
-            isArchived = true,
-        )
+        val localSession =
+            LocalSession(
+                id = 1,
+                timestamp = 3.minutes.inWholeMilliseconds,
+                duration = 3.minutes.toLong(DurationUnit.MINUTES),
+                interruptions = 0,
+                labelName = "label",
+                notes = "notes",
+                isWork = true,
+                isArchived = true,
+            )
         val session = localSession.toExternal()
         assertEquals(localSession, session.toLocal())
     }
 
     @Test
     fun `Convert external session to local and back`() {
-        val session = Session(
-            id = 1,
-            timestamp = 3.minutes.inWholeMilliseconds,
-            duration = 3.minutes.toLong(DurationUnit.MINUTES),
-            interruptions = 0,
-            label = "label",
-            notes = "notes",
-            isWork = false,
-            isArchived = true,
-        )
+        val session =
+            Session(
+                id = 1,
+                timestamp = 3.minutes.inWholeMilliseconds,
+                duration = 3.minutes.toLong(DurationUnit.MINUTES),
+                interruptions = 0,
+                label = "label",
+                notes = "notes",
+                isWork = false,
+                isArchived = true,
+            )
         val localSession = session.toLocal()
         assertEquals(
             session,
@@ -63,34 +64,13 @@ class ModelMappingsExtTest {
 
     @Test
     fun `Convert local label to external and back`() {
-        val localLabel = LocalLabel(
-            name = "name",
-            colorIndex = 1,
-            orderIndex = 2,
-            useDefaultTimeProfile = false,
-            isCountdown = true,
-            workDuration = 3,
-            isBreakEnabled = false,
-            breakDuration = 4,
-            isLongBreakEnabled = false,
-            longBreakDuration = 5,
-            sessionsBeforeLongBreak = 6,
-            workBreakRatio = 7,
-            isArchived = true,
-        )
-        val label = localLabel.toExternal()
-        assertEquals(localLabel, label.toLocal())
-    }
-
-    @Test
-    fun `Convert external label to local and back`() {
-        val label = Label(
-            name = "name",
-            colorIndex = 1,
-            orderIndex = 2,
-            useDefaultTimeProfile = true,
-            timerProfile = TimerProfile(
-                isCountdown = false,
+        val localLabel =
+            LocalLabel(
+                name = "name",
+                colorIndex = 1,
+                orderIndex = 2,
+                useDefaultTimeProfile = false,
+                isCountdown = true,
                 workDuration = 3,
                 isBreakEnabled = false,
                 breakDuration = 4,
@@ -98,9 +78,33 @@ class ModelMappingsExtTest {
                 longBreakDuration = 5,
                 sessionsBeforeLongBreak = 6,
                 workBreakRatio = 7,
-            ),
-            isArchived = true,
-        )
+                isArchived = true,
+            )
+        val label = localLabel.toExternal()
+        assertEquals(localLabel, label.toLocal())
+    }
+
+    @Test
+    fun `Convert external label to local and back`() {
+        val label =
+            Label(
+                name = "name",
+                colorIndex = 1,
+                orderIndex = 2,
+                useDefaultTimeProfile = true,
+                timerProfile =
+                    TimerProfile(
+                        isCountdown = false,
+                        workDuration = 3,
+                        isBreakEnabled = false,
+                        breakDuration = 4,
+                        isLongBreakEnabled = false,
+                        longBreakDuration = 5,
+                        sessionsBeforeLongBreak = 6,
+                        workBreakRatio = 7,
+                    ),
+                isArchived = true,
+            )
         val localLabel = label.toLocal()
         assertEquals(
             label,

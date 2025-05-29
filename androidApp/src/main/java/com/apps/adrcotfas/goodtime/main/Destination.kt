@@ -32,7 +32,9 @@ val MainDest.route: String
 data object LabelsDest
 
 @Serializable
-data class AddEditLabelDest(val name: String)
+data class AddEditLabelDest(
+    val name: String,
+)
 
 @Serializable
 data object ArchivedLabelsDest

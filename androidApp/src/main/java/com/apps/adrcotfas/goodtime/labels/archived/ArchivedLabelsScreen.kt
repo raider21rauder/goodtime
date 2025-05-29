@@ -87,9 +87,10 @@ fun ArchivedLabelsScreen(
         content = {
             LazyColumn(
                 state = listState,
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .padding(it)
+                        .fillMaxSize(),
             ) {
                 items(labels, key = Label::name) { label ->
                     ArchivedLabelListItem(
@@ -101,11 +102,12 @@ fun ArchivedLabelsScreen(
                             showDeleteConfirmationDialog = true
                         },
                         enableUnarchive = uiState.isPro,
-                        onLastItemUnarchive = if (labels.size == 1) {
-                            onNavigateBack
-                        } else {
-                            null
-                        },
+                        onLastItemUnarchive =
+                            if (labels.size == 1) {
+                                onNavigateBack
+                            } else {
+                                null
+                            },
                     )
                 }
             }
@@ -141,13 +143,15 @@ fun ArchivedLabelListItem(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-            .padding(4.dp),
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(4.dp),
     ) {
         Icon(
-            modifier = Modifier
-                .padding(8.dp),
+            modifier =
+                Modifier
+                    .padding(8.dp),
             imageVector = Icons.AutoMirrored.Outlined.Label,
             contentDescription = null,
             tint = MaterialTheme.getLabelColor(label.colorIndex),

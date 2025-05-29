@@ -97,17 +97,17 @@ class TimerViewModel(
     private val settingsRepo: SettingsRepository,
     private val localDataRepo: LocalDataRepository,
 ) : ViewModel() {
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val timerUiState =
         timerManager.timerData.flatMapLatest {
             when (it.state) {
-                TimerState.RUNNING, TimerState.PAUSED -> flow {
-                    while (true) {
-                        emitUiState(it)
-                        delay(1000)
+                TimerState.RUNNING, TimerState.PAUSED ->
+                    flow {
+                        while (true) {
+                            emitUiState(it)
+                            delay(1000)
+                        }
                     }
-                }
 
                 else -> {
                     flow { emitUiState(it) }
@@ -116,49 +116,55 @@ class TimerViewModel(
         } // .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerUiState())
 
     private val _uiState = MutableStateFlow(TimerMainUiState())
-    val uiState = _uiState.onStart {
-        loadData()
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerMainUiState())
+    val uiState =
+        _uiState
+            .onStart {
+                loadData()
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TimerMainUiState())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            settingsRepo.settings.distinctUntilChanged { old, new ->
-                old.timerStyle == new.timerStyle &&
-                    old.uiSettings == new.uiSettings &&
-                    old.isPro == new.isPro &&
-                    old.showTutorial == new.showTutorial &&
-                    old.showTimeProfileTutorial == new.showTimeProfileTutorial
-            }.collect {
-                val settings = it
-                val uiSettings = settings.uiSettings
-                _uiState.update { state ->
-                    state.copy(
-                        isLoading = false,
-                        timerStyle = settings.timerStyle,
-                        darkThemePreference = uiSettings.themePreference,
-                        dynamicColor = uiSettings.useDynamicColor,
-                        screensaverMode = uiSettings.screensaverMode,
-                        fullscreenMode = uiSettings.fullscreenMode,
-                        trueBlackMode = uiSettings.trueBlackMode,
-                        dndDuringWork = uiSettings.dndDuringWork,
-                        isPro = settings.isPro,
-                        showTutorial = settings.showTutorial,
-                        showTimeProfileTutorial = settings.showTimeProfileTutorial,
-                    )
+            settingsRepo.settings
+                .distinctUntilChanged { old, new ->
+                    old.timerStyle == new.timerStyle &&
+                        old.uiSettings == new.uiSettings &&
+                        old.isPro == new.isPro &&
+                        old.showTutorial == new.showTutorial &&
+                        old.showTimeProfileTutorial == new.showTimeProfileTutorial
+                }.collect {
+                    val settings = it
+                    val uiSettings = settings.uiSettings
+                    _uiState.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            timerStyle = settings.timerStyle,
+                            darkThemePreference = uiSettings.themePreference,
+                            dynamicColor = uiSettings.useDynamicColor,
+                            screensaverMode = uiSettings.screensaverMode,
+                            fullscreenMode = uiSettings.fullscreenMode,
+                            trueBlackMode = uiSettings.trueBlackMode,
+                            dndDuringWork = uiSettings.dndDuringWork,
+                            isPro = settings.isPro,
+                            showTutorial = settings.showTutorial,
+                            showTimeProfileTutorial = settings.showTimeProfileTutorial,
+                        )
+                    }
                 }
-            }
         }
 
         viewModelScope.launch {
-            uiState.map { it.startOfToday }.flatMapLatest { startOfToday ->
-                localDataRepo.selectNumberOfSessionsAfter(startOfToday)
-            }.distinctUntilChanged().collect { sessionCountToday ->
-                _uiState.update {
-                    it.copy(sessionCountToday = sessionCountToday)
+            uiState
+                .map { it.startOfToday }
+                .flatMapLatest { startOfToday ->
+                    localDataRepo.selectNumberOfSessionsAfter(startOfToday)
+                }.distinctUntilChanged()
+                .collect { sessionCountToday ->
+                    _uiState.update {
+                        it.copy(sessionCountToday = sessionCountToday)
+                    }
                 }
-            }
         }
     }
 
@@ -181,9 +187,7 @@ class TimerViewModel(
         timerManager.addOneMinute()
     }
 
-    private suspend fun FlowCollector<TimerUiState>.emitUiState(
-        it: DomainTimerData,
-    ) {
+    private suspend fun FlowCollector<TimerUiState>.emitUiState(it: DomainTimerData) {
         emit(
             TimerUiState(
                 isReady = it.isReady,
@@ -214,7 +218,10 @@ class TimerViewModel(
         timerManager.updateNotesForLastCompletedSession(notes = notes)
     }
 
-    fun initTimerStyle(maxSize: Float, screenWidth: Float) {
+    fun initTimerStyle(
+        maxSize: Float,
+        screenWidth: Float,
+    ) {
         viewModelScope.launch {
             settingsRepo.updateTimerStyle {
                 it.copy(
@@ -243,15 +250,19 @@ class TimerViewModel(
     }
 
     fun forceFinish() = timerManager.finish()
+
     fun onSendToBackground() = timerManager.onSendToBackground()
+
     fun onBringToForeground() = timerManager.onBringToForeground()
 
     fun setShouldAskForReview() = viewModelScope.launch { settingsRepo.setShouldAskForReview(true) }
+
     fun setShowTutorial(show: Boolean) {
         viewModelScope.launch {
             settingsRepo.setShowTutorial(show)
         }
     }
+
     fun setShowTimeProfileTutorial(show: Boolean) {
         viewModelScope.launch {
             settingsRepo.setShowTimeProfileTutorial(show)

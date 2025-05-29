@@ -27,9 +27,19 @@ import kotlinx.coroutines.flow.Flow
  */
 interface LocalDataRepository {
     fun reinitDatabase(database: ProductivityDatabase)
+
     suspend fun insertSession(session: Session): Long
-    suspend fun updateSession(id: Long, newSession: Session)
-    suspend fun updateSessionsLabelByIds(newLabel: String, ids: List<Long>)
+
+    suspend fun updateSession(
+        id: Long,
+        newSession: Session,
+    )
+
+    suspend fun updateSessionsLabelByIds(
+        newLabel: String,
+        ids: List<Long>,
+    )
+
     suspend fun updateSessionsLabelByIdsExcept(
         newLabel: String,
         unselectedIds: List<Long>,
@@ -38,11 +48,17 @@ interface LocalDataRepository {
     )
 
     fun selectAllSessions(): Flow<List<Session>>
+
     fun selectSessionsAfter(timestamp: Long): Flow<List<Session>>
+
     fun selectSessionById(id: Long): Flow<Session>
+
     fun selectSessionsByIsArchived(isArchived: Boolean): Flow<List<Session>>
+
     fun selectSessionsByLabel(label: String): Flow<List<Session>>
+
     fun selectSessionsByLabels(labels: List<String>): Flow<List<Session>>
+
     fun selectSessionsByLabels(
         labels: List<String>,
         after: Long,
@@ -56,6 +72,7 @@ interface LocalDataRepository {
     fun selectNumberOfSessionsAfter(timestamp: Long): Flow<Int>
 
     suspend fun deleteSessions(ids: List<Long>)
+
     suspend fun deleteSessionsExcept(
         unselectedIds: List<Long>,
         selectedLabels: List<String>,
@@ -65,17 +82,42 @@ interface LocalDataRepository {
     suspend fun deleteAllSessions()
 
     suspend fun insertLabel(label: Label): Long
-    suspend fun insertLabelAndBulkRearrange(label: Label, labelsToUpdate: List<Pair<String, Long>>)
-    suspend fun updateLabelOrderIndex(name: String, newOrderIndex: Long)
+
+    suspend fun insertLabelAndBulkRearrange(
+        label: Label,
+        labelsToUpdate: List<Pair<String, Long>>,
+    )
+
+    suspend fun updateLabelOrderIndex(
+        name: String,
+        newOrderIndex: Long,
+    )
+
     suspend fun bulkUpdateLabelOrderIndex(labelsToUpdate: List<Pair<String, Long>>)
-    suspend fun updateLabelIsArchived(name: String, newIsArchived: Boolean)
-    suspend fun updateLabel(name: String, newLabel: Label)
+
+    suspend fun updateLabelIsArchived(
+        name: String,
+        newIsArchived: Boolean,
+    )
+
+    suspend fun updateLabel(
+        name: String,
+        newLabel: Label,
+    )
+
     suspend fun updateDefaultLabel(newDefaultLabel: Label)
+
     fun selectDefaultLabel(): Flow<Label?>
+
     fun selectLabelByName(name: String): Flow<Label?>
+
     fun selectAllLabels(): Flow<List<Label>>
+
     fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>>
+
     suspend fun deleteLabel(name: String)
+
     suspend fun deleteAllLabels()
+
     suspend fun archiveAllButDefault()
 }

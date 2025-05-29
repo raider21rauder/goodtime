@@ -69,9 +69,10 @@ fun StatisticsScreenTopBar(
     showBreaks: Boolean,
     onSetShowBreaks: (Boolean) -> Unit,
 ) {
-    val colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = Color.Transparent,
-    )
+    val colors =
+        TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent,
+        )
     Column {
         Crossfade(showSelectionUi, label = "StatsScreen TopBar") {
             if (it) {

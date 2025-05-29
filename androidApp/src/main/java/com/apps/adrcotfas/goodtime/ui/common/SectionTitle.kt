@@ -33,10 +33,11 @@ import androidx.compose.ui.unit.dp
 fun PreferenceGroupTitle(
     modifier: Modifier = Modifier,
     text: String,
-    paddingValues: PaddingValues = PaddingValues(
-        horizontal = 16.dp,
-        vertical = 24.dp,
-    ),
+    paddingValues: PaddingValues =
+        PaddingValues(
+            horizontal = 16.dp,
+            vertical = 24.dp,
+        ),
 ) {
     Text(
         modifier = modifier.padding(paddingValues),
@@ -46,16 +47,20 @@ fun PreferenceGroupTitle(
 }
 
 @Composable
-fun CompactPreferenceGroupTitle(modifier: Modifier = Modifier, text: String) {
+fun CompactPreferenceGroupTitle(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
     PreferenceGroupTitle(
         modifier = modifier,
         text = text,
-        paddingValues = PaddingValues(
-            top = 24.dp,
-            bottom = 4.dp,
-            start = 16.dp,
-            end = 16.dp,
-        ),
+        paddingValues =
+            PaddingValues(
+                top = 24.dp,
+                bottom = 4.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
     )
 }
 

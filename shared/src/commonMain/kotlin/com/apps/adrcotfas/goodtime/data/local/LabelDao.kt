@@ -63,10 +63,16 @@ interface LabelDao {
     )
 
     @Query("UPDATE localLabel SET orderIndex = :newOrderIndex WHERE name = :name")
-    suspend fun updateOrderIndex(newOrderIndex: Int, name: String)
+    suspend fun updateOrderIndex(
+        newOrderIndex: Int,
+        name: String,
+    )
 
     @Query("UPDATE localLabel SET isArchived = :isArchived WHERE name = :name")
-    suspend fun updateIsArchived(isArchived: Boolean, name: String)
+    suspend fun updateIsArchived(
+        isArchived: Boolean,
+        name: String,
+    )
 
     @Transaction
     suspend fun insertLabelAndBulkRearrange(

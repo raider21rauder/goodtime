@@ -140,15 +140,18 @@ fun AddEditLabelScreen(
                 actions = {
                     if (isDefaultLabel && !label.isSameAs(Label.defaultLabel())) {
                         Button(
-                            modifier = Modifier
-                                .wrapContentSize()
-                                .heightIn(min = 32.dp)
-                                .padding(horizontal = 16.dp, vertical = 8.dp),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = MaterialTheme.colorScheme.primary.copy(
-                                    alpha = 0.12f,
+                            modifier =
+                                Modifier
+                                    .wrapContentSize()
+                                    .heightIn(min = 32.dp)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                            colors =
+                                ButtonDefaults.outlinedButtonColors(
+                                    containerColor =
+                                        MaterialTheme.colorScheme.primary.copy(
+                                            alpha = 0.12f,
+                                        ),
                                 ),
-                            ),
                             onClick = { viewModel.setNewLabel(Label.defaultLabel()) },
                         ) {
                             Text(stringResource(R.string.main_reset_to_default))
@@ -171,12 +174,13 @@ fun AddEditLabelScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .background(MaterialTheme.colorScheme.background)
-                .imePadding(),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background)
+                    .imePadding(),
         ) {
             LabelNameRow(
                 isDefaultLabel = isDefaultLabel,
@@ -201,9 +205,10 @@ fun AddEditLabelScreen(
 
             if (!isDefaultLabel) {
                 ListItem(
-                    modifier = Modifier.clickable {
-                        viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
-                    },
+                    modifier =
+                        Modifier.clickable {
+                            viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
+                        },
                     leadingContent = {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -272,10 +277,11 @@ fun AddEditLabelScreen(
                                     val longBreakState = if (!it) false else isLongBreakEnabled
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(
-                                                isBreakEnabled = it,
-                                                isLongBreakEnabled = longBreakState,
-                                            ),
+                                            timerProfile =
+                                                label.timerProfile.copy(
+                                                    isBreakEnabled = it,
+                                                    isLongBreakEnabled = longBreakState,
+                                                ),
                                         ),
                                     )
                                 },
@@ -286,9 +292,10 @@ fun AddEditLabelScreen(
                                 onValueChange = {
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(
-                                                longBreakDuration = it,
-                                            ),
+                                            timerProfile =
+                                                label.timerProfile.copy(
+                                                    longBreakDuration = it,
+                                                ),
                                         ),
                                     )
                                 },
@@ -298,9 +305,10 @@ fun AddEditLabelScreen(
                                 onSwitchChange = {
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(
-                                                isLongBreakEnabled = it,
-                                            ),
+                                            timerProfile =
+                                                label.timerProfile.copy(
+                                                    isLongBreakEnabled = it,
+                                                ),
                                         ),
                                     )
                                 },
@@ -314,9 +322,10 @@ fun AddEditLabelScreen(
                                 onValueChange = {
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(
-                                                sessionsBeforeLongBreak = it,
-                                            ),
+                                            timerProfile =
+                                                label.timerProfile.copy(
+                                                    sessionsBeforeLongBreak = it,
+                                                ),
                                         ),
                                     )
                                 },
@@ -332,17 +341,19 @@ fun AddEditLabelScreen(
                                 )
                             }
                             ListItem(
-                                modifier = Modifier.toggleable(
-                                    value = isBreakEnabled,
-                                    onValueChange = { toggleBreak() },
-                                ),
+                                modifier =
+                                    Modifier.toggleable(
+                                        value = isBreakEnabled,
+                                        onValueChange = { toggleBreak() },
+                                    ),
                                 headlineContent = {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(
-                                            8.dp,
-                                            Alignment.Start,
-                                        ),
+                                        horizontalArrangement =
+                                            Arrangement.spacedBy(
+                                                8.dp,
+                                                Alignment.Start,
+                                            ),
                                     ) {
                                         Text(stringResource(R.string.labels_enable_break_budget))
 
@@ -374,9 +385,10 @@ fun AddEditLabelScreen(
                                 onValueChange = {
                                     viewModel.setNewLabel(
                                         label.copy(
-                                            timerProfile = label.timerProfile.copy(
-                                                workBreakRatio = it,
-                                            ),
+                                            timerProfile =
+                                                label.timerProfile.copy(
+                                                    workBreakRatio = it,
+                                                ),
                                         ),
                                     )
                                 },
@@ -389,8 +401,9 @@ fun AddEditLabelScreen(
         if (showBreakBudgetInfoDialog) {
             InfoDialog(
                 title = stringResource(R.string.labels_break_budget_info),
-                subtitle = "${stringResource(R.string.labels_break_budget_desc1)}\n" +
-                    stringResource(R.string.labels_break_budget_desc2),
+                subtitle =
+                    "${stringResource(R.string.labels_break_budget_desc1)}\n" +
+                        stringResource(R.string.labels_break_budget_desc2),
             ) {
                 showBreakBudgetInfoDialog = false
             }
@@ -409,9 +422,10 @@ private fun LabelNameRow(
     val focusRequester = remember { FocusRequester() }
 
     Column(
-        modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            .animateContentSize(),
+        modifier =
+            Modifier
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .animateContentSize(),
     ) {
         val internalModifier =
             if (isAddingNewLabel) {
@@ -422,13 +436,15 @@ private fun LabelNameRow(
 
         Box {
             BasicTextField(
-                modifier = internalModifier
-                    .fillMaxWidth()
-                    .clearFocusOnKeyboardDismiss(),
-                textStyle = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textDecoration = if (isDefaultLabel) null else TextDecoration.Underline,
-                ),
+                modifier =
+                    internalModifier
+                        .fillMaxWidth()
+                        .clearFocusOnKeyboardDismiss(),
+                textStyle =
+                    MaterialTheme.typography.titleLarge.copy(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textDecoration = if (isDefaultLabel) null else TextDecoration.Underline,
+                    ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 readOnly = isDefaultLabel,
                 singleLine = true,
@@ -441,13 +457,14 @@ private fun LabelNameRow(
             )
             if (labelName.isEmpty()) {
                 Text(
-                    text = if (isDefaultLabel) {
-                        stringResource(R.string.labels_default_label_name)
-                    } else {
-                        stringResource(
-                            R.string.labels_add_label_name,
-                        )
-                    },
+                    text =
+                        if (isDefaultLabel) {
+                            stringResource(R.string.labels_default_label_name)
+                        } else {
+                            stringResource(
+                                R.string.labels_add_label_name,
+                            )
+                        },
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -479,9 +496,10 @@ private fun ColorSelectRow(
 
     Box(modifier = Modifier.wrapContentSize()) {
         LazyRow(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .height(48.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .height(48.dp),
             state = listState,
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -501,14 +519,15 @@ private fun ColorSelectRow(
         }
         if (!enabled) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        color = MaterialTheme.colorScheme.background.copy(
-                            alpha = 0.38f,
-                        ),
-                    )
-                    .align(Alignment.Center),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            color =
+                                MaterialTheme.colorScheme.background.copy(
+                                    alpha = 0.38f,
+                                ),
+                        ).align(Alignment.Center),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -532,21 +551,27 @@ private fun ColorSelectRow(
 }
 
 @Composable
-private fun LabelColorPickerItem(color: Color, isSelected: Boolean, onClick: () -> Unit) {
+private fun LabelColorPickerItem(
+    color: Color,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+) {
     Box(
-        modifier = Modifier
-            .size(32.dp)
-            .clip(CircleShape)
-            .background(color)
-            .clickable(onClick = onClick),
+        modifier =
+            Modifier
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(color)
+                .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         if (isSelected) {
             Box(
-                modifier = Modifier
-                    .size(22.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
+                modifier =
+                    Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -560,7 +585,10 @@ private fun LabelColorPickerItem(color: Color, isSelected: Boolean, onClick: () 
 }
 
 @Composable
-private fun TimerTypeRow(isCountDown: Boolean, onCountDownEnabled: (Boolean) -> Unit) {
+private fun TimerTypeRow(
+    isCountDown: Boolean,
+    onCountDownEnabled: (Boolean) -> Unit,
+) {
     Row(
         modifier = Modifier.padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -594,9 +622,10 @@ fun SaveButton(
     onSave: () -> Unit,
 ) {
     Button(
-        modifier = Modifier
-            .heightIn(min = 32.dp)
-            .padding(horizontal = 8.dp),
+        modifier =
+            Modifier
+                .heightIn(min = 32.dp)
+                .padding(horizontal = 8.dp),
         enabled = hasValidName,
         onClick = {
             if (isEditMode) {

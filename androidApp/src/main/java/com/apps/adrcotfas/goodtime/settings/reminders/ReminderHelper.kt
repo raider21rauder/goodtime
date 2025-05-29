@@ -46,7 +46,9 @@ class ReminderHelper(
     private var reminderSettings = ProductivityReminderSettings()
 
     suspend fun init() {
-        settingsRepository.settings.map { it.productivityReminderSettings }.distinctUntilChanged()
+        settingsRepository.settings
+            .map { it.productivityReminderSettings }
+            .distinctUntilChanged()
             .collect { settings ->
                 reminderSettings = settings
                 scheduleNotifications()
@@ -66,12 +68,13 @@ class ReminderHelper(
         if (pendingIntents[index] == null) {
             val intent = Intent(context, ReminderReceiver::class.java)
             intent.action = REMINDER_ACTION
-            pendingIntents[index] = PendingIntent.getBroadcast(
-                context,
-                REMINDER_REQUEST_CODE + index,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-            )
+            pendingIntents[index] =
+                PendingIntent.getBroadcast(
+                    context,
+                    REMINDER_REQUEST_CODE + index,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
         }
         return pendingIntents[index]!!
     }
@@ -89,16 +92,20 @@ class ReminderHelper(
         alarmManager.cancel(reminderPendingIntent)
     }
 
-    private fun scheduleNotification(reminderDay: DayOfWeek, secondOfDay: Int) {
+    private fun scheduleNotification(
+        reminderDay: DayOfWeek,
+        secondOfDay: Int,
+    ) {
         val now = LocalDateTime.now()
         logger.d("now: ${now.toLocalTime()}")
 
         val time = LocalTime.ofSecondOfDay(secondOfDay.toLong())
-        var reminderTime = now
-            .withHour(time.hour)
-            .withMinute(time.minute)
-            .withSecond(0)
-            .with(TemporalAdjusters.nextOrSame(reminderDay))
+        var reminderTime =
+            now
+                .withHour(time.hour)
+                .withMinute(time.minute)
+                .withSecond(0)
+                .with(TemporalAdjusters.nextOrSame(reminderDay))
 
         if (reminderTime.isBefore(now)) {
             logger.d("reminderTime is before now; schedule for next week")

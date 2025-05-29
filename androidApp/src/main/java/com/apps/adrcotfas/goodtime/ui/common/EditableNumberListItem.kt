@@ -90,21 +90,24 @@ fun EditableNumberListItem(
 
     LaunchedEffect(isFocused) {
         val endRange = if (isFocused) textFieldValue.text.length else 0
-        textFieldValue = textFieldValue.copy(
-            selection = TextRange(
-                start = 0,
-                end = endRange,
-            ),
-        )
+        textFieldValue =
+            textFieldValue.copy(
+                selection =
+                    TextRange(
+                        start = 0,
+                        end = endRange,
+                    ),
+            )
     }
 
-    val clickableModifier = if (enabled && switchValue) {
-        Modifier.clickable {
-            focusRequester.requestFocus()
+    val clickableModifier =
+        if (enabled && switchValue) {
+            Modifier.clickable {
+                focusRequester.requestFocus()
+            }
+        } else {
+            Modifier
         }
-    } else {
-        Modifier
-    }
 
     val colors =
         if (enabled && switchValue) {
@@ -148,27 +151,31 @@ fun EditableNumberListItem(
                 },
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 singleLine = true,
-                textStyle = MaterialTheme.typography.titleLarge.copy(
-                    textAlign = TextAlign.Center,
-                    color = colors.headlineColor,
-                ),
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Done,
-                ),
-                modifier = Modifier
-                    .widthIn(min = 32.dp, max = 64.dp)
-                    .border(1.dp, strokeColor, MaterialTheme.shapes.medium)
-                    .clip(RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-                    .focusRequester(focusRequester)
-                    .clearFocusOnKeyboardDismiss {
-                        if (restoreValueOnClearFocus) {
-                            textFieldValue = textFieldValue.copy(
-                                text = value.toString(),
-                            )
-                        }
-                    },
+                textStyle =
+                    MaterialTheme.typography.titleLarge.copy(
+                        textAlign = TextAlign.Center,
+                        color = colors.headlineColor,
+                    ),
+                keyboardOptions =
+                    KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done,
+                    ),
+                modifier =
+                    Modifier
+                        .widthIn(min = 32.dp, max = 64.dp)
+                        .border(1.dp, strokeColor, MaterialTheme.shapes.medium)
+                        .clip(RoundedCornerShape(8.dp))
+                        .padding(8.dp)
+                        .focusRequester(focusRequester)
+                        .clearFocusOnKeyboardDismiss {
+                            if (restoreValueOnClearFocus) {
+                                textFieldValue =
+                                    textFieldValue.copy(
+                                        text = value.toString(),
+                                    )
+                            }
+                        },
             )
         },
         leadingContent = {

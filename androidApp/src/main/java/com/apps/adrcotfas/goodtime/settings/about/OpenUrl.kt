@@ -23,15 +23,19 @@ import android.net.Uri
 import android.widget.Toast
 import com.apps.adrcotfas.goodtime.shared.R
 
-fun openUrl(context: Context, url: String) {
+fun openUrl(
+    context: Context,
+    url: String,
+) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     try {
         context.startActivity(intent)
     } catch (e: Exception) {
-        Toast.makeText(
-            context,
-            context.getString(R.string.main_failed_to_open_url),
-            Toast.LENGTH_SHORT,
-        ).show()
+        Toast
+            .makeText(
+                context,
+                context.getString(R.string.main_failed_to_open_url),
+                Toast.LENGTH_SHORT,
+            ).show()
     }
 }

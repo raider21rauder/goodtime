@@ -86,16 +86,17 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
 
     Scaffold {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFFAFAFA))
-                .systemBarsPadding(),
-
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFFAFAFA))
+                    .systemBarsPadding(),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
@@ -119,10 +120,11 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
             val isLastPage = pagerState.currentPage == pages.lastIndex
 
             FloatingActionButton(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(32.dp)
-                    .size(72.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(32.dp)
+                        .size(72.dp),
                 containerColor = lightGray,
                 contentColor = darkGray,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
@@ -150,9 +152,10 @@ fun OnboardingScreen(viewModel: MainViewModel = koinViewModel()) {
             }
 
             PageIndicator(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(32.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(32.dp),
                 pageCount = pages.size,
                 currentPage = pagerState.currentPage,
                 color = lightGray,
@@ -182,10 +185,11 @@ fun OnboardingPage(
     val isPortrait = LocalConfiguration.current.isPortrait
     if (isPortrait) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-                .verticalScroll(rememberScrollState()),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp)
+                    .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -195,9 +199,10 @@ fun OnboardingPage(
         }
     } else {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 64.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -209,7 +214,11 @@ fun OnboardingPage(
 }
 
 @Composable
-fun OnboardingPageTextSection(title: String, description1: String, description2: String) {
+fun OnboardingPageTextSection(
+    title: String,
+    description1: String,
+    description2: String,
+) {
     Column(
         modifier = Modifier.widthIn(max = 400.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -248,12 +257,12 @@ fun PageIndicator(
     ) {
         repeat(pageCount) { iteration ->
             Box(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .clip(CircleShape)
-                    .background(if (currentPage == iteration) selectionColor else color)
-                    .size(10.dp),
-
+                modifier =
+                    Modifier
+                        .padding(4.dp)
+                        .clip(CircleShape)
+                        .background(if (currentPage == iteration) selectionColor else color)
+                        .size(10.dp),
             )
         }
     }

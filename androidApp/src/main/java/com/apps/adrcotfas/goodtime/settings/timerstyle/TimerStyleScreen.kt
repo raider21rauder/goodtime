@@ -101,11 +101,12 @@ fun TimerStyleScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(listState)
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(listState)
+                    .background(MaterialTheme.colorScheme.background),
         ) {
             var colorIndex by rememberSaveable { mutableIntStateOf(24) }
             var baseTime by rememberSaveable { mutableLongStateOf(25.minutes.inWholeMilliseconds) }
@@ -150,20 +151,22 @@ fun TimerStyleScreen(
                 )
             }
             Box(
-                modifier = Modifier
-                    .size(timerStyle.currentScreenWidth.dp)
-                    .padding(16.dp)
-                    .dashedBorder(
-                        color = MaterialTheme.colorScheme.onSurface,
-                        shape = MaterialTheme.shapes.medium,
-                    ),
+                modifier =
+                    Modifier
+                        .size(timerStyle.currentScreenWidth.dp)
+                        .padding(16.dp)
+                        .dashedBorder(
+                            color = MaterialTheme.colorScheme.onSurface,
+                            shape = MaterialTheme.shapes.medium,
+                        ),
                 contentAlignment = Alignment.Center,
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .align(Alignment.TopCenter),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .align(Alignment.TopCenter),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -180,10 +183,11 @@ fun TimerStyleScreen(
                             newColorIndex = Random.nextInt(palette.lastIndex)
                         }
                         colorIndex = newColorIndex
-                        baseTime = Random.nextLong(
-                            1.minutes.inWholeMilliseconds,
-                            30.minutes.inWholeMilliseconds,
-                        )
+                        baseTime =
+                            Random.nextLong(
+                                1.minutes.inWholeMilliseconds,
+                                30.minutes.inWholeMilliseconds,
+                            )
                         sessionsBeforeLongBreak = Random.nextInt(2, 8)
                         streak = Random.nextInt(1, sessionsBeforeLongBreak)
                         timerType = if (Random.nextBoolean()) TimerType.WORK else TimerType.BREAK
@@ -196,40 +200,42 @@ fun TimerStyleScreen(
                     }
                 }
 
-                val demoLabelNames = listOf(
-                    "numerical methods",
-                    "particle physics",
-                    "epigenetics",
-                    "astrophysics",
-                    "kinetics",
-                    "computer vision",
-                    "neurobiology",
-                    "dermatology",
-                    "nutrition",
-                    "philosophy",
-                    "calligraphy",
-                    "history of religions",
-                    "meditation",
-                    "guitar",
-                    "drums",
-                    "piano",
-                    "thermodynamics",
-                    "calculus",
-                    "ecology",
-                    "nanophotonics",
-                    "biochemistry",
-                    "robotics",
-                    "cryptography",
-                    "machine learning",
-                    "quantum mechanics",
-                )
-                val timerUiState = TimerUiState(
-                    baseTime = baseTime,
-                    timerState = TimerState.RUNNING,
-                    timerType = timerType,
-                    sessionsBeforeLongBreak = sessionsBeforeLongBreak,
-                    longBreakData = LongBreakData(streak = streak),
-                )
+                val demoLabelNames =
+                    listOf(
+                        "numerical methods",
+                        "particle physics",
+                        "epigenetics",
+                        "astrophysics",
+                        "kinetics",
+                        "computer vision",
+                        "neurobiology",
+                        "dermatology",
+                        "nutrition",
+                        "philosophy",
+                        "calligraphy",
+                        "history of religions",
+                        "meditation",
+                        "guitar",
+                        "drums",
+                        "piano",
+                        "thermodynamics",
+                        "calculus",
+                        "ecology",
+                        "nanophotonics",
+                        "biochemistry",
+                        "robotics",
+                        "cryptography",
+                        "machine learning",
+                        "quantum mechanics",
+                    )
+                val timerUiState =
+                    TimerUiState(
+                        baseTime = baseTime,
+                        timerState = TimerState.RUNNING,
+                        timerType = timerType,
+                        sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+                        longBreakData = LongBreakData(streak = streak),
+                    )
                 assert(lightPalette.lastIndex == demoLabelNames.lastIndex)
 
                 MainTimerView(
@@ -237,19 +243,22 @@ fun TimerStyleScreen(
                     gestureModifier = Modifier,
                     timerUiState = timerUiState,
                     timerStyle = timerStyle,
-                    domainLabel = DomainLabel(
-                        label = Label(
-                            name = demoLabelNames[colorIndex],
-                            colorIndex = colorIndex.toLong(),
+                    domainLabel =
+                        DomainLabel(
+                            label =
+                                Label(
+                                    name = demoLabelNames[colorIndex],
+                                    colorIndex = colorIndex.toLong(),
+                                ),
                         ),
-                    ),
                     onStart = {},
                     onToggle = null,
                 )
                 Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.BottomEnd),
+                    modifier =
+                        Modifier
+                            .padding(16.dp)
+                            .align(Alignment.BottomEnd),
                 ) {
                     LabelChip(
                         name = demoLabelNames[colorIndex],

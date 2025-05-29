@@ -54,20 +54,17 @@ data class StatisticsUiState(
     val isPro: Boolean = false,
     val labels: List<LabelData> = emptyList(),
     val selectedLabels: List<String> = emptyList(),
-
     // Selection UI related fields
     val selectedSessions: List<Long> = emptyList(),
     val unselectedSessions: List<Long> = emptyList(), // for the case with select all active
     val selectedSessionsCountWhenAllSelected: Int = 0,
     val isSelectAllEnabled: Boolean = false,
     val selectedLabelToBulkEdit: String? = null,
-
     // Add/Edit session related fields
     val sessionToEdit: Session? = null, // this does not change after initialization
     val newSession: Session = Session.default(),
     val showAddSession: Boolean = false,
     val canSave: Boolean = true,
-
     // Overview Tab related fields
     val firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY,
     val workDayStart: Int = 0,
@@ -91,19 +88,20 @@ class StatisticsViewModel(
     private val settingsRepository: SettingsRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(StatisticsUiState())
-    val uiState = _uiState
-        .onStart { loadData() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsUiState())
+    val uiState =
+        _uiState
+            .onStart { loadData() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), StatisticsUiState())
 
     val pagedSessions: Flow<PagingData<Session>> =
-        uiState.distinctUntilChanged { old, new ->
-            old.selectedLabels == new.selectedLabels &&
-                old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
-        }.flatMapLatest {
-            selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
-        }
+        uiState
+            .distinctUntilChanged { old, new ->
+                old.selectedLabels == new.selectedLabels &&
+                    old.statisticsSettings.showBreaks == new.statisticsSettings.showBreaks
+            }.flatMapLatest {
+                selectSessionsForTimelinePaged(it.selectedLabels, it.statisticsSettings.showBreaks)
+            }
 
     private fun selectSessionsForTimelinePaged(
         labels: List<String>,
@@ -118,23 +116,26 @@ class StatisticsViewModel(
         }
 
     private fun loadData() {
-        val settingsFlow = settingsRepository.settings.distinctUntilChanged { old, new ->
-            old.firstDayOfWeek == new.firstDayOfWeek &&
-                old.workdayStart == new.workdayStart &&
-                old.isPro == new.isPro
-        }
-        val uiStateFlow = uiState.distinctUntilChanged { old, new ->
-            old.selectedLabels == new.selectedLabels
-        }
+        val settingsFlow =
+            settingsRepository.settings.distinctUntilChanged { old, new ->
+                old.firstDayOfWeek == new.firstDayOfWeek &&
+                    old.workdayStart == new.workdayStart &&
+                    old.isPro == new.isPro
+            }
+        val uiStateFlow =
+            uiState.distinctUntilChanged { old, new ->
+                old.selectedLabels == new.selectedLabels
+            }
 
         // on first load, selected labels are all labels
         viewModelScope.launch {
             localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
                 _uiState.update {
                     it.copy(
-                        labels = labels.map { label ->
-                            label.getLabelData()
-                        },
+                        labels =
+                            labels.map { label ->
+                                label.getLabelData()
+                            },
                         selectedLabels = labels.map { label -> label.name },
                     )
                 }
@@ -166,7 +167,8 @@ class StatisticsViewModel(
                         firstDayOfWeek = firstDayOfWeek,
                     )
                 }
-                localDataRepo.selectSessionsByLabels(it.second.selectedLabels)
+                localDataRepo
+                    .selectSessionsByLabels(it.second.selectedLabels)
                     .map { sessions ->
                         withContext(Dispatchers.Default) {
                             computeStatisticsData(
@@ -283,15 +285,14 @@ class StatisticsViewModel(
         _uiState.update { it.copy(showAddSession = false) }
     }
 
-    private fun generateNewSession(): Session {
-        return Session.create(
+    private fun generateNewSession(): Session =
+        Session.create(
             duration = 0,
             timestamp = timeProvider.now(),
             interruptions = 0,
             label = Label.DEFAULT_LABEL_NAME,
             isWork = true,
         )
-    }
 
     fun setSelectedLabelToBulkEdit(label: String) {
         _uiState.update { it.copy(selectedLabelToBulkEdit = label) }
@@ -332,8 +333,7 @@ class StatisticsViewModel(
         }
     }
 
-    fun setShouldAskForReview() =
-        viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
+    fun setShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(true) }
 
     fun setShowBreaks(enabled: Boolean) {
         viewModelScope.launch {

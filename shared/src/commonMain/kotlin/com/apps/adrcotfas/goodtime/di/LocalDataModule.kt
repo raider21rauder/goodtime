@@ -23,8 +23,10 @@ import com.apps.adrcotfas.goodtime.data.local.getRoomDatabase
 import org.koin.dsl.module
 
 internal fun getDbPath(producePath: () -> String): String = producePath()
+
 internal fun getTmpPath(producePath: () -> String): String = producePath()
 
-val localDataModule = module {
-    single { getRoomDatabase(get<RoomDatabase.Builder<ProductivityDatabase>>()) }
-}
+val localDataModule =
+    module {
+        single { getRoomDatabase(get<RoomDatabase.Builder<ProductivityDatabase>>()) }
+    }

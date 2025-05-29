@@ -36,16 +36,18 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 
-open class GoodtimeMainActivity : ComponentActivity(), KoinComponent {
-
+open class GoodtimeMainActivity :
+    ComponentActivity(),
+    KoinComponent {
     internal val viewModel: MainViewModel by viewModel<MainViewModel>()
     val log: Logger by injectLogger("GoodtimeMainActivity")
 
-    private val appUpdateResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartIntentSenderForResult(),
-    ) { activityResult ->
-        handleUpdateResult(activityResult.resultCode)
-    }
+    private val appUpdateResultLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult(),
+        ) { activityResult ->
+            handleUpdateResult(activityResult.resultCode)
+        }
 
     private fun handleUpdateResult(resultCode: Int) {
         when (resultCode) {
@@ -61,12 +63,15 @@ open class GoodtimeMainActivity : ComponentActivity(), KoinComponent {
 
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         lifecycleScope.launch {
-            appUpdateManager.requestUpdateFlow()
-                .catch { emit(AppUpdateResult.NotAvailable) }.collectLatest { result ->
+            appUpdateManager
+                .requestUpdateFlow()
+                .catch { emit(AppUpdateResult.NotAvailable) }
+                .collectLatest { result ->
                     when (result) {
-                        is AppUpdateResult.Available -> result.startImmediateUpdate(
-                            appUpdateResultLauncher,
-                        )
+                        is AppUpdateResult.Available ->
+                            result.startImmediateUpdate(
+                                appUpdateResultLauncher,
+                            )
 
                         else -> Unit
                     }

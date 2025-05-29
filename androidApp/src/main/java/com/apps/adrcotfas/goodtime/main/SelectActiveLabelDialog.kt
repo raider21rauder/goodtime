@@ -52,7 +52,8 @@ fun SelectStatsVisibleLabelsDialog(
     onDismiss: () -> Unit,
     onConfirm: (List<String>) -> Unit,
 ) {
-    val labels by viewModel.uiState.map { state -> state.unarchivedLabels.map { it.getLabelData() } }
+    val labels by viewModel.uiState
+        .map { state -> state.unarchivedLabels.map { it.getLabelData() } }
         .collectAsStateWithLifecycle(emptyList())
 
     SelectLabelDialog(
@@ -64,9 +65,10 @@ fun SelectStatsVisibleLabelsDialog(
         onConfirm = onConfirm,
         buttons = {
             Row(
-                modifier = Modifier
-                    .height(40.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .height(40.dp)
+                        .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.End),
             ) {
                 TextButton(onClick = onNavigateToLabels) { Text(stringResource(R.string.labels_edit_labels)) }

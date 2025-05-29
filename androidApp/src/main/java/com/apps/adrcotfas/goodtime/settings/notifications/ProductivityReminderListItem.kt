@@ -56,7 +56,7 @@ fun ProductivityReminderListItem(
 ) {
     val context = LocalContext.current
     val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val iconButtonColors = IconButtonDefaults.filledIconButtonColors()
     Column(
@@ -67,10 +67,11 @@ fun ProductivityReminderListItem(
             title = stringResource(R.string.settings_days_of_the_week),
             supporting = {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState())
-                        .padding(top = 8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .horizontalScroll(rememberScrollState())
+                            .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -78,17 +79,17 @@ fun ProductivityReminderListItem(
                     for (day in daysInOrder) {
                         FilledIconButton(
                             colors =
-                            if (selectedDays.contains(day)) {
-                                iconButtonColors.copy(
-                                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                                    contentColor = MaterialTheme.colorScheme.primary,
-                                )
-                            } else {
-                                iconButtonColors.copy(
-                                    containerColor = iconButtonColors.disabledContainerColor,
-                                    contentColor = iconButtonColors.disabledContentColor,
-                                )
-                            },
+                                if (selectedDays.contains(day)) {
+                                    iconButtonColors.copy(
+                                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                        contentColor = MaterialTheme.colorScheme.primary,
+                                    )
+                                } else {
+                                    iconButtonColors.copy(
+                                        containerColor = iconButtonColors.disabledContainerColor,
+                                        contentColor = iconButtonColors.disabledContentColor,
+                                    )
+                                },
                             onClick = { onSelectDay(day) },
                         ) {
                             Text(
@@ -104,10 +105,11 @@ fun ProductivityReminderListItem(
 
         BetterListItem(
             title = stringResource(R.string.settings_reminder_time),
-            trailing = secondsOfDayToTimerFormat(
-                reminderSecondOfDay,
-                DateFormat.is24HourFormat(context),
-            ),
+            trailing =
+                secondsOfDayToTimerFormat(
+                    reminderSecondOfDay,
+                    DateFormat.is24HourFormat(context),
+                ),
             enabled = selectedDays.isNotEmpty(),
             onClick = { onReminderTimeClick() },
         )

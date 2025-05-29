@@ -61,14 +61,15 @@ class TorchManager(
             }
         }
         ioScope.launch {
-            settingsRepo.settings.map {
-                TorchManagerData(
-                    enabled = it.enableTorch,
-                    loop = it.insistentNotification,
-                )
-            }.collect {
-                data = it
-            }
+            settingsRepo.settings
+                .map {
+                    TorchManagerData(
+                        enabled = it.enableTorch,
+                        loop = it.insistentNotification,
+                    )
+                }.collect {
+                    data = it
+                }
         }
     }
 
@@ -76,23 +77,24 @@ class TorchManager(
 
     fun start() {
         if (!data.enabled) return
-        job = playerScope.launch {
-            cameraId?.let {
-                try {
-                    val pattern = listOf(100L, 50L, 100L)
-                    if (data.loop) {
-                        while (isActive) {
+        job =
+            playerScope.launch {
+                cameraId?.let {
+                    try {
+                        val pattern = listOf(100L, 50L, 100L)
+                        if (data.loop) {
+                            while (isActive) {
+                                cameraManager.lightUp(pattern, it)
+                                delay(1000)
+                            }
+                        } else {
                             cameraManager.lightUp(pattern, it)
-                            delay(1000)
                         }
-                    } else {
-                        cameraManager.lightUp(pattern, it)
+                    } catch (e: CameraAccessException) {
+                        logger.e(e) { "Failed to access the camera" }
                     }
-                } catch (e: CameraAccessException) {
-                    logger.e(e) { "Failed to access the camera" }
                 }
             }
-        }
     }
 
     fun stop() {
@@ -108,7 +110,10 @@ class TorchManager(
     }
 }
 
-private suspend fun CameraManager.lightUp(listOf: List<Long>, cameraId: String) {
+private suspend fun CameraManager.lightUp(
+    listOf: List<Long>,
+    cameraId: String,
+) {
     listOf.forEachIndexed { index, i ->
         if (index % 2 == 0) {
             setTorchMode(cameraId, true)

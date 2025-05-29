@@ -36,7 +36,6 @@ class SoundsViewModel(
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
-
     private val _soundData = MutableStateFlow<Set<SoundData>>(emptySet())
     val soundData = _soundData.asStateFlow()
 

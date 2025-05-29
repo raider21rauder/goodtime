@@ -51,20 +51,21 @@ fun ScreensaverMode(
 
     LaunchedEffect(screensaverMode && isActive) {
         if (screensaverMode && isActive) {
-            animationJob = coroutineScope.launch {
-                while (true) {
-                    delay(30.seconds)
-                    val max = (configuration.screenHeight - screenWidth) / 3
-                    val maxValue = abs(max.value.toInt())
-                    if (maxValue > 0) {
-                        val newOffset = Random.nextInt(from = -maxValue, until = maxValue)
-                        yOffset.animateTo(
-                            newOffset.toFloat(),
-                            animationSpec = tween(durationMillis = 2000, easing = EaseInOut),
-                        )
+            animationJob =
+                coroutineScope.launch {
+                    while (true) {
+                        delay(30.seconds)
+                        val max = (configuration.screenHeight - screenWidth) / 3
+                        val maxValue = abs(max.value.toInt())
+                        if (maxValue > 0) {
+                            val newOffset = Random.nextInt(from = -maxValue, until = maxValue)
+                            yOffset.animateTo(
+                                newOffset.toFloat(),
+                                animationSpec = tween(durationMillis = 2000, easing = EaseInOut),
+                            )
+                        }
                     }
                 }
-            }
         } else {
             animationJob?.cancel()
             yOffset.animateTo(

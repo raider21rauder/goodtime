@@ -48,25 +48,28 @@ fun ActionCard(
     description: String,
     onClick: () -> Unit,
 ) {
-    val colors = CardDefaults.cardColors().copy(
-        containerColor = if (useSecondaryColor) {
-            MaterialTheme.colorScheme.secondary.copy(alpha = 0.38f)
-        } else {
-            MaterialTheme.colorScheme.primary.copy(
-                alpha = 0.38f,
-            )
-        },
-        contentColor = MaterialTheme.colorScheme.onSurface,
-    )
+    val colors =
+        CardDefaults.cardColors().copy(
+            containerColor =
+                if (useSecondaryColor) {
+                    MaterialTheme.colorScheme.secondary.copy(alpha = 0.38f)
+                } else {
+                    MaterialTheme.colorScheme.primary.copy(
+                        alpha = 0.38f,
+                    )
+                },
+            contentColor = MaterialTheme.colorScheme.onSurface,
+        )
     Card(
         colors = colors,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(CardDefaults.shape)
-            .clickable {
-                onClick()
-            },
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .clip(CardDefaults.shape)
+                .clickable {
+                    onClick()
+                },
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -81,9 +84,10 @@ fun ActionCard(
                 }
             }
             Text(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .padding(12.dp)
+                        .weight(1f),
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
             )

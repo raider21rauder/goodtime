@@ -36,27 +36,27 @@ data class Session(
             interruptions: Long,
             label: String,
             isWork: Boolean,
-        ) =
-            Session(
-                id = 0,
-                timestamp = timestamp,
-                duration = duration,
-                interruptions = interruptions,
-                label = label,
-                notes = "",
-                isWork = isWork,
-                isArchived = false,
-            )
-
-        fun default() = Session(
+        ) = Session(
             id = 0,
-            timestamp = 0,
-            duration = 0,
-            interruptions = 0,
-            label = DEFAULT_LABEL_NAME,
+            timestamp = timestamp,
+            duration = duration,
+            interruptions = interruptions,
+            label = label,
             notes = "",
-            isWork = true,
+            isWork = isWork,
             isArchived = false,
         )
+
+        fun default() =
+            Session(
+                id = 0,
+                timestamp = 0,
+                duration = 0,
+                interruptions = 0,
+                label = DEFAULT_LABEL_NAME,
+                notes = "",
+                isWork = true,
+                isArchived = false,
+            )
     }
 }

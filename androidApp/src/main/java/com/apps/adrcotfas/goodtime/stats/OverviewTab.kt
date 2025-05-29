@@ -49,7 +49,7 @@ fun OverviewTab(
     historyChartViewModel: StatisticsHistoryViewModel,
 ) {
     val locale = androidx.compose.ui.text.intl.Locale.current
-    val javaLocale = remember(locale) { Locale(locale.language, locale.region) }
+    val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val currentDateTime = remember { currentDateTime() }
     Column(
@@ -57,15 +57,17 @@ fun OverviewTab(
             .padding(top = 8.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        val typeNames = mapOf(
-            OverviewDurationType.TODAY to stringResource(R.string.stats_today),
-            OverviewDurationType.THIS_WEEK to stringResource(
-                R.string.stats_week,
-                currentDateTime.date.isoWeekNumber(),
-            ),
-            OverviewDurationType.THIS_MONTH to localizedMonthNamesFull(javaLocale)[currentDateTime.month.ordinal],
-            OverviewDurationType.TOTAL to stringResource(R.string.stats_total),
-        )
+        val typeNames =
+            mapOf(
+                OverviewDurationType.TODAY to stringResource(R.string.stats_today),
+                OverviewDurationType.THIS_WEEK to
+                    stringResource(
+                        R.string.stats_week,
+                        currentDateTime.date.isoWeekNumber(),
+                    ),
+                OverviewDurationType.THIS_MONTH to localizedMonthNamesFull(javaLocale)[currentDateTime.month.ordinal],
+                OverviewDurationType.TOTAL to stringResource(R.string.stats_total),
+            )
 
         OverviewSection(
             statisticsData.overviewData,

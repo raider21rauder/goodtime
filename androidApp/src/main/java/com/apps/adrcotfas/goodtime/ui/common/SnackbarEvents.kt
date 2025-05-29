@@ -31,7 +31,6 @@ data class SnackbarAction(
 )
 
 object SnackbarController {
-
     private val _events = Channel<SnackbarEvent>()
     val events = _events.receiveAsFlow()
 
