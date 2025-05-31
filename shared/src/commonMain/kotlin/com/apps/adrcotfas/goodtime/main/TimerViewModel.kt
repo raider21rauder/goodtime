@@ -24,6 +24,7 @@ import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.FinishActionType
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimerManager
+import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.COUNT_UP_HARD_LIMIT
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.getBaseTime
@@ -42,6 +43,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -267,5 +269,19 @@ class TimerViewModel(
         viewModelScope.launch {
             settingsRepo.setShowTimeProfileTutorial(show)
         }
+    }
+
+    suspend fun listenForeground() {
+        timerUiState
+            .filter { it.isActive }
+            .map { it.isCountdown to it.baseTime }
+            .collect {
+                if (it.first && it.second < 500) {
+                    // the app is in foreground, trigger the end of the session
+                    forceFinish()
+                } else if (!it.first && it.second > COUNT_UP_HARD_LIMIT) {
+                    resetTimer()
+                }
+            }
     }
 }

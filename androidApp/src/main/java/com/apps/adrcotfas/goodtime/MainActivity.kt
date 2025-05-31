@@ -50,7 +50,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
-import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.COUNT_UP_HARD_LIMIT
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
@@ -91,7 +90,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -104,36 +102,20 @@ class MainActivity : GoodtimeMainActivity() {
     private var fullScreenJob: Job? = null
     private var timerStateJob: Job? = null
 
-    override fun onPause() {
-        timerViewModel.onSendToBackground()
-        timerStateJob?.cancel()
-        timerStateJob = null
-        super.onPause()
-    }
-
     override fun onResume() {
         super.onResume()
         timerViewModel.onBringToForeground()
         timerStateJob =
             lifecycleScope.launch {
-                timerViewModel.timerUiState
-                    .filter { it.isActive }
-                    .map { it.isCountdown to it.baseTime }
-                    .collect {
-                        if (it.first && it.second < 500) {
-                            // the app is in foreground, trigger the end of the session
-                            timerViewModel.forceFinish()
-                        } else if (!it.first && it.second > COUNT_UP_HARD_LIMIT) {
-                            timerViewModel.resetTimer()
-                        }
-                    }
+                timerViewModel.listenForeground()
             }
     }
 
-    override fun onDestroy() {
-        log.d { "onDestroy" }
-        notificationManager.clearFinishedNotification()
-        super.onDestroy()
+    override fun onPause() {
+        timerViewModel.onSendToBackground()
+        timerStateJob?.cancel()
+        timerStateJob = null
+        super.onPause()
     }
 
     @SuppressLint("UnrememberedGetBackStackEntry", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -398,6 +380,12 @@ class MainActivity : GoodtimeMainActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        log.d { "onDestroy" }
+        notificationManager.clearFinishedNotification()
+        super.onDestroy()
     }
 
     private fun toggleKeepScreenOn(enabled: Boolean) {
