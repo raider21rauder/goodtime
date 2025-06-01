@@ -19,18 +19,19 @@ package com.apps.adrcotfas.goodtime.data.local.backup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class BackupUiState(
+    val isLoading: Boolean = true,
     val isPro: Boolean = false,
     val isBackupInProgress: Boolean = false,
     val isCsvBackupInProgress: Boolean = false,
@@ -38,6 +39,7 @@ data class BackupUiState(
     val isRestoreInProgress: Boolean = false,
     val backupResult: Boolean? = null,
     val restoreResult: Boolean? = null,
+    val backupSettings: BackupSettings = BackupSettings(),
 )
 
 class BackupViewModel(
@@ -53,11 +55,18 @@ class BackupViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            settingsRepository.settings.map { it.isPro }.distinctUntilChanged().collect { isPro ->
-                _uiState.update {
-                    it.copy(isPro = isPro)
+            settingsRepository.settings
+                .distinctUntilChanged { old, new ->
+                    old.isPro == new.isPro && old.backupSettings == new.backupSettings
+                }.collect { settings ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            isPro = settings.isPro,
+                            backupSettings = settings.backupSettings,
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -127,4 +136,10 @@ class BackupViewModel(
                 isJsonBackupInProgress = false,
             )
         }
+
+    fun setBackupSettings(settings: BackupSettings) {
+        coroutineScope.launch {
+            settingsRepository.setBackupSettings(settings)
+        }
+    }
 }

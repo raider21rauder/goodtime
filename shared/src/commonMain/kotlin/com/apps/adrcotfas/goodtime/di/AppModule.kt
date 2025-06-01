@@ -54,7 +54,7 @@ const val WORKER_SCOPE = "worker_scope"
 const val MAIN_SCOPE = "main_scope"
 const val IO_SCOPE = "io_scope"
 
-private val coroutineScopeModule =
+val coroutineScopeModule =
     module {
         single<CoroutineScope>(named(WORKER_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
         single<CoroutineScope>(named(MAIN_SCOPE)) { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
@@ -83,7 +83,7 @@ expect fun isDebug(): Boolean
 
 expect val platformModule: Module
 
-private val coreModule =
+val coreModule =
     module {
         val baseLogger =
             Logger(
@@ -138,7 +138,7 @@ private val coreModule =
 
 internal const val SETTINGS_NAME = "productivity_settings.preferences"
 internal const val SETTINGS_FILE_NAME = SETTINGS_NAME + "_pb"
-internal const val DB_PATH_KEY = "db_path"
+const val DB_PATH_KEY = "db_path"
 internal const val FILES_DIR_PATH_KEY = "tmp_path"
 
 internal fun getDataStore(producePath: () -> String): DataStore<Preferences> =

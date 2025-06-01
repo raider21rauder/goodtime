@@ -108,6 +108,7 @@ dependencies {
     implementation(libs.androidx.media)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.workmanager)
     implementation(libs.mikepenz.aboutlibraries.core)
     implementation(libs.mikepenz.aboutlibraries.compose)
     implementation(libs.devsrsouza.compose.icons.eva)

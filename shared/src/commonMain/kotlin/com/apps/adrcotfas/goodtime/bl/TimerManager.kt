@@ -394,7 +394,7 @@ class TimerManager(
 
         val autoStarted =
             (nextType.isWork && settings.autoStartWork) ||
-                    (nextType.isBreak && settings.autoStartBreak)
+                (nextType.isBreak && settings.autoStartBreak)
 
         start(nextType, autoStarted)
     }
@@ -428,10 +428,10 @@ class TimerManager(
 
         val autoStart =
             settings.autoStartWork &&
-                    (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
-                    settings.autoStartBreak &&
-                    type.isWork &&
-                    timerProfile.profile.isBreakEnabled
+                (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
+                settings.autoStartBreak &&
+                type.isWork &&
+                timerProfile.profile.isBreakEnabled
         log.i { "AutoStart: $autoStart" }
         listeners.forEach {
             it.onEvent(
@@ -507,9 +507,9 @@ class TimerManager(
             isCountDown &&
             longBreakEnabled &&
             (
-                    finishActionType == FinishActionType.AUTO ||
-                            finishActionType == FinishActionType.MANUAL_SKIP
-                    )
+                finishActionType == FinishActionType.AUTO ||
+                    finishActionType == FinishActionType.MANUAL_SKIP
+            )
         ) {
             incrementStreak()
         }
@@ -524,11 +524,12 @@ class TimerManager(
         val interruptions = data.timeSpentPaused
 
         val durationToSave =
-            totalDuration.apply {
-                if (isWork) {
-                    minus(interruptions)
-                }
-            }.plus(WIGGLE_ROOM_MILLIS)
+            totalDuration
+                .apply {
+                    if (isWork) {
+                        minus(interruptions)
+                    }
+                }.plus(WIGGLE_ROOM_MILLIS)
                 .milliseconds
 
         val durationToSaveMinutes = durationToSave.inWholeMinutes
@@ -582,9 +583,9 @@ class TimerManager(
         val streakForLongBreakIsReached =
             (data.longBreakData.streakInUse(timerProfile.profile.sessionsBeforeLongBreak) == 0)
         return streakForLongBreakIsReached &&
-                didLastWorkSessionFinishRecently(
-                    workEndTime,
-                )
+            didLastWorkSessionFinishRecently(
+                workEndTime,
+            )
     }
 
     private fun didLastWorkSessionFinishRecently(workEndTime: Long): Boolean {
@@ -594,13 +595,13 @@ class TimerManager(
 
         val maxIdleTime =
             timerProfile.profile.workDuration.minutes.inWholeMilliseconds +
-                    timerProfile.profile.breakDuration.minutes.inWholeMilliseconds +
-                    30.minutes.inWholeMilliseconds
+                timerProfile.profile.breakDuration.minutes.inWholeMilliseconds +
+                30.minutes.inWholeMilliseconds
         return data.longBreakData.lastWorkEndTime != 0L &&
-                max(
-                    0,
-                    workEndTime - data.longBreakData.lastWorkEndTime,
-                ) < maxIdleTime
+            max(
+                0,
+                workEndTime - data.longBreakData.lastWorkEndTime,
+            ) < maxIdleTime
     }
 
     fun onSendToBackground() {
@@ -636,8 +637,7 @@ class TimerManager(
         }
     }
 
-    private fun computeCountUpEndTime(baseTime: Long) =
-        timeProvider.elapsedRealtime() + (COUNT_UP_HARD_LIMIT - baseTime)
+    private fun computeCountUpEndTime(baseTime: Long) = timeProvider.elapsedRealtime() + (COUNT_UP_HARD_LIMIT - baseTime)
 
     companion object {
         // some extra time to be used when converting millis to minutes and avoid rounding issues

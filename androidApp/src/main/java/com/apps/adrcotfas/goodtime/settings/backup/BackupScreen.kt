@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.settings.backup
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,15 +38,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.common.isUriPersisted
+import com.apps.adrcotfas.goodtime.common.releasePersistableUriPermission
+import com.apps.adrcotfas.goodtime.common.takePersistableUriPermission
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupViewModel
+import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CircularProgressListItem
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
+import com.apps.adrcotfas.goodtime.ui.common.SwitchListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -65,6 +72,7 @@ fun BackupScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
     val enabled = uiState.isPro
+    if (uiState.isLoading) return
 
     val importLauncher =
         rememberLauncherForActivityResult(
@@ -85,6 +93,22 @@ fun BackupScreen(
                 activityResultLauncherManager.exportCallback(it)
             }
         }
+
+    val autoExportDirLauncher =
+        rememberLauncherForActivityResult(
+            contract = OpenDocumentTreeContract(),
+            onResult = { uri ->
+                uri?.let {
+                    context.takePersistableUriPermission(uri)
+                    viewModel.setBackupSettings(
+                        BackupSettings(
+                            autoBackupEnabled = true,
+                            path = uri.toString(),
+                        ),
+                    )
+                }
+            },
+        )
 
     LaunchedEffect(Unit) {
         activityResultLauncherManager.setup(importLauncher, exportLauncher)
@@ -137,6 +161,13 @@ fun BackupScreen(
             viewModel.clearRestoreError()
         }
     }
+
+    LaunchedEffect(Unit) {
+        if (uiState.backupSettings.autoBackupEnabled && !context.isUriPersisted(uiState.backupSettings.path.toUri())) {
+            viewModel.setBackupSettings(BackupSettings())
+        }
+    }
+
     val listState = rememberScrollState()
     Scaffold(
         topBar = {
@@ -156,16 +187,34 @@ fun BackupScreen(
                     .background(MaterialTheme.colorScheme.background),
         ) {
             if (!enabled) {
-                ActionCard(icon = {
-                    Icon(
-                        imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = context.getString(R.string.unlock_premium),
-                    )
-                }, description = stringResource(R.string.unlock_premium_to_access_features)) {
+                ActionCard(
+                    icon = {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Unlock,
+                            contentDescription = context.getString(R.string.unlock_premium),
+                        )
+                    },
+                    description = stringResource(R.string.unlock_premium_to_access_features),
+                ) {
                     onNavigateToPro()
                 }
             }
-
+            SwitchListItem(
+                title = stringResource(R.string.backup_auto_backup),
+                checked = uiState.backupSettings.autoBackupEnabled,
+                enabled = enabled,
+                onCheckedChange = {
+                    if (enabled) {
+                        if (uiState.backupSettings.autoBackupEnabled) {
+                            context.releasePersistableUriPermission(uiState.backupSettings.path.toUri())
+                            viewModel.setBackupSettings(BackupSettings())
+                        } else {
+                            autoExportDirLauncher.launch(Uri.EMPTY)
+                        }
+                    }
+                },
+            )
+            SubtleHorizontalDivider()
             CircularProgressListItem(
                 title = stringResource(R.string.backup_export_backup),
                 subtitle = stringResource(R.string.backup_the_file_can_be_imported_back),

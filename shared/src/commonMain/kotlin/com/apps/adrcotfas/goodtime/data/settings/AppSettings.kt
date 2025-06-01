@@ -55,6 +55,7 @@ data class AppSettings(
     val showOnboarding: Boolean = true,
     val showTutorial: Boolean = true,
     val showTimeProfileTutorial: Boolean = true,
+    val backupSettings: BackupSettings = BackupSettings(),
 )
 
 enum class NotificationPermissionState {
@@ -115,4 +116,10 @@ data class SoundData(
     val name: String = "",
     val uriString: String = "",
     val isSilent: Boolean = false,
+)
+
+@Serializable
+data class BackupSettings(
+    val autoBackupEnabled: Boolean = false,
+    val path: String = "",
 )

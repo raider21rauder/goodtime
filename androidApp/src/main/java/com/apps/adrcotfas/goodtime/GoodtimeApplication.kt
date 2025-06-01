@@ -19,6 +19,9 @@ package com.apps.adrcotfas.goodtime
 
 import android.app.Application
 import android.content.Context
+import androidx.work.Configuration
+import com.apps.adrcotfas.goodtime.backup.AutoBackupManager
+import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
@@ -37,10 +40,18 @@ import com.apps.adrcotfas.goodtime.bl.notifications.VibrationPlayer
 import com.apps.adrcotfas.goodtime.data.backup.ActivityResultLauncherManager
 import com.apps.adrcotfas.goodtime.data.backup.AndroidBackupPrompter
 import com.apps.adrcotfas.goodtime.data.local.backup.BackupPrompter
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.di.DB_PATH_KEY
 import com.apps.adrcotfas.goodtime.di.IO_SCOPE
 import com.apps.adrcotfas.goodtime.di.WORKER_SCOPE
+import com.apps.adrcotfas.goodtime.di.coreModule
+import com.apps.adrcotfas.goodtime.di.coroutineScopeModule
 import com.apps.adrcotfas.goodtime.di.getWith
-import com.apps.adrcotfas.goodtime.di.insertKoin
+import com.apps.adrcotfas.goodtime.di.localDataModule
+import com.apps.adrcotfas.goodtime.di.mainModule
+import com.apps.adrcotfas.goodtime.di.platformModule
+import com.apps.adrcotfas.goodtime.di.timerManagerModule
+import com.apps.adrcotfas.goodtime.di.viewModelModule
 import com.apps.adrcotfas.goodtime.settings.notifications.SoundsViewModel
 import com.apps.adrcotfas.goodtime.settings.reminders.ReminderHelper
 import com.apps.adrcotfas.goodtime.shared.R
@@ -53,96 +64,132 @@ import org.acra.config.notification
 import org.acra.data.StringFormat
 import org.acra.ktx.initAcra
 import org.koin.android.ext.android.get
+import org.koin.androidx.workmanager.dsl.worker
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.component.KoinComponent
+import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-class GoodtimeApplication : Application() {
+class GoodtimeApplication :
+    Application(),
+    KoinComponent,
+    Configuration.Provider {
     private val applicationScope = MainScope()
 
     override fun onCreate() {
         super.onCreate()
         if (ACRA.isACRASenderServiceProcess()) return
-        insertKoin(
-            module {
-                single<Context> { this@GoodtimeApplication }
-                single<ActivityResultLauncherManager> {
-                    ActivityResultLauncherManager(
-                        get(),
-                        coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
-                    )
-                }
 
-                single<BackupPrompter> {
-                    AndroidBackupPrompter(get())
-                }
-                single<NotificationArchManager> {
-                    NotificationArchManager(
-                        get<Context>(),
-                        MainActivity::class.java,
-                    )
-                }
-                single<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)) {
-                    TimerServiceStarter(get())
-                }
-                single<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)) {
-                    AlarmManagerHandler(
-                        get<Context>(),
-                        get<TimeProvider>(),
-                        getWith("AlarmManagerHandler"),
-                    )
-                }
-                single<ReminderHelper> {
-                    ReminderHelper(
-                        get(),
-                        get(),
-                        getWith("ReminderHelper"),
-                    )
-                }
-                viewModel<SoundsViewModel> {
-                    SoundsViewModel(
-                        settingsRepository = get(),
-                    )
-                }
-                single {
-                    SoundPlayer(
-                        context = get(),
-                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                        settingsRepo = get(),
-                        logger = getWith("SoundPlayer"),
-                    )
-                }
-                single {
-                    VibrationPlayer(
-                        context = get(),
-                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                        settingsRepo = get(),
-                    )
-                }
-                single {
-                    TorchManager(
-                        context = get(),
-                        ioScope = get<CoroutineScope>(named(IO_SCOPE)),
-                        playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
-                        settingsRepo = get(),
-                        logger = getWith("TorchManager"),
-                    )
-                }
-                single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
-                    SoundVibrationAndTorchPlayer(
-                        soundPlayer = get(),
-                        vibrationPlayer = get(),
-                        torchManager = get(),
-                    )
-                }
-                single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
-                    SessionResetHandler(get(), getWith("SessionResetHandler"))
-                }
-            },
-            flavorModule,
-        )
+        startKoin {
+            modules(
+                module {
+                    single<Context> { this@GoodtimeApplication }
+                    single<ActivityResultLauncherManager> {
+                        ActivityResultLauncherManager(
+                            get(),
+                            coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+                        )
+                    }
+
+                    single<BackupPrompter> {
+                        AndroidBackupPrompter(get())
+                    }
+                    single<NotificationArchManager> {
+                        NotificationArchManager(
+                            get<Context>(),
+                            MainActivity::class.java,
+                        )
+                    }
+                    single<EventListener>(named(EventListener.TIMER_SERVICE_HANDLER)) {
+                        TimerServiceStarter(get())
+                    }
+                    single<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)) {
+                        AlarmManagerHandler(
+                            get<Context>(),
+                            get<TimeProvider>(),
+                            getWith("AlarmManagerHandler"),
+                        )
+                    }
+                    single<ReminderHelper> {
+                        ReminderHelper(
+                            get(),
+                            get(),
+                            getWith("ReminderHelper"),
+                        )
+                    }
+                    viewModel<SoundsViewModel> {
+                        SoundsViewModel(
+                            settingsRepository = get(),
+                        )
+                    }
+                    single {
+                        SoundPlayer(
+                            context = get(),
+                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                            settingsRepo = get(),
+                            logger = getWith("SoundPlayer"),
+                        )
+                    }
+                    single {
+                        VibrationPlayer(
+                            context = get(),
+                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                            settingsRepo = get(),
+                        )
+                    }
+                    single {
+                        TorchManager(
+                            context = get(),
+                            ioScope = get<CoroutineScope>(named(IO_SCOPE)),
+                            playerScope = get<CoroutineScope>(named(WORKER_SCOPE)),
+                            settingsRepo = get(),
+                            logger = getWith("TorchManager"),
+                        )
+                    }
+                    single<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)) {
+                        SoundVibrationAndTorchPlayer(
+                            soundPlayer = get(),
+                            vibrationPlayer = get(),
+                            torchManager = get(),
+                        )
+                    }
+                    single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
+                        SessionResetHandler(get(), getWith("SessionResetHandler"))
+                    }
+                    single(createdAtStart = true) {
+                        AutoBackupManager(
+                            context = get(),
+                            settingsRepository = get<SettingsRepository>(),
+                            logger = getWith("AutoBackupManager"),
+                        )
+                    }
+                    worker {
+                        AutoBackupWorker(
+                            get(),
+                            get(),
+                            get(),
+                            getWith("AutoBackupWorker"),
+                            get<String>(named(DB_PATH_KEY)),
+                            get(),
+                        )
+                    }
+                },
+                flavorModule,
+                coroutineScopeModule,
+                platformModule,
+                coreModule,
+                localDataModule,
+                timerManagerModule,
+                viewModelModule,
+                mainModule,
+            )
+            workManagerFactory()
+        }
+
         val reminderHelper = get<ReminderHelper>()
         applicationScope.launch {
             reminderHelper.init()
@@ -176,4 +223,18 @@ class GoodtimeApplication : Application() {
             }
         }
     }
+
+    override val workManagerConfiguration: Configuration
+        get() =
+            if (BuildConfig.DEBUG) {
+                Configuration
+                    .Builder()
+                    .setMinimumLoggingLevel(android.util.Log.DEBUG)
+                    .build()
+            } else {
+                Configuration
+                    .Builder()
+                    .setMinimumLoggingLevel(android.util.Log.ERROR)
+                    .build()
+            }
 }

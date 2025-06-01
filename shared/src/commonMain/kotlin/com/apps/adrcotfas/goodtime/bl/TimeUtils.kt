@@ -43,13 +43,10 @@ object TimeUtils {
         val format =
             LocalDateTime.Format {
                 year()
-                char('-')
                 monthNumber()
-                char('-')
                 dayOfMonth()
                 char('-')
                 hour()
-                char('-')
                 minute()
             }
         return format.format(dateTime)

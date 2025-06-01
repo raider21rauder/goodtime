@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.fakes
 
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
+import com.apps.adrcotfas.goodtime.data.settings.BackupSettings
 import com.apps.adrcotfas.goodtime.data.settings.BreakBudgetData
 import com.apps.adrcotfas.goodtime.data.settings.HistoryChartSettings
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
@@ -184,6 +185,12 @@ class FakeSettingsRepository(
     override suspend fun setShouldAskForReview(enable: Boolean) {
         _settings.emit(
             _settings.value.copy(shouldAskForReview = enable),
+        )
+    }
+
+    override suspend fun setBackupSettings(backupSettings: BackupSettings) {
+        _settings.emit(
+            _settings.value.copy(backupSettings = backupSettings),
         )
     }
 

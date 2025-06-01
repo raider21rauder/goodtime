@@ -60,8 +60,7 @@ class BackupManager(
 
     suspend fun backup(onComplete: (Boolean) -> Unit) {
         try {
-            val tmpFilePath =
-                "$filesDirPath/${DB_BACKUP_PREFIX}${timeProvider.now().formatForBackupFileName()}"
+            val tmpFilePath = "$filesDirPath/${generateBackupFileName()}"
             createBackup(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.DB, tmpFilePath.toPath()) {
                 onComplete(it)
@@ -74,8 +73,7 @@ class BackupManager(
 
     suspend fun backupToCsv(onComplete: (Boolean) -> Unit) {
         try {
-            val tmpFilePath =
-                "$filesDirPath/${PREFIX}${timeProvider.now().formatForBackupFileName()}.csv"
+            val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.csv"
             createCsvBackup(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.CSV, tmpFilePath.toPath()) {
                 onComplete(it)
@@ -88,8 +86,7 @@ class BackupManager(
 
     suspend fun backupToJson(onComplete: (Boolean) -> Unit) {
         try {
-            val tmpFilePath =
-                "$filesDirPath/${PREFIX}${timeProvider.now().formatForBackupFileName()}.json"
+            val tmpFilePath = "$filesDirPath/${generateBackupFileName(PREFIX)}.json"
             createJsonBackup(tmpFilePath)
             backupPrompter.promptUserForBackup(BackupType.JSON, tmpFilePath.toPath()) {
                 onComplete(it)
@@ -117,9 +114,15 @@ class BackupManager(
         }
     }
 
+    fun checkpointDatabase() {
+        database.sessionsDao().checkpoint()
+    }
+
+    fun generateBackupFileName(prefix: String = DB_BACKUP_PREFIX): String = "${prefix}${timeProvider.now().formatForBackupFileName()}"
+
     private suspend fun createBackup(tmpFilePath: String) {
         withContext(defaultDispatcher) {
-            database.sessionsDao().checkpoint()
+            checkpointDatabase()
             fileSystem.copy(dbPath.toPath(), tmpFilePath.toPath())
         }
     }
@@ -177,7 +180,7 @@ class BackupManager(
     private suspend fun restoreBackup() {
         withContext(defaultDispatcher) {
             try {
-                database.sessionsDao().checkpoint()
+                checkpointDatabase()
                 fileSystem.copy(importedTemporaryFileName.toPath(), dbPath.toPath())
             } finally {
                 afterOperation()
@@ -201,7 +204,7 @@ class BackupManager(
     }
 
     companion object {
-        private const val PREFIX = "Goodtime-Productivity-"
+        private const val PREFIX = "GT"
         private const val DB_BACKUP_PREFIX = "$PREFIX-Backup-"
     }
 }

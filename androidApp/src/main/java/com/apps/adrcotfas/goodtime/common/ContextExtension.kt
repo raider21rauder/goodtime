@@ -136,3 +136,14 @@ fun Context.installIsOlderThan10Days(): Boolean {
     val installTime = packageManager.getPackageInfo(packageName, 0).firstInstallTime
     return System.currentTimeMillis() - installTime > 10.days.inWholeMilliseconds
 }
+
+fun Context.takePersistableUriPermission(uri: Uri) {
+    val flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+    contentResolver.takePersistableUriPermission(uri, flags)
+}
+
+fun Context.releasePersistableUriPermission(uri: Uri) {
+    contentResolver.releasePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+}
+
+fun Context.isUriPersisted(uri: Uri): Boolean = contentResolver.persistedUriPermissions.any { it.uri == uri }

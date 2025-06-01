@@ -80,4 +80,6 @@ interface SettingsRepository {
     suspend fun setPro(isPro: Boolean)
 
     suspend fun setShouldAskForReview(enable: Boolean)
+
+    suspend fun setBackupSettings(backupSettings: BackupSettings)
 }

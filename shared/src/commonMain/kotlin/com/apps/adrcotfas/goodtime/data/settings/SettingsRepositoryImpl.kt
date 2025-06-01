@@ -68,6 +68,7 @@ class SettingsRepositoryImpl(
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val showTimeProfileTutorialKey = booleanPreferencesKey("showTimeProfileTutorialKey")
+        val backupSettingsKey = stringPreferencesKey("backupSettingsKey")
     }
 
     override val settings: Flow<AppSettings> =
@@ -151,6 +152,10 @@ class SettingsRepositoryImpl(
                     showTimeProfileTutorial =
                         it[Keys.showTimeProfileTutorialKey]
                             ?: default.showTimeProfileTutorial,
+                    backupSettings =
+                        it[Keys.backupSettingsKey]?.let { b ->
+                            json.decodeFromString<BackupSettings>(b)
+                        } ?: BackupSettings(),
                 )
             }.catch {
                 log.e("Error parsing settings", it)
@@ -295,5 +300,11 @@ class SettingsRepositoryImpl(
 
     override suspend fun setShouldAskForReview(enable: Boolean) {
         dataStore.edit { it[Keys.shouldAskForReviewKey] = enable }
+    }
+
+    override suspend fun setBackupSettings(backupSettings: BackupSettings) {
+        dataStore.edit {
+            it[Keys.backupSettingsKey] = json.encodeToString(backupSettings)
+        }
     }
 }
