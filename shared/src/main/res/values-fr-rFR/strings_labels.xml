@@ -32,9 +32,9 @@
     <string name="labels_edit_labels">Modifier les étiquettes</string>
     <string name="labels_edit_active_label">Modifier l\'étiquette active</string>
     <string name="labels_break_budget_info">Gagnez du temps de pause en vous concentrant</string>
-    <string name="labels_break_budget_desc1">"Votre budget de rupture augmente en fonction du taux de concentration/rupture que vous avez sélectionné et diminue lorsque vous êtes interrompu."</string>
+    <string name="labels_break_budget_desc1">"Votre réserve de pauses augmente en fonction du taux de concentration/rupture que vous avez sélectionné et diminue lorsque vous êtes interrompu."</string>
     <string name="labels_break_budget_desc2">"Prenez des pauses quand vous le souhaitez."</string>
-    <string name="labels_break_budget">Arrêter le budget</string>
+    <string name="labels_break_budget">Réserve de pause</string>
     <string name="labels_follow_default_time_profile">Suivre le profil de temps par défaut</string>
     <string name="labels_add_label">"Ajouter une étiquette"</string>
     <string name="labels_add_label_name">Ajouter un nom d\'étiquette</string>

@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Sikkerhetskopieringen mislyktes. Vennligst prøv igjen</string>
     <string name="backup_restore_completed_successfully">Gjenoppretting fullført</string>
     <string name="backup_restore_failed_please_try_again">Gjenoppretting mislyktes. Prøv igjen</string>
+    <string name="backup_auto_backup">Automatiske sikkerhetskopier</string>
 </resources>

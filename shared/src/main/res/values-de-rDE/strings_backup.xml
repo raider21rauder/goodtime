@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Backup fehlgeschlagen. Bitte erneut versuchen</string>
     <string name="backup_restore_completed_successfully">Wiederherstellung erfolgreich abgeschlossen</string>
     <string name="backup_restore_failed_please_try_again">Wiederherstellung fehlgeschlagen. Bitte erneut versuchen</string>
+    <string name="backup_auto_backup">Automatisches Backup</string>
 </resources>

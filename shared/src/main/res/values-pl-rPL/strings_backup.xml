@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Kopia zapasowa nie powiodła się. Spróbuj ponownie</string>
     <string name="backup_restore_completed_successfully">Przywracanie zakończone pomyślnie</string>
     <string name="backup_restore_failed_please_try_again">Przywracanie nie powiodło się. Spróbuj ponownie</string>
+    <string name="backup_auto_backup">Automatyczna kopia zapasowa</string>
 </resources>

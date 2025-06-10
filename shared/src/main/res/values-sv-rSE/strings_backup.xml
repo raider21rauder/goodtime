@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Säkerhetskopiering misslyckades. Försök igen</string>
     <string name="backup_restore_completed_successfully">Återställning slutförd</string>
     <string name="backup_restore_failed_please_try_again">Återställning misslyckades. Försök igen</string>
+    <string name="backup_auto_backup">Automatisk säkerhetskopiering</string>
 </resources>

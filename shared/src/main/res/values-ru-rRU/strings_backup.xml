@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Резервное копирование не удалось. Пожалуйста, попробуйте снова</string>
     <string name="backup_restore_completed_successfully">Восстановление успешно завершено</string>
     <string name="backup_restore_failed_please_try_again">Восстановление не удалось. Пожалуйста, попробуйте еще раз</string>
+    <string name="backup_auto_backup">Автобэкап</string>
 </resources>

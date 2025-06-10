@@ -79,5 +79,5 @@
     <string name="settings_timer_durations_title">Duração do temporizador</string>
     <string name="settings_timer_durations_desc">Definir a duração das sessões de trabalho e dos intervalos</string>
     <string name="settings_launcher_name">Nome do lançador</string>
-    <string name="settings_language">Idioma</string>
+    <string name="settings_language">Língua</string>
 </resources>

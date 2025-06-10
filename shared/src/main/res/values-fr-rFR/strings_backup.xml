@@ -22,9 +22,10 @@
     <string name="backup_the_file_can_be_imported_back">Le fichier peut être réimporté</string>
     <string name="backup_restore_backup">Restaurer la sauvegarde</string>
     <string name="backup_export_csv">Exporter CSV</string>
-    <string name="backup_export_json">Exporter JSON</string>
+    <string name="backup_export_json">Exporter au format JSON</string>
     <string name="backup_completed_successfully">Sauvegarde terminée avec succès</string>
     <string name="backup_failed_please_try_again">Échec de la sauvegarde. Veuillez réessayer</string>
     <string name="backup_restore_completed_successfully">Restauration terminée avec succès</string>
     <string name="backup_restore_failed_please_try_again">Échec de la restauration. Veuillez réessayer</string>
+    <string name="backup_auto_backup">Sauvegarde automatique</string>
 </resources>

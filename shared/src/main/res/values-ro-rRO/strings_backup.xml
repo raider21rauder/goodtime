@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Copie de rezervă eșuată. Încercați din nou</string>
     <string name="backup_restore_completed_successfully">Restaurare finalizată cu succes</string>
     <string name="backup_restore_failed_please_try_again">Restabilirea a eșuat. Te rugăm să încerci din nou</string>
+    <string name="backup_auto_backup">Backup automat</string>
 </resources>

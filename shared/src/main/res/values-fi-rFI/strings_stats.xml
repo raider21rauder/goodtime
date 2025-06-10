@@ -24,34 +24,34 @@
     <string name="stats_week">Viikko %1$s</string>
     <string name="stats_total">Yhteensä</string>
     <string-array name="stats_overview_type_options">
-        <item>Istunnot</item>
+        <item>Istuntoja</item>
         <item>Aika</item>
     </string-array>
     <string name="stats_history_title">Historia</string>
     <string-array name="stats_history_interval_type_options">
-        <item>Päivät</item>
-        <item>Viikot</item>
-        <item>Kuukaudet</item>
-        <item>Neljännesvuosittaiset</item>
+        <item>Päiviä</item>
+        <item>Viikkoja</item>
+        <item>Kuukausia</item>
+        <item>Neljännekset</item>
         <item>Vuodet</item>
     </string-array>
-    <string name="stats_productive_hours">Tuottavia tunteja</string>
+    <string name="stats_productive_hours">Tuottavimmat tunnit</string>
     <string name="stats_heatmap">Lämpökartta</string>
-    <string name="stats_focus_distribution">Kohdistus jakeluun</string>
-    <string name="stats_focus_break_ratio">Kohdistus/katkossuhde</string>
+    <string name="stats_focus_distribution">Keskittymisen jakaantuminen</string>
+    <string name="stats_focus_break_ratio">Keskittyminen/tauko-suhde</string>
     <string name="stats_add_session">Lisää istunto</string>
-    <string name="stats_focus">Kohdistus</string>
+    <string name="stats_focus">Keskittyminen</string>
     <string name="stats_break">Tauko</string>
     <string name="stats_duration">Kesto</string>
     <string name="stats_time">Aika</string>
     <string name="stats_label">Tunniste</string>
-    <string name="stats_delete_selected_sessions">Poistetaanko valitut istuntot?</string>
-    <string name="stats_change_label_of_selected_sessions">Vaihda valittujen istuntojen nimi?</string>
+    <string name="stats_delete_selected_sessions">Poista valitut istunnot?</string>
+    <string name="stats_change_label_of_selected_sessions">Vaihda valittujen istuntojen tunniste?</string>
     <string name="stats_add_notes">Lisää muistiinpanoja</string>
     <string name="stats_select_all">Valitse kaikki</string>
     <string name="stats_no_items">Ei kohteita</string>
     <string name="stats_show_label_breakdown_title">"Näytä tunnisteen erittely"</string>
-    <string name="stats_show_label_breakdown_desc">"Visualisoi tiedot pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
-    <string name="stats_more_options">Lisää vaihtoehtoja</string>
+    <string name="stats_show_label_breakdown_desc">"Piirrä tieto pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
+    <string name="stats_more_options">Lisäasetukset</string>
     <string name="stats_show_breaks">Näytä tauot</string>
 </resources>

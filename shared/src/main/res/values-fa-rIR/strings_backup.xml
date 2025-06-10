@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">پشتیبان گیری شکست خورد. لطفا دوباره تلاش کنید</string>
     <string name="backup_restore_completed_successfully">بازیابی با موفقیت انجام شد</string>
     <string name="backup_restore_failed_please_try_again">بازیابی شکست خورد. لطفا دوباره تلاش کنید</string>
+    <string name="backup_auto_backup">پشتیبان‌گیری خودکار</string>
 </resources>

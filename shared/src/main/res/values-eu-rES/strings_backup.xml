@@ -22,9 +22,10 @@
     <string name="backup_the_file_can_be_imported_back">Fitxategia berriro inportatu daiteke</string>
     <string name="backup_restore_backup">Berrezarri babeskopia</string>
     <string name="backup_export_csv">Esportatu CSVa</string>
-    <string name="backup_export_json">SON esportatu</string>
+    <string name="backup_export_json">JSON esportatu</string>
     <string name="backup_completed_successfully">Backup completed successfully</string>
     <string name="backup_failed_please_try_again">\"Berreskurapenak huts egin du. Mesedez, saiatu berriro</string>
     <string name="backup_restore_completed_successfully">\"Berreskurapena arrakastaz osatu da</string>
     <string name="backup_restore_failed_please_try_again">\"Berreskurapenak huts egin du. Mesedez, saiatu berriro</string>
+    <string name="backup_auto_backup">Babeskopia automatikoa</string>
 </resources>

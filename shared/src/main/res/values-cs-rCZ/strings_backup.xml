@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Zálohování se nezdařilo. Zkuste to prosím znovu</string>
     <string name="backup_restore_completed_successfully">Obnovení úspěšně dokončeno</string>
     <string name="backup_restore_failed_please_try_again">Obnovení se nezdařilo. Zkuste to prosím znovu</string>
+    <string name="backup_auto_backup">Automatická záloha</string>
 </resources>

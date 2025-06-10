@@ -17,14 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Varmuuskopioi ja palauta</string>
+    <string name="backup_and_restore_title">Varmuuskopiot ja palautukset</string>
     <string name="backup_export_backup">Vie varmuuskopio</string>
     <string name="backup_the_file_can_be_imported_back">Tiedosto voidaan tuoda takaisin</string>
     <string name="backup_restore_backup">Palauta varmuuskopio</string>
     <string name="backup_export_csv">Vie CSV</string>
     <string name="backup_export_json">Vie JSON</string>
-    <string name="backup_completed_successfully">Varmuuskopiointi suoritettu onnistuneesti</string>
+    <string name="backup_completed_successfully">Varmuuskopion luonti onnistui</string>
     <string name="backup_failed_please_try_again">Varmuuskopiointi epäonnistui. Yritä uudelleen</string>
-    <string name="backup_restore_completed_successfully">Palautus suoritettu onnistuneesti</string>
+    <string name="backup_restore_completed_successfully">Palautus onnistui</string>
     <string name="backup_restore_failed_please_try_again">Palautus epäonnistui. Yritä uudelleen</string>
+    <string name="backup_auto_backup">Automaattinen varmuuskopiointi</string>
 </resources>

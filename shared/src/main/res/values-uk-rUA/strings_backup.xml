@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Не вдалося виконати резервне копіювання. Спробуйте ще раз</string>
     <string name="backup_restore_completed_successfully">Відновлення успішно завершено</string>
     <string name="backup_restore_failed_please_try_again">Не вдалося відновити. Будь ласка, спробуйте ще раз</string>
+    <string name="backup_auto_backup">Автоматичний бекап</string>
 </resources>

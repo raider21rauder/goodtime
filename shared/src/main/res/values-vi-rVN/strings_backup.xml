@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Sao lưu không thành công. Vui lòng thử lại</string>
     <string name="backup_restore_completed_successfully">Khôi phục thành công</string>
     <string name="backup_restore_failed_please_try_again">Sao lưu không thành công. Vui lòng thử lại</string>
+    <string name="backup_auto_backup">Tự động sao lưu</string>
 </resources>

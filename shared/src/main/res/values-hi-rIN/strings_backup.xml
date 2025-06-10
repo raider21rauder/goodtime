@@ -17,14 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Backup and restore</string>
+    <string name="backup_and_restore_title">बैकअप और पुनर्स्थापना</string>
     <string name="backup_export_backup">बैकअप निर्यात करें</string>
     <string name="backup_the_file_can_be_imported_back">दस्तावेज को वापस आयात किया जा सकता है</string>
-    <string name="backup_restore_backup">Restore backup</string>
-    <string name="backup_export_csv">Export CSV</string>
-    <string name="backup_export_json">Export JSON</string>
+    <string name="backup_restore_backup">बैकअप बहाल करें</string>
+    <string name="backup_export_csv">निर्यात CSV</string>
+    <string name="backup_export_json">निर्यात JSON</string>
     <string name="backup_completed_successfully">Backup completed successfully</string>
     <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
-    <string name="backup_restore_completed_successfully">Restore completed successfully</string>
+    <string name="backup_restore_completed_successfully">पुनर्स्थापना सफलतापूर्वक पूर्ण हुई</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
+    <string name="backup_auto_backup">ऑटो बैकअप</string>
 </resources>

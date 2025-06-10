@@ -17,15 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Copia de seguranza e restauración</string>
-    <string name="backup_export_backup">Exportar copia de seguranza</string>
-    <string name="backup_the_file_can_be_imported_back">O ficheiro pode ser importado de volta</string>
-    <string name="backup_restore_backup">Restablecer copia de apoio</string>
+    <string name="backup_and_restore_title">Copia de seguridad y restauración</string>
+    <string name="backup_export_backup">Exportar copia de seguridad</string>
+    <string name="backup_the_file_can_be_imported_back">El archivo puede ser importado de vuelta</string>
+    <string name="backup_restore_backup">Restaurar copia de seguridad</string>
     <string name="backup_export_csv">Exportar CSV</string>
     <string name="backup_export_json">Exportar JSON</string>
-    <string name="backup_completed_successfully">Licenzas de código aberto</string>
-    <string name="backup_failed_please_try_again">Produciuse un erro na copia de seguranza. Téntao de novo</string>
-    <string name="backup_restore_completed_successfully">Licenzas de código aberto</string>
-    <string name="backup_restore_failed_please_try_again">Produciuse un erro na copia de seguranza. Téntao de novo</string>
-    <string name="backup_auto_backup">Copia de seguridade automática</string>
+    <string name="backup_completed_successfully">Copia de seguridad completada con éxito</string>
+    <string name="backup_failed_please_try_again">La copia de seguridad falló. Intentalo de nuevo.</string>
+    <string name="backup_restore_completed_successfully">Copia de seguridad completada con éxito</string>
+    <string name="backup_restore_failed_please_try_again">La copia de seguridad falló. Intentalo de nuevo.</string>
+    <string name="backup_auto_backup">Copia de seguridad automática</string>
 </resources>

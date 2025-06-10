@@ -17,14 +17,15 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="backup_and_restore_title">Backup and restore</string>
+    <string name="backup_and_restore_title">Mentés és visszaállítás</string>
     <string name="backup_export_backup">Exportálás</string>
     <string name="backup_the_file_can_be_imported_back">A fájlt vissza lehet importálni</string>
-    <string name="backup_restore_backup">Restore backup</string>
-    <string name="backup_export_csv">Export CSV</string>
-    <string name="backup_export_json">Export JSON</string>
-    <string name="backup_completed_successfully">Backup completed successfully</string>
+    <string name="backup_restore_backup">Biztonsági mentés visszaállítása</string>
+    <string name="backup_export_csv">CSV exportálása</string>
+    <string name="backup_export_json">JSON exportálása</string>
+    <string name="backup_completed_successfully">Sikeres biztonsági mentés</string>
     <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
-    <string name="backup_restore_completed_successfully">Restore completed successfully</string>
+    <string name="backup_restore_completed_successfully">A visszaállítás sikeresen befejeződött</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
+    <string name="backup_auto_backup">Automatikus mentések</string>
 </resources>

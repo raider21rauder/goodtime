@@ -27,4 +27,5 @@
     <string name="backup_failed_please_try_again">Backup mislykkedes. Prøv igen</string>
     <string name="backup_restore_completed_successfully">Gendannelse fuldført</string>
     <string name="backup_restore_failed_please_try_again">Gendannelse mislykkedes. Prøv igen</string>
+    <string name="backup_auto_backup">Automatiske sikkerhedskopier</string>
 </resources>
