@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.backup
 
 import android.content.Context
 import androidx.work.BackoffPolicy
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -75,11 +76,18 @@ class AutoBackupManager(
     }
 
     private fun scheduleBackup() {
+        val constraints =
+            Constraints
+                .Builder()
+                .setRequiresCharging(true)
+                .build()
+
         val backupWorkRequest =
             PeriodicWorkRequestBuilder<AutoBackupWorker>(
                 repeatInterval = 1,
                 repeatIntervalTimeUnit = TimeUnit.DAYS,
             ).setInitialDelay(5, TimeUnit.MINUTES)
+                .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.HOURS)
                 .build()
 
