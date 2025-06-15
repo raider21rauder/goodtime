@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main.finishedsession
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,21 +26,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,10 +59,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
-import com.apps.adrcotfas.goodtime.bl.TimerManager.Companion.WIGGLE_ROOM_MILLIS
+import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isBreak
 import com.apps.adrcotfas.goodtime.common.formatOverview
@@ -70,6 +75,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -138,7 +144,6 @@ fun FinishedSessionSheet(
     }
 }
 
-// TODO: add a landscape mode too with the two cards side by side
 @Composable
 fun FinishedSessionContent(
     timerUiState: TimerUiState,
@@ -149,13 +154,10 @@ fun FinishedSessionContent(
     onNotesChanged: (String) -> Unit,
 ) {
     val timeProvider = koinInject<TimeProvider>()
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
-
-    var elapsedRealtime by remember(lifecycleState) { mutableLongStateOf(timeProvider.elapsedRealtime()) }
+    var elapsedRealtime by remember { mutableLongStateOf(timeProvider.elapsedRealtime()) }
     LaunchedEffect(Unit) {
         while (true) {
-            delay(1.minutes)
+            delay(1.seconds)
             elapsedRealtime = timeProvider.elapsedRealtime()
         }
     }
@@ -191,25 +193,18 @@ private fun FinishedSessionContent(
         val isBreak = timerUiState.timerType.isBreak
         Text(
             text = if (isBreak) stringResource(R.string.main_break_complete) else stringResource(R.string.main_session_complete),
-            style = MaterialTheme.typography.displaySmall,
+            style = MaterialTheme.typography.titleLarge,
         )
         CurrentSessionCard(
             timerUiState,
             elapsedRealtime,
             addIdleMinutes,
             onChangeAddIdleMinutes,
+            historyUiState.isPro,
+            notes,
+            onNotesChanged,
         )
         HistoryCard(historyUiState)
-
-        Card {
-            TextBox(
-                modifier = Modifier.padding(16.dp),
-                value = notes,
-                onValueChange = onNotesChanged,
-                enabled = historyUiState.isPro,
-                placeholder = stringResource(R.string.stats_add_notes),
-            )
-        }
     }
 }
 
@@ -219,11 +214,19 @@ private fun CurrentSessionCard(
     elapsedRealtime: Long,
     addIdleMinutes: Boolean,
     onAddIdleMinutesChanged: (Boolean) -> Unit,
+    enabled: Boolean,
+    notes: String,
+    onNotesChanged: (String) -> Unit,
 ) {
     val isBreak = timerUiState.isBreak
-    val idleMinutes =
-        (elapsedRealtime - timerUiState.endTime + WIGGLE_ROOM_MILLIS).milliseconds.inWholeMinutes
+    val idleMillis = (elapsedRealtime - timerUiState.endTime)
 
+    val duration =
+        timerUiState.completedMinutes.minutes.inWholeMilliseconds
+            .plus(
+                if (addIdleMinutes) idleMillis else 0,
+            ).milliseconds
+            .formatOverview()
     Card(modifier = Modifier.wrapContentSize()) {
         Column(
             modifier =
@@ -233,9 +236,13 @@ private fun CurrentSessionCard(
         ) {
             Text(
                 stringResource(R.string.main_this_session),
-                style = MaterialTheme.typography.titleSmall.copy(MaterialTheme.colorScheme.primary),
+                style =
+                    MaterialTheme.typography.titleSmall.copy(
+                        MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                    ),
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Row(
                 modifier =
                     Modifier
@@ -253,7 +260,7 @@ private fun CurrentSessionCard(
                         style = MaterialTheme.typography.labelSmall,
                     )
                     Text(
-                        timerUiState.completedMinutes.minutes.formatOverview(),
+                        duration,
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     )
                 }
@@ -277,41 +284,48 @@ private fun CurrentSessionCard(
                         }
                     }
 
-                    if (idleMinutes > 0) {
-                        Column(
-                            modifier = Modifier.wrapContentHeight(),
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            horizontalAlignment = Alignment.Start,
-                        ) {
-                            Text("Idle", style = MaterialTheme.typography.labelSmall)
-                            Text(
-                                idleMinutes.minutes.formatOverview(),
-                                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-                            )
+                    if (idleMillis > 0) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Column(
+                                modifier = Modifier.wrapContentHeight(),
+                                verticalArrangement = Arrangement.SpaceBetween,
+                                horizontalAlignment = Alignment.Start,
+                            ) {
+                                Text("Idle", style = MaterialTheme.typography.labelSmall)
+                                Text(
+                                    idleMillis.formatMilliseconds(),
+                                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Crossfade(modifier = Modifier.size(36.dp), targetState = addIdleMinutes) {
+                                if (it) {
+                                    FilledTonalIconButton(onClick = { onAddIdleMinutesChanged(false) }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = stringResource(R.string.main_consider_idle_time_as_extra_focus),
+                                        )
+                                    }
+                                } else {
+                                    IconButton(onClick = { onAddIdleMinutesChanged(true) }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Add,
+                                            contentDescription = stringResource(R.string.main_consider_idle_time_as_extra_focus),
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
-            if (!isBreak && idleMinutes > 0) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Switch(
-                        checked = addIdleMinutes,
-                        onCheckedChange = onAddIdleMinutesChanged,
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        stringResource(R.string.main_consider_idle_time_as_extra_focus),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-            }
+            TextBox(
+                modifier = Modifier.padding(top = 12.dp),
+                value = notes,
+                onValueChange = onNotesChanged,
+                enabled = enabled,
+                placeholder = stringResource(R.string.stats_add_notes),
+            )
         }
     }
 }
@@ -333,9 +347,13 @@ fun HistoryCard(historyUiState: HistoryUiState) {
             ) {
                 Text(
                     stringResource(R.string.stats_today),
-                    style = MaterialTheme.typography.titleSmall.copy(MaterialTheme.colorScheme.primary),
+                    style =
+                        MaterialTheme.typography.titleSmall.copy(
+                            MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Bold,
+                        ),
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Row(
                     modifier =
                         Modifier
@@ -401,16 +419,17 @@ fun FinishedSessionContentPreview() {
             TimerUiState(
                 timerType = TimerType.WORK,
                 completedMinutes = 25,
-                timeSpentPaused = 3.minutes.inWholeMilliseconds,
+                timeSpentPaused = 2.minutes.inWholeMilliseconds,
             ),
         historyUiState =
             HistoryUiState(
                 todayWorkMinutes = 90,
                 todayBreakMinutes = 55,
-                todayInterruptedMinutes = 3,
+                todayInterruptedMinutes = 2,
+                isPro = false,
             ),
         elapsedRealtime = 3.minutes.inWholeMilliseconds,
-        addIdleMinutes = false,
+        addIdleMinutes = true,
         onChangeAddIdleMinutes = {},
         notes = "Some notes",
         onNotesChanged = {},
