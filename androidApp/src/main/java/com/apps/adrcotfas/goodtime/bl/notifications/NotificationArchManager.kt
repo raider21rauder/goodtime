@@ -23,6 +23,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -77,7 +78,7 @@ class NotificationArchManager(
         val colorIndex =
             data.label.label.colorIndex
                 .toInt()
-        val shouldColorize = colorIndex != DEFAULT_LABEL_COLOR_INDEX
+        val shouldColorize = !Build.MANUFACTURER.contains("Xiaomi") && colorIndex != DEFAULT_LABEL_COLOR_INDEX
 
         val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder =
