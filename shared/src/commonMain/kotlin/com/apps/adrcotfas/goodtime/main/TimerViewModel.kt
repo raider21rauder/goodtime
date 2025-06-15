@@ -132,11 +132,11 @@ class TimerViewModel(
             settingsRepo.settings
                 .distinctUntilChanged { old, new ->
                     old.timerStyle == new.timerStyle &&
-                            old.uiSettings == new.uiSettings &&
-                            old.isPro == new.isPro &&
-                            old.showTutorial == new.showTutorial &&
-                            old.showTimeProfileTutorial == new.showTimeProfileTutorial &&
-                            old.flashScreen == new.flashScreen
+                        old.uiSettings == new.uiSettings &&
+                        old.isPro == new.isPro &&
+                        old.showTutorial == new.showTutorial &&
+                        old.showTimeProfileTutorial == new.showTimeProfileTutorial &&
+                        old.flashScreen == new.flashScreen
                 }.collect {
                     val settings = it
                     val uiSettings = settings.uiSettings

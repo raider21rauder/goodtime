@@ -17,6 +17,8 @@
  */
 package com.apps.adrcotfas.goodtime.bl
 
+import android.content.Context
+import android.text.format.DateFormat
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDate
@@ -30,19 +32,23 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 object AndroidTimeUtils {
-    fun Long.formatToPrettyDateAndTime(): Pair<String, String> {
+    fun Long.formatToPrettyDateAndTime(
+        context: Context,
+        locale: Locale = Locale.getDefault(),
+    ): Pair<String, String> {
         val instant = Instant.fromEpochMilliseconds(this)
         val dateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
         val date =
             dateTime.date.toJavaLocalDate().format(
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale),
             )
 
-        val time =
-            dateTime.time.toJavaLocalTime().format(
-                DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT),
-            )
+        val is24Hour = DateFormat.is24HourFormat(context)
+        val timePattern = if (is24Hour) "HH:mm" else "hh:mm a"
+        val timeFormatter = DateTimeFormatter.ofPattern(timePattern, locale)
+        val time = dateTime.time.toJavaLocalTime().format(timeFormatter)
+
         return Pair(date, time)
     }
 

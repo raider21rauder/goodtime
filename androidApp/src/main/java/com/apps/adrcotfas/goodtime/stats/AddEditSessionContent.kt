@@ -42,6 +42,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
@@ -73,7 +74,8 @@ fun AddEditSessionContent(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start,
     ) {
-        val (date, time) = session.timestamp.formatToPrettyDateAndTime()
+        val context = LocalContext.current
+        val (date, time) = session.timestamp.formatToPrettyDateAndTime(context)
 
         Row(
             modifier = Modifier.padding(start = 68.dp),
