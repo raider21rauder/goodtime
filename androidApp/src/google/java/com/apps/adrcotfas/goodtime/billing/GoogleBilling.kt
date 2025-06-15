@@ -120,7 +120,7 @@ class GoogleBilling(
             combine(
                 settingsRepository.settings.distinctUntilChanged().map { it.isPro },
                 hasPro,
-                _isPurchaseAcknowledged,
+                isPurchaseAcknowledged,
             ) { isPro, hasPro, acknowledged ->
                 ProState(isPro, hasPro, acknowledged)
             }.distinctUntilChanged().collect {
@@ -214,7 +214,7 @@ class GoogleBilling(
                 purchaseList.forEach {
                     if (it.isAcknowledged) {
                         log.d("Item already acknowledged")
-                        _isPurchaseAcknowledged.update { true }
+                        isPurchaseAcknowledged.update { true }
                     } else {
                         acknowledge(it.purchaseToken)
                     }
@@ -303,7 +303,7 @@ class GoogleBilling(
                 purchases.forEach {
                     if (it.isAcknowledged) {
                         log.d("Item already acknowledged")
-                        _isPurchaseAcknowledged.update { true }
+                        isPurchaseAcknowledged.update { true }
                     } else {
                         acknowledgePurchase(it.purchaseToken)
                     }
@@ -342,7 +342,7 @@ class GoogleBilling(
             when (acknowledgePurchaseResult.responseCode) {
                 BillingResponseCode.OK -> {
                     log.i("Acknowledgement was successful")
-                    _isPurchaseAcknowledged.update { true }
+                    isPurchaseAcknowledged.update { true }
                 }
 
                 BillingResponseCode.ITEM_NOT_OWNED -> {
