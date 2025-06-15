@@ -256,28 +256,29 @@ fun StatisticsScreen(
                         )
                     }
                 }
+                val timeZone = TimeZone.currentSystemDefault()
                 if (showDatePicker) {
                     val dateTime =
                         Instant
                             .fromEpochMilliseconds(uiState.newSession.timestamp)
-                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .toLocalDateTime(timeZone)
                     val now =
                         Instant
                             .fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
-                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .toLocalDateTime(timeZone)
                     val tomorrowMillis =
                         LocalDateTime(
                             now.date.plus(DatePeriod(days = 1)),
                             LocalTime(hour = 0, minute = 0),
                         ).toInstant(
-                            TimeZone.currentSystemDefault(),
+                            timeZone,
                         ).toEpochMilliseconds()
 
                     val datePickerState =
                         rememberDatePickerState(
                             initialSelectedDateMillis =
                                 dateTime
-                                    .toInstant(TimeZone.currentSystemDefault())
+                                    .toInstant(timeZone)
                                     .toEpochMilliseconds(),
                             selectableDates =
                                 object : SelectableDates {
@@ -287,14 +288,15 @@ fun StatisticsScreen(
                     DatePickerDialog(
                         onDismiss = { showDatePicker = false },
                         onConfirm = {
-                            val newDate =
+                            val selectedUtcDate =
                                 Instant
                                     .fromEpochMilliseconds(it)
-                                    .toLocalDateTime(TimeZone.currentSystemDefault())
-                            val newDateTime = LocalDateTime(newDate.date, dateTime.time)
+                                    .toLocalDateTime(TimeZone.UTC)
+                                    .date
+                            val newDateTime = LocalDateTime(selectedUtcDate, dateTime.time)
                             val newTimestamp =
                                 newDateTime
-                                    .toInstant(TimeZone.currentSystemDefault())
+                                    .toInstant(timeZone)
                                     .toEpochMilliseconds()
                             viewModel.updateSessionToEdit(
                                 uiState.newSession.copy(
@@ -310,7 +312,7 @@ fun StatisticsScreen(
                     val dateTime =
                         Instant
                             .fromEpochMilliseconds(uiState.newSession.timestamp)
-                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .toLocalDateTime(timeZone)
                     val time = dateTime.time
                     val timePickerState =
                         rememberTimePickerState(
@@ -325,7 +327,7 @@ fun StatisticsScreen(
                             val newDateTime = LocalDateTime(dateTime.date, newTime)
                             val newTimestamp =
                                 newDateTime
-                                    .toInstant(TimeZone.currentSystemDefault())
+                                    .toInstant(timeZone)
                                     .toEpochMilliseconds()
 
                             viewModel.updateSessionToEdit(
