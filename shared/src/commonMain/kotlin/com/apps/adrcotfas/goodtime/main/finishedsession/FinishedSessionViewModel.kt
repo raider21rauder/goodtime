@@ -38,8 +38,9 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
-data class HistoryUiState(
+data class FinishedSessionUiState(
     val isPro: Boolean = false,
+    val isFullscreen: Boolean = false,
     val todayWorkMinutes: Long = 0,
     val todayBreakMinutes: Long = 0,
     val todayInterruptedMinutes: Long = 0,
@@ -50,21 +51,28 @@ class FinishedSessionViewModel(
     private val localDataRepo: LocalDataRepository,
     private val timeProvider: TimeProvider,
 ) : ViewModel() {
-    private val historyUiState = MutableStateFlow(HistoryUiState())
+    private val finishedSessionUiState = MutableStateFlow(FinishedSessionUiState())
     val uiState =
-        historyUiState
+        finishedSessionUiState
             .onStart {
                 loadHistoryState()
-            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HistoryUiState())
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), FinishedSessionUiState())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadHistoryState() {
         viewModelScope.launch {
             settingsRepo.settings
                 .distinctUntilChanged { old, new ->
-                    old.workdayStart == new.workdayStart && old.isPro == new.isPro
+                    old.workdayStart == new.workdayStart &&
+                        old.isPro == new.isPro &&
+                        old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode
                 }.flatMapLatest { settings ->
-                    historyUiState.update { it.copy(isPro = settings.isPro) }
+                    finishedSessionUiState.update {
+                        it.copy(
+                            isPro = settings.isPro,
+                            isFullscreen = settings.uiSettings.fullscreenMode,
+                        )
+                    }
                     localDataRepo.selectSessionsAfter(toMillisOfToday(settings.workdayStart))
                 }.collect { sessions ->
                     val (todayWorkSessions, todayBreakSessions) =
@@ -74,7 +82,7 @@ class FinishedSessionViewModel(
                     val todayBreakMinutes = todayBreakSessions.sumOf { it.duration }
                     val todayInterruptedMinutes = todayWorkSessions.sumOf { it.interruptions }
 
-                    historyUiState.update {
+                    finishedSessionUiState.update {
                         it.copy(
                             todayWorkMinutes = todayWorkMinutes,
                             todayBreakMinutes = todayBreakMinutes,

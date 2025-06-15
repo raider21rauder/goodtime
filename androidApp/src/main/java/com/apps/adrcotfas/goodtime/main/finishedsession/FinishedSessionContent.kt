@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.main.finishedsession
 
+import android.view.Window
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +46,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -55,10 +57,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogWindowProvider
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.TimeProvider
 import com.apps.adrcotfas.goodtime.bl.TimeUtils.formatMilliseconds
@@ -101,6 +108,7 @@ fun FinishedSessionSheet(
     val isBreak = rememberSaveable { timerUiState.timerType.isBreak }
     var updateWorkTime by rememberSaveable { mutableStateOf(false) }
     var notes by rememberSaveable { mutableStateOf("") }
+    val isFullscreen = uiState.isFullscreen
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -133,9 +141,26 @@ fun FinishedSessionSheet(
         },
         sheetState = finishedSessionSheetState,
     ) {
+        if (isFullscreen) {
+            val view = LocalView.current
+            DisposableEffect(view) {
+                val window: Window? = (view.parent as? DialogWindowProvider)?.window
+                window?.let {
+                    val windowInsetsController =
+                        WindowCompat.getInsetsController(it, it.decorView)
+
+                    windowInsetsController.apply {
+                        hide(WindowInsetsCompat.Type.systemBars())
+                        systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    }
+                }
+                onDispose { }
+            }
+        }
+
         FinishedSessionContent(
             timerUiState = timerUiState,
-            historyUiState = uiState,
+            finishedSessionUiState = uiState,
             addIdleMinutes = updateWorkTime,
             onChangeAddIdleMinutes = { updateWorkTime = it },
             notes = notes,
@@ -147,7 +172,7 @@ fun FinishedSessionSheet(
 @Composable
 fun FinishedSessionContent(
     timerUiState: TimerUiState,
-    historyUiState: HistoryUiState,
+    finishedSessionUiState: FinishedSessionUiState,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
     notes: String,
@@ -163,7 +188,7 @@ fun FinishedSessionContent(
     }
     FinishedSessionContent(
         timerUiState,
-        historyUiState,
+        finishedSessionUiState,
         elapsedRealtime,
         addIdleMinutes,
         onChangeAddIdleMinutes,
@@ -175,7 +200,7 @@ fun FinishedSessionContent(
 @Composable
 private fun FinishedSessionContent(
     timerUiState: TimerUiState,
-    historyUiState: HistoryUiState,
+    finishedSessionUiState: FinishedSessionUiState,
     elapsedRealtime: Long,
     addIdleMinutes: Boolean,
     onChangeAddIdleMinutes: (Boolean) -> Unit,
@@ -200,11 +225,11 @@ private fun FinishedSessionContent(
             elapsedRealtime,
             addIdleMinutes,
             onChangeAddIdleMinutes,
-            historyUiState.isPro,
+            finishedSessionUiState.isPro,
             notes,
             onNotesChanged,
         )
-        HistoryCard(historyUiState)
+        HistoryCard(finishedSessionUiState)
     }
 }
 
@@ -331,8 +356,8 @@ private fun CurrentSessionCard(
 }
 
 @Composable
-fun HistoryCard(historyUiState: HistoryUiState) {
-    if (historyUiState.todayWorkMinutes > 0 || historyUiState.todayBreakMinutes > 0) {
+fun HistoryCard(finishedSessionUiState: FinishedSessionUiState) {
+    if (finishedSessionUiState.todayWorkMinutes > 0 || finishedSessionUiState.todayBreakMinutes > 0) {
         Card(
             modifier =
                 Modifier
@@ -371,7 +396,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
-                            historyUiState.todayWorkMinutes.minutes.formatOverview(),
+                            finishedSessionUiState.todayWorkMinutes.minutes.formatOverview(),
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                         )
                     }
@@ -385,11 +410,11 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                             style = MaterialTheme.typography.labelSmall,
                         )
                         Text(
-                            historyUiState.todayBreakMinutes.minutes.formatOverview(),
+                            finishedSessionUiState.todayBreakMinutes.minutes.formatOverview(),
                             style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                         )
                     }
-                    if (historyUiState.todayInterruptedMinutes > 0) {
+                    if (finishedSessionUiState.todayInterruptedMinutes > 0) {
                         Column(
                             modifier = Modifier.wrapContentHeight(),
                             verticalArrangement = Arrangement.SpaceBetween,
@@ -400,7 +425,7 @@ fun HistoryCard(historyUiState: HistoryUiState) {
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(
-                                historyUiState.todayInterruptedMinutes.minutes.formatOverview(),
+                                finishedSessionUiState.todayInterruptedMinutes.minutes.formatOverview(),
                                 style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                             )
                         }
@@ -421,8 +446,8 @@ fun FinishedSessionContentPreview() {
                 completedMinutes = 25,
                 timeSpentPaused = 2.minutes.inWholeMilliseconds,
             ),
-        historyUiState =
-            HistoryUiState(
+        finishedSessionUiState =
+            FinishedSessionUiState(
                 todayWorkMinutes = 90,
                 todayBreakMinutes = 55,
                 todayInterruptedMinutes = 2,

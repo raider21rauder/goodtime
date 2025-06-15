@@ -183,7 +183,7 @@ class MainActivity : GoodtimeMainActivity() {
                 setShowWhenLocked(showWhenLocked)
             }
 
-            val fullscreenMode = isMainScreen && uiState.fullscreenMode && isActive
+            val fullscreenMode = isMainScreen && uiState.fullscreenMode
             LaunchedEffect(fullscreenMode) {
                 fullscreenMode.let {
                     toggleFullscreen(it)
