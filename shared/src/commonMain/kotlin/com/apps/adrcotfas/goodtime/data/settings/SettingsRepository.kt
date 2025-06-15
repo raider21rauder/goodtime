@@ -51,6 +51,8 @@ interface SettingsRepository {
 
     suspend fun setEnableTorch(enabled: Boolean)
 
+    suspend fun setEnableFlashScreen(enabled: Boolean)
+
     suspend fun setOverrideSoundProfile(enabled: Boolean)
 
     suspend fun setInsistentNotification(enabled: Boolean)

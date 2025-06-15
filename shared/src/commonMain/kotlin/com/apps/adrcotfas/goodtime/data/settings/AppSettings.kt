@@ -40,6 +40,7 @@ data class AppSettings(
     val userSounds: Set<SoundData> = emptySet(),
     val vibrationStrength: Int = 3,
     val enableTorch: Boolean = false,
+    val flashScreen: Boolean = false,
     val insistentNotification: Boolean = false,
     /** only valid with insistentNotification off **/
     val autoStartWork: Boolean = false,

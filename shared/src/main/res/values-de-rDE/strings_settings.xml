@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Der Benachrichtigungston entspricht dem eines Alarms</string>
     <string name="settings_vibration_strength">Vibrationsstärke</string>
     <string name="settings_torch_title">Fackel</string>
+    <string name="settings_screen_flash_title">Bildschirm Blitz</string>
     <string name="settings_torch_desc">Eine visuelle Benachrichtigung für stille Umgebungen</string>
     <string name="settings_insistent_notification_title">Hartnäckige Benachrichtigung</string>
     <string name="settings_insistent_notification_desc">Benachrichtigung wiederholen, bis sie abgebrochen wird</string>

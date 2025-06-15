@@ -85,6 +85,7 @@ data class TimerMainUiState(
     val screensaverMode: Boolean = false,
     val fullscreenMode: Boolean = false,
     val trueBlackMode: Boolean = true,
+    val flashScreen: Boolean = false,
     val dndDuringWork: Boolean = false,
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
@@ -131,10 +132,11 @@ class TimerViewModel(
             settingsRepo.settings
                 .distinctUntilChanged { old, new ->
                     old.timerStyle == new.timerStyle &&
-                        old.uiSettings == new.uiSettings &&
-                        old.isPro == new.isPro &&
-                        old.showTutorial == new.showTutorial &&
-                        old.showTimeProfileTutorial == new.showTimeProfileTutorial
+                            old.uiSettings == new.uiSettings &&
+                            old.isPro == new.isPro &&
+                            old.showTutorial == new.showTutorial &&
+                            old.showTimeProfileTutorial == new.showTimeProfileTutorial &&
+                            old.flashScreen == new.flashScreen
                 }.collect {
                     val settings = it
                     val uiSettings = settings.uiSettings
@@ -147,6 +149,7 @@ class TimerViewModel(
                             screensaverMode = uiSettings.screensaverMode,
                             fullscreenMode = uiSettings.fullscreenMode,
                             trueBlackMode = uiSettings.trueBlackMode,
+                            flashScreen = settings.flashScreen,
                             dndDuringWork = uiSettings.dndDuringWork,
                             isPro = settings.isPro,
                             showTutorial = settings.showTutorial,
@@ -244,7 +247,8 @@ class TimerViewModel(
 
     fun refreshStartOfToday() {
         viewModelScope.launch {
-            val startOfToday = Time.startOfTodayAdjusted(settingsRepo.settings.map { it.workdayStart }.first())
+            val startOfToday =
+                Time.startOfTodayAdjusted(settingsRepo.settings.map { it.workdayStart }.first())
             _uiState.update {
                 it.copy(startOfToday = startOfToday)
             }

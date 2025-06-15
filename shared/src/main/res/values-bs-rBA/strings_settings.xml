@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Obavještenje se tretira kao alarm</string>
     <string name="settings_vibration_strength">Snaga vibracija</string>
     <string name="settings_torch_title">Svjetlo</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">Vizuelno obavještenje za tihe okoline</string>
     <string name="settings_insistent_notification_title">Uporna obavještenja</string>
     <string name="settings_insistent_notification_desc">Ponavljaj obavještenje dok se ne prekine</string>

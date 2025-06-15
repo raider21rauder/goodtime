@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">アラーム同様、常に通知音が鳴ります</string>
     <string name="settings_vibration_strength">振動の強さ</string>
     <string name="settings_torch_title">トーチ</string>
+    <string name="settings_screen_flash_title">画面のフラッシュ</string>
     <string name="settings_torch_desc">音を出せないときのために、視覚的に通知します</string>
     <string name="settings_insistent_notification_title">しつこい通知</string>
     <string name="settings_insistent_notification_desc">キャンセルされるまで通知を繰り返します</string>

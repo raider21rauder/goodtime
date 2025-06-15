@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Zvok obvestila kot zvok alarma</string>
     <string name="settings_vibration_strength">Vibration strength</string>
     <string name="settings_torch_title">Torch</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">Uporabi svetlobni signal v tihih okoljih</string>
     <string name="settings_insistent_notification_title">Nenehno obveščanje</string>
     <string name="settings_insistent_notification_desc">Ponavljaj obvestilo do preklica</string>

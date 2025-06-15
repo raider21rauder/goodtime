@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">通知音效行为类似于闹钟</string>
     <string name="settings_vibration_strength">振动强度</string>
     <string name="settings_torch_title">手电筒</string>
+    <string name="settings_screen_flash_title">屏幕闪烁</string>
     <string name="settings_torch_desc">适用于安静环境的视觉通知</string>
     <string name="settings_insistent_notification_title">持续通知</string>
     <string name="settings_insistent_notification_desc">重复通知直至被取消</string>

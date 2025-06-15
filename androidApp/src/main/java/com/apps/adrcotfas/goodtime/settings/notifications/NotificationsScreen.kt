@@ -130,12 +130,20 @@ fun NotificationsScreen(
                 }
             }
             LockedCheckboxListItem(
+                title = stringResource(R.string.settings_screen_flash_title),
+                enabled = settings.isPro,
+                subtitle = stringResource(R.string.settings_torch_desc),
+                checked = settings.flashScreen,
+            ) {
+                viewModel.setEnableFlashScreen(it)
+            }
+            LockedCheckboxListItem(
                 title = stringResource(R.string.settings_insistent_notification_title),
                 enabled = settings.isPro,
                 subtitle = stringResource(R.string.settings_insistent_notification_desc),
                 checked = settings.insistentNotification,
             ) {
-                viewModel.setInsistentNotification(it)
+                viewModel.setEnableFlashScreen(it)
             }
         }
 

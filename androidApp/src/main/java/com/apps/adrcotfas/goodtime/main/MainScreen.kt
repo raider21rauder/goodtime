@@ -20,8 +20,14 @@ package com.apps.adrcotfas.goodtime.main
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -44,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -159,8 +166,9 @@ fun MainScreen(
         yOffset = yOffset,
     )
 
+    val isDarkTheme = uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme())
     val backgroundColor by animateColorAsState(
-        if (uiState.darkThemePreference.isDarkTheme(isSystemInDarkTheme()) &&
+        if (isDarkTheme &&
             uiState.trueBlackMode &&
             timerUiState.isActive
         ) {
@@ -170,6 +178,23 @@ fun MainScreen(
         },
         label = "main background color",
     )
+
+    val flashScreenBackgroundColor by
+        if (timerUiState.isFinished && uiState.flashScreen) {
+            val infiniteTransition = rememberInfiniteTransition(label = "flash")
+            infiniteTransition.animateColor(
+                initialValue = backgroundColor,
+                targetValue = MaterialTheme.colorScheme.onSurface,
+                animationSpec =
+                    infiniteRepeatable(
+                        animation = tween(200, easing = FastOutLinearInEasing, delayMillis = 2000),
+                        repeatMode = RepeatMode.Restart,
+                    ),
+                label = "flashColor",
+            )
+        } else {
+            rememberUpdatedState(backgroundColor)
+        }
 
     val permissionState = getPermissionsState()
     val settingsBadgeItemCount = permissionState.count()
@@ -190,7 +215,6 @@ fun MainScreen(
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .background(backgroundColor)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null,
@@ -202,7 +226,7 @@ fun MainScreen(
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .background(backgroundColor)
+                            .background(flashScreenBackgroundColor)
                             .padding(padding),
                     contentAlignment = Alignment.Center,
                 ) {

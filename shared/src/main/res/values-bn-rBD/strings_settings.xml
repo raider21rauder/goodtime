@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">বিজ্ঞপ্তির শব্দটি অ্যালার্মের মতো আচরণ করে</string>
     <string name="settings_vibration_strength">কম্পনশক্তি</string>
     <string name="settings_torch_title">টর্চ</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">নীরব পরিবেশের জন্য একটি ভিজ্যুয়াল বিজ্ঞপ্তি</string>
     <string name="settings_insistent_notification_title">নিরবিচ্ছিন্ন প্রজ্ঞাপন</string>
     <string name="settings_insistent_notification_desc">বিজ্ঞপ্তি পুনরাবৃত্তি না হওয়া পর্যন্ত তা বাতিল করা হয়েছে।</string>

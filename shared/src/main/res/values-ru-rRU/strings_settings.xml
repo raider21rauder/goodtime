@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Звук уведомления ведет себя как будильник</string>
     <string name="settings_vibration_strength">Сила вибрации</string>
     <string name="settings_torch_title">Фонарь</string>
+    <string name="settings_screen_flash_title">Мигание экрана</string>
     <string name="settings_torch_desc">Визуальное уведомление; Для тихого окружения</string>
     <string name="settings_insistent_notification_title">Настойчивые уведомления</string>
     <string name="settings_insistent_notification_desc">Повторять уведомление пока оно не будет отменено</string>

@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Meddelandeljudet fungerar som ett larm</string>
     <string name="settings_vibration_strength">Vibrationsstyrka</string>
     <string name="settings_torch_title">Ficklampa</string>
+    <string name="settings_screen_flash_title">Skärm blinkning</string>
     <string name="settings_torch_desc">Visuell notifiering för tillfällen då ljudlöst krävs</string>
     <string name="settings_insistent_notification_title">Insisterande notifiering</string>
     <string name="settings_insistent_notification_desc">Upprepa meddelandet tills det har blivit avbrutet</string>

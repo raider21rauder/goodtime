@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Ο ήχος ειδοποιήσεων συμπεριφέρεται σαν ξυπνητήρι</string>
     <string name="settings_vibration_strength">Ένταση δόνησης</string>
     <string name="settings_torch_title">Φακός</string>
+    <string name="settings_screen_flash_title">Φλας οθόνης</string>
     <string name="settings_torch_desc">Μια οπτική ειδοποίηση για αθόρυβα περιβάλλοντα</string>
     <string name="settings_insistent_notification_title">Επίμονη ειδοποίηση</string>
     <string name="settings_insistent_notification_desc">Επαναλάβετε την ειδοποίηση μέχρι να ακυρωθεί</string>

@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Звук сповіщення ігнорує звуковий профіль пристрою</string>
     <string name="settings_vibration_strength">Інтенсивність вібрації</string>
     <string name="settings_torch_title">Смолоскип</string>
+    <string name="settings_screen_flash_title">Блимання екрану</string>
     <string name="settings_torch_desc">Візуальне сповіщення для тихих місць</string>
     <string name="settings_insistent_notification_title">Наполегливі сповіщення</string>
     <string name="settings_insistent_notification_desc">Повторювати сповіщення, поки не буде скасовано</string>

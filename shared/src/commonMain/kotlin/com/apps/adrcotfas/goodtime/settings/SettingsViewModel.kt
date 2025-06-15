@@ -179,6 +179,12 @@ class SettingsViewModel(
         }
     }
 
+    fun setEnableFlashScreen(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setEnableFlashScreen(enable)
+        }
+    }
+
     fun setInsistentNotification(enable: Boolean) {
         viewModelScope.launch {
             settingsRepository.setInsistentNotification(enable)

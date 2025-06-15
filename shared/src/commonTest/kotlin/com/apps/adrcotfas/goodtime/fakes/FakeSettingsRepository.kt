@@ -120,6 +120,12 @@ class FakeSettingsRepository(
             _settings.value.copy(enableTorch = enabled),
         )
 
+    override suspend fun setEnableFlashScreen(enabled: Boolean) {
+        _settings.emit(
+            _settings.value.copy(flashScreen = enabled),
+        )
+    }
+
     override suspend fun setOverrideSoundProfile(enabled: Boolean) =
         _settings.emit(
             _settings.value.copy(overrideSoundProfile = enabled),

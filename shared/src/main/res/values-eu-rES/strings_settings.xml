@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Jakinarazpenaren soinua alarma balitz bezala jokatzen du</string>
     <string name="settings_vibration_strength">Bizkortze-indarra</string>
     <string name="settings_torch_title">Zuzia</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">Jakinarazpen bisuala ingurune isiletarako</string>
     <string name="settings_insistent_notification_title">Jakinarazpen iraunkorra</string>
     <string name="settings_insistent_notification_desc">Errepikatu jakinarazpena bertan behera utzi arte</string>

@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">소리 알림이 휴대폰 알람과 비슷하게 작동합니다</string>
     <string name="settings_vibration_strength">Vibration strength</string>
     <string name="settings_torch_title">Torch</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">무음 모드일 때 화면 알림 사용</string>
     <string name="settings_insistent_notification_title">계속 알림</string>
     <string name="settings_insistent_notification_desc">취소하기 전까지 알림을 반복합니다</string>

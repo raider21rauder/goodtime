@@ -56,6 +56,7 @@ class SettingsRepositoryImpl(
         val userSoundsKey = stringPreferencesKey("userSoundsKey")
         val vibrationStrengthKey = intPreferencesKey("vibrationStrengthKey")
         val enableTorchKey = booleanPreferencesKey("enableTorchKey")
+        val enableFlashScreenKey = booleanPreferencesKey("enableFlashScreenKey")
         val overrideSoundProfile = booleanPreferencesKey("overrideSoundProfileKey")
         val insistentNotificationKey = booleanPreferencesKey("insistentNotificationKey")
         val autoStartWorkKey = booleanPreferencesKey("autoStartWorkKey")
@@ -121,6 +122,8 @@ class SettingsRepositoryImpl(
                         it[Keys.vibrationStrengthKey]
                             ?: default.vibrationStrength,
                     enableTorch = it[Keys.enableTorchKey] ?: default.enableTorch,
+                    flashScreen =
+                        it[Keys.enableFlashScreenKey] ?: default.flashScreen,
                     overrideSoundProfile =
                         it[Keys.overrideSoundProfile]
                             ?: default.overrideSoundProfile,
@@ -242,6 +245,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun setEnableTorch(enabled: Boolean) {
         dataStore.edit { it[Keys.enableTorchKey] = enabled }
+    }
+
+    override suspend fun setEnableFlashScreen(enabled: Boolean) {
+        dataStore.edit { it[Keys.enableFlashScreenKey] = enabled }
     }
 
     override suspend fun setOverrideSoundProfile(enabled: Boolean) {

@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">El sonido de notificación se comporta como una alarma</string>
     <string name="settings_vibration_strength">Intensidad de vibración</string>
     <string name="settings_torch_title">Antorcha</string>
+    <string name="settings_screen_flash_title">Parpadear pantalla</string>
     <string name="settings_torch_desc">A visual notification for silent environments</string>
     <string name="settings_insistent_notification_title">Notificación insistente</string>
     <string name="settings_insistent_notification_desc">Repetir la notificación hasta que la cancele</string>

@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Użyj głośności alarmu zamiast głośności dźwięku</string>
     <string name="settings_vibration_strength">Siła wibracji</string>
     <string name="settings_torch_title">Latarka</string>
+    <string name="settings_screen_flash_title">Miganie ekranu</string>
     <string name="settings_torch_desc">Powiadomienie wzrokowe dla cichego otoczenia</string>
     <string name="settings_insistent_notification_title">Natarczywe powiadomienie</string>
     <string name="settings_insistent_notification_desc">Powtarzaj powiadomienie, dopóki nie zostanie anulowane</string>

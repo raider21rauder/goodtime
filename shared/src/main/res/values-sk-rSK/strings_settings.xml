@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">Zvuk upozornenia sa chová ako alarm</string>
     <string name="settings_vibration_strength">Vibration strength</string>
     <string name="settings_torch_title">Torch</string>
+    <string name="settings_screen_flash_title">Screen flash</string>
     <string name="settings_torch_desc">Vizuálne upozornenie v tichom režime</string>
     <string name="settings_insistent_notification_title">Dôrazné upozornenie</string>
     <string name="settings_insistent_notification_desc">Opakujte upozornenie, kým sa nezruší</string>

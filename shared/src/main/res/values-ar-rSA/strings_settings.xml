@@ -67,6 +67,7 @@
     <string name="settings_override_sound_profile_desc">سيعمل صوت الاشعار كأنه منبه</string>
     <string name="settings_vibration_strength">قوة الاهتزاز</string>
     <string name="settings_torch_title">الشعلة</string>
+    <string name="settings_screen_flash_title">فلاش الشاشة</string>
     <string name="settings_torch_desc">اظهار إشعار مرئي للبيئات الصامتة</string>
     <string name="settings_insistent_notification_title">الإشعارات بشكل متواصل </string>
     <string name="settings_insistent_notification_desc">كرر الإشعار حتى يتم إلغاؤه</string>
