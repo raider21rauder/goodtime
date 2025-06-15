@@ -525,10 +525,9 @@ class TimerManager(
 
         val durationToSave =
             totalDuration
-                .apply {
-                    if (isWork) {
-                        minus(interruptions)
-                    }
+                .let { duration ->
+                    // First, conditionally subtract interruptions
+                    if (isWork) duration - interruptions else duration
                 }.plus(WIGGLE_ROOM_MILLIS)
                 .milliseconds
 
