@@ -68,7 +68,6 @@ class SettingsRepositoryImpl(
         val lastInsertedSessionIdKey = longPreferencesKey("lastInsertedSessionIdKey")
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
-        val showTimeProfileTutorialKey = booleanPreferencesKey("showTimeProfileTutorialKey")
         val backupSettingsKey = stringPreferencesKey("backupSettingsKey")
     }
 
@@ -152,9 +151,6 @@ class SettingsRepositoryImpl(
                         it[Keys.showOnboardingKey]
                             ?: default.showOnboarding,
                     showTutorial = it[Keys.showTutorialKey] ?: default.showTutorial,
-                    showTimeProfileTutorial =
-                        it[Keys.showTimeProfileTutorialKey]
-                            ?: default.showTimeProfileTutorial,
                     backupSettings =
                         it[Keys.backupSettingsKey]?.let { b ->
                             json.decodeFromString<BackupSettings>(b)
@@ -295,10 +291,6 @@ class SettingsRepositoryImpl(
 
     override suspend fun setShowTutorial(show: Boolean) {
         dataStore.edit { it[Keys.showTutorialKey] = show }
-    }
-
-    override suspend fun setShowTimeProfileTutorial(show: Boolean) {
-        dataStore.edit { it[Keys.showTimeProfileTutorialKey] = show }
     }
 
     override suspend fun setPro(isPro: Boolean) {

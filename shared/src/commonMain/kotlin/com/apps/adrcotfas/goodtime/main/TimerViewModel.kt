@@ -90,7 +90,6 @@ data class TimerMainUiState(
     val sessionCountToday: Int = 0,
     val startOfToday: Long = 0,
     val showTutorial: Boolean = false,
-    val showTimeProfileTutorial: Boolean = false,
     val isPro: Boolean = false,
 )
 
@@ -135,7 +134,6 @@ class TimerViewModel(
                         old.uiSettings == new.uiSettings &&
                         old.isPro == new.isPro &&
                         old.showTutorial == new.showTutorial &&
-                        old.showTimeProfileTutorial == new.showTimeProfileTutorial &&
                         old.flashScreen == new.flashScreen
                 }.collect {
                     val settings = it
@@ -153,7 +151,6 @@ class TimerViewModel(
                             dndDuringWork = uiSettings.dndDuringWork,
                             isPro = settings.isPro,
                             showTutorial = settings.showTutorial,
-                            showTimeProfileTutorial = settings.showTimeProfileTutorial,
                         )
                     }
                 }
@@ -266,12 +263,6 @@ class TimerViewModel(
     fun setShowTutorial(show: Boolean) {
         viewModelScope.launch {
             settingsRepo.setShowTutorial(show)
-        }
-    }
-
-    fun setShowTimeProfileTutorial(show: Boolean) {
-        viewModelScope.launch {
-            settingsRepo.setShowTimeProfileTutorial(show)
         }
     }
 

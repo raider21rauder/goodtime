@@ -34,6 +34,8 @@ data class LabelData(
     val colorIndex: Long,
 )
 
+fun LabelData.isDefault(): Boolean = name == Label.DEFAULT_LABEL_NAME
+
 data class DomainLabel(
     val label: Label = Label.defaultLabel(),
     val profile: TimerProfile = TimerProfile(),

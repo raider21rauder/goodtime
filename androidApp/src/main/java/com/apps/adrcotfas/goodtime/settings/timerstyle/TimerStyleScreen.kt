@@ -24,8 +24,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -53,20 +54,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
-import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
 import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.stats.LabelChip
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
+import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.dashedBorder
-import com.apps.adrcotfas.goodtime.ui.lightPalette
-import com.apps.adrcotfas.goodtime.ui.palette
 import com.apps.adrcotfas.goodtime.ui.timerFontWeights
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
@@ -88,7 +86,7 @@ fun TimerStyleScreen(
     if (uiState.isLoading) return
 
     val timerStyle = if (isPro) uiState.settings.timerStyle else uiState.lockedTimerStyle
-
+    val colorIndex = if (isPro) uiState.defaultLabel.colorIndex.toInt() else uiState.lockedTimerStyle.colorIndex
     val listState = rememberScrollState()
 
     Scaffold(
@@ -108,7 +106,6 @@ fun TimerStyleScreen(
                     .verticalScroll(listState)
                     .background(MaterialTheme.colorScheme.background),
         ) {
-            var colorIndex by rememberSaveable { mutableIntStateOf(24) }
             var baseTime by rememberSaveable { mutableLongStateOf(25.minutes.inWholeMilliseconds) }
             var sessionsBeforeLongBreak by rememberSaveable { mutableIntStateOf(4) }
             var streak by rememberSaveable { mutableIntStateOf(1) }
@@ -150,10 +147,19 @@ fun TimerStyleScreen(
                     showValue = false,
                 )
             }
+            ColorSelectRow(
+                selectedIndex = colorIndex,
+            ) {
+                viewModel.setDefaultLabelColor(
+                    it.toLong(),
+                )
+            }
             Box(
                 modifier =
                     Modifier
-                        .size(timerStyle.currentScreenWidth.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .width(timerStyle.currentScreenWidth.dp)
+                        .height(timerStyle.currentScreenWidth.dp * 0.6f)
                         .padding(16.dp)
                         .dashedBorder(
                             color = MaterialTheme.colorScheme.onSurface,
@@ -177,12 +183,6 @@ fun TimerStyleScreen(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     IconButton(onClick = {
-                        val oldColorIndex = colorIndex
-                        var newColorIndex = Random.nextInt(palette.lastIndex)
-                        while (newColorIndex == oldColorIndex) {
-                            newColorIndex = Random.nextInt(palette.lastIndex)
-                        }
-                        colorIndex = newColorIndex
                         baseTime =
                             Random.nextLong(
                                 1.minutes.inWholeMilliseconds,
@@ -200,34 +200,6 @@ fun TimerStyleScreen(
                     }
                 }
 
-                val demoLabelNames =
-                    listOf(
-                        "numerical methods",
-                        "particle physics",
-                        "epigenetics",
-                        "astrophysics",
-                        "kinetics",
-                        "computer vision",
-                        "neurobiology",
-                        "dermatology",
-                        "nutrition",
-                        "philosophy",
-                        "calligraphy",
-                        "history of religions",
-                        "meditation",
-                        "guitar",
-                        "drums",
-                        "piano",
-                        "thermodynamics",
-                        "calculus",
-                        "ecology",
-                        "nanophotonics",
-                        "biochemistry",
-                        "robotics",
-                        "cryptography",
-                        "machine learning",
-                        "quantum mechanics",
-                    )
                 val timerUiState =
                     TimerUiState(
                         baseTime = baseTime,
@@ -236,37 +208,20 @@ fun TimerStyleScreen(
                         sessionsBeforeLongBreak = sessionsBeforeLongBreak,
                         longBreakData = LongBreakData(streak = streak),
                     )
-                assert(lightPalette.lastIndex == demoLabelNames.lastIndex)
 
                 MainTimerView(
-                    modifier = Modifier,
+                    modifier = Modifier.padding(vertical = 16.dp).align(Alignment.Center),
                     gestureModifier = Modifier,
                     timerUiState = timerUiState,
                     timerStyle = timerStyle,
                     domainLabel =
                         DomainLabel(
                             label =
-                                Label(
-                                    name = demoLabelNames[colorIndex],
-                                    colorIndex = colorIndex.toLong(),
-                                ),
+                                uiState.defaultLabel.copy(colorIndex = colorIndex.toLong()),
                         ),
                     onStart = {},
                     onToggle = null,
                 )
-                Row(
-                    modifier =
-                        Modifier
-                            .padding(16.dp)
-                            .align(Alignment.BottomEnd),
-                ) {
-                    LabelChip(
-                        name = demoLabelNames[colorIndex],
-                        colorIndex = colorIndex.toLong(),
-                        showIcon = true,
-                        selected = true,
-                    ) { }
-                }
             }
             Column {
                 CheckboxListItem(

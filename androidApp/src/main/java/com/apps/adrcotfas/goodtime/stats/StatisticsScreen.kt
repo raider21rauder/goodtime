@@ -50,7 +50,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.apps.adrcotfas.goodtime.bl.isDefault
 import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ConfirmationDialog
 import com.apps.adrcotfas.goodtime.ui.common.DatePickerDialog
@@ -243,7 +245,7 @@ fun StatisticsScreen(
                     ) {
                         AddEditSessionContent(
                             session = uiState.newSession,
-                            labels = uiState.labels,
+                            labelData = uiState.labels.first { it.name == uiState.newSession.label },
                             onUpdate = {
                                 viewModel.updateSessionToEdit(it)
                             },
@@ -343,14 +345,15 @@ fun StatisticsScreen(
                 if (showSelectLabelDialog) {
                     SelectLabelDialog(
                         title = stringResource(R.string.labels_select_label),
-                        labels = uiState.labels,
+                        labels = uiState.labels.filter { !it.isDefault() },
                         initialSelectedLabels = persistentListOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
-                        singleSelection = true,
+                        multiSelect = false,
+                        confirmOnFirstPicked = false,
                         onConfirm = {
                             viewModel.updateSessionToEdit(
                                 uiState.newSession.copy(
-                                    label = it.first(),
+                                    label = if (it.isNotEmpty()) it.first() else Label.DEFAULT_LABEL_NAME,
                                 ),
                             )
                             showSelectLabelDialog = false
@@ -395,7 +398,7 @@ fun StatisticsScreen(
                         title = stringResource(R.string.labels_edit_label),
                         labels = uiState.labels,
                         onDismiss = { showEditBulkLabelDialog = false },
-                        singleSelection = true,
+                        confirmOnFirstPicked = true,
                         onConfirm = {
                             viewModel.setSelectedLabelToBulkEdit(it.first())
                             showEditBulkLabelDialog = false

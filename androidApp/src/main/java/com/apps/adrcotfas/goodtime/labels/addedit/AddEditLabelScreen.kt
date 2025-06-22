@@ -24,7 +24,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,25 +32,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -70,10 +63,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -86,16 +77,15 @@ import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.InfoDialog
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
-import com.apps.adrcotfas.goodtime.ui.localColorsPalette
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Navigation2
-import compose.icons.evaicons.outline.Unlock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +94,6 @@ fun AddEditLabelScreen(
     viewModel: AddEditLabelViewModel = koinViewModel(),
     labelName: String,
     onNavigateToDefault: () -> Unit,
-    onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -123,7 +112,7 @@ fun AddEditLabelScreen(
 
     val label = uiState.newLabel
     val isDefaultLabel = label.isDefault()
-    val labelNameToDisplay = if (isDefaultLabel) uiState.defaultLabelDisplayName else label.name
+    val labelNameToDisplay = label.name
 
     val followDefault = label.useDefaultTimeProfile
     val isCountDown = label.timerProfile.isCountdown
@@ -182,28 +171,31 @@ fun AddEditLabelScreen(
                     .background(MaterialTheme.colorScheme.background)
                     .imePadding(),
         ) {
-            LabelNameRow(
-                isDefaultLabel = isDefaultLabel,
-                isAddingNewLabel = !isEditMode,
-                labelName = labelNameToDisplay,
-                onValueChange = {
-                    val newLabelName = it
-                    viewModel.setNewLabel(
-                        uiState.newLabel.copy(name = newLabelName),
-                    )
-                },
-                showError = !uiState.labelNameIsValid(),
-            )
-            ColorSelectRow(
-                enabled = uiState.isPro,
-                selectedIndex = label.colorIndex.toInt(),
-                onNavigateToPro = onNavigateToPro,
-            ) {
-                viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
+            if (isDefaultLabel) {
+                Text(
+                    modifier = Modifier.padding(16.dp).wrapContentWidth(),
+                    text = stringResource(R.string.settings_timer_durations_title),
+                    style = MaterialTheme.typography.titleLarge,
+                )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-
             if (!isDefaultLabel) {
+                LabelNameRow(
+                    isAddingNewLabel = !isEditMode,
+                    labelName = labelNameToDisplay,
+                    onValueChange = {
+                        val newLabelName = it
+                        viewModel.setNewLabel(
+                            uiState.newLabel.copy(name = newLabelName),
+                        )
+                    },
+                    showError = !uiState.labelNameIsValid(),
+                )
+                ColorSelectRow(
+                    selectedIndex = label.colorIndex.toInt(),
+                ) {
+                    viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
+                }
+                Spacer(modifier = Modifier.height(16.dp))
                 ListItem(
                     modifier =
                         Modifier.clickable {
@@ -214,9 +206,11 @@ fun AddEditLabelScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            FilledTonalIconButton(onClick = {
-                                onNavigateToDefault()
-                            }) {
+                            FilledTonalIconButton(
+                                onClick = {
+                                    onNavigateToDefault()
+                                },
+                            ) {
                                 Icon(
                                     imageVector = EvaIcons.Outline.Navigation2,
                                     contentDescription = stringResource(R.string.labels_default_label_name),
@@ -241,13 +235,16 @@ fun AddEditLabelScreen(
             }
             AnimatedVisibility(isDefaultLabel || !followDefault) {
                 Column {
-                    TimerTypeRow(isCountDown = isCountDown, onCountDownEnabled = {
-                        viewModel.setNewLabel(
-                            label.copy(
-                                timerProfile = label.timerProfile.copy(isCountdown = it),
-                            ),
-                        )
-                    })
+                    TimerTypeRow(
+                        isCountDown = isCountDown,
+                        onCountDownEnabled = {
+                            viewModel.setNewLabel(
+                                label.copy(
+                                    timerProfile = label.timerProfile.copy(isCountdown = it),
+                                ),
+                            )
+                        },
+                    )
                     if (isCountDown) {
                         Column {
                             EditableNumberListItem(
@@ -357,9 +354,11 @@ fun AddEditLabelScreen(
                                     ) {
                                         Text(stringResource(R.string.labels_enable_break_budget))
 
-                                        IconButton(onClick = {
-                                            showBreakBudgetInfoDialog = true
-                                        }) {
+                                        IconButton(
+                                            onClick = {
+                                                showBreakBudgetInfoDialog = true
+                                            },
+                                        ) {
                                             Icon(
                                                 imageVector = Icons.Outlined.Info,
                                                 contentDescription = stringResource(R.string.labels_break_budget_info),
@@ -413,7 +412,6 @@ fun AddEditLabelScreen(
 
 @Composable
 private fun LabelNameRow(
-    isDefaultLabel: Boolean,
     isAddingNewLabel: Boolean,
     labelName: String,
     onValueChange: (String) -> Unit,
@@ -443,10 +441,9 @@ private fun LabelNameRow(
                 textStyle =
                     MaterialTheme.typography.titleLarge.copy(
                         color = MaterialTheme.colorScheme.onSurface,
-                        textDecoration = if (isDefaultLabel) null else TextDecoration.Underline,
+                        textDecoration = TextDecoration.Underline,
                     ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                readOnly = isDefaultLabel,
                 singleLine = true,
                 value = labelName,
                 onValueChange = {
@@ -458,13 +455,9 @@ private fun LabelNameRow(
             if (labelName.isEmpty()) {
                 Text(
                     text =
-                        if (isDefaultLabel) {
-                            stringResource(R.string.labels_default_label_name)
-                        } else {
-                            stringResource(
-                                R.string.labels_add_label_name,
-                            )
-                        },
+                        stringResource(
+                            R.string.labels_add_label_name,
+                        ),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -480,106 +473,6 @@ private fun LabelNameRow(
 
         LaunchedEffect(labelName) {
             if (isAddingNewLabel) focusRequester.requestFocus()
-        }
-    }
-}
-
-@Composable
-private fun ColorSelectRow(
-    enabled: Boolean,
-    selectedIndex: Int,
-    onNavigateToPro: () -> Unit,
-    onClick: (Int) -> Unit,
-) {
-    val colors = MaterialTheme.localColorsPalette.colors
-    val listState = rememberLazyListState(selectedIndex)
-
-    Box(modifier = Modifier.wrapContentSize()) {
-        LazyRow(
-            modifier =
-                Modifier
-                    .align(Alignment.Center)
-                    .height(48.dp),
-            state = listState,
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            itemsIndexed(colors) { index, color ->
-                LabelColorPickerItem(
-                    color = color,
-                    isSelected = index == selectedIndex,
-                    onClick = {
-                        if (enabled) {
-                            onClick(index)
-                        }
-                    },
-                )
-            }
-        }
-        if (!enabled) {
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(
-                            color =
-                                MaterialTheme.colorScheme.background.copy(
-                                    alpha = 0.38f,
-                                ),
-                        ).align(Alignment.Center),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                FilledTonalButton(
-                    onClick = onNavigateToPro,
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            imageVector = EvaIcons.Outline.Unlock,
-                            contentDescription = null,
-                        )
-                        Text(text = stringResource(R.string.unlock_colors))
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun LabelColorPickerItem(
-    color: Color,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
-    Box(
-        modifier =
-            Modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(color)
-                .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (isSelected) {
-            Box(
-                modifier =
-                    Modifier
-                        .size(22.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.5f)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                )
-            }
         }
     }
 }

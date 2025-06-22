@@ -79,6 +79,7 @@ import com.apps.adrcotfas.goodtime.common.askForAlarmPermission
 import com.apps.adrcotfas.goodtime.common.installIsOlderThan10Days
 import com.apps.adrcotfas.goodtime.common.isPortrait
 import com.apps.adrcotfas.goodtime.common.screenWidth
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialConfig
 import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControl
@@ -299,12 +300,6 @@ fun MainScreen(
                             onLabelClick = { showSelectLabelDialog = true },
                             labelData = label.getLabelData(),
                             sessionCountToday = uiState.sessionCountToday,
-                            showTimeProfileTutorial = uiState.showTimeProfileTutorial,
-                            onTimeProfileTutorialFinished = {
-                                viewModel.setShowTimeProfileTutorial(
-                                    false,
-                                )
-                            },
                             badgeItemCount = settingsBadgeItemCount,
                             navController = navController,
                         )
@@ -356,11 +351,13 @@ fun MainScreen(
     }
 
     if (showSelectLabelDialog) {
-        SelectStatsVisibleLabelsDialog(
+        SelectActiveLabelDialog(
             initialSelectedLabel = timerUiState.label.label.name,
             onDismiss = { showSelectLabelDialog = false },
             onConfirm = { selectedLabels ->
-                if (selectedLabels.isNotEmpty()) {
+                if (selectedLabels.isEmpty()) {
+                    viewModel.setActiveLabel(Label.DEFAULT_LABEL_NAME)
+                } else {
                     val first = selectedLabels.first()
                     if (first != label.label.name) {
                         viewModel.setActiveLabel(first)
@@ -370,10 +367,6 @@ fun MainScreen(
             },
             onNavigateToLabels = {
                 navController.navigate(LabelsDest)
-                showSelectLabelDialog = false
-            },
-            onNavigateToActiveLabel = {
-                navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
                 showSelectLabelDialog = false
             },
         )

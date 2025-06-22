@@ -55,7 +55,6 @@ data class AppSettings(
     val historyChartSettings: HistoryChartSettings = HistoryChartSettings(),
     val showOnboarding: Boolean = true,
     val showTutorial: Boolean = true,
-    val showTimeProfileTutorial: Boolean = true,
     val backupSettings: BackupSettings = BackupSettings(),
 )
 
@@ -99,6 +98,7 @@ fun ThemePreference.isDarkTheme(isSystemInDarkTheme: Boolean): Boolean =
 
 @Serializable
 data class TimerStyleData(
+    val colorIndex: Int = Label.DEFAULT_LABEL_COLOR_INDEX,
     val minSize: Float = 0f, // in em
     val maxSize: Float = 0f, // in em
     val fontSize: Float = 0f, // in em

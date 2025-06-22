@@ -176,12 +176,6 @@ class FakeSettingsRepository(
         )
     }
 
-    override suspend fun setShowTimeProfileTutorial(show: Boolean) {
-        _settings.emit(
-            _settings.value.copy(showTimeProfileTutorial = show),
-        )
-    }
-
     override suspend fun setPro(isPro: Boolean) {
         _settings.emit(
             _settings.value.copy(isPro = true),

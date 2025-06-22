@@ -46,7 +46,7 @@ fun SelectStatsVisibleLabelsDialog(
         },
         initialSelectedLabels = initialSelectedLabels,
         onDismiss = onDismiss,
-        singleSelection = false,
+        confirmOnFirstPicked = false,
         onConfirm = onConfirm,
     )
 }

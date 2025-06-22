@@ -47,6 +47,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.formatToPrettyDateAndTime
 import com.apps.adrcotfas.goodtime.bl.LabelData
+import com.apps.adrcotfas.goodtime.bl.isDefault
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
@@ -58,7 +59,7 @@ import compose.icons.evaicons.outline.Clock
 @Composable
 fun AddEditSessionContent(
     session: Session,
-    labels: List<LabelData>,
+    labelData: LabelData,
     onOpenDatePicker: () -> Unit,
     onOpenTimePicker: () -> Unit,
     onOpenLabelSelector: () -> Unit,
@@ -177,8 +178,16 @@ fun AddEditSessionContent(
             },
             colors = ListItemDefaults.colors(containerColor = Color.Transparent),
             headlineContent = {
-                val colorIndex = labels.first { it.name == session.label }.colorIndex
-                LabelChip(session.label, colorIndex, onClick = onOpenLabelSelector)
+                if (labelData.isDefault()) {
+                    Text(
+                        text = stringResource(R.string.labels_add_label),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                } else {
+                    val colorIndex = labelData.colorIndex
+                    LabelChip(session.label, colorIndex, onClick = onOpenLabelSelector)
+                }
             },
         )
         Row(

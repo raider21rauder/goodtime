@@ -36,25 +36,28 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.common.rememberMutableStateListOf
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SelectLabelDialog(
     title: String,
-    singleSelection: Boolean,
+    confirmOnFirstPicked: Boolean,
+    multiSelect: Boolean = true,
     onConfirm: (List<String>) -> Unit,
     onDismiss: () -> Unit,
     labels: List<LabelData>,
     extraContent: @Composable (() -> Unit)? = null,
     initialSelectedLabels: List<String> = emptyList(),
-    buttons: @Composable (() -> Unit)? = null,
+    neutralButton: @Composable (() -> Unit)? = null,
 ) {
     val selectedLabels = rememberMutableStateListOf(*initialSelectedLabels.toTypedArray())
 
@@ -93,6 +96,16 @@ fun SelectLabelDialog(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 extraContent?.invoke()
+                if (labels.isEmpty()) {
+                    Text(
+                        modifier = Modifier.padding(vertical = 32.dp).align(Alignment.CenterHorizontally),
+                        text = stringResource(R.string.stats_no_items),
+                        style =
+                            MaterialTheme.typography.bodyMedium.copy(
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            ),
+                    )
+                }
                 FlowRow(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -104,9 +117,10 @@ fun SelectLabelDialog(
                             selected = selectedLabels.contains(label.name),
                             showIcon = true,
                         ) {
-                            if (singleSelection) {
+                            if (confirmOnFirstPicked) {
                                 onConfirm(listOf(label.name))
-                            } else {
+                            } else if (multiSelect) {
+                                // one or more selection
                                 val alreadySelected = selectedLabels.contains(label.name)
                                 if (selectedLabels.size == 1 && alreadySelected) return@LabelChip
                                 if (selectedLabels.contains(label.name)) {
@@ -114,12 +128,20 @@ fun SelectLabelDialog(
                                 } else {
                                     selectedLabels.add(label.name)
                                 }
+                            } else {
+                                // zero or one selection
+                                if (selectedLabels.contains(label.name)) {
+                                    selectedLabels.remove(label.name)
+                                } else {
+                                    selectedLabels.clear()
+                                    selectedLabels.add(label.name)
+                                }
                             }
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(32.dp))
-                if (!singleSelection) {
+                if (!confirmOnFirstPicked) {
                     Row(
                         modifier =
                             Modifier
@@ -127,6 +149,10 @@ fun SelectLabelDialog(
                                 .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                     ) {
+                        neutralButton?.invoke()
+                        if (neutralButton != null) {
+                            Spacer(Modifier.weight(1f))
+                        }
                         TextButton(onClick = onDismiss) { Text(stringResource(id = android.R.string.cancel)) }
                         TextButton(onClick = { onConfirm(selectedLabels) }) {
                             Text(
@@ -134,8 +160,6 @@ fun SelectLabelDialog(
                             )
                         }
                     }
-                } else if (buttons != null) {
-                    buttons()
                 }
             }
         }

@@ -22,10 +22,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedMonthNamesFull
 import com.apps.adrcotfas.goodtime.common.Time.currentDateTime
 import com.apps.adrcotfas.goodtime.common.isoWeekNumber
@@ -52,6 +54,8 @@ fun OverviewTab(
     val javaLocale = remember(locale) { Locale.forLanguageTag(locale.toLanguageTag()) }
 
     val currentDateTime = remember { currentDateTime() }
+    val uiState by historyChartViewModel.uiState.collectAsStateWithLifecycle()
+
     Column(
         Modifier
             .padding(top = 8.dp)
@@ -88,13 +92,13 @@ fun OverviewTab(
             data = statisticsData.heatmapData,
         )
 
-        if (historyChartViewModel.uiState.value.selectedLabels.size > 1) {
+        if (uiState.selectedLabels.size > 1) {
             PieChartSection(
                 statisticsData.overviewData,
                 statisticsSettings.pieChartViewType,
                 onChangePieChartOverviewType,
                 typeNames = typeNames,
-                selectedLabels = historyChartViewModel.uiState.value.selectedLabels,
+                selectedLabels = uiState.selectedLabels,
             )
         }
 
