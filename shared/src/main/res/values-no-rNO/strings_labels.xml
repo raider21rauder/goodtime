@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Rediger etikett</string>
     <string name="labels_delete_label_confirmation">"Sletting av denne etiketten vil fjerne den fra tilknyttede fullførte økter."</string>
     <string name="labels_navigate_to_archived">"Naviger til arkiverte etiketter"</string>
+    <string name="labels_clear_label">"Tøm etikett"</string>
 </resources>

@@ -27,5 +27,5 @@
     <string name="backup_failed_please_try_again">ব্যাকআপ ব্যর্থ হয়েছে৷ আবার চেষ্টা করুন</string>
     <string name="backup_restore_completed_successfully">পুনরুদ্ধার সফলভাবে সম্পন্ন হয়েছে।</string>
     <string name="backup_restore_failed_please_try_again">পুনরুদ্ধার ব্যর্থ হয়েছে। আবার চেষ্টা করুন</string>
-    <string name="backup_auto_backup">Auto backupi</string>
+    <string name="backup_auto_backup">অটো ব্যাকআপ</string>
 </resources>

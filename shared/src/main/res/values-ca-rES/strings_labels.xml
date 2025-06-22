@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Editar etiqueta</string>
     <string name="labels_delete_label_confirmation">"Si suprimiu aquesta etiqueta, s'eliminarà de les sessions completades associades."</string>
     <string name="labels_navigate_to_archived">"Navegueu a les etiquetes arxivades"</string>
+    <string name="labels_clear_label">"Clear label"</string>
 </resources>

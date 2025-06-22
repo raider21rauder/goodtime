@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Изменить метку</string>
     <string name="labels_delete_label_confirmation">"Удаление ярлыка удалит его из связанных завершенных сессий."</string>
     <string name="labels_navigate_to_archived">"Перейдите к архивированным меткам"</string>
+    <string name="labels_clear_label">"Очистить метку"</string>
 </resources>

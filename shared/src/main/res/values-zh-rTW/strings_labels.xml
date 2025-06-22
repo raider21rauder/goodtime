@@ -49,4 +49,5 @@
     <string name="labels_edit_label">編輯標記</string>
     <string name="labels_delete_label_confirmation">"刪除此標籤會將其從關聯的已完成會話中刪除。"</string>
     <string name="labels_navigate_to_archived">"導航至存檔標籤"</string>
+    <string name="labels_clear_label">"清除已選取標籤"</string>
 </resources>

@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Upravit štítek</string>
     <string name="labels_delete_label_confirmation">"Smazáním tohoto štítku jej odeberete ze souvisejících dokončených pracovních bloků."</string>
     <string name="labels_navigate_to_archived">"Přejít na archivované štítky"</string>
+    <string name="labels_clear_label">"Vymazat štítek"</string>
 </resources>

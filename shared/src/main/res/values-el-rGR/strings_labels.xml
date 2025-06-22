@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Επεξεργασία ετικέτας</string>
     <string name="labels_delete_label_confirmation">"Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες."</string>
     <string name="labels_navigate_to_archived">"Πλοήγηση σε αρχειοθετημένες ετικέτες"</string>
+    <string name="labels_clear_label">"Καθαρισμός ετικέτας"</string>
 </resources>

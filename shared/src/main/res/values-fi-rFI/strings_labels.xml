@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Muokkaa tunnistetta</string>
     <string name="labels_delete_label_confirmation">"Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista."</string>
     <string name="labels_navigate_to_archived">"Siirry arkistoituihin tunnisteisiin"</string>
+    <string name="labels_clear_label">"Tyhjennä tunniste"</string>
 </resources>

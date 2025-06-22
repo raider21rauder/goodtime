@@ -49,4 +49,5 @@
     <string name="labels_edit_label">ラベルを編集</string>
     <string name="labels_delete_label_confirmation">"このラベルを削除すると、関連する完了したセッションから削除されます。"</string>
     <string name="labels_navigate_to_archived">"アーカイブされたラベルに移動"</string>
+    <string name="labels_clear_label">"ラベルをクリア"</string>
 </resources>

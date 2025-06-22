@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Etiketi düzenle</string>
     <string name="labels_delete_label_confirmation">"Bu etiketi silmek bağlı olduğu tamamlanmış oturumlardan kaldıracaktır."</string>
     <string name="labels_navigate_to_archived">"Arşivlenmiş etiketlere git"</string>
+    <string name="labels_clear_label">"Clear label"</string>
 </resources>

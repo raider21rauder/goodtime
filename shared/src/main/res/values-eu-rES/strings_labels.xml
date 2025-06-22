@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Editatu etiketa</string>
     <string name="labels_delete_label_confirmation">"Etiketa hau ezabatzeak lotutako saio osatuetatik ere ezabatuko du."</string>
     <string name="labels_navigate_to_archived">"Nabigatu artxibatutako etiketetara"</string>
+    <string name="labels_clear_label">"Clear label"</string>
 </resources>

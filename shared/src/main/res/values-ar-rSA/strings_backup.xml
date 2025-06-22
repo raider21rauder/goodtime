@@ -27,5 +27,5 @@
     <string name="backup_failed_please_try_again">فشل النسخ الاحتياطي. الرجاء المحاولة مرة أخرى</string>
     <string name="backup_restore_completed_successfully">اكتمل النسخ الاحتياطي بنجاح</string>
     <string name="backup_restore_failed_please_try_again">فشلت الاستعادة. الرجاء المحاولة مرة أخرى</string>
-    <string name="backup_auto_backup">النَّسْخُ الِاحْتياطيُّ التِّلْقائيُّ</string>
+    <string name="backup_auto_backup">النسخ الاحتياطي التلقائي</string>
 </resources>

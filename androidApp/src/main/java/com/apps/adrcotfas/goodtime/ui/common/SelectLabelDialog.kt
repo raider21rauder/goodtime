@@ -36,13 +36,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.apps.adrcotfas.goodtime.bl.LabelData
 import com.apps.adrcotfas.goodtime.common.rememberMutableStateListOf
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.stats.LabelChip
 
@@ -50,14 +51,15 @@ import com.apps.adrcotfas.goodtime.stats.LabelChip
 @Composable
 fun SelectLabelDialog(
     title: String,
-    confirmOnFirstPicked: Boolean,
-    multiSelect: Boolean = true,
+    singleSelection: Boolean,
     onConfirm: (List<String>) -> Unit,
     onDismiss: () -> Unit,
     labels: List<LabelData>,
+    showIcons: Boolean = true,
+    forceShowClearLabel: Boolean = false,
     extraContent: @Composable (() -> Unit)? = null,
     initialSelectedLabels: List<String> = emptyList(),
-    neutralButton: @Composable (() -> Unit)? = null,
+    buttons: @Composable (() -> Unit)? = null,
 ) {
     val selectedLabels = rememberMutableStateListOf(*initialSelectedLabels.toTypedArray())
 
@@ -96,16 +98,6 @@ fun SelectLabelDialog(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 extraContent?.invoke()
-                if (labels.isEmpty()) {
-                    Text(
-                        modifier = Modifier.padding(vertical = 32.dp).align(Alignment.CenterHorizontally),
-                        text = stringResource(R.string.stats_no_items),
-                        style =
-                            MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            ),
-                    )
-                }
                 FlowRow(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -115,12 +107,11 @@ fun SelectLabelDialog(
                             label.name,
                             label.colorIndex,
                             selected = selectedLabels.contains(label.name),
-                            showIcon = true,
+                            showIcon = showIcons,
                         ) {
-                            if (confirmOnFirstPicked) {
+                            if (singleSelection) {
                                 onConfirm(listOf(label.name))
-                            } else if (multiSelect) {
-                                // one or more selection
+                            } else {
                                 val alreadySelected = selectedLabels.contains(label.name)
                                 if (selectedLabels.size == 1 && alreadySelected) return@LabelChip
                                 if (selectedLabels.contains(label.name)) {
@@ -128,20 +119,12 @@ fun SelectLabelDialog(
                                 } else {
                                     selectedLabels.add(label.name)
                                 }
-                            } else {
-                                // zero or one selection
-                                if (selectedLabels.contains(label.name)) {
-                                    selectedLabels.remove(label.name)
-                                } else {
-                                    selectedLabels.clear()
-                                    selectedLabels.add(label.name)
-                                }
                             }
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(32.dp))
-                if (!confirmOnFirstPicked) {
+                if (!singleSelection) {
                     Row(
                         modifier =
                             Modifier
@@ -149,10 +132,6 @@ fun SelectLabelDialog(
                                 .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                     ) {
-                        neutralButton?.invoke()
-                        if (neutralButton != null) {
-                            Spacer(Modifier.weight(1f))
-                        }
                         TextButton(onClick = onDismiss) { Text(stringResource(id = android.R.string.cancel)) }
                         TextButton(onClick = { onConfirm(selectedLabels) }) {
                             Text(
@@ -160,6 +139,107 @@ fun SelectLabelDialog(
                             )
                         }
                     }
+                } else if (buttons != null) {
+                    buttons()
+                } else if (forceShowClearLabel ||
+                    (initialSelectedLabels.isNotEmpty() && initialSelectedLabels.first() != Label.DEFAULT_LABEL_NAME)
+                ) {
+                    AlertDialogButtonStack {
+                        TextButton(onClick = { onConfirm(listOf(Label.DEFAULT_LABEL_NAME)) }) {
+                            Text(stringResource(R.string.labels_clear_label))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Custom layout for stacking buttons as per the material design spec.
+ * If all buttons fit on one line. Place them like that.
+ * When they don't fit, put them vertically below each other.
+ *
+ * We need to implement this manually because the compose material implementation does not follow these guidelines and places buttons like [FlowRow].
+ */
+@Composable
+fun AlertDialogButtonStack(
+    modifier: Modifier = Modifier,
+    buttons: @Composable () -> Unit,
+) {
+    Layout(
+        modifier = modifier,
+        content = buttons,
+    ) { measurables, constraints ->
+        // Don't constrain child views further, measure them with given constraints.
+        // List of measured children
+        val placeables =
+            measurables.map { measurable ->
+                // Measure each children
+                measurable.measure(constraints)
+            }
+
+        // Calculate amount of required space for the buttons.
+        val widthOfButtons =
+            placeables.sumOf { placeable ->
+                placeable.width
+            }
+
+        if (widthOfButtons < constraints.maxWidth) {
+            // Calculate height of the whole button row.
+            val maxHeight =
+                placeables.maxOf { placeable ->
+                    placeable.height
+                }
+
+            // When all buttons fit horizontally, place them like that.
+            // Place buttons from the end to the start of the layout.
+            layout(constraints.maxWidth, maxHeight) {
+                // Track the current X coordinate for placing children.
+                var xPosition = constraints.maxWidth
+
+                // Place children in the parent layout.
+                placeables.forEachIndexed { index, placeable ->
+                    if (index == 2 && index == placeables.lastIndex) {
+                        // When we place the third button horizontally,
+                        // it is a neutral button and it should be pushed to the side.
+                        placeable.placeRelative(
+                            x = 0,
+                            y = 0,
+                        )
+                    } else {
+                        // Normal buttons are placed next to each other.
+                        placeable.placeRelative(
+                            x = xPosition - placeable.width,
+                            y = 0,
+                        )
+                    }
+
+                    // Move the X coordinate by the currently placed button.
+                    xPosition -= placeable.width
+                }
+            }
+        } else {
+            val heightOfButtons =
+                placeables.sumOf { placeable ->
+                    placeable.height
+                }
+
+            // When all buttons don't fit. Place them vertically.
+            layout(constraints.maxWidth, heightOfButtons) {
+                // Track the Y coordinate we have placed children up to.
+                var yPosition = 0
+
+                // Place children in the parent layout.
+                placeables.forEach { placeable ->
+                    // Position item on the screen.
+                    placeable.placeRelative(
+                        x = constraints.maxWidth - placeable.width,
+                        y = yPosition,
+                    )
+
+                    // Move the Y coordinate by the currently placed button.
+                    yPosition += placeable.height
                 }
             }
         }

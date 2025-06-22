@@ -49,4 +49,5 @@
     <string name="labels_edit_label">تعديل التسمية</string>
     <string name="labels_delete_label_confirmation">"سيؤدي حذف هذه التسمية إلى إزالتها من الجلسات المكتملة المرتبطة بها."</string>
     <string name="labels_navigate_to_archived">"انتقل إلى التسميات المؤرشفة"</string>
+    <string name="labels_clear_label">"مسح التسمية"</string>
 </resources>

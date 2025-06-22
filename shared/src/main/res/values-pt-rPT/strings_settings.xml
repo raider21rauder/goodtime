@@ -67,7 +67,7 @@
     <string name="settings_override_sound_profile_desc">O som de notificação comporta-se como um alarme</string>
     <string name="settings_vibration_strength">Força de vibração</string>
     <string name="settings_torch_title">Lanterna</string>
-    <string name="settings_screen_flash_title">Flash de tela</string>
+    <string name="settings_screen_flash_title">Flash do ecrã</string>
     <string name="settings_torch_desc">Notificação visual para ambientes silenciosos</string>
     <string name="settings_insistent_notification_title">Notificações persistentes</string>
     <string name="settings_insistent_notification_desc">Repetir a notificação até que seja cancelada</string>

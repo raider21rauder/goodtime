@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Izmjeni oznaku</string>
     <string name="labels_delete_label_confirmation">"Brisanje ove oznake uklonit će je iz povezanih dovršenih sesija."</string>
     <string name="labels_navigate_to_archived">"Idite na arhivirane oznake"</string>
+    <string name="labels_clear_label">"Jasne oznake"</string>
 </resources>

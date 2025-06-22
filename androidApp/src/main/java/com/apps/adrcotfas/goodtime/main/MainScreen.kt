@@ -355,9 +355,7 @@ fun MainScreen(
             initialSelectedLabel = timerUiState.label.label.name,
             onDismiss = { showSelectLabelDialog = false },
             onConfirm = { selectedLabels ->
-                if (selectedLabels.isEmpty()) {
-                    viewModel.setActiveLabel(Label.DEFAULT_LABEL_NAME)
-                } else {
+                if (selectedLabels.isNotEmpty()) {
                     val first = selectedLabels.first()
                     if (first != label.label.name) {
                         viewModel.setActiveLabel(first)
@@ -367,6 +365,14 @@ fun MainScreen(
             },
             onNavigateToLabels = {
                 navController.navigate(LabelsDest)
+                showSelectLabelDialog = false
+            },
+            onNavigateToActiveLabel = {
+                navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
+                showSelectLabelDialog = false
+            },
+            onClearLabel = {
+                viewModel.setActiveLabel(Label.DEFAULT_LABEL_NAME)
                 showSelectLabelDialog = false
             },
         )

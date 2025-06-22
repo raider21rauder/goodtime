@@ -49,4 +49,5 @@
     <string name="labels_edit_label">编辑标签</string>
     <string name="labels_delete_label_confirmation">"删除此标签将从关联的已完成会话中移除。"</string>
     <string name="labels_navigate_to_archived">"前往已归档标签"</string>
+    <string name="labels_clear_label">"清除标签"</string>
 </resources>

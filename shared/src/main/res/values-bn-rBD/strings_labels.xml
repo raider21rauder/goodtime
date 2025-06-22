@@ -49,4 +49,5 @@
     <string name="labels_edit_label">লেবেল সম্পাদনা করুন</string>
     <string name="labels_delete_label_confirmation">"এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে."</string>
     <string name="labels_navigate_to_archived">"আর্কাইভ করা লেবেলে যান"</string>
+    <string name="labels_clear_label">"Clear label"</string>
 </resources>

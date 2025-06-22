@@ -67,7 +67,7 @@
     <string name="settings_override_sound_profile_desc">Ilmoitusääni käyttäytyy kuin hälytys</string>
     <string name="settings_vibration_strength">Värinän voimakkuus</string>
     <string name="settings_torch_title">Lamppu</string>
-    <string name="settings_screen_flash_title">Screen flash</string>
+    <string name="settings_screen_flash_title">Näytön salama</string>
     <string name="settings_torch_desc">Visuaalinen ilmoitus hiljaisille ympäristöille</string>
     <string name="settings_insistent_notification_title">Itsepintainen ilmoitus</string>
     <string name="settings_insistent_notification_desc">Toista ilmoitus, kunnes se perutaan</string>

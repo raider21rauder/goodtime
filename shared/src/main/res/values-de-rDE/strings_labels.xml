@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Label bearbeiten</string>
     <string name="labels_delete_label_confirmation">"Das Löschen dieses Labels entfernt es von zugehörigen abgeschlossenen Sitzungen."</string>
     <string name="labels_navigate_to_archived">"Navigiere zu archivierten Labels"</string>
+    <string name="labels_clear_label">"Label löschen"</string>
 </resources>

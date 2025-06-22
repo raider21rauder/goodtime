@@ -27,5 +27,5 @@
     <string name="backup_failed_please_try_again">O backup falhou. Por favor, tente novamente</string>
     <string name="backup_restore_completed_successfully">Restauração concluída com sucesso</string>
     <string name="backup_restore_failed_please_try_again">Falha na restauração. Por favor, tente novamente</string>
-    <string name="backup_auto_backup">Backup Automático</string>
+    <string name="backup_auto_backup">Backup automático</string>
 </resources>

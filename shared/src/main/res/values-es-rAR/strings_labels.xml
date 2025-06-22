@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Editar etiqueta</string>
     <string name="labels_delete_label_confirmation">"Borrar esta etiqueta hará que también se borren las sesiones completadas con esta etiqueta."</string>
     <string name="labels_navigate_to_archived">"Ir a etiquetas archivadas"</string>
+    <string name="labels_clear_label">"Borrar etiqueta"</string>
 </resources>

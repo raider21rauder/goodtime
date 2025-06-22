@@ -27,7 +27,7 @@
     <string name="labels_long_break">Long break</string>
     <string name="labels_sessions_before_long_break">Sessions before long break</string>
     <string name="labels_enable_break_budget">Enable break budget</string>
-    <string name="labels_focus_break_ratio">Focus/break ratio</string>
+    <string name="labels_focus_break_ratio">집중/휴식 비율</string>
     <string name="labels_select_active_label">Select active label</string>
     <string name="labels_edit_labels">라벨 수정</string>
     <string name="labels_edit_active_label">Edit active label</string>
@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Edit label</string>
     <string name="labels_delete_label_confirmation">"Deleting this label will remove it from associated completed sessions."</string>
     <string name="labels_navigate_to_archived">"Navigate to archived labels"</string>
+    <string name="labels_clear_label">"Clear label"</string>
 </resources>

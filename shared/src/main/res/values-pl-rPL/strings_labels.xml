@@ -49,4 +49,5 @@
     <string name="labels_edit_label">Edytuj etykietę</string>
     <string name="labels_delete_label_confirmation">"Usunięcie tej etykiety spowoduje usunięcie jej z powiązanych ukończonych sesji."</string>
     <string name="labels_navigate_to_archived">"Przejdź do zarchiwizowanych etykiet"</string>
+    <string name="labels_clear_label">"Usuń etykietę"</string>
 </resources>

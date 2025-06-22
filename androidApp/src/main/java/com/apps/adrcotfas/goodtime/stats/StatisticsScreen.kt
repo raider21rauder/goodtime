@@ -348,8 +348,7 @@ fun StatisticsScreen(
                         labels = uiState.labels.filter { !it.isDefault() },
                         initialSelectedLabels = persistentListOf(uiState.newSession.label),
                         onDismiss = { showSelectLabelDialog = false },
-                        multiSelect = false,
-                        confirmOnFirstPicked = false,
+                        singleSelection = true,
                         onConfirm = {
                             viewModel.updateSessionToEdit(
                                 uiState.newSession.copy(
@@ -396,14 +395,16 @@ fun StatisticsScreen(
                 if (showEditBulkLabelDialog) {
                     SelectLabelDialog(
                         title = stringResource(R.string.labels_edit_label),
-                        labels = uiState.labels,
+                        labels = uiState.labels.filter { !it.isDefault() },
                         onDismiss = { showEditBulkLabelDialog = false },
-                        confirmOnFirstPicked = true,
+                        singleSelection = true,
                         onConfirm = {
                             viewModel.setSelectedLabelToBulkEdit(it.first())
                             showEditBulkLabelDialog = false
                             showEditLabelConfirmationDialog = true
                         },
+                        showIcons = false,
+                        forceShowClearLabel = true,
                     )
                 }
                 if (showEditLabelConfirmationDialog) {

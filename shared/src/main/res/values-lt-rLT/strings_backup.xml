@@ -27,5 +27,5 @@
     <string name="backup_failed_please_try_again">Backup failed. Please try again</string>
     <string name="backup_restore_completed_successfully">Restore completed successfully</string>
     <string name="backup_restore_failed_please_try_again">Restore failed. Please try again</string>
-    <string name="backup_auto_backup">Auto backup</string>
+    <string name="backup_auto_backup">Automatiškai daryti atsargines kopijas</string>
 </resources>

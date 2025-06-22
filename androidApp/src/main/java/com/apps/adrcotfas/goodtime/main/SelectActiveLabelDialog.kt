@@ -17,18 +17,29 @@
  */
 package com.apps.adrcotfas.goodtime.main
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.getLabelData
 import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.main.LabelsViewModel
 import com.apps.adrcotfas.goodtime.labels.main.unarchivedLabels
 import com.apps.adrcotfas.goodtime.shared.R
+import com.apps.adrcotfas.goodtime.ui.common.AlertDialogButtonStack
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Edit
 import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,6 +48,8 @@ fun SelectActiveLabelDialog(
     viewModel: LabelsViewModel = koinViewModel(),
     initialSelectedLabel: String,
     onNavigateToLabels: () -> Unit,
+    onNavigateToActiveLabel: () -> Unit,
+    onClearLabel: () -> Unit,
     onDismiss: () -> Unit,
     onConfirm: (List<String>) -> Unit,
 ) {
@@ -46,14 +59,30 @@ fun SelectActiveLabelDialog(
 
     SelectLabelDialog(
         title = stringResource(R.string.labels_select_active_label),
-        confirmOnFirstPicked = false,
-        multiSelect = false,
+        singleSelection = true,
         labels = labels,
         initialSelectedLabels = listOf(initialSelectedLabel),
         onDismiss = onDismiss,
         onConfirm = onConfirm,
-        neutralButton = {
-            TextButton(onClick = onNavigateToLabels) { Text(stringResource(R.string.labels_edit_labels)) }
+        buttons = {
+            AlertDialogButtonStack {
+                FilledTonalButton(onClick = onNavigateToActiveLabel) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Edit,
+                            contentDescription = null,
+                        )
+                        Text(stringResource(R.string.labels_edit_active_label))
+                    }
+                }
+                TextButton(onClick = onNavigateToLabels) { Text(stringResource(R.string.labels_edit_labels)) }
+                if (initialSelectedLabel != Label.DEFAULT_LABEL_NAME) {
+                    TextButton(onClick = onClearLabel) { Text(stringResource(R.string.labels_clear_label)) }
+                }
+            }
         },
     )
 }

@@ -67,7 +67,7 @@
     <string name="settings_override_sound_profile_desc">Sunetul de notificare se comportă ca o alarmă</string>
     <string name="settings_vibration_strength">Puterea vibrației</string>
     <string name="settings_torch_title">Lanternă</string>
-    <string name="settings_screen_flash_title">Screen flash</string>
+    <string name="settings_screen_flash_title">Flash ecran</string>
     <string name="settings_torch_desc">O notificare vizuală pentru mediile silențioase</string>
     <string name="settings_insistent_notification_title">Notificare insistentă</string>
     <string name="settings_insistent_notification_desc">Repetă notificarea până când este anulată</string>
