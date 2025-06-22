@@ -115,7 +115,12 @@ fun computeHistoryChartData(
 
             HistoryIntervalType.YEARS -> {
                 IterationData(
-                    intervalStart = LocalDate(today.year, 1, 1).minus(DatePeriod(years = NUM_YEARS)),
+                    intervalStart =
+                        LocalDate(
+                            today.year,
+                            1,
+                            1,
+                        ).minus(DatePeriod(years = NUM_YEARS)),
                     intervalLength = NUM_YEARS,
                     step = DatePeriod(years = 1),
                 )
@@ -128,7 +133,8 @@ fun computeHistoryChartData(
     // Initialize the data with zeros to default label
     var tmpDate = iterationData.intervalStart
     repeat(iterationData.intervalLength + 1) {
-        intermediateData[tmpDate] = labels.associateWith { 0L }
+        intermediateData[tmpDate] =
+            (if (aggregate) listOf(Label.DEFAULT_LABEL_NAME) else labels).associateWith { 0L }
         tmpDate = tmpDate.plus(iterationData.step)
     }
 

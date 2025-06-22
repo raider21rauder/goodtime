@@ -122,7 +122,7 @@ fun HistorySection(viewModel: StatisticsHistoryViewModel) {
         if (isLineChart) {
             modelProducer.runTransaction {
                 lineSeries {
-                    series(y[Label.DEFAULT_LABEL_NAME] ?: emptyList())
+                    series(y[Label.DEFAULT_LABEL_NAME]!!)
                     extras { it[timestampsKey] = x }
                     extras { it[labelsKey] = y.keys }
                     extras { it[extraBottomAxisStrings] = bottomAxisStrings }
