@@ -37,7 +37,7 @@ kotlin {
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
+                    jvmTarget.set(JvmTarget.JVM_17)
                 }
             }
         }
@@ -111,3 +111,8 @@ dependencies {
 }
 
 tasks.register("testClasses") { }
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
