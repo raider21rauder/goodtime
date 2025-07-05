@@ -176,7 +176,11 @@ class SoundPlayer(
     private fun stopInternal() {
         ringtone?.let {
             if (it.isPlaying) {
-                it.stop()
+                try {
+                    it.stop()
+                } catch (e: Throwable) {
+                    logger.e(e) { "Failed to stop ringtone" }
+                }
             }
         }
         ringtone = null
