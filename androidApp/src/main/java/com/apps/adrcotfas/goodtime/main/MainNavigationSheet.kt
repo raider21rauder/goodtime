@@ -161,7 +161,7 @@ fun MainNavigationSheetContent(
         SubtleHorizontalDivider()
 
         if (showPro) {
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(12.dp))
             ProListItem { navigateToPro() }
         }
         IconTextButton(

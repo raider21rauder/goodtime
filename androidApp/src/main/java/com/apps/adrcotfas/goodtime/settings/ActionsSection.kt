@@ -62,9 +62,9 @@ fun ActionSection(
     AnimatedVisibility(
         permissionsState.shouldAskForNotificationPermission || permissionsState.shouldAskForBatteryOptimizationRemoval || isUpdateAvailable,
     ) {
-        SubtleHorizontalDivider()
-        Spacer(Modifier.height(8.dp))
         Column {
+            SubtleHorizontalDivider()
+            Spacer(Modifier.height(8.dp))
             PreferenceGroupTitle(
                 text = stringResource(R.string.settings_action_required),
                 paddingValues =

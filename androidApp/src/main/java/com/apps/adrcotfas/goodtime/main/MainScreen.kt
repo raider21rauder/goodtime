@@ -301,7 +301,12 @@ fun MainScreen(
                             )
                         },
                     )
-                    if (!showTutorial) {
+                    if (showTutorial) {
+                        TutorialScreen(
+                            modifier = Modifier.padding(padding),
+                            onClose = { viewModel.setShowTutorial(false) },
+                        )
+                    } else {
                         BottomAppBar(
                             modifier = Modifier.align(Alignment.BottomCenter),
                             hide = hideBottomBar,
@@ -313,12 +318,6 @@ fun MainScreen(
                             navController = navController,
                         )
                     }
-                }
-                if (showTutorial) {
-                    TutorialScreen(
-                        modifier = Modifier.padding(padding),
-                        onClose = { viewModel.setShowTutorial(false) },
-                    )
                 }
             }
         }
