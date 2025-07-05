@@ -68,6 +68,8 @@ fun StatisticsScreenTopBar(
     showSeparator: Boolean,
     showBreaks: Boolean,
     onSetShowBreaks: (Boolean) -> Unit,
+    showArchived: Boolean,
+    onSetShowArchived: (Boolean) -> Unit,
 ) {
     val colors =
         TopAppBarDefaults.topAppBarColors(
@@ -163,6 +165,23 @@ fun StatisticsScreenTopBar(
                                     },
                                     onClick = {
                                         onSetShowBreaks(!showBreaks)
+                                        dropDownMenuExpanded = false
+                                    },
+                                )
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Checkbox(checked = showArchived, onCheckedChange = {
+                                            onSetShowArchived(!showArchived)
+                                        })
+                                    },
+                                    text = {
+                                        Text(
+                                            modifier = paddingModifier,
+                                            text = stringResource(R.string.stats_show_archived),
+                                        )
+                                    },
+                                    onClick = {
+                                        onSetShowArchived(!showArchived)
                                         dropDownMenuExpanded = false
                                     },
                                 )

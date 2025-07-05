@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Zobrazit data jako skládaný sloupcový graf rozdělený dle štítků"</string>
     <string name="stats_more_options">Další možnosti</string>
     <string name="stats_show_breaks">Zobrazit zalomení</string>
+    <string name="stats_show_archived">Zobrazit archivované</string>
 </resources>

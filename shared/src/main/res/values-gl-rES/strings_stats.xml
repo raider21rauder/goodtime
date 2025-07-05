@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Visualize data as stacked bars separated by label"</string>
     <string name="stats_more_options">More options</string>
     <string name="stats_show_breaks">Show breaks</string>
+    <string name="stats_show_archived">Show archived</string>
 </resources>

@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Visualiseer gegevens als gestapelde balken, gescheiden door label"</string>
     <string name="stats_more_options">Meer opties</string>
     <string name="stats_show_breaks">Pauzes weergeven</string>
+    <string name="stats_show_archived">Toon gearchiveerde bestanden</string>
 </resources>

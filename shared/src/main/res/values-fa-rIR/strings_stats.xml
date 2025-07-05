@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"داده را به صورت میله‌های انباشته شده با برچسب به تصویر بکشید"</string>
     <string name="stats_more_options">گزینه‌های بیشتر</string>
     <string name="stats_show_breaks">نمایش استراحت‌ها</string>
+    <string name="stats_show_archived">Show archived</string>
 </resources>

@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Visualiser les données comme des barres empilées séparées par des libellés"</string>
     <string name="stats_more_options">Plus d\'options</string>
     <string name="stats_show_breaks">Afficher les pauses</string>
+    <string name="stats_show_archived">Afficher les archives</string>
 </resources>

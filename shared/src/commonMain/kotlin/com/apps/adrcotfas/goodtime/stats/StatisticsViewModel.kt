@@ -38,8 +38,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -116,71 +116,56 @@ class StatisticsViewModel(
         }
 
     private fun loadData() {
-        val settingsFlow =
-            settingsRepository.settings.distinctUntilChanged { old, new ->
-                old.firstDayOfWeek == new.firstDayOfWeek &&
-                    old.workdayStart == new.workdayStart &&
-                    old.isPro == new.isPro
-            }
-        val uiStateFlow =
-            uiState.distinctUntilChanged { old, new ->
-                old.selectedLabels == new.selectedLabels
+        viewModelScope.launch {
+            val settings = settingsRepository.settings.first()
+            _uiState.update {
+                it.copy(
+                    isPro = settings.isPro,
+                    workDayStart = settings.workdayStart,
+                    firstDayOfWeek = DayOfWeek(settings.firstDayOfWeek),
+                )
             }
 
-        // on first load, selected labels are all labels
-        viewModelScope.launch {
-            localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
-                _uiState.update {
-                    it.copy(
-                        labels =
-                            labels.map { label ->
-                                label.getLabelData()
-                            },
-                        selectedLabels = labels.map { label -> label.name },
-                    )
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            settingsRepository.settings.map { it.statisticsSettings }.collect {
-                _uiState.update { state ->
-                    state.copy(
-                        statisticsSettings = it,
-                    )
-                }
-            }
-        }
-
-        viewModelScope.launch {
-            combine(settingsFlow, uiStateFlow) { settings, uiState ->
-                settings to uiState
-            }.flatMapLatest {
-                val isPro = it.first.isPro
-                val firstDayOfWeek = DayOfWeek(it.first.firstDayOfWeek)
-                val workDayStart = it.first.workdayStart
-                _uiState.update { uiState ->
-                    uiState.copy(
-                        isLoading = true,
-                        isPro = isPro,
-                        workDayStart = workDayStart,
-                        firstDayOfWeek = firstDayOfWeek,
-                    )
-                }
-                localDataRepo
-                    .selectSessionsByLabels(it.second.selectedLabels)
-                    .map { sessions ->
-                        withContext(Dispatchers.Default) {
-                            computeStatisticsData(
-                                sessions = sessions,
-                                firstDayOfWeek = firstDayOfWeek,
-                                secondOfDay = workDayStart,
-                            )
-                        }
+            settingsRepository.settings
+                .map { it.statisticsSettings }
+                .distinctUntilChanged()
+                .flatMapLatest { statisticsSettings ->
+                    _uiState.update { it.copy(statisticsSettings = statisticsSettings) }
+                    if (statisticsSettings.showArchived) {
+                        localDataRepo.selectAllLabels()
+                    } else {
+                        localDataRepo.selectLabelsByArchived(isArchived = false)
                     }
-            }.collect { data ->
-                _uiState.update { it.copy(statisticsData = data, isLoading = false) }
-            }
+                }.collect { labels ->
+                    _uiState.update {
+                        it.copy(
+                            labels = labels.map { label -> label.getLabelData() },
+                            selectedLabels = labels.map { label -> label.name },
+                        )
+                    }
+                }
+        }
+
+        viewModelScope.launch {
+            uiState
+                .map { it.selectedLabels }
+                .distinctUntilChanged()
+                .flatMapLatest { selectedLabels ->
+                    _uiState.update { it.copy(isLoading = true) }
+                    localDataRepo
+                        .selectSessionsByLabels(selectedLabels)
+                        .map { sessions ->
+                            withContext(Dispatchers.Default) {
+                                computeStatisticsData(
+                                    sessions = sessions,
+                                    firstDayOfWeek = uiState.value.firstDayOfWeek,
+                                    secondOfDay = uiState.value.workDayStart,
+                                )
+                            }
+                        }
+                }.collect { data ->
+                    _uiState.update { it.copy(statisticsData = data, isLoading = false) }
+                }
         }
     }
 
@@ -338,6 +323,12 @@ class StatisticsViewModel(
     fun setShowBreaks(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.updateStatisticsSettings { it.copy(showBreaks = enabled) }
+        }
+    }
+
+    fun setShowArchived(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateStatisticsSettings { it.copy(showArchived = enabled) }
         }
     }
 }

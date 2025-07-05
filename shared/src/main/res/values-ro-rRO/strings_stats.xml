@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Vizualizează datele ca bare stivuite separate prin etichetă"</string>
     <string name="stats_more_options">Mai multe opțiuni</string>
     <string name="stats_show_breaks">Arată pauzele</string>
+    <string name="stats_show_archived">Arată arhivat</string>
 </resources>

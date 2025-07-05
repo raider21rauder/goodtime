@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Wizualizuj dane jako stosy oddzielone etykietą"</string>
     <string name="stats_more_options">Więcej opcji</string>
     <string name="stats_show_breaks">Pokaż przerwy</string>
+    <string name="stats_show_archived">Pokaż archiwizowane</string>
 </resources>

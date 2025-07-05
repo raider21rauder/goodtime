@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Visualiser data som stablede søjler adskilt af etiket"</string>
     <string name="stats_more_options">Flere valgmuligheder</string>
     <string name="stats_show_breaks">Vis pauser</string>
+    <string name="stats_show_archived">Vis arkiverede</string>
 </resources>

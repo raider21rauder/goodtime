@@ -38,9 +38,9 @@
     <string name="stats_productive_hours">Tuottavimmat tunnit</string>
     <string name="stats_heatmap">Lämpökartta</string>
     <string name="stats_focus_distribution">Keskittymisen jakaantuminen</string>
-    <string name="stats_focus_break_ratio">Keskittyminen/tauko-suhde</string>
+    <string name="stats_focus_break_ratio">Työskentely/tauko-suhde</string>
     <string name="stats_add_session">Lisää istunto</string>
-    <string name="stats_focus">Keskittyminen</string>
+    <string name="stats_focus">Keskittymistä</string>
     <string name="stats_break">Tauko</string>
     <string name="stats_duration">Kesto</string>
     <string name="stats_time">Aika</string>
@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Piirrä tieto pinottavina palkkeina, jotka erotetaan tunnisteella"</string>
     <string name="stats_more_options">Lisäasetukset</string>
     <string name="stats_show_breaks">Näytä tauot</string>
+    <string name="stats_show_archived">Näytä arkistoidut</string>
 </resources>

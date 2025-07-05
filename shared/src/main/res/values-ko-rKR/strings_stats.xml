@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"라벨별로 구분된 누적 막대로 데이터 시각화"</string>
     <string name="stats_more_options">추가 옵션</string>
     <string name="stats_show_breaks">휴식 표시</string>
+    <string name="stats_show_archived">Show archived</string>
 </resources>

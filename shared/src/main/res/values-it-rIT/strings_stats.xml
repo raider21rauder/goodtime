@@ -52,6 +52,7 @@
     <string name="stats_no_items">Nessun elemento</string>
     <string name="stats_show_label_breakdown_title">"Mostra ripartizione etichetta"</string>
     <string name="stats_show_label_breakdown_desc">"Visualizza i dati come barre impilate separate da etichetta"</string>
-    <string name="stats_more_options">More options</string>
-    <string name="stats_show_breaks">Show breaks</string>
+    <string name="stats_more_options">Altre opzioni</string>
+    <string name="stats_show_breaks">Mostra pause</string>
+    <string name="stats_show_archived">Mostra archiviato</string>
 </resources>

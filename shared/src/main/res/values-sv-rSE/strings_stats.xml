@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Visualisera data som staplade barer separerade med etikett"</string>
     <string name="stats_more_options">Fler alternativ</string>
     <string name="stats_show_breaks">Visa raster</string>
+    <string name="stats_show_archived">Visa arkiverade</string>
 </resources>

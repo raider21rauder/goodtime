@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Візуалізація даних як складені рядки, розділені міткою"</string>
     <string name="stats_more_options">Більше опцій</string>
     <string name="stats_show_breaks">Показати розриви</string>
+    <string name="stats_show_archived">Показати архів</string>
 </resources>

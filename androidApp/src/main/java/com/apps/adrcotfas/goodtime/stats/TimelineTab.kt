@@ -124,14 +124,20 @@ fun TimelineTab(
                     selectedSessions.contains(session.id) ||
                         isSelectAllEnabled &&
                         !unselectedSessions.contains(session.id)
-                TimelineListItem(
-                    modifier = Modifier.animateItem(),
-                    session = session,
-                    colorIndex = labels.first { it.name == session.label }.colorIndex,
-                    isSelected = isSelected,
-                    onClick = { onClick(session) },
-                    onLongClick = { onLongClick(session) },
-                )
+
+                // might be null at the moment of toggling "show archived"
+                val colorIndex =
+                    labels.firstOrNull { it.name == session.label }?.colorIndex
+                colorIndex?.let {
+                    TimelineListItem(
+                        modifier = Modifier.animateItem(),
+                        session = session,
+                        colorIndex = it,
+                        isSelected = isSelected,
+                        onClick = { onClick(session) },
+                        onLongClick = { onLongClick(session) },
+                    )
+                }
             }
         }
     }

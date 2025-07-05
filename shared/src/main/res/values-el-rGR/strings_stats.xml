@@ -54,4 +54,5 @@
     <string name="stats_show_label_breakdown_desc">"Οπτικοποίηση δεδομένων ως σωρευμένες γραμμές διαχωρισμένες με ετικέτα"</string>
     <string name="stats_more_options">Περισσότερες επιλογές</string>
     <string name="stats_show_breaks">Εμφάνιση αλλαγών</string>
+    <string name="stats_show_archived">Εμφάνιση αρχειοθετημένων</string>
 </resources>

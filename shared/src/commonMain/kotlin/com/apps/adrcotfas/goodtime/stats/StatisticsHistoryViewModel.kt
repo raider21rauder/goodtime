@@ -60,19 +60,28 @@ class StatisticsHistoryViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
-            localDataRepo.selectLabelsByArchived(isArchived = false).collect { labels ->
-                _uiState.update {
-                    it.copy(
-                        selectedLabels =
-                            labels.map { label ->
-                                LabelData(
-                                    name = label.name,
-                                    colorIndex = label.colorIndex,
-                                )
-                            },
-                    )
+            settingsRepository.settings
+                .map { it.statisticsSettings.showArchived }
+                .distinctUntilChanged()
+                .flatMapLatest { showArchived ->
+                    if (showArchived) {
+                        localDataRepo.selectAllLabels()
+                    } else {
+                        localDataRepo.selectLabelsByArchived(isArchived = false)
+                    }
+                }.collect { labels ->
+                    _uiState.update {
+                        it.copy(
+                            selectedLabels =
+                                labels.map { label ->
+                                    LabelData(
+                                        name = label.name,
+                                        colorIndex = label.colorIndex,
+                                    )
+                                },
+                        )
+                    }
                 }
-            }
         }
 
         viewModelScope.launch {
