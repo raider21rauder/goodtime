@@ -82,4 +82,6 @@ interface SettingsRepository {
     suspend fun setShouldAskForReview(enable: Boolean)
 
     suspend fun setBackupSettings(backupSettings: BackupSettings)
+
+    suspend fun setLastDismissedUpdateVersionCode(versionCode: Long)
 }

@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Aseta työ- ja taukoistuntojen kestot</string>
     <string name="settings_launcher_name">Käynnistimen nimi</string>
     <string name="settings_language">Kieli</string>
+    <string name="settings_update">Päivitä</string>
+    <string name="settings_update_available">Uusi päivitys on saatavilla</string>
 </resources>

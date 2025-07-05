@@ -65,8 +65,8 @@ fun ActionCard(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .clip(CardDefaults.shape)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .clip(MaterialTheme.shapes.medium)
                 .clickable {
                     onClick()
                 },

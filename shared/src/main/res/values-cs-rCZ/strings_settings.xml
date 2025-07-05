@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Nastavit délku bloku pro práci a přestávku</string>
     <string name="settings_launcher_name">Název spouštěče</string>
     <string name="settings_language">Jazyk</string>
+    <string name="settings_update">Aktualizovat</string>
+    <string name="settings_update_available">Je k dispozici nová aktualizace</string>
 </resources>

@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Ustaw długość sesji pracy i przerw</string>
     <string name="settings_launcher_name">Nazwa launchera</string>
     <string name="settings_language">Język</string>
+    <string name="settings_update">Aktualizuj</string>
+    <string name="settings_update_available">Dostępna jest nowa aktualizacja</string>
 </resources>

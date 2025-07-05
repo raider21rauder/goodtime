@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">مدت زمان دوره‌های کار و استراحت را تنظیم کنید</string>
     <string name="settings_launcher_name">اسم برنامه</string>
     <string name="settings_language">زبان</string>
+    <string name="settings_update">به روز رسانی</string>
+    <string name="settings_update_available">یک به روز رسانی جدید در دسترس است</string>
 </resources>

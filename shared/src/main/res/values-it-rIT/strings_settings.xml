@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Imposta la durata delle sessioni di lavoro e di pausa</string>
     <string name="settings_launcher_name">Nome del lanciatore</string>
     <string name="settings_language">Lingua</string>
+    <string name="settings_update">Aggiorna</string>
+    <string name="settings_update_available">Un nuovo aggiornamento è disponibile</string>
 </resources>

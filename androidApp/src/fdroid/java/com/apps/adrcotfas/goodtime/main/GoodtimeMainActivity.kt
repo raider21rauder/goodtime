@@ -29,4 +29,8 @@ open class GoodtimeMainActivity :
     KoinComponent {
     internal val viewModel: MainViewModel by viewModel<MainViewModel>()
     val log: Logger by injectLogger("GoodtimeMainActivity")
+
+    fun triggerAppUpdate() {
+        // do nothing here, this is overridden in the Google flavor
+    }
 }

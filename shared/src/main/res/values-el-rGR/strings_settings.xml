@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Όρισε την διάρκεια για εργασία και διαλείμματα</string>
     <string name="settings_launcher_name">Όνομα εκκινητή</string>
     <string name="settings_language">Γλώσσες</string>
+    <string name="settings_update">Ενημέρωση</string>
+    <string name="settings_update_available">Μια νέα ενημέρωση είναι διαθέσιμη</string>
 </resources>

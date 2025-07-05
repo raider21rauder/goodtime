@@ -126,9 +126,7 @@ fun SettingsScreen(
         }
     }
 
-    val notificationPermissionState by viewModel.uiState
-        .map { it.settings.notificationPermissionState }
-        .collectAsStateWithLifecycle(initialValue = NotificationPermissionState.NOT_ASKED)
+    val notificationPermissionState = settings.notificationPermissionState
 
     val listState = rememberScrollState()
 
@@ -149,13 +147,6 @@ fun SettingsScreen(
                     .verticalScroll(listState)
                     .animateContentSize(),
         ) {
-            ActionSection(
-                notificationPermissionState = notificationPermissionState,
-                onNotificationPermissionGranted = { granted ->
-                    viewModel.setNotificationPermissionGranted(granted)
-                },
-            )
-
             AnimatedVisibility(
                 notificationPermissionState == NotificationPermissionState.GRANTED ||
                     context.areNotificationsEnabled(),

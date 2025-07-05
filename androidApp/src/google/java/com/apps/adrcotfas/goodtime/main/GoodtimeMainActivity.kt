@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.apps.adrcotfas.goodtime.di.injectLogger
 import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.ActivityResult
 import com.google.android.play.core.ktx.AppUpdateResult
@@ -31,6 +32,7 @@ import com.google.android.play.core.ktx.requestUpdateFlow
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +44,8 @@ open class GoodtimeMainActivity :
     internal val viewModel: MainViewModel by viewModel<MainViewModel>()
     val log: Logger by injectLogger("GoodtimeMainActivity")
 
+    private var availableVersionCode: Int = 0
+
     private val appUpdateResultLauncher =
         registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult(),
@@ -49,10 +53,42 @@ open class GoodtimeMainActivity :
             handleUpdateResult(activityResult.resultCode)
         }
 
+    private val appUpdateManager: AppUpdateManager by lazy {
+        AppUpdateManagerFactory.create(this)
+    }
+
+    fun triggerAppUpdate() {
+        lifecycleScope.launch {
+            appUpdateManager
+                .requestUpdateFlow()
+                .catch { emit(AppUpdateResult.NotAvailable) }
+                .collectLatest { result ->
+                    when (result) {
+                        is AppUpdateResult.Available -> {
+                            result.startImmediateUpdate(
+                                appUpdateResultLauncher,
+                            )
+                        }
+                        else -> {
+                            log.i { "No update available" }
+                        }
+                    }
+                }
+        }
+    }
+
     private fun handleUpdateResult(resultCode: Int) {
         when (resultCode) {
-            RESULT_OK -> log.i { "Update successful" }
-            RESULT_CANCELED -> log.i { "Update canceled" }
+            RESULT_OK -> {
+                log.i { "Update successful" }
+                viewModel.setLastDismissedUpdateVersionCode(0)
+                viewModel.setUpdateAvailable(false)
+            }
+            RESULT_CANCELED -> {
+                log.i { "Update dismissed, version code: $availableVersionCode" }
+                viewModel.setLastDismissedUpdateVersionCode(availableVersionCode.toLong())
+                viewModel.setUpdateAvailable(true)
+            }
             ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> log.e { "Update Failed" }
             else -> Unit
         }
@@ -60,19 +96,24 @@ open class GoodtimeMainActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val appUpdateManager = AppUpdateManagerFactory.create(this)
         lifecycleScope.launch {
             appUpdateManager
                 .requestUpdateFlow()
                 .catch { emit(AppUpdateResult.NotAvailable) }
                 .collectLatest { result ->
                     when (result) {
-                        is AppUpdateResult.Available ->
-                            result.startImmediateUpdate(
-                                appUpdateResultLauncher,
-                            )
-
+                        is AppUpdateResult.Available -> {
+                            log.i { "Update available: ${result.updateInfo.availableVersionCode()}" }
+                            availableVersionCode = result.updateInfo.availableVersionCode()
+                            val lastDismissedVersionCode = viewModel.uiState.first().lastDismissedUpdateVersionCode
+                            if (lastDismissedVersionCode != availableVersionCode.toLong()) {
+                                result.startImmediateUpdate(
+                                    appUpdateResultLauncher,
+                                )
+                            } else {
+                                viewModel.setUpdateAvailable(true)
+                            }
+                        }
                         else -> Unit
                     }
                 }

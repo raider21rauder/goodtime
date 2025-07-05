@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Définir la durée des séances de travail et des pauses</string>
     <string name="settings_launcher_name">Nom du lanceur</string>
     <string name="settings_language">Langue</string>
+    <string name="settings_update">Mettre à jour</string>
+    <string name="settings_update_available">Une nouvelle mise à jour est disponible</string>
 </resources>

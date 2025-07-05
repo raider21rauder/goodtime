@@ -79,7 +79,7 @@ fun IconTextButton(
             ButtonDefaults
                 .buttonColors()
                 .copy(
-                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f),
+                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.18f),
                     contentColor = MaterialTheme.colorScheme.onSurface,
                 )
         Button(colors = colors, onClick = onClick) {

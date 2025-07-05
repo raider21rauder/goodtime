@@ -23,6 +23,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerManager
 import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isFinished
+import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,9 @@ data class MainUiState(
     val keepScreenOn: Boolean = false,
     val showWhenLocked: Boolean = false,
     val shouldAskForReview: Boolean = false,
+    val isUpdateAvailable: Boolean = false,
+    val wasNotificationPermissionDenied: Boolean = false,
+    val lastDismissedUpdateVersionCode: Long = 0,
 )
 
 class MainViewModel(
@@ -65,7 +69,9 @@ class MainViewModel(
                         old.uiSettings.fullscreenMode == new.uiSettings.fullscreenMode &&
                         old.uiSettings.keepScreenOn == new.uiSettings.keepScreenOn &&
                         old.uiSettings.showWhenLocked == new.uiSettings.showWhenLocked &&
-                        old.shouldAskForReview == new.shouldAskForReview
+                        old.shouldAskForReview == new.shouldAskForReview &&
+                        old.notificationPermissionState == new.notificationPermissionState &&
+                        old.lastDismissedUpdateVersionCode == new.lastDismissedUpdateVersionCode
                 }.collect { settings ->
                     _uiState.update {
                         it.copy(
@@ -78,6 +84,10 @@ class MainViewModel(
                             keepScreenOn = settings.uiSettings.keepScreenOn,
                             showWhenLocked = settings.uiSettings.showWhenLocked,
                             shouldAskForReview = settings.shouldAskForReview,
+                            wasNotificationPermissionDenied =
+                                settings.notificationPermissionState ==
+                                    NotificationPermissionState.DENIED,
+                            lastDismissedUpdateVersionCode = settings.lastDismissedUpdateVersionCode,
                         )
                     }
                 }
@@ -112,4 +122,24 @@ class MainViewModel(
     }
 
     fun resetShouldAskForReview() = viewModelScope.launch { settingsRepository.setShouldAskForReview(false) }
+
+    fun setUpdateAvailable(available: Boolean) {
+        _uiState.update {
+            it.copy(isUpdateAvailable = available)
+        }
+    }
+
+    fun setNotificationPermissionGranted(granted: Boolean) {
+        viewModelScope.launch {
+            val state =
+                if (granted) NotificationPermissionState.GRANTED else NotificationPermissionState.DENIED
+            settingsRepository.setNotificationPermissionState(state)
+        }
+    }
+
+    fun setLastDismissedUpdateVersionCode(versionCode: Long) {
+        viewModelScope.launch {
+            settingsRepository.setLastDismissedUpdateVersionCode(versionCode)
+        }
+    }
 }

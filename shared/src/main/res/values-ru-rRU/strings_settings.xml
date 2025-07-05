@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Установить продолжительность работы и перерывов</string>
     <string name="settings_launcher_name">Имя лаунчера</string>
     <string name="settings_language">Язык</string>
+    <string name="settings_update">Обновить</string>
+    <string name="settings_update_available">Доступно новое обновление</string>
 </resources>

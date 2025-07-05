@@ -87,6 +87,8 @@ import com.apps.adrcotfas.goodtime.main.dialcontrol.DialControlButton
 import com.apps.adrcotfas.goodtime.main.dialcontrol.rememberCustomDialControlState
 import com.apps.adrcotfas.goodtime.main.dialcontrol.updateEnabledOptions
 import com.apps.adrcotfas.goodtime.main.finishedsession.FinishedSessionSheet
+import com.apps.adrcotfas.goodtime.onboarding.MainUiState
+import com.apps.adrcotfas.goodtime.onboarding.MainViewModel
 import com.apps.adrcotfas.goodtime.onboarding.tutorial.TutorialScreen
 import com.apps.adrcotfas.goodtime.settings.permissions.getPermissionsState
 import com.apps.adrcotfas.goodtime.settings.timerstyle.InitTimerStyle
@@ -104,8 +106,15 @@ fun MainScreen(
     onSurfaceClick: () -> Unit,
     hideBottomBar: Boolean,
     viewModel: TimerViewModel,
+    mainViewModel: MainViewModel,
+    onUpdateClicked: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle(TimerMainUiState())
+    val mainUiState by mainViewModel.uiState.collectAsStateWithLifecycle(MainUiState())
+
+    val updateAvailable = mainUiState.isUpdateAvailable
+    val wasNotificationPermissionDenied = mainUiState.wasNotificationPermissionDenied
+
     if (uiState.isLoading) return
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -201,7 +210,7 @@ fun MainScreen(
         }
 
     val permissionState = getPermissionsState()
-    val settingsBadgeItemCount = permissionState.count()
+    val actionBadgeItemCount = permissionState.count() + if (updateAvailable) 1 else 0
     val interactionSource = remember { MutableInteractionSource() }
 
     var showNavigationSheet by rememberSaveable { mutableStateOf(false) }
@@ -300,7 +309,7 @@ fun MainScreen(
                             onLabelClick = { showSelectLabelDialog = true },
                             labelData = label.getLabelData(),
                             sessionCountToday = uiState.sessionCountToday,
-                            badgeItemCount = settingsBadgeItemCount,
+                            badgeItemCount = actionBadgeItemCount,
                             navController = navController,
                         )
                     }
@@ -319,8 +328,14 @@ fun MainScreen(
         MainNavigationSheet(
             onHideSheet = { showNavigationSheet = false },
             navController = navController,
-            settingsBadgeItemCount = settingsBadgeItemCount,
+            onUpdateClicked = onUpdateClicked,
+            actionBadgeCount = actionBadgeItemCount,
             showPro = BuildConfig.IS_FDROID || !uiState.isPro,
+            isUpdateAvailable = updateAvailable,
+            wasNotificationPermissionDenied = wasNotificationPermissionDenied,
+            onNotificationPermissionGranted = { granted: Boolean ->
+                mainViewModel.setNotificationPermissionGranted(granted)
+            },
         )
     }
 

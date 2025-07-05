@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Definir a duração das sessões de trabalho e pausas</string>
     <string name="settings_launcher_name">Nome do lançador</string>
     <string name="settings_language">Língua</string>
+    <string name="settings_update">Atualizar</string>
+    <string name="settings_update_available">Uma nova atualização está disponível</string>
 </resources>

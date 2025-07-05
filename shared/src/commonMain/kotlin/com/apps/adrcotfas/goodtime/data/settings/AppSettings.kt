@@ -56,6 +56,8 @@ data class AppSettings(
     val showOnboarding: Boolean = true,
     val showTutorial: Boolean = true,
     val backupSettings: BackupSettings = BackupSettings(),
+    /** The version code of the last dismissed update, or 0 if no update has been dismissed */
+    val lastDismissedUpdateVersionCode: Long = 0,
 )
 
 enum class NotificationPermissionState {

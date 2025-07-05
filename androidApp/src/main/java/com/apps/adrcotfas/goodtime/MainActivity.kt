@@ -286,6 +286,8 @@ class MainActivity : GoodtimeMainActivity() {
                                 hideBottomBar = hideBottomBar,
                                 navController = navController,
                                 viewModel = timerViewModel,
+                                mainViewModel = viewModel,
+                                onUpdateClicked = { this@MainActivity.triggerAppUpdate() },
                             )
                         }
                         composable<LabelsDest> {

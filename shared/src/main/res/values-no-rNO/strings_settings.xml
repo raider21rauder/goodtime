@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">Angi varighet for arbeidsøkter og pauser</string>
     <string name="settings_launcher_name">App-Starter navn</string>
     <string name="settings_language">Språk</string>
+    <string name="settings_update">Oppdater</string>
+    <string name="settings_update_available">En ny oppdatering er tilgjengelig</string>
 </resources>

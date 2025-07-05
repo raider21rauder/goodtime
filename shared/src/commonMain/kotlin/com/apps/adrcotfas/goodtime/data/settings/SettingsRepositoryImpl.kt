@@ -69,6 +69,7 @@ class SettingsRepositoryImpl(
         val showOnboardingKey = booleanPreferencesKey("showOnboardingKey")
         val showTutorialKey = booleanPreferencesKey("showTutorialKey")
         val backupSettingsKey = stringPreferencesKey("backupSettingsKey")
+        val lastDismissedUpdateVersionCodeKey = longPreferencesKey("lastDismissedUpdateVersionCodeKey")
     }
 
     override val settings: Flow<AppSettings> =
@@ -155,6 +156,7 @@ class SettingsRepositoryImpl(
                         it[Keys.backupSettingsKey]?.let { b ->
                             json.decodeFromString<BackupSettings>(b)
                         } ?: BackupSettings(),
+                    lastDismissedUpdateVersionCode = it[Keys.lastDismissedUpdateVersionCodeKey] ?: default.lastDismissedUpdateVersionCode,
                 )
             }.catch {
                 log.e("Error parsing settings", it)
@@ -305,5 +307,9 @@ class SettingsRepositoryImpl(
         dataStore.edit {
             it[Keys.backupSettingsKey] = json.encodeToString(backupSettings)
         }
+    }
+
+    override suspend fun setLastDismissedUpdateVersionCode(versionCode: Long) {
+        dataStore.edit { it[Keys.lastDismissedUpdateVersionCodeKey] = versionCode }
     }
 }

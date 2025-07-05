@@ -25,7 +25,7 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 326
+        versionCode = 331
         versionName = "3.0.10"
     }
     buildFeatures {

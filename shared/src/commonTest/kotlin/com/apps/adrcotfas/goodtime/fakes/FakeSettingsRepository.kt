@@ -211,4 +211,10 @@ class FakeSettingsRepository(
             _settings.value.copy(notificationPermissionState = state),
         )
     }
+
+    override suspend fun setLastDismissedUpdateVersionCode(versionCode: Long) {
+        _settings.emit(
+            _settings.value.copy(lastDismissedUpdateVersionCode = versionCode),
+        )
+    }
 }

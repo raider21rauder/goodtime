@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.AppSettings
-import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
@@ -283,14 +282,6 @@ class SettingsViewModel(
 
     fun setNotificationSoundCandidate(uri: String) {
         _uiState.value = _uiState.value.copy(notificationSoundCandidate = uri)
-    }
-
-    fun setNotificationPermissionGranted(granted: Boolean) {
-        viewModelScope.launch {
-            val state =
-                if (granted) NotificationPermissionState.GRANTED else NotificationPermissionState.DENIED
-            settingsRepository.setNotificationPermissionState(state)
-        }
     }
 
     // Timer style settings bellow

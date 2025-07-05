@@ -48,8 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavController
 import com.apps.adrcotfas.goodtime.common.getVersionName
+import com.apps.adrcotfas.goodtime.settings.ActionSection
 import com.apps.adrcotfas.goodtime.shared.R
-import com.apps.adrcotfas.goodtime.ui.common.BadgedBoxWithCount
 import com.apps.adrcotfas.goodtime.ui.common.IconTextButton
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import compose.icons.EvaIcons
@@ -64,8 +64,12 @@ import compose.icons.evaicons.outline.Sync
 fun MainNavigationSheet(
     navController: NavController,
     onHideSheet: () -> Unit,
-    settingsBadgeItemCount: Int,
+    actionBadgeCount: Int,
     showPro: Boolean,
+    isUpdateAvailable: Boolean,
+    wasNotificationPermissionDenied: Boolean,
+    onUpdateClicked: () -> Unit,
+    onNotificationPermissionGranted: (Boolean) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -75,8 +79,12 @@ fun MainNavigationSheet(
         dragHandle = null,
     ) {
         MainNavigationSheetContent(
-            settingsBadgeItemCount = settingsBadgeItemCount,
+            settingsBadgeItemCount = actionBadgeCount,
+            onUpdateClicked = onUpdateClicked,
             showPro = showPro,
+            isUpdateAvailable = isUpdateAvailable,
+            wasNotificationPermissionDenied = wasNotificationPermissionDenied,
+            onNotificationPermissionGranted = onNotificationPermissionGranted,
             navigateToLabels = {
                 navController.navigate(LabelsDest)
                 onHideSheet()
@@ -108,7 +116,11 @@ fun MainNavigationSheet(
 @Composable
 fun MainNavigationSheetContent(
     settingsBadgeItemCount: Int,
+    onUpdateClicked: () -> Unit,
     showPro: Boolean,
+    isUpdateAvailable: Boolean,
+    wasNotificationPermissionDenied: Boolean,
+    onNotificationPermissionGranted: (Boolean) -> Unit,
     navigateToLabels: () -> Unit,
     navigateToStats: () -> Unit,
     navigateToSettings: () -> Unit,
@@ -146,9 +158,10 @@ fun MainNavigationSheetContent(
                     ),
             )
         }
-        Spacer(Modifier.height(16.dp))
+        SubtleHorizontalDivider()
 
         if (showPro) {
+            Spacer(Modifier.height(8.dp))
             ProListItem { navigateToPro() }
         }
         IconTextButton(
@@ -184,16 +197,23 @@ fun MainNavigationSheetContent(
                 navigateToBackup()
             },
         )
-        SubtleHorizontalDivider()
+        if (settingsBadgeItemCount != 0) {
+            ActionSection(
+                wasNotificationPermissionDenied = wasNotificationPermissionDenied,
+                isUpdateAvailable = isUpdateAvailable,
+                onNotificationPermissionGranted = onNotificationPermissionGranted,
+                onUpdateClicked = onUpdateClicked,
+            )
+        } else {
+            SubtleHorizontalDivider()
+        }
         IconTextButton(
             title = stringResource(R.string.settings_title),
             icon = {
-                BadgedBoxWithCount(count = settingsBadgeItemCount) {
-                    Icon(
-                        imageVector = EvaIcons.Outline.Settings,
-                        contentDescription = stringResource(R.string.settings_title),
-                    )
-                }
+                Icon(
+                    imageVector = EvaIcons.Outline.Settings,
+                    contentDescription = stringResource(R.string.settings_title),
+                )
             },
             onClick = navigateToSettings,
         )

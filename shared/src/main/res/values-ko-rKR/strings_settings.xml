@@ -81,4 +81,6 @@
     <string name="settings_timer_durations_desc">작업구간과 휴식구간에 쓸 시간을 설정해주세요</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">언어</string>
+    <string name="settings_update">업데이트</string>
+    <string name="settings_update_available">새로운 업데이트가 있습니다</string>
 </resources>
