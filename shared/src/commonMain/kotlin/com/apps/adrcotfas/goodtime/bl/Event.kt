@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.bl
 
 sealed class Event {
     data class Start(
+        val isFocus: Boolean,
         val autoStarted: Boolean = false,
         val endTime: Long,
     ) : Event()

@@ -43,7 +43,7 @@ data class AppSettings(
     val flashScreen: Boolean = false,
     val insistentNotification: Boolean = false,
     /** only valid with insistentNotification off **/
-    val autoStartWork: Boolean = false,
+    val autoStartFocus: Boolean = false,
     /** only valid with insistentNotification off and for countdown timers **/
     val autoStartBreak: Boolean = false,
     val labelName: String = Label.DEFAULT_LABEL_NAME,

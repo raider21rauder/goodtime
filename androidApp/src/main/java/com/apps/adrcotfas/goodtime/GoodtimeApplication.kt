@@ -25,6 +25,8 @@ import com.apps.adrcotfas.goodtime.backup.AutoBackupWorker
 import com.apps.adrcotfas.goodtime.billing.BillingAbstract
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
 import com.apps.adrcotfas.goodtime.bl.AlarmManagerHandler
+import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
+import com.apps.adrcotfas.goodtime.bl.DndModeManager
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
@@ -159,6 +161,14 @@ class GoodtimeApplication :
                     }
                     single<EventListener>(named(EventListener.SESSION_RESET_HANDLER)) {
                         SessionResetHandler(get(), getWith("SessionResetHandler"))
+                    }
+
+                    single<EventListener>(named(EventListener.DND_MODE_MANAGER)) {
+                        DndModeManager(
+                            notificationManager = get<NotificationArchManager>(),
+                            settingsRepository = get<SettingsRepository>(),
+                            coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
+                        )
                     }
                     single(createdAtStart = true) {
                         AutoBackupManager(

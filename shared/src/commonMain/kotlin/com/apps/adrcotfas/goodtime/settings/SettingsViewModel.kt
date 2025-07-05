@@ -200,7 +200,7 @@ class SettingsViewModel(
             settingsRepository.setInsistentNotification(enable)
             if (enable) {
                 val settings = settingsRepository.settings.first()
-                if (settings.autoStartWork) {
+                if (settings.autoStartFocus) {
                     setAutoStartWork(false)
                 }
                 if (settings.autoStartBreak) {

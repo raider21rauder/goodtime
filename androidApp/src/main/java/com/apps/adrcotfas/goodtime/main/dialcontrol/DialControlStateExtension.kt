@@ -22,7 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import com.apps.adrcotfas.goodtime.bl.isWork
+import com.apps.adrcotfas.goodtime.bl.isFocus
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import kotlinx.coroutines.CoroutineScope
 
@@ -61,7 +61,7 @@ fun DialControlState<DialRegion>.updateEnabledOptions(timerUiState: TimerUiState
     val isCountUpWithoutBreaks = isCountUp && !label.profile.isBreakEnabled
 
     val showSkip =
-        (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isWork) ||
+        (isCountUp && thereIsNoBreakBudget && timerUiState.timerType.isFocus) ||
             isCountUpWithoutBreaks
 
     val disabledOptions =

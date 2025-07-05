@@ -61,7 +61,7 @@ data class TimerUiState(
     val isCountdown: Boolean = false,
     val baseTime: Long = 0,
     val timerState: TimerState = TimerState.RESET,
-    val timerType: TimerType = TimerType.WORK,
+    val timerType: TimerType = TimerType.FOCUS,
     val completedMinutes: Long = 0,
     val timeSpentPaused: Long = 0,
     val endTime: Long = 0,
@@ -170,7 +170,7 @@ class TimerViewModel(
         }
     }
 
-    fun startTimer(type: TimerType = TimerType.WORK) {
+    fun startTimer(type: TimerType = TimerType.FOCUS) {
         timerManager.start(type)
     }
 

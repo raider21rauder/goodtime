@@ -442,7 +442,7 @@ fun FinishedSessionContentPreview() {
     FinishedSessionContent(
         timerUiState =
             TimerUiState(
-                timerType = TimerType.WORK,
+                timerType = TimerType.FOCUS,
                 completedMinutes = 25,
                 timeSpentPaused = 2.minutes.inWholeMilliseconds,
             ),

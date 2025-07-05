@@ -138,7 +138,7 @@ class FakeSettingsRepository(
 
     override suspend fun setAutoStartWork(enabled: Boolean) =
         _settings.emit(
-            _settings.value.copy(autoStartWork = enabled),
+            _settings.value.copy(autoStartFocus = enabled),
         )
 
     override suspend fun setAutoStartBreak(enabled: Boolean) =

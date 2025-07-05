@@ -100,7 +100,7 @@ fun MainTimerView(
     val labelColorIndex = label.colorIndex
     val labelColor = MaterialTheme.getLabelColor(labelColorIndex)
     val breakColor = MaterialTheme.breakColor()
-    val isBreak = timerUiState.timerType != TimerType.WORK
+    val isBreak = timerUiState.timerType != TimerType.FOCUS
 
     val isCountdown = domainLabel.profile.isCountdown
 

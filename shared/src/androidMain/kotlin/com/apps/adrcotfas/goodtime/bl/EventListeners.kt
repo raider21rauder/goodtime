@@ -25,3 +25,5 @@ val EventListener.Companion.SOUND_AND_VIBRATION_PLAYER: String
     get() = "SoundAndVibrationPlayer"
 val EventListener.Companion.SESSION_RESET_HANDLER: String
     get() = "SessionResetHandler"
+val EventListener.Companion.DND_MODE_MANAGER: String
+    get() = "DndModeManager"

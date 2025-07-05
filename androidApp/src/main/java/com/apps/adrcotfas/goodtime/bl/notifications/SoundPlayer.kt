@@ -93,7 +93,7 @@ class SoundPlayer(
     fun play(timerType: TimerType) {
         val soundData =
             when (timerType) {
-                TimerType.WORK -> workRingTone
+                TimerType.FOCUS -> workRingTone
                 TimerType.BREAK, TimerType.LONG_BREAK -> breakRingTone
             }
         play(soundData, loop)

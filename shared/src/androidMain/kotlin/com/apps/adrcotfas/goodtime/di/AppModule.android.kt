@@ -22,6 +22,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.RoomDatabase
 import com.apps.adrcotfas.goodtime.bl.ALARM_MANAGER_HANDLER
+import com.apps.adrcotfas.goodtime.bl.DND_MODE_MANAGER
 import com.apps.adrcotfas.goodtime.bl.EventListener
 import com.apps.adrcotfas.goodtime.bl.SESSION_RESET_HANDLER
 import com.apps.adrcotfas.goodtime.bl.SOUND_AND_VIBRATION_PLAYER
@@ -53,6 +54,7 @@ actual val platformModule: Module =
                 get<EventListener>(named(EventListener.ALARM_MANAGER_HANDLER)),
                 get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
                 get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
+                get<EventListener>(named(EventListener.DND_MODE_MANAGER)),
             )
         }
     }

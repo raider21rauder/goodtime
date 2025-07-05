@@ -32,7 +32,7 @@ import com.apps.adrcotfas.goodtime.bl.DomainTimerData
 import com.apps.adrcotfas.goodtime.bl.TimerService
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
-import com.apps.adrcotfas.goodtime.bl.isWork
+import com.apps.adrcotfas.goodtime.bl.isFocus
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.lightPalette
@@ -65,7 +65,7 @@ class NotificationArchManager(
             }
         val stateText =
             prefix +
-                if (timerType.isWork) {
+                if (timerType.isFocus) {
                     if (running) {
                         context.getString(R.string.main_focus_session_in_progress)
                     } else {
@@ -80,7 +80,7 @@ class NotificationArchManager(
                 .toInt()
         val shouldColorize = !Build.MANUFACTURER.contains("Xiaomi") && colorIndex != DEFAULT_LABEL_COLOR_INDEX
 
-        val icon = if (timerType.isWork) R.drawable.ic_status_goodtime else R.drawable.ic_break
+        val icon = if (timerType.isFocus) R.drawable.ic_status_goodtime else R.drawable.ic_break
         val builder =
             NotificationCompat.Builder(context, MAIN_CHANNEL_ID).apply {
                 setSmallIcon(icon)
@@ -107,7 +107,7 @@ class NotificationArchManager(
                 )
             }
         if (isCountDown) {
-            if (timerType == TimerType.WORK) {
+            if (timerType == TimerType.FOCUS) {
                 if (running) {
                     val pauseAction =
                         createNotificationAction(
@@ -150,7 +150,7 @@ class NotificationArchManager(
                 builder.addAction(addOneMinuteAction)
             }
             val nextActionTitle =
-                if (timerType == TimerType.WORK) {
+                if (timerType == TimerType.FOCUS) {
                     context.getString(R.string.main_start_break)
                 } else {
                     context.getString(R.string.main_start_focus)
@@ -182,7 +182,7 @@ class NotificationArchManager(
         val labelName = data.getLabelName()
 
         val mainStateText =
-            if (timerType == TimerType.WORK) {
+            if (timerType == TimerType.FOCUS) {
                 context.getString(R.string.main_focus_session_finished)
             } else {
                 context.getString(R.string.main_break_finished)
@@ -215,7 +215,7 @@ class NotificationArchManager(
         if (withActions) {
             builder.setContentText(context.getString(R.string.main_continue))
             val nextActionTitle =
-                if (timerType == TimerType.WORK && data.label.profile.isBreakEnabled) {
+                if (timerType == TimerType.FOCUS && data.label.profile.isBreakEnabled) {
                     context.getString(R.string.main_start_break)
                 } else {
                     context.getString(R.string.main_start_focus)
@@ -324,6 +324,8 @@ class NotificationArchManager(
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
                 ),
             ).build()
+
+    fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
 
     fun toggleDndMode(enabled: Boolean) {
         if (enabled) {

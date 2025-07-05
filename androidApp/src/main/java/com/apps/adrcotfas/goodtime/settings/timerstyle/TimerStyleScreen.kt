@@ -109,7 +109,7 @@ fun TimerStyleScreen(
             var baseTime by rememberSaveable { mutableLongStateOf(25.minutes.inWholeMilliseconds) }
             var sessionsBeforeLongBreak by rememberSaveable { mutableIntStateOf(4) }
             var streak by rememberSaveable { mutableIntStateOf(1) }
-            var timerType by rememberSaveable { mutableStateOf(TimerType.WORK) }
+            var timerType by rememberSaveable { mutableStateOf(TimerType.FOCUS) }
 
             if (!isPro) {
                 ActionCard(icon = {
@@ -190,7 +190,7 @@ fun TimerStyleScreen(
                             )
                         sessionsBeforeLongBreak = Random.nextInt(2, 8)
                         streak = Random.nextInt(1, sessionsBeforeLongBreak)
-                        timerType = if (Random.nextBoolean()) TimerType.WORK else TimerType.BREAK
+                        timerType = if (Random.nextBoolean()) TimerType.FOCUS else TimerType.BREAK
                     }) {
                         Icon(
                             Icons.Default.Refresh,

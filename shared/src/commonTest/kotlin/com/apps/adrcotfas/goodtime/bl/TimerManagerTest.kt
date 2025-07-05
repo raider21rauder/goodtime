@@ -156,7 +156,7 @@ class TimerManagerTest {
     @Test
     fun `Start then pause and resume a timer`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val startTime = timeProvider.elapsedRealtime()
             assertEquals(
                 timerManager.timerData.value,
@@ -166,7 +166,7 @@ class TimerManagerTest {
                     startTime = startTime,
                     lastStartTime = startTime,
                     endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.RUNNING,
                 ),
             )
@@ -192,7 +192,7 @@ class TimerManagerTest {
     @Test
     fun `Add one minute`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val startTime = timeProvider.elapsedRealtime()
             assertEquals(
                 timerManager.timerData.value,
@@ -202,7 +202,7 @@ class TimerManagerTest {
                     startTime = startTime,
                     lastStartTime = startTime,
                     endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.RUNNING,
                 ),
                 "the timer should have started",
@@ -216,7 +216,7 @@ class TimerManagerTest {
                     startTime = startTime,
                     lastStartTime = startTime,
                     endTime = startTime + DEFAULT_DURATION + 1.minutes.inWholeMilliseconds,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.RUNNING,
                 ),
                 "the timer should have been prolonged by one minute",
@@ -226,7 +226,7 @@ class TimerManagerTest {
     @Test
     fun `Add one minute while paused for one minute then finish`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val startTime = timeProvider.elapsedRealtime()
             assertEquals(
                 timerManager.timerData.value,
@@ -236,7 +236,7 @@ class TimerManagerTest {
                     startTime = startTime,
                     lastStartTime = startTime,
                     endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.RUNNING,
                 ),
                 "the timer should have started",
@@ -265,10 +265,10 @@ class TimerManagerTest {
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(endTime = startTime + DEFAULT_DURATION),
+                    Event.Start(isFocus = true, endTime = startTime + DEFAULT_DURATION),
                     Event.Pause,
                     Event.AddOneMinute(endTime = startTime + DEFAULT_DURATION + oneMinute),
-                    Event.Finished(type = TimerType.WORK),
+                    Event.Finished(type = TimerType.FOCUS),
                 ),
             )
             val session = localDataRepo.selectAllSessions().first().last()
@@ -279,7 +279,7 @@ class TimerManagerTest {
     @Test
     fun `Skip session after one minute`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val startTime = timeProvider.elapsedRealtime()
             assertEquals(
                 timerManager.timerData.value,
@@ -289,7 +289,7 @@ class TimerManagerTest {
                     startTime = startTime,
                     lastStartTime = startTime,
                     endTime = startTime + DEFAULT_DURATION,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.RUNNING,
                 ),
                 "the timer should have started",
@@ -308,7 +308,7 @@ class TimerManagerTest {
             timeProvider.elapsedRealtime += elapsedTime
             timerManager.next()
             assertEquals(timerManager.timerData.value.state, TimerState.RUNNING)
-            assertEquals(timerManager.timerData.value.type, TimerType.WORK)
+            assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
             session = localDataRepo.selectAllSessions().first().last()
             assertEquals(session.duration.minutes.inWholeMilliseconds, elapsedTime)
             assertEquals(session.timestamp, elapsedTime + elapsedTime)
@@ -318,7 +318,7 @@ class TimerManagerTest {
     @Test
     fun `Skip timer before one minute`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val endTime = timerManager.timerData.value.endTime
             val duration = 45.seconds.inWholeMilliseconds
             timeProvider.elapsedRealtime = duration
@@ -326,8 +326,12 @@ class TimerManagerTest {
             assertEquals(
                 fakeEventListener.events,
                 listOf(
-                    Event.Start(endTime = endTime),
-                    Event.Start(endTime = timeProvider.elapsedRealtime + TimerProfile.DEFAULT_BREAK_DURATION.minutes.inWholeMilliseconds),
+                    Event.Start(isFocus = true, endTime = endTime),
+                    Event.Start(
+                        isFocus = false,
+                        endTime =
+                            timeProvider.elapsedRealtime + TimerProfile.DEFAULT_BREAK_DURATION.minutes.inWholeMilliseconds,
+                    ),
                 ),
             )
             localDataRepo.selectAllSessions().test {
@@ -338,7 +342,7 @@ class TimerManagerTest {
     @Test
     fun `Timer finish`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime = DEFAULT_DURATION
             timerManager.finish()
             assertEquals(
@@ -354,7 +358,7 @@ class TimerManagerTest {
                     startTime = 0,
                     lastStartTime = 0,
                     endTime = DEFAULT_DURATION,
-                    type = TimerType.WORK,
+                    type = TimerType.FOCUS,
                     state = TimerState.FINISHED,
                     completedMinutes = DEFAULT_WORK_DURATION.toLong(),
                 ),
@@ -368,7 +372,7 @@ class TimerManagerTest {
     @Test
     fun `Timer reset after one minute`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val endTime = timerManager.timerData.value.endTime
             val oneMinute = 1.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime = oneMinute
@@ -388,7 +392,7 @@ class TimerManagerTest {
             )
             assertEquals(
                 fakeEventListener.events,
-                listOf(Event.Start(endTime = endTime), Event.Reset),
+                listOf(Event.Start(isFocus = true, endTime = endTime), Event.Reset),
             )
             val session = localDataRepo.selectAllSessions().first().last()
             assertEquals(session.duration.minutes.inWholeMilliseconds, oneMinute)
@@ -398,7 +402,7 @@ class TimerManagerTest {
     @Test
     fun `Timer reset before one minute`() =
         runTest {
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val endTime = timerManager.timerData.value.endTime
             val duration = 45.seconds.inWholeMilliseconds
             timeProvider.elapsedRealtime = duration
@@ -418,7 +422,7 @@ class TimerManagerTest {
             )
             assertEquals(
                 fakeEventListener.events,
-                listOf(Event.Start(endTime = endTime), Event.Reset),
+                listOf(Event.Start(isFocus = true, endTime = endTime), Event.Reset),
             )
             localDataRepo.selectAllSessions().test {
                 assertTrue(awaitItem().isEmpty())
@@ -429,7 +433,7 @@ class TimerManagerTest {
     fun `Streak increments when interrupting a work session`() =
         runTest {
             assertEquals(timerManager.timerData.value.longBreakData.streak, 0)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += 1
             timerManager.skip()
             timerManager.reset()
@@ -438,12 +442,12 @@ class TimerManagerTest {
             timerManager.skip()
             timerManager.reset()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 1)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += 1
             timerManager.skip()
             timerManager.reset()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 2)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += 1
             timerManager.finish()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 3)
@@ -453,7 +457,7 @@ class TimerManagerTest {
     fun `Pausing for a long time is not considered idle time for streak`() =
         runTest {
             assertEquals(timerManager.timerData.value.longBreakData.streak, 0)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += 1
             timerManager.toggle()
             val twoHours = 2.hours.inWholeMilliseconds
@@ -467,7 +471,7 @@ class TimerManagerTest {
     fun `Long break after 4 work sessions with finish and next`() =
         runTest {
             assertEquals(timerManager.timerData.value.longBreakData.streak, 0)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val twoMinutes = 2.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.finish()
@@ -498,23 +502,23 @@ class TimerManagerTest {
     fun `Long break after 4 work sessions with reset and next for the last`() =
         runTest {
             assertEquals(timerManager.timerData.value.longBreakData.streak, 0)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val twoMinutes = 2.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.finish()
             timerManager.reset()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 1)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.finish()
             timerManager.reset()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 2)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.finish()
             timerManager.reset()
             assertEquals(timerManager.timerData.value.longBreakData.streak, 3)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.finish()
             timerManager.next()
@@ -532,7 +536,7 @@ class TimerManagerTest {
                     .streakInUse(sessionsBeforeLongBreak),
                 0,
             )
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val twoMinutes = 2.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.skip()
@@ -543,7 +547,7 @@ class TimerManagerTest {
                 1,
             )
             timerManager.skip()
-            assertEquals(timerManager.timerData.value.type, TimerType.WORK)
+            assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.skip()
             assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
@@ -553,7 +557,7 @@ class TimerManagerTest {
                 2,
             )
             timerManager.skip()
-            assertEquals(timerManager.timerData.value.type, TimerType.WORK)
+            assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.skip()
             assertEquals(timerManager.timerData.value.type, TimerType.BREAK)
@@ -565,7 +569,7 @@ class TimerManagerTest {
             timerManager.reset()
             val oneHour = 1.hours.inWholeMilliseconds
             timeProvider.elapsedRealtime += oneHour
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.skip()
             assertEquals(
@@ -580,14 +584,14 @@ class TimerManagerTest {
     fun `Reset streak after idle`() =
         runTest {
             assertEquals(timerManager.timerData.value.longBreakData.streak, 0)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val twoMinutes = 2.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime += twoMinutes
             timerManager.skip()
             assertEquals(1, timerManager.timerData.value.longBreakData.streak)
             val oneHour = 1.hours.inWholeMilliseconds
             timeProvider.elapsedRealtime += oneHour
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             assertEquals(0, timerManager.timerData.value.longBreakData.streak)
         }
 
@@ -595,7 +599,7 @@ class TimerManagerTest {
     fun `Auto-start break`() =
         runTest {
             settingsRepo.setAutoStartBreak(true)
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val workDuration = DEFAULT_DURATION
             timeProvider.elapsedRealtime += workDuration
             timerManager.finish()
@@ -614,11 +618,11 @@ class TimerManagerTest {
                         ),
                 ),
             )
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val workDuration = DEFAULT_WORK_DURATION.minutes.inWholeMilliseconds
             timeProvider.elapsedRealtime += workDuration
             timerManager.next()
-            assertEquals(timerManager.timerData.value.type, TimerType.WORK)
+            assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
         }
 
     @Test
@@ -626,7 +630,7 @@ class TimerManagerTest {
         runTest {
             settingsRepo.activateLabelWithName(countUpLabel.name)
 
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             val workDuration = 6.minutes.inWholeMilliseconds
             val expectedBreakBudget =
                 workDuration.milliseconds.inWholeMinutes / countUpLabel.timerProfile.workBreakRatio
@@ -651,7 +655,7 @@ class TimerManagerTest {
                     ).inWholeMinutes,
                 0,
             )
-            assertEquals(timerManager.timerData.value.type, TimerType.WORK)
+            assertEquals(timerManager.timerData.value.type, TimerType.FOCUS)
         }
 
     @Test
@@ -689,7 +693,7 @@ class TimerManagerTest {
                 "The break budget should have decreased while idling",
             )
 
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += workTime
             testScope.advanceTimeBy(workTime)
 
@@ -706,7 +710,7 @@ class TimerManagerTest {
                 breakBudgetAtTheEnd,
                 "The previous unused break budget should have been added to the total",
             )
-            timerManager.start(TimerType.WORK)
+            timerManager.start(TimerType.FOCUS)
             timeProvider.elapsedRealtime += idleTime
             testScope.advanceTimeBy(idleTime)
             timerManager.finish()
@@ -737,8 +741,8 @@ class TimerManagerTest {
             )
             assertEquals(
                 listOf(
-                    Event.Start(endTime = COUNT_UP_HARD_LIMIT),
-                    Event.Start(endTime = 10.minutes.inWholeMilliseconds),
+                    Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT),
+                    Event.Start(isFocus = false, endTime = 10.minutes.inWholeMilliseconds),
                 ),
                 fakeEventListener.events,
             )
@@ -764,10 +768,10 @@ class TimerManagerTest {
             assertEquals(
                 expected =
                     listOf(
-                        Event.Start(endTime = COUNT_UP_HARD_LIMIT),
-                        Event.Start(endTime = breakBudgetMillis),
+                        Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT),
+                        Event.Start(isFocus = false, endTime = breakBudgetMillis),
                         Event.Finished(type = TimerType.BREAK, autostartNextSession = true),
-                        Event.Start(endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis, autoStarted = true),
+                        Event.Start(isFocus = true, endTime = COUNT_UP_HARD_LIMIT + breakBudgetMillis, autoStarted = true),
                     ),
                 actual = fakeEventListener.events,
             )

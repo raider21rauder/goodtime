@@ -81,7 +81,6 @@ import compose.icons.EvaIcons
 import compose.icons.evaicons.Outline
 import compose.icons.evaicons.outline.Bell
 import compose.icons.evaicons.outline.ColorPalette
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.isoDayNumber
@@ -274,7 +273,7 @@ fun SettingsScreen(
             CheckboxListItem(
                 title = stringResource(R.string.settings_auto_start_focus_title),
                 subtitle = stringResource(R.string.settings_auto_start_focus_desc),
-                checked = settings.autoStartWork,
+                checked = settings.autoStartFocus,
             ) {
                 viewModel.setAutoStartWork(it)
             }

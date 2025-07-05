@@ -20,7 +20,6 @@ package com.apps.adrcotfas.goodtime.onboarding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.bl.TimerManager
-import com.apps.adrcotfas.goodtime.bl.TimerType
 import com.apps.adrcotfas.goodtime.bl.isActive
 import com.apps.adrcotfas.goodtime.bl.isFinished
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
@@ -36,7 +35,6 @@ data class MainUiState(
     val loading: Boolean = true,
     val showOnboarding: Boolean = false,
     val isActive: Boolean = false,
-    val isWorkSessionInProgress: Boolean = false,
     val isFinished: Boolean = false,
     val dndDuringWork: Boolean = false,
     val darkThemePreference: ThemePreference = ThemePreference.SYSTEM,
@@ -101,7 +99,6 @@ class MainViewModel(
                     _uiState.update {
                         it.copy(
                             isActive = timerData.state.isActive,
-                            isWorkSessionInProgress = timerData.state.isActive && timerData.type == TimerType.WORK,
                             isFinished = timerData.state.isFinished,
                         )
                     }

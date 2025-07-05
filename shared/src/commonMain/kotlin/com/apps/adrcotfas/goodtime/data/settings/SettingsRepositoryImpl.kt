@@ -130,7 +130,7 @@ class SettingsRepositoryImpl(
                     insistentNotification =
                         it[Keys.insistentNotificationKey]
                             ?: default.insistentNotification,
-                    autoStartWork = it[Keys.autoStartWorkKey] ?: default.autoStartWork,
+                    autoStartFocus = it[Keys.autoStartWorkKey] ?: default.autoStartFocus,
                     autoStartBreak = it[Keys.autoStartBreakKey] ?: default.autoStartBreak,
                     labelName = it[Keys.labelNameKey] ?: default.labelName,
                     longBreakData =

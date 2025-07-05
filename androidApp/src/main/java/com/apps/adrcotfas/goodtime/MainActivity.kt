@@ -172,7 +172,6 @@ class MainActivity : GoodtimeMainActivity() {
 
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val isDarkTheme = themeSettings.darkTheme
-            val workSessionIsInProgress = uiState.isWorkSessionInProgress
             val showWhenLocked = uiState.showWhenLocked
             val isActive = uiState.isActive
             val keepScreenOn = uiState.keepScreenOn
@@ -209,14 +208,6 @@ class MainActivity : GoodtimeMainActivity() {
             }
 
             toggleKeepScreenOn(isActive && keepScreenOn)
-            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                if (uiState.dndDuringWork) {
-                    notificationManager.toggleDndMode(workSessionIsInProgress)
-                } else {
-                    notificationManager.toggleDndMode(false)
-                }
-            }
-
             val startDestination =
                 remember(mainUiState.showOnboarding) {
                     if (mainUiState.showOnboarding) {

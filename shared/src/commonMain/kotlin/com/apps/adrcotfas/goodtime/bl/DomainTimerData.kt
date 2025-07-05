@@ -74,7 +74,7 @@ data class DomainTimerData(
     val endTime: Long = 0, // millis since boot
     val timeAtPause: Long = 0, // millis
     val state: TimerState = TimerState.RESET,
-    val type: TimerType = TimerType.WORK,
+    val type: TimerType = TimerType.FOCUS,
     val timeSpentPaused: Long = 0, // millis spent in pause
     val completedMinutes: Long = 0, // minutes
 ) {
@@ -117,7 +117,7 @@ data class DomainTimerData(
 
     fun getBreakBudget(elapsedRealtime: Long): Duration {
         if (label.profile.isCountdown) return 0.minutes
-        return if (type.isWork) {
+        return if (type.isFocus) {
             when (state) {
                 TimerState.RUNNING -> {
                     val breakBudgetMillis = breakBudgetData.breakBudget
@@ -138,7 +138,7 @@ data class DomainTimerData(
         }
     }
 
-    fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || type != TimerType.WORK
+    fun isCurrentSessionCountdown(): Boolean = getTimerProfile().isCountdown || type != TimerType.FOCUS
 }
 
 enum class TimerState {
@@ -164,16 +164,16 @@ val TimerState.isReset: Boolean
     get() = this == TimerState.RESET
 
 enum class TimerType {
-    WORK,
+    FOCUS,
     BREAK,
     LONG_BREAK,
 }
 
 val TimerType.isBreak: Boolean
-    get() = this != TimerType.WORK
+    get() = this != TimerType.FOCUS
 
-val TimerType.isWork: Boolean
-    get() = this == TimerType.WORK
+val TimerType.isFocus: Boolean
+    get() = this == TimerType.FOCUS
 
 fun DomainTimerData.getBaseTime(timerProvider: TimeProvider): Long {
     val countdown = label.profile.isCountdown

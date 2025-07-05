@@ -62,7 +62,7 @@ fun TimerProfile.endTime(
 
 fun TimerProfile.duration(timerType: TimerType): Int =
     when (timerType) {
-        TimerType.WORK -> workDuration
+        TimerType.FOCUS -> workDuration
         TimerType.BREAK -> breakDuration
         TimerType.LONG_BREAK -> longBreakDuration
     }

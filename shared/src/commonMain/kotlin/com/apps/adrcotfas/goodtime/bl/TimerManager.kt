@@ -197,6 +197,7 @@ class TimerManager(
         listeners.forEach {
             it.onEvent(
                 Event.Start(
+                    isFocus = timerData.type.isFocus,
                     autoStarted = autoStarted,
                     endTime = if (isCountdown) timerData.endTime else countUpEndTime,
                 ),
@@ -309,7 +310,12 @@ class TimerManager(
             computeCountUpEndTime(timerData.getBaseTime(timeProvider))
         val isCurrentSessionCountdown = timerData.isCurrentSessionCountdown()
         listeners.forEach {
-            it.onEvent(Event.Start(endTime = if (isCurrentSessionCountdown) timerData.endTime else countUpEndTime))
+            it.onEvent(
+                Event.Start(
+                    isFocus = timerData.type.isFocus,
+                    endTime = if (isCurrentSessionCountdown) timerData.endTime else countUpEndTime,
+                ),
+            )
         }
     }
 
@@ -366,7 +372,7 @@ class TimerManager(
             return
         }
 
-        val isWork = data.type.isWork
+        val isWork = data.type.isFocus
         val isCountDown = data.getTimerProfile().isCountdown
 
         updateBreakBudgetIfNeeded()
@@ -385,7 +391,7 @@ class TimerManager(
 
         val nextType =
             when {
-                !isWork || (isWork && !timerProfile.profile.isBreakEnabled) -> TimerType.WORK
+                !isWork || (isWork && !timerProfile.profile.isBreakEnabled) -> TimerType.FOCUS
                 !isCountDown -> TimerType.BREAK
                 shouldConsiderStreak(timeProvider.elapsedRealtime()) -> TimerType.LONG_BREAK
                 else -> TimerType.BREAK
@@ -393,7 +399,7 @@ class TimerManager(
         log.i { "Next: $nextType" }
 
         val autoStarted =
-            (nextType.isWork && settings.autoStartWork) ||
+            (nextType.isFocus && settings.autoStartFocus) ||
                 (nextType.isBreak && settings.autoStartBreak)
 
         start(nextType, autoStarted)
@@ -427,10 +433,10 @@ class TimerManager(
         handleFinishedSession(finishActionType = FinishActionType.AUTO)
 
         val autoStart =
-            settings.autoStartWork &&
+            settings.autoStartFocus &&
                 (type.isBreak || !timerProfile.profile.isBreakEnabled) ||
                 settings.autoStartBreak &&
-                type.isWork &&
+                type.isFocus &&
                 timerProfile.profile.isBreakEnabled
         log.i { "AutoStart: $autoStart" }
         listeners.forEach {
@@ -474,7 +480,7 @@ class TimerManager(
     }
 
     private fun handlePersistentDataAtStart() {
-        if (timerData.value.type == TimerType.WORK) {
+        if (timerData.value.type == TimerType.FOCUS) {
             // filter out the case when some time passes since the last work session
             // preemptively reset the streak if the current work session cannot end in time
             resetStreakIfNeeded(timerData.value.endTime)
@@ -486,7 +492,7 @@ class TimerManager(
         finishActionType: FinishActionType,
     ) {
         val data = timerData.value
-        val isWork = data.type.isWork
+        val isWork = data.type.isFocus
         val isFinished = data.state.isFinished
         val isCountDown = data.getTimerProfile().isCountdown
         val longBreakEnabled = data.getTimerProfile().isLongBreakEnabled
@@ -518,7 +524,7 @@ class TimerManager(
     private fun createFinishedSession(): Session? {
         updatePausedTime()
         val data = timerData.value
-        val isWork = data.type == TimerType.WORK
+        val isFOCUS = data.type == TimerType.FOCUS
 
         val totalDuration = timeProvider.elapsedRealtime() - data.startTime
         val interruptions = data.timeSpentPaused
@@ -527,7 +533,7 @@ class TimerManager(
             totalDuration
                 .let { duration ->
                     // First, conditionally subtract interruptions
-                    if (isWork) duration - interruptions else duration
+                    if (isFOCUS) duration - interruptions else duration
                 }.plus(WIGGLE_ROOM_MILLIS)
                 .milliseconds
 
@@ -546,9 +552,9 @@ class TimerManager(
         return Session.create(
             timestamp = now,
             duration = durationToSaveMinutes,
-            interruptions = if (isWork) interruptions.milliseconds.inWholeMinutes else 0,
+            interruptions = if (isFOCUS) interruptions.milliseconds.inWholeMinutes else 0,
             label = data.getLabelName(),
-            isWork = isWork,
+            isWork = isFOCUS,
         )
     }
 
