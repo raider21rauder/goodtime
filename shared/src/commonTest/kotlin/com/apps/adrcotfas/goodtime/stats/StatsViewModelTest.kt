@@ -60,6 +60,7 @@ class StatsViewModelTest {
 
             viewModel.uiState.test {
                 assertTrue { awaitItem() == StatisticsUiState() }
+                awaitItem()
                 assertTrue { awaitItem().labels.isNotEmpty() }
                 cancelAndIgnoreRemainingEvents()
             }
