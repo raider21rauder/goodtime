@@ -93,6 +93,9 @@ fun PieChartSection(
         entries.add(PieEntry(workPerLabel[label]!!.toFloat(), labelName))
     }
 
+    // Might happen when we toggle showing archived labels
+    if (!selectedLabels.map { it.name }.containsAll(workPerLabel.keys)) return
+
     val colors =
         workPerLabel.keys
             .map {
@@ -102,7 +105,9 @@ fun PieChartSection(
                     }
 
                     else -> {
-                        MaterialTheme.getLabelColor(selectedLabels.first { label -> label.name == it }.colorIndex)
+                        MaterialTheme.getLabelColor(
+                            selectedLabels.first { label -> label.name == it }.colorIndex,
+                        )
                     }
                 }
             }.map { it.toArgb() }
@@ -242,12 +247,14 @@ open class PieChartGestureListener : OnChartGestureListener {
     override fun onChartGestureStart(
         me: MotionEvent,
         lastPerformedGesture: ChartGesture,
-    ) {}
+    ) {
+    }
 
     override fun onChartGestureEnd(
         me: MotionEvent,
         lastPerformedGesture: ChartGesture,
-    ) {}
+    ) {
+    }
 
     override fun onChartLongPressed(me: MotionEvent) {}
 
@@ -265,11 +272,13 @@ open class PieChartGestureListener : OnChartGestureListener {
         me: MotionEvent,
         scaleX: Float,
         scaleY: Float,
-    ) {}
+    ) {
+    }
 
     override fun onChartTranslate(
         me: MotionEvent,
         dX: Float,
         dY: Float,
-    ) {}
+    ) {
+    }
 }
