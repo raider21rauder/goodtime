@@ -33,6 +33,7 @@ import com.android.billingclient.api.ProductDetailsResponseListener
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryProductDetailsResult
 import com.android.billingclient.api.QueryPurchasesParams
 import com.apps.adrcotfas.goodtime.BuildConfig
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
@@ -84,6 +85,7 @@ class GoogleBilling(
             .newBuilder(context)
             .setListener(this)
             .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+            .enableAutoServiceReconnection()
             .build()
 
     val isPro = settingsRepository.settings.map { it.isPro }.distinctUntilChanged()
@@ -242,14 +244,15 @@ class GoogleBilling(
 
     override fun onProductDetailsResponse(
         billingResult: BillingResult,
-        productDetailsList: MutableList<ProductDetails>,
+        result: QueryProductDetailsResult,
     ) {
         val responseCode = billingResult.responseCode
         val debugMessage = billingResult.debugMessage
 
+        val productDetailsList = result.productDetailsList
         log.d(
             "onProductDetailsResponse: responseCode: $responseCode, debugMessage: $debugMessage " +
-                "productDetails: ${productDetailsList.map { it.toString() }}",
+                    "productDetails: ${productDetailsList.map { it.toString() }}",
         )
 
         when (responseCode) {
@@ -257,9 +260,9 @@ class GoogleBilling(
                 if (productDetailsList.isEmpty()) {
                     log.e(
                         "onProductDetailsResponse: " +
-                            "Found null or empty ProductDetails. " +
-                            "Check to see if the Products you requested are correctly " +
-                            "published in the Google Play Console.",
+                                "Found null or empty ProductDetails. " +
+                                "Check to see if the Products you requested are correctly " +
+                                "published in the Google Play Console.",
                     )
                 } else {
                     _productDetails.update {
