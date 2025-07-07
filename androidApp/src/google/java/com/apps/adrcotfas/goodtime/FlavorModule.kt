@@ -29,7 +29,6 @@ val flavorModule =
         single<BillingAbstract> {
             GoogleBilling(
                 context = get(),
-                dataRepository = get(),
                 settingsRepository = get(),
                 coroutineScope = get(named(IO_SCOPE)),
                 log = getWith("GoogleBilling"),

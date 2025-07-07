@@ -36,13 +36,11 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryProductDetailsResult
 import com.android.billingclient.api.QueryPurchasesParams
 import com.apps.adrcotfas.goodtime.BuildConfig
-import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.data.settings.TimerStyleData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,7 +57,6 @@ import kotlin.math.floor
 class GoogleBilling(
     context: Context,
     private val settingsRepository: SettingsRepository,
-    private val dataRepository: LocalDataRepository,
     private val coroutineScope: CoroutineScope,
     private val log: Logger,
 ) : BillingAbstract,
@@ -69,12 +66,9 @@ class GoogleBilling(
     val productDetails: StateFlow<ProductDetails?> = _productDetails
 
     private val purchases = MutableStateFlow<List<Purchase>?>(null)
-    private val hasPro: Flow<Boolean?> =
-        purchases.map { purchaseList ->
-            purchaseList?.any { purchase ->
-                purchase.products.contains(PRO_VERSION)
-            }
-        }
+    private val _hasPro = MutableStateFlow<Boolean?>(null)
+    val hasPro: StateFlow<Boolean?> = _hasPro.asStateFlow()
+
     private val _purchasePending = MutableStateFlow(false)
     val purchasePending = _purchasePending.asStateFlow()
 
@@ -96,7 +90,7 @@ class GoogleBilling(
      * @param activity [Activity] instance.
      */
     fun buy(activity: Activity) {
-        log.d { "buy: attempt to upgrade to PRO" }
+        log.i { "buy: attempt to upgrade to PRO" }
         productDetails.value?.let {
             launchBillingFlow(
                 activity,
@@ -106,7 +100,13 @@ class GoogleBilling(
     }
 
     override fun init() {
-        log.d("Initializing BillingClient")
+        log.i("Initializing BillingClient")
+
+        coroutineScope.launch {
+            purchases.collect { purchaseList ->
+                _hasPro.value = purchaseList?.any { it.products.contains(PRO_VERSION) }
+            }
+        }
 
         coroutineScope.launch {
             /**
@@ -147,7 +147,7 @@ class GoogleBilling(
             object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: BillingResult) {
                     if (billingResult.responseCode == BillingResponseCode.OK) {
-                        log.d("Billing response OK")
+                        log.i("Billing response OK")
                         queryPurchases()
                         queryProductDetails()
                     } else {
@@ -156,7 +156,7 @@ class GoogleBilling(
                 }
 
                 override fun onBillingServiceDisconnected() {
-                    log.d("Billing connection disconnected")
+                    log.i("Billing connection disconnected")
                     retryBillingServiceConnection()
                 }
             },
@@ -164,7 +164,7 @@ class GoogleBilling(
     }
 
     override fun terminate() {
-        log.d("Terminating connection")
+        log.i("Terminating connection")
         billingClient.endConnection()
     }
 
@@ -183,7 +183,7 @@ class GoogleBilling(
                                 queryPurchases()
                                 queryProductDetails()
                                 isConnectionEstablished = true
-                                log.d("Billing connection retry succeeded.")
+                                log.i("Billing connection retry succeeded.")
                             } else {
                                 log.e(
                                     "Billing connection retry failed: ${billingResult.debugMessage}",
@@ -211,11 +211,11 @@ class GoogleBilling(
                 .build(),
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingResponseCode.OK) {
-                log.d("onQueryPurchasesResponse: ${purchaseList.map { it.toString() }}")
+                log.i("onQueryPurchasesResponse: ${purchaseList.map { it.toString() }}")
                 purchases.update { purchaseList }
                 purchaseList.forEach {
                     if (it.isAcknowledged) {
-                        log.d("Item already acknowledged")
+                        log.w("Item already acknowledged")
                         isPurchaseAcknowledged.update { true }
                     } else {
                         acknowledge(it.purchaseToken)
@@ -250,9 +250,9 @@ class GoogleBilling(
         val debugMessage = billingResult.debugMessage
 
         val productDetailsList = result.productDetailsList
-        log.d(
+        log.i(
             "onProductDetailsResponse: responseCode: $responseCode, debugMessage: $debugMessage " +
-                    "productDetails: ${productDetailsList.map { it.toString() }}",
+                "productDetails: ${productDetailsList.map { it.toString() }}",
         )
 
         when (responseCode) {
@@ -260,9 +260,9 @@ class GoogleBilling(
                 if (productDetailsList.isEmpty()) {
                     log.e(
                         "onProductDetailsResponse: " +
-                                "Found null or empty ProductDetails. " +
-                                "Check to see if the Products you requested are correctly " +
-                                "published in the Google Play Console.",
+                            "Found null or empty ProductDetails. " +
+                            "Check to see if the Products you requested are correctly " +
+                            "published in the Google Play Console.",
                     )
                 } else {
                     _productDetails.update {
@@ -272,7 +272,7 @@ class GoogleBilling(
             }
 
             else -> {
-                log.d("onProductDetailsResponse: $responseCode $debugMessage")
+                log.e("onProductDetailsResponse: $responseCode $debugMessage")
             }
         }
     }
@@ -281,7 +281,7 @@ class GoogleBilling(
         activity: Activity,
         params: BillingFlowParams,
     ) {
-        log.d("launchBillingFlow...")
+        log.i("launchBillingFlow...")
         if (!billingClient.isReady) {
             log.e("launchBillingFlow: BillingClient is not ready")
         }
@@ -295,7 +295,7 @@ class GoogleBilling(
         val responseCode = billingResult.responseCode
         val debugMessage = billingResult.debugMessage
 
-        log.d(
+        log.i(
             "onPurchasesUpdated: responseCode: $responseCode, debugMessage: $debugMessage purchases: ${purchases?.map { it.toString() }}",
         )
         if (responseCode == BillingResponseCode.OK &&
@@ -305,7 +305,7 @@ class GoogleBilling(
             coroutineScope.launch {
                 purchases.forEach {
                     if (it.isAcknowledged) {
-                        log.d("Item already acknowledged")
+                        log.i("Item already acknowledged")
                         isPurchaseAcknowledged.update { true }
                     } else {
                         acknowledgePurchase(it.purchaseToken)
@@ -313,13 +313,13 @@ class GoogleBilling(
                 }
             }
             _purchasePending.update { true }
-        } else if (responseCode == BillingResponseCode.USER_CANCELED) {
-            log.e("User has cancelled")
+        } else {
+            log.e("onPurchasesUpdated: $responseCode $debugMessage")
         }
     }
 
     private fun acknowledge(purchaseToken: String): BillingResult {
-        log.d("Acknowledge: $purchaseToken")
+        log.i("Acknowledge: $purchaseToken")
         val params =
             AcknowledgePurchaseParams
                 .newBuilder()
@@ -351,7 +351,7 @@ class GoogleBilling(
                 BillingResponseCode.ITEM_NOT_OWNED -> {
                     // This is possibly related to a stale Play cache.
                     // Querying purchases again.
-                    log.d("Acknowledgement failed with ITEM_NOT_OWNED")
+                    log.i("Acknowledgement failed with ITEM_NOT_OWNED")
                     billingClient.queryPurchasesAsync(
                         QueryPurchasesParams
                             .newBuilder()
@@ -375,7 +375,7 @@ class GoogleBilling(
                     BillingResponseCode.SERVICE_UNAVAILABLE,
                 ),
                 -> {
-                    log.d(
+                    log.w(
                         """
                         Acknowledgement failed, but can be retried --
                         Response Code: ${acknowledgePurchaseResult.responseCode} --
@@ -423,7 +423,7 @@ class GoogleBilling(
                 delay(currentDelay)
                 block()
             }.onSuccess {
-                log.d("Retry succeeded")
+                log.i("Retry succeeded")
                 return@onSuccess
             }.onFailure { throwable ->
                 log.e(
@@ -459,13 +459,15 @@ class GoogleBilling(
      */
     private suspend fun resetPreferencesOnRefund() {
         resetTimerStyle()
-        settingsRepository.updateUiSettings {
-            it.copy(fullscreenMode = false, screensaverMode = false)
+        with(settingsRepository) {
+            updateUiSettings {
+                it.copy(fullscreenMode = false, screensaverMode = false)
+            }
+            setEnableTorch(false)
+            setEnableFlashScreen(false)
+            setInsistentNotification(false)
+            activateDefaultLabel()
         }
-        settingsRepository.setEnableTorch(false)
-        settingsRepository.setInsistentNotification(false)
-        settingsRepository.activateDefaultLabel()
-        dataRepository.archiveAllButDefault()
     }
 
     private suspend fun resetTimerStyle() {
