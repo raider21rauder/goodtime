@@ -328,6 +328,9 @@ class NotificationArchManager(
     fun isDndModeEnabled(): Boolean = notificationManager.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL
 
     fun toggleDndMode(enabled: Boolean) {
+        if (!isNotificationPolicyAccessGranted()) {
+            return
+        }
         if (enabled) {
             notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
         } else {

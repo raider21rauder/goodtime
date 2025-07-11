@@ -117,6 +117,9 @@ fun SettingsScreen(
                 if (isNotificationPolicyAccessRequested && isNotificationPolicyAccessGranted) {
                     viewModel.setDndDuringWork(true)
                 }
+                if (!isNotificationPolicyAccessGranted) {
+                    viewModel.setDndDuringWork(false)
+                }
             }
 
             else -> {
