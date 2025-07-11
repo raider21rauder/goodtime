@@ -94,7 +94,12 @@ fun PieChartSection(
     }
 
     // Might happen when we toggle showing archived labels
-    if (!selectedLabels.map { it.name }.containsAll(workPerLabel.keys)) return
+    if (!selectedLabels
+            .map { it.name }
+            .containsAll(workPerLabel.keys.minus(Label.OTHERS_LABEL_NAME))
+    ) {
+        return
+    }
 
     val colors =
         workPerLabel.keys
