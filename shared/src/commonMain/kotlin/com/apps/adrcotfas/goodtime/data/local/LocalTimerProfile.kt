@@ -19,43 +19,19 @@ package com.apps.adrcotfas.goodtime.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.apps.adrcotfas.goodtime.data.model.Label.Companion.DEFAULT_LABEL_COLOR_INDEX
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_BREAK_DURATION
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_LONG_BREAK_DURATION
-import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_PROFILE_NAME
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_SESSIONS_BEFORE_LONG_BREAK
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_BREAK_RATIO
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
 
 @Entity(
-    tableName = "localLabel",
-    foreignKeys = [
-        ForeignKey(
-            entity = LocalTimerProfile::class,
-            parentColumns = ["name"],
-            childColumns = ["timerProfileName"],
-            onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.SET_NULL,
-        ),
-    ],
-    indices = [
-        Index(value = ["name", "isArchived"], unique = true),
-    ],
+    tableName = "localTimerProfile",
 )
-data class LocalLabel(
+data class LocalTimerProfile(
     @PrimaryKey
     val name: String,
-    @ColumnInfo(defaultValue = "$DEFAULT_LABEL_COLOR_INDEX")
-    val colorIndex: Long,
-    @ColumnInfo(defaultValue = "${Long.MAX_VALUE}")
-    val orderIndex: Long,
-    @ColumnInfo(defaultValue = "1")
-    val useDefaultTimeProfile: Boolean,
-    @ColumnInfo(defaultValue = DEFAULT_PROFILE_NAME)
-    val timerProfileName: String? = null,
     @ColumnInfo(defaultValue = "1")
     val isCountdown: Boolean,
     @ColumnInfo(defaultValue = "$DEFAULT_WORK_DURATION")
@@ -72,6 +48,4 @@ data class LocalLabel(
     val sessionsBeforeLongBreak: Int,
     @ColumnInfo(defaultValue = "$DEFAULT_WORK_BREAK_RATIO")
     val workBreakRatio: Int,
-    @ColumnInfo(defaultValue = "0")
-    val isArchived: Boolean,
 )

@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.data.local
 import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -120,4 +121,12 @@ interface LocalDataRepository {
     suspend fun deleteAllLabels()
 
     suspend fun archiveAllButDefault()
+
+    suspend fun insertTimerProfile(profile: TimerProfile)
+
+    suspend fun deleteTimerProfile(name: String)
+
+    suspend fun selectTimerProfile(name: String): Flow<TimerProfile?>
+
+    suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>>
 }

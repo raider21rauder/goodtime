@@ -383,6 +383,10 @@ fun MainScreen(
                 navController.navigate(AddEditLabelDest(name = timerUiState.label.getLabelName()))
                 showSelectLabelDialog = false
             },
+            onNavigateToTimerDurations = {
+                navController.navigate(TimerDurationsDest)
+                showSelectLabelDialog = false
+            },
             onClearLabel = {
                 viewModel.setActiveLabel(Label.DEFAULT_LABEL_NAME)
                 showSelectLabelDialog = false

@@ -21,6 +21,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import kotlin.time.Duration.Companion.minutes
 
 data class TimerProfile(
+    val name: String? = DEFAULT_PROFILE_NAME,
     val isCountdown: Boolean = true,
     /** Work(focus) duration in minutes; invalid for isCountdown false */
     val workDuration: Int = DEFAULT_WORK_DURATION,
@@ -36,11 +37,25 @@ data class TimerProfile(
     val workBreakRatio: Int = DEFAULT_WORK_BREAK_RATIO,
 ) {
     companion object {
+        const val DEFAULT_PROFILE_NAME = "25/5"
         const val DEFAULT_WORK_DURATION = 25
         const val DEFAULT_BREAK_DURATION = 5
         const val DEFAULT_LONG_BREAK_DURATION = 15
         const val DEFAULT_SESSIONS_BEFORE_LONG_BREAK = 4
         const val DEFAULT_WORK_BREAK_RATIO = 3
+
+        fun default() =
+            TimerProfile(
+                name = DEFAULT_PROFILE_NAME,
+                isCountdown = true,
+                workDuration = DEFAULT_WORK_DURATION,
+                isBreakEnabled = true,
+                breakDuration = DEFAULT_BREAK_DURATION,
+                isLongBreakEnabled = false,
+                longBreakDuration = DEFAULT_LONG_BREAK_DURATION,
+                sessionsBeforeLongBreak = DEFAULT_SESSIONS_BEFORE_LONG_BREAK,
+                workBreakRatio = DEFAULT_WORK_BREAK_RATIO,
+            )
     }
 }
 

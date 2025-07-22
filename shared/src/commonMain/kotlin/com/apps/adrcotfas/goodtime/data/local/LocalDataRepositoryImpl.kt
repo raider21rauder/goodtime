@@ -20,16 +20,23 @@ package com.apps.adrcotfas.goodtime.data.local
 import androidx.paging.PagingSource
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
+import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.toExternal
 import com.apps.adrcotfas.goodtime.data.model.toLocal
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 internal class LocalDataRepositoryImpl(
     private var sessionDao: SessionDao,
     private var labelDao: LabelDao,
+    private var timerProfileDao: TimerProfileDao,
+    private val settingsRepo: SettingsRepository,
     private val coroutineScope: CoroutineScope,
 ) : LocalDataRepository {
     init {
@@ -39,11 +46,44 @@ internal class LocalDataRepositoryImpl(
     override fun reinitDatabase(database: ProductivityDatabase) {
         sessionDao = database.sessionsDao()
         labelDao = database.labelsDao()
+        timerProfileDao = database.timerProfileDao()
         insertDefaultLabel()
     }
 
     private fun insertDefaultLabel() {
         coroutineScope.launch {
+            val insert = !settingsRepo.settings.map { it.timeProfilesInitialized }.first()
+            if (insert) {
+                val localTimerProfile = TimerProfile.default().toLocal()
+                timerProfileDao.insert(localTimerProfile)
+                timerProfileDao.insert(
+                    TimerProfile(
+                        name = "50/10",
+                        workDuration = 50,
+                        breakDuration = 10,
+                        isLongBreakEnabled = false,
+                    ).toLocal(),
+                )
+                timerProfileDao.insert(
+                    TimerProfile(
+                        name = "Pomodoro",
+                        workDuration = 25,
+                        breakDuration = 5,
+                        isLongBreakEnabled = true,
+                        longBreakDuration = 15,
+                        sessionsBeforeLongBreak = 4,
+                    ).toLocal(),
+                )
+                timerProfileDao.insert(
+                    TimerProfile(
+                        name = "Third Time",
+                        isCountdown = false,
+                        workBreakRatio = 3,
+                    ).toLocal(),
+                )
+                settingsRepo.setTimeProfilesInitialized(true)
+            }
+
             val localLabel = Label.defaultLabel().toLocal()
             labelDao.insert(localLabel)
         }
@@ -170,6 +210,7 @@ internal class LocalDataRepositoryImpl(
             newName = localLabel.name,
             newColorIndex = localLabel.colorIndex,
             newUseDefaultTimeProfile = localLabel.useDefaultTimeProfile,
+            newTimerProfileName = localLabel.timerProfileName,
             newIsCountdown = localLabel.isCountdown,
             newWorkDuration = localLabel.workDuration,
             newIsBreakEnabled = localLabel.isBreakEnabled,
@@ -195,9 +236,32 @@ internal class LocalDataRepositoryImpl(
         labelDao.updateIsArchived(newIsArchived, name)
     }
 
-    override fun selectLabelByName(name: String): Flow<Label?> = labelDao.selectByName(name).map { it?.toExternal() }
+    override fun selectLabelByName(name: String): Flow<Label?> =
+        labelDao.selectByName(name).flatMapLatest { localLabel ->
+            if (localLabel?.timerProfileName != null) {
+                timerProfileDao.selectByName(localLabel.timerProfileName).map { timerProfile ->
+                    localLabel.toExternal(timerProfile?.toExternal())
+                }
+            } else {
+                flowOf(localLabel?.toExternal())
+            }
+        }
 
-    override fun selectAllLabels(): Flow<List<Label>> = labelDao.selectAll().map { labels -> labels.map { it.toExternal() } }
+    override fun selectAllLabels(): Flow<List<Label>> =
+        labelDao.selectAll().flatMapLatest { localLabels ->
+            val timerProfileNames = localLabels.mapNotNull { it.timerProfileName }.distinct()
+            if (timerProfileNames.isEmpty()) {
+                flowOf(localLabels.map { it.toExternal() })
+            } else {
+                timerProfileDao.selectByNames(timerProfileNames).map { timerProfiles ->
+                    localLabels.map { localLabel ->
+                        val matchingProfile =
+                            timerProfiles.find { it.name == localLabel.timerProfileName }
+                        localLabel.toExternal(matchingProfile?.toExternal())
+                    }
+                }
+            }
+        }
 
     override fun selectLabelsByArchived(isArchived: Boolean): Flow<List<Label>> =
         labelDao
@@ -215,4 +279,21 @@ internal class LocalDataRepositoryImpl(
     override suspend fun archiveAllButDefault() {
         labelDao.archiveAllButDefault()
     }
+
+    override suspend fun insertTimerProfile(profile: TimerProfile) {
+        timerProfileDao.insert(profile.toLocal())
+    }
+
+    override suspend fun deleteTimerProfile(name: String) {
+        timerProfileDao.deleteByName(name)
+    }
+
+    override suspend fun selectTimerProfile(name: String): Flow<TimerProfile?> = timerProfileDao.selectByName(name).map { it?.toExternal() }
+
+    override suspend fun selectAllTimerProfiles(): Flow<List<TimerProfile>> =
+        timerProfileDao.selectAll().map { profiles ->
+            profiles.map {
+                it.toExternal()
+            }
+        }
 }

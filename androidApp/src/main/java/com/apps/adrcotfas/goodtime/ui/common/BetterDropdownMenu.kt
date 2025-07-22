@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.ui.common
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
@@ -93,7 +95,7 @@ fun BetterDropdownMenu(
             val selectionModifier =
                 Modifier.background(
                     MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.1f,
+                        alpha = 0.18f,
                     ),
                 )
 
@@ -126,6 +128,9 @@ fun BetterDropdownMenu(
 
 @Composable
 fun DropdownMenuBox(
+    modifier: Modifier = Modifier,
+    contentModifier: Modifier = Modifier.wrapContentSize(),
+    colored: Boolean = false,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     value: String,
     options: List<String>,
@@ -133,22 +138,42 @@ fun DropdownMenuBox(
     onDropdownMenuItemSelected: (Int) -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
-    Box {
+
+    val selectionModifier =
+        Modifier.background(
+            MaterialTheme.colorScheme.primary.copy(
+                alpha = 0.18f,
+            ),
+        )
+
+    Box(modifier) {
         Row(
             modifier =
-                Modifier
-                    .wrapContentSize()
+                contentModifier
                     .clip(MaterialTheme.shapes.medium)
+                    .then(if (colored) selectionModifier else Modifier)
                     .clickable {
                         expanded = true
-                    }.padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 8.dp),
+                    }.padding(start = 16.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(text = value, style = textStyle)
-            Spacer(modifier = Modifier.width(24.dp))
+            Text(
+                text = value,
+                style = textStyle.copy(color = if (colored) MaterialTheme.colorScheme.primary else textStyle.color),
+            )
+            Spacer(modifier = Modifier.width(DROPDOWN_MENU_END_PADDING.dp))
+            val rotation by animateFloatAsState(
+                targetValue = if (expanded) 180f else 0f,
+                label = "dropdown icon rotation",
+            )
             Icon(
+                modifier =
+                    Modifier.graphicsLayer {
+                        rotationZ = rotation
+                    },
                 imageVector = Icons.Default.ExpandMore,
+                tint = if (colored) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                 contentDescription = "Dropdown",
             )
         }

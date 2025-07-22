@@ -25,7 +25,6 @@ data class Label(
     val colorIndex: Long = DEFAULT_LABEL_COLOR_INDEX.toLong(),
     val orderIndex: Long = Long.MAX_VALUE,
     val useDefaultTimeProfile: Boolean = true,
-    /** the real profile to be used is determined by [useDefaultTimeProfile], if true, use the default profile **/
     val timerProfile: TimerProfile = TimerProfile(),
     val isArchived: Boolean = false,
 ) {
@@ -45,12 +44,11 @@ data class Label(
                 name = DEFAULT_LABEL_NAME,
                 colorIndex = DEFAULT_LABEL_COLOR_INDEX.toLong(),
                 orderIndex = 0,
+                timerProfile = TimerProfile.default(),
             )
 
         fun newLabelWithRandomColorIndex(lastIndex: Int) = Label(name = "", colorIndex = Random.nextInt(lastIndex).toLong())
     }
-
-    fun isSameAs(label: Label): Boolean = this.copy(orderIndex = 0) == label.copy(orderIndex = 0)
 }
 
 fun Label.isDefault() = name == Label.DEFAULT_LABEL_NAME

@@ -19,6 +19,7 @@ package com.apps.adrcotfas.goodtime.data.model
 
 import com.apps.adrcotfas.goodtime.data.local.LocalLabel
 import com.apps.adrcotfas.goodtime.data.local.LocalSession
+import com.apps.adrcotfas.goodtime.data.local.LocalTimerProfile
 
 fun Label.toLocal(): LocalLabel =
     LocalLabel(
@@ -26,6 +27,7 @@ fun Label.toLocal(): LocalLabel =
         colorIndex = colorIndex,
         orderIndex = orderIndex,
         useDefaultTimeProfile = useDefaultTimeProfile,
+        timerProfileName = timerProfile.name,
         isCountdown = timerProfile.isCountdown,
         workDuration = timerProfile.workDuration,
         isBreakEnabled = timerProfile.isBreakEnabled,
@@ -37,14 +39,15 @@ fun Label.toLocal(): LocalLabel =
         isArchived = isArchived,
     )
 
-fun LocalLabel.toExternal(): Label =
+fun LocalLabel.toExternal(timerProfile: TimerProfile? = null): Label =
     Label(
         name = name,
         colorIndex = colorIndex,
         orderIndex = orderIndex,
         useDefaultTimeProfile = useDefaultTimeProfile,
         timerProfile =
-            TimerProfile(
+            timerProfile ?: TimerProfile(
+                name = null,
                 isCountdown = isCountdown,
                 workDuration = workDuration,
                 isBreakEnabled = isBreakEnabled,
@@ -80,3 +83,33 @@ fun LocalSession.toExternal() =
         isWork = isWork,
         isArchived = isArchived,
     )
+
+fun LocalTimerProfile.toExternal(): TimerProfile =
+    TimerProfile(
+        name = name,
+        isCountdown = isCountdown,
+        workDuration = workDuration,
+        isBreakEnabled = isBreakEnabled,
+        breakDuration = breakDuration,
+        isLongBreakEnabled = isLongBreakEnabled,
+        longBreakDuration = longBreakDuration,
+        sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+        workBreakRatio = workBreakRatio,
+    )
+
+fun TimerProfile.toLocal(): LocalTimerProfile {
+    if (name == null) {
+        throw IllegalArgumentException("Timer profile name cannot be null")
+    }
+    return LocalTimerProfile(
+        name = name,
+        isCountdown = isCountdown,
+        workDuration = workDuration,
+        isBreakEnabled = isBreakEnabled,
+        breakDuration = breakDuration,
+        isLongBreakEnabled = isLongBreakEnabled,
+        longBreakDuration = longBreakDuration,
+        sessionsBeforeLongBreak = sessionsBeforeLongBreak,
+        workBreakRatio = workBreakRatio,
+    )
+}

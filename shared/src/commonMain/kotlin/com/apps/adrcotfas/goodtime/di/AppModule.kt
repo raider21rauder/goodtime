@@ -96,17 +96,19 @@ val coreModule =
             )
         factory { (tag: String?) -> if (tag != null) baseLogger.withTag(tag) else baseLogger }
 
-        single<LocalDataRepository> {
-            LocalDataRepositoryImpl(
-                get<ProductivityDatabase>().sessionsDao(),
-                get<ProductivityDatabase>().labelsDao(),
-                get<CoroutineScope>(named(IO_SCOPE)),
-            )
-        }
         single<SettingsRepository> {
             SettingsRepositoryImpl(
                 get<DataStore<Preferences>>(named(SETTINGS_NAME)),
                 getWith("SettingsRepository"),
+            )
+        }
+        single<LocalDataRepository> {
+            LocalDataRepositoryImpl(
+                get<ProductivityDatabase>().sessionsDao(),
+                get<ProductivityDatabase>().labelsDao(),
+                get<ProductivityDatabase>().timerProfileDao(),
+                get<SettingsRepository>(),
+                get<CoroutineScope>(named(IO_SCOPE)),
             )
         }
         single<TimeProvider> {

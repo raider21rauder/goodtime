@@ -23,8 +23,8 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 
 @Database(
-    entities = [LocalLabel::class, LocalSession::class],
-    version = 8,
+    entities = [LocalLabel::class, LocalSession::class, LocalTimerProfile::class],
+    version = 9,
     exportSchema = true,
 )
 @ConstructedBy(ProductivityDatabaseConstructor::class)
@@ -32,6 +32,8 @@ abstract class ProductivityDatabase : RoomDatabase() {
     abstract fun labelsDao(): LabelDao
 
     abstract fun sessionsDao(): SessionDao
+
+    abstract fun timerProfileDao(): TimerProfileDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")

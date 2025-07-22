@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apps.adrcotfas.goodtime.data.local.LocalDataRepository
 import com.apps.adrcotfas.goodtime.data.model.Label
+import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
 import com.apps.adrcotfas.goodtime.ui.lightPalette
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,16 +36,17 @@ data class AddEditLabelUiState(
     val isPro: Boolean = true,
     val activeLabelName: String = Label.DEFAULT_LABEL_NAME,
     val labels: List<Label> = emptyList(),
+    val timerProfiles: List<TimerProfile> = emptyList(),
     val defaultLabelDisplayName: String = "",
     val labelToEdit: Label? = null, // this does not change after initialization
-    val newLabel: Label = Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
+    val tmpLabel: Label = Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
 )
 
 val AddEditLabelUiState.existingLabelNames: List<String>
     get() = labels.map { label -> label.name }
 
 fun AddEditLabelUiState.labelNameIsValid(): Boolean {
-    val name = newLabel.name.trim()
+    val name = tmpLabel.name.trim()
     return name.isNotEmpty() &&
         !existingLabelNames
             .map { labels -> labels.lowercase() }
@@ -65,34 +67,44 @@ class AddEditLabelViewModel(
         defaultLabelName: String,
     ) {
         viewModelScope.launch {
-            settingsRepository.settings
-                .distinctUntilChanged { old, new ->
-                    old.labelName == new.labelName &&
-                        old.isPro == new.isPro
-                }.combine(repo.selectAllLabels()) { activeLabelName, labels ->
-                    activeLabelName to labels
-                }.distinctUntilChanged()
-                .collect { (settings, labels) ->
-
-                    val labelToEdit =
-                        labelToEditName?.let { name ->
-                            labels.find { label -> label.name == name }
-                        }
-
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            isPro = settings.isPro,
-                            defaultLabelDisplayName = defaultLabelName,
-                            labelToEdit = labelToEdit,
-                            newLabel =
-                                labelToEdit
-                                    ?: Label.newLabelWithRandomColorIndex(lightPalette.lastIndex),
-                            activeLabelName = settings.labelName,
-                            labels = labels,
-                        )
+            combine(
+                settingsRepository.settings
+                    .distinctUntilChanged { old, new ->
+                        old.labelName == new.labelName &&
+                            old.isPro == new.isPro
+                    },
+                repo.selectAllLabels(),
+                repo.selectAllTimerProfiles(),
+            ) { settings, labels, timerProfiles ->
+                Triple(settings, labels, timerProfiles)
+            }.collect { (settings, labels, timerProfiles) ->
+                val labelToEdit =
+                    labelToEditName?.let { name ->
+                        labels.find { label -> label.name == name }
                     }
+                val defaultProfile =
+                    (
+                        labels.find { label -> label.name == defaultLabelName }
+                            ?: Label.defaultLabel()
+                    ).timerProfile
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isPro = settings.isPro,
+                        defaultLabelDisplayName = defaultLabelName,
+                        labelToEdit = labelToEdit,
+                        tmpLabel =
+                            labelToEdit
+                                ?: Label
+                                    .newLabelWithRandomColorIndex(lightPalette.lastIndex)
+                                    .copy(timerProfile = defaultProfile),
+                        activeLabelName = settings.labelName,
+                        labels = labels,
+                        timerProfiles = timerProfiles,
+                    )
                 }
+            }
         }
     }
 
@@ -119,9 +131,24 @@ class AddEditLabelViewModel(
         }
     }
 
-    fun setNewLabel(newLabel: Label) {
+    fun updateTmpLabel(
+        newLabel: Label,
+        resetProfile: Boolean = true,
+    ) {
         _uiState.update {
-            it.copy(newLabel = newLabel)
+            it.copy(
+                tmpLabel =
+                    if (resetProfile) {
+                        newLabel.copy(
+                            timerProfile =
+                                newLabel.timerProfile.copy(
+                                    name = null,
+                                ),
+                        )
+                    } else {
+                        newLabel
+                    },
+            )
         }
     }
 }

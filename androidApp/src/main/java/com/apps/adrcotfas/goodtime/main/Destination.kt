@@ -49,6 +49,9 @@ data object SettingsDest
 data object TimerStyleDest
 
 @Serializable
+data object TimerDurationsDest
+
+@Serializable
 data object NotificationSettingsDest
 
 @Serializable

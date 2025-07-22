@@ -59,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.toString
 
 @Composable
 fun EditableNumberListItem(
@@ -76,27 +77,31 @@ fun EditableNumberListItem(
     onSwitchChange: (Boolean) -> Unit = {},
 ) {
     val maxValueDigits = maxValue.toString().length
-    var textFieldValue by remember(value) {
+
+    var text by remember(value) {
+        mutableStateOf(
+            value?.toString() ?: "",
+        )
+    }
+    var textFieldValue by remember(text) {
         mutableStateOf(
             TextFieldValue(
-                value?.toString() ?: "",
+                text = text,
                 selection = TextRange(maxValueDigits, maxValueDigits),
             ),
         )
     }
+
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(isFocused) {
-        val endRange = if (isFocused) textFieldValue.text.length else 0
+        val endRange = if (isFocused) text.length else 0
         textFieldValue =
-            textFieldValue.copy(
-                selection =
-                    TextRange(
-                        start = 0,
-                        end = endRange,
-                    ),
+            TextFieldValue(
+                text = text,
+                selection = TextRange(0, endRange),
             )
     }
 
@@ -137,16 +142,20 @@ fun EditableNumberListItem(
                 enabled = enabled && switchValue,
                 interactionSource = interactionSource,
                 onValueChange = {
-                    if (it.text.length <= maxValue.toString().length && it.text.all { char -> char.isDigit() }) {
-                        val newValue = min(max(it.text.toIntOrNull() ?: 0, minValue), maxValue)
-                        val empty = it.text.isEmpty()
-                        onValueEmpty(empty)
-                        val newText = if (empty) "" else newValue.toString()
-                        val newSelection = TextRange(newText.length)
-                        textFieldValue = it.copy(text = newText, selection = newSelection)
-                        if (!empty) {
-                            onValueChange(newValue)
+                    if (it.text != text) {
+                        if (it.text.length <= maxValue.toString().length && it.text.all { char -> char.isDigit() }) {
+                            val newValue = min(max(it.text.toIntOrNull() ?: 0, minValue), maxValue)
+                            val empty = it.text.isEmpty()
+                            onValueEmpty(empty)
+                            val newText = if (empty) "" else newValue.toString()
+                            val newSelection = TextRange(newText.length)
+                            textFieldValue = it.copy(text = newText, selection = newSelection)
+                            if (!empty) {
+                                onValueChange(newValue)
+                            }
                         }
+                    } else {
+                        textFieldValue = it
                     }
                 },
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
@@ -186,7 +195,6 @@ fun EditableNumberListItem(
                 ) {
                     Box(modifier = Modifier.clip(CircleShape)) {
                         Checkbox(
-                            modifier = Modifier.padding(4.dp),
                             checked = switchValue,
                             enabled = enabled,
                             onCheckedChange = onSwitchChange,

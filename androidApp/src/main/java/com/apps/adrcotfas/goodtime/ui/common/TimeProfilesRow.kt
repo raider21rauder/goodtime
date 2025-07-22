@@ -19,37 +19,38 @@ package com.apps.adrcotfas.goodtime.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material3.Button
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.apps.adrcotfas.goodtime.shared.R
 
-// TODO: explore this for time quick time profile changes
-@Preview
 @Composable
-fun SplitButton() {
+fun TimerTypeRow(
+    isCountDown: Boolean,
+    onCountDownEnabled: (Boolean) -> Unit,
+) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Button(
-            onClick = { /*TODO*/ },
-            shape = RoundedCornerShape(topStart = 24.dp, bottomStart = 24.dp),
-        ) {
-            Text("Edit time profile")
-        }
-        FilledIconButton(
-            onClick = { /*TODO*/ },
-            shape = RoundedCornerShape(topEnd = 24.dp, bottomEnd = 24.dp),
-        ) {
-            Icon(Icons.Default.ArrowDropDown, "")
-        }
+        FilterChip(
+            onClick = { onCountDownEnabled(true) },
+            label = {
+                Text(stringResource(R.string.labels_countdown))
+            },
+            selected = isCountDown,
+        )
+
+        FilterChip(
+            onClick = { onCountDownEnabled(false) },
+            label = {
+                Text(stringResource(R.string.labels_count_up))
+            },
+            selected = !isCountDown,
+        )
     }
 }

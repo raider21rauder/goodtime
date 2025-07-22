@@ -42,6 +42,7 @@ class SettingsRepositoryImpl(
 
     private object Keys {
         val isProKey = booleanPreferencesKey("isProKey")
+        val timerProfilesInitializedKey = booleanPreferencesKey("timerProfilesInitializedKey")
         val shouldAskForReviewKey = booleanPreferencesKey("shouldAskForReview")
         val productivityReminderSettingsKey =
             stringPreferencesKey("productivityReminderSettingsKey")
@@ -85,6 +86,9 @@ class SettingsRepositoryImpl(
                 val default = AppSettings()
                 AppSettings(
                     isPro = it[Keys.isProKey] ?: default.isPro,
+                    timeProfilesInitialized =
+                        it[Keys.timerProfilesInitializedKey]
+                            ?: default.timeProfilesInitialized,
                     shouldAskForReview = it[Keys.shouldAskForReviewKey] ?: default.shouldAskForReview,
                     productivityReminderSettings =
                         it[Keys.productivityReminderSettingsKey]?.let { p ->
@@ -297,6 +301,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun setPro(isPro: Boolean) {
         dataStore.edit { it[Keys.isProKey] = isPro }
+    }
+
+    override suspend fun setTimeProfilesInitialized(initialized: Boolean) {
+        dataStore.edit { it[Keys.timerProfilesInitializedKey] = initialized }
     }
 
     override suspend fun setShouldAskForReview(enable: Boolean) {

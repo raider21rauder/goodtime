@@ -134,6 +134,7 @@ fun LabelListItem(
                         onEdit()
                         dropDownMenuExpanded = false
                     },
+                    // TODO: extract strings from this file
                     leadingIcon = {
                         Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
                     },

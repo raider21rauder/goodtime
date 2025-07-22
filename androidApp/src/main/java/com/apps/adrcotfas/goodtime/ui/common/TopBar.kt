@@ -47,13 +47,35 @@ fun TopBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     showSeparator: Boolean = false,
 ) {
+    TopBar(
+        isVisible = isVisible,
+        title = { Text(text = title, maxLines = 1) },
+        onNavigateBack = onNavigateBack,
+        icon = icon,
+        actions = actions,
+        scrollBehavior = scrollBehavior,
+        showSeparator = showSeparator,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(
+    isVisible: Boolean = true,
+    title: @Composable () -> Unit,
+    onNavigateBack: (() -> Unit)? = null,
+    icon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
+    actions: @Composable RowScope.() -> Unit = {},
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    showSeparator: Boolean = false,
+) {
     Column {
         CenterAlignedTopAppBar(
             modifier =
                 Modifier
                     .background(MaterialTheme.colorScheme.background)
                     .alpha(if (isVisible) 1f else 0f),
-            title = { Text(text = title, maxLines = 1) },
+            title = title,
             navigationIcon = {
                 if (onNavigateBack != null) {
                     IconButton(onClick = onNavigateBack) {

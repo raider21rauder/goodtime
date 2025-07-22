@@ -29,24 +29,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -71,16 +66,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
-import com.apps.adrcotfas.goodtime.data.model.isDefault
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
+import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
 import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
 import com.apps.adrcotfas.goodtime.ui.common.InfoDialog
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
+import com.apps.adrcotfas.goodtime.ui.common.TimerTypeRow
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import compose.icons.EvaIcons
@@ -110,8 +105,7 @@ fun AddEditLabelScreen(
 
     if (uiState.isLoading) return
 
-    val label = uiState.newLabel
-    val isDefaultLabel = label.isDefault()
+    val label = uiState.tmpLabel
     val labelNameToDisplay = label.name
 
     val followDefault = label.useDefaultTimeProfile
@@ -125,38 +119,20 @@ fun AddEditLabelScreen(
         topBar = {
             TopBar(
                 onNavigateBack = onNavigateBack,
-                icon = Icons.Default.Close,
-                actions = {
-                    if (isDefaultLabel && !label.isSameAs(Label.defaultLabel())) {
-                        Button(
-                            modifier =
-                                Modifier
-                                    .wrapContentSize()
-                                    .heightIn(min = 32.dp)
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                            colors =
-                                ButtonDefaults.outlinedButtonColors(
-                                    containerColor =
-                                        MaterialTheme.colorScheme.primary.copy(
-                                            alpha = 0.12f,
-                                        ),
-                                ),
-                            onClick = { viewModel.setNewLabel(Label.defaultLabel()) },
-                        ) {
-                            Text(stringResource(R.string.main_reset_to_default))
-                        }
-                    }
-                    if (uiState.labelToEdit != label) {
-                        SaveButton(
-                            labelName,
-                            label,
-                            uiState.labelNameIsValid(),
-                            isEditMode,
-                            viewModel::updateLabel,
-                            viewModel::addLabel,
-                            onNavigateBack,
-                        )
-                    }
+                icon = Icons.AutoMirrored.Default.ArrowBack,
+                title = {
+                    LabelNameRow(
+                        isAddingNewLabel = !isEditMode,
+                        labelName = labelNameToDisplay,
+                        onValueChange = {
+                            val newLabelName = it
+                            viewModel.updateTmpLabel(
+                                uiState.tmpLabel.copy(name = newLabelName),
+                                resetProfile = false,
+                            )
+                        },
+                        showError = !uiState.labelNameIsValid(),
+                    )
                 },
                 showSeparator = listState.canScrollBackward,
             )
@@ -171,87 +147,105 @@ fun AddEditLabelScreen(
                     .background(MaterialTheme.colorScheme.background)
                     .imePadding(),
         ) {
-            if (isDefaultLabel) {
-                Text(
-                    modifier = Modifier.padding(16.dp).wrapContentWidth(),
-                    text = stringResource(R.string.settings_timer_durations_title),
-                    style = MaterialTheme.typography.titleLarge,
-                )
+            ColorSelectRow(
+                selectedIndex = label.colorIndex.toInt(),
+            ) {
+                viewModel.updateTmpLabel(label.copy(colorIndex = it.toLong()), resetProfile = false)
             }
-            if (!isDefaultLabel) {
-                LabelNameRow(
-                    isAddingNewLabel = !isEditMode,
-                    labelName = labelNameToDisplay,
-                    onValueChange = {
-                        val newLabelName = it
-                        viewModel.setNewLabel(
-                            uiState.newLabel.copy(name = newLabelName),
+            Spacer(modifier = Modifier.height(16.dp))
+            ListItem(
+                modifier =
+                    Modifier.clickable {
+                        viewModel.updateTmpLabel(
+                            label.copy(useDefaultTimeProfile = !followDefault),
+                            resetProfile = false,
                         )
                     },
-                    showError = !uiState.labelNameIsValid(),
-                )
-                ColorSelectRow(
-                    selectedIndex = label.colorIndex.toInt(),
-                ) {
-                    viewModel.setNewLabel(label.copy(colorIndex = it.toLong()))
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                ListItem(
-                    modifier =
-                        Modifier.clickable {
-                            viewModel.setNewLabel(label.copy(useDefaultTimeProfile = !followDefault))
-                        },
-                    leadingContent = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                leadingContent = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        FilledTonalIconButton(
+                            onClick = {
+                                onNavigateToDefault()
+                            },
                         ) {
-                            FilledTonalIconButton(
-                                onClick = {
-                                    onNavigateToDefault()
-                                },
+                            Icon(
+                                imageVector = EvaIcons.Outline.Navigation2,
+                                contentDescription = stringResource(R.string.labels_default_label_name),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        }
+                        VerticalDivider(modifier = Modifier.height(32.dp))
+                    }
+                },
+                headlineContent = {
+                    Text(stringResource(R.string.labels_follow_default_time_profile))
+                },
+                trailingContent = {
+                    Switch(
+                        checked = followDefault,
+                        onCheckedChange = {
+                            viewModel.updateTmpLabel(
+                                label.copy(useDefaultTimeProfile = it),
+                                resetProfile = false,
+                            )
+                        },
+                    )
+                },
+            )
+            AnimatedVisibility(!followDefault) {
+                Column {
+                    AnimatedVisibility(uiState.timerProfiles.isNotEmpty()) {
+                        Row(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Box(
+                                modifier = Modifier.weight(1f),
                             ) {
-                                Icon(
-                                    imageVector = EvaIcons.Outline.Navigation2,
-                                    contentDescription = stringResource(R.string.labels_default_label_name),
-                                    tint = MaterialTheme.colorScheme.primary,
+                                DropdownMenuBox(
+                                    contentModifier = Modifier.fillMaxWidth(),
+                                    colored = true,
+                                    textStyle = MaterialTheme.typography.bodyLarge,
+                                    value =
+                                        label.timerProfile.name
+                                            ?: stringResource(R.string.labels_custom),
+                                    options = uiState.timerProfiles.mapNotNull { it.name },
+                                    onDismissRequest = {},
+                                    onDropdownMenuItemSelected = {
+                                        val selectedProfile = uiState.timerProfiles[it]
+                                        viewModel.updateTmpLabel(
+                                            label.copy(timerProfile = selectedProfile),
+                                            resetProfile = false,
+                                        )
+                                    },
                                 )
                             }
-                            VerticalDivider(modifier = Modifier.height(32.dp))
                         }
-                    },
-                    headlineContent = {
-                        Text(stringResource(R.string.labels_follow_default_time_profile))
-                    },
-                    trailingContent = {
-                        Switch(
-                            checked = followDefault,
-                            onCheckedChange = {
-                                viewModel.setNewLabel(label.copy(useDefaultTimeProfile = it))
-                            },
-                        )
-                    },
-                )
-            }
-            AnimatedVisibility(isDefaultLabel || !followDefault) {
-                Column {
+                    }
                     TimerTypeRow(
                         isCountDown = isCountDown,
                         onCountDownEnabled = {
-                            viewModel.setNewLabel(
+                            viewModel.updateTmpLabel(
                                 label.copy(
                                     timerProfile = label.timerProfile.copy(isCountdown = it),
                                 ),
                             )
                         },
                     )
-                    if (isCountDown) {
+                    AnimatedVisibility(isCountDown) {
                         Column {
                             EditableNumberListItem(
                                 title = stringResource(R.string.labels_focus_time),
                                 value = label.timerProfile.workDuration,
                                 onValueChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile = label.timerProfile.copy(workDuration = it),
                                         ),
@@ -262,7 +256,7 @@ fun AddEditLabelScreen(
                                 title = stringResource(R.string.labels_break_time),
                                 value = label.timerProfile.breakDuration,
                                 onValueChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile = label.timerProfile.copy(breakDuration = it),
                                         ),
@@ -272,7 +266,7 @@ fun AddEditLabelScreen(
                                 switchValue = isBreakEnabled,
                                 onSwitchChange = {
                                     val longBreakState = if (!it) false else isLongBreakEnabled
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile =
                                                 label.timerProfile.copy(
@@ -287,7 +281,7 @@ fun AddEditLabelScreen(
                                 title = stringResource(R.string.labels_long_break),
                                 value = label.timerProfile.longBreakDuration,
                                 onValueChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile =
                                                 label.timerProfile.copy(
@@ -300,7 +294,7 @@ fun AddEditLabelScreen(
                                 enableSwitch = true,
                                 switchValue = isLongBreakEnabled,
                                 onSwitchChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile =
                                                 label.timerProfile.copy(
@@ -317,7 +311,7 @@ fun AddEditLabelScreen(
                                 maxValue = 8,
                                 enabled = isBreakEnabled && isLongBreakEnabled,
                                 onValueChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile =
                                                 label.timerProfile.copy(
@@ -328,10 +322,11 @@ fun AddEditLabelScreen(
                                 },
                             )
                         }
-                    } else {
+                    }
+                    AnimatedVisibility(!isCountDown) {
                         Column {
                             val toggleBreak = {
-                                viewModel.setNewLabel(
+                                viewModel.updateTmpLabel(
                                     label.copy(
                                         timerProfile = label.timerProfile.copy(isBreakEnabled = !isBreakEnabled),
                                     ),
@@ -382,7 +377,7 @@ fun AddEditLabelScreen(
                                 value = label.timerProfile.workBreakRatio,
                                 showValue = true,
                                 onValueChange = {
-                                    viewModel.setNewLabel(
+                                    viewModel.updateTmpLabel(
                                         label.copy(
                                             timerProfile =
                                                 label.timerProfile.copy(
@@ -394,6 +389,25 @@ fun AddEditLabelScreen(
                             )
                         }
                     }
+                }
+            }
+            AnimatedVisibility(visible = uiState.labelToEdit != label) {
+                Button(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                    enabled = uiState.labelNameIsValid(),
+                    onClick = {
+                        if (isEditMode) {
+                            viewModel.updateLabel(labelName, label)
+                        } else {
+                            viewModel.addLabel(label)
+                        }
+                        onNavigateBack()
+                    },
+                ) {
+                    Text(stringResource(R.string.main_save))
                 }
             }
         }
@@ -422,7 +436,6 @@ private fun LabelNameRow(
     Column(
         modifier =
             Modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .animateContentSize(),
     ) {
         val internalModifier =
@@ -474,61 +487,5 @@ private fun LabelNameRow(
         LaunchedEffect(labelName) {
             if (isAddingNewLabel) focusRequester.requestFocus()
         }
-    }
-}
-
-@Composable
-private fun TimerTypeRow(
-    isCountDown: Boolean,
-    onCountDownEnabled: (Boolean) -> Unit,
-) {
-    Row(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        FilterChip(
-            onClick = { onCountDownEnabled(true) },
-            label = {
-                Text(stringResource(R.string.labels_countdown))
-            },
-            selected = isCountDown,
-        )
-
-        FilterChip(
-            onClick = { onCountDownEnabled(false) },
-            label = {
-                Text(stringResource(R.string.labels_count_up))
-            },
-            selected = !isCountDown,
-        )
-    }
-}
-
-@Composable
-fun SaveButton(
-    labelToEditInitialName: String,
-    labelToEdit: Label,
-    hasValidName: Boolean,
-    isEditMode: Boolean,
-    onUpdate: (String, Label) -> Unit,
-    onAdd: (Label) -> Unit,
-    onSave: () -> Unit,
-) {
-    Button(
-        modifier =
-            Modifier
-                .heightIn(min = 32.dp)
-                .padding(horizontal = 8.dp),
-        enabled = hasValidName,
-        onClick = {
-            if (isEditMode) {
-                onUpdate(labelToEditInitialName, labelToEdit)
-            } else {
-                onAdd(labelToEdit)
-            }
-            onSave()
-        },
-    ) {
-        Text(stringResource(R.string.main_save))
     }
 }

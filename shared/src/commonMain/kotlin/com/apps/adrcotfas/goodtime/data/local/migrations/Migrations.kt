@@ -20,6 +20,7 @@ package com.apps.adrcotfas.goodtime.data.local.migrations
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
+import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_PROFILE_NAME
 
 val MIGRATION_1_2: Migration =
     object : Migration(1, 2) {
@@ -202,6 +203,75 @@ val MIGRATION_7_8: Migration =
         }
     }
 
+val MIGRATION_8_9: Migration =
+    object : Migration(8, 9) {
+        override fun migrate(connection: SQLiteConnection) {
+            connection.execSQL("PRAGMA foreign_keys=off;")
+
+            // Create LocalTimerProfile table
+            connection.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS localTimerProfile (
+                    name TEXT PRIMARY KEY NOT NULL,
+                    orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
+                    isCountdown INTEGER NOT NULL DEFAULT 1,
+                    workDuration INTEGER NOT NULL DEFAULT 25,
+                    isBreakEnabled INTEGER NOT NULL DEFAULT 1,
+                    breakDuration INTEGER NOT NULL DEFAULT 5,
+                    isLongBreakEnabled INTEGER NOT NULL DEFAULT 0,
+                    longBreakDuration INTEGER NOT NULL DEFAULT 15,
+                    sessionsBeforeLongBreak INTEGER NOT NULL DEFAULT 4,
+                    workBreakRatio INTEGER NOT NULL DEFAULT 3
+                );
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                ALTER TABLE localLabel ADD COLUMN timerProfileName TEXT DEFAULT '$DEFAULT_PROFILE_NAME';
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                CREATE TABLE localLabel_new (
+                    name TEXT PRIMARY KEY NOT NULL,
+                    colorIndex INTEGER NOT NULL DEFAULT 24,
+                    orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
+                    useDefaultTimeProfile INTEGER NOT NULL DEFAULT 1,
+                    timerProfileName TEXT DEFAULT NULL,
+                    isCountdown INTEGER NOT NULL DEFAULT 1,
+                    workDuration INTEGER NOT NULL DEFAULT 25,
+                    isBreakEnabled INTEGER NOT NULL DEFAULT 1,
+                    breakDuration INTEGER NOT NULL DEFAULT 5,
+                    isLongBreakEnabled INTEGER NOT NULL DEFAULT 0,
+                    longBreakDuration INTEGER NOT NULL DEFAULT 15,
+                    sessionsBeforeLongBreak INTEGER NOT NULL DEFAULT 4,
+                    workBreakRatio INTEGER NOT NULL DEFAULT 3,
+                    isArchived INTEGER NOT NULL DEFAULT 0,
+                    FOREIGN KEY (timerProfileName) REFERENCES localTimerProfile(name)
+                    ON UPDATE CASCADE ON DELETE NO ACTION
+                )
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                INSERT INTO localLabel_new
+                SELECT * FROM localLabel
+                """.trimIndent(),
+            )
+
+            connection.execSQL("DROP TABLE localLabel")
+
+            connection.execSQL("ALTER TABLE localLabel_new RENAME TO localLabel")
+
+            connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_localLabel_name_isArchived ON localLabel(name, isArchived);")
+
+            connection.execSQL("PRAGMA foreign_keys=on;")
+        }
+    }
+
 val MIGRATIONS =
     arrayOf(
         MIGRATION_1_2,
@@ -211,4 +281,5 @@ val MIGRATIONS =
         MIGRATION_5_6,
         MIGRATION_6_7,
         MIGRATION_7_8,
+        MIGRATION_8_9,
     )

@@ -51,7 +51,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.apps.adrcotfas.goodtime.billing.ProScreen
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
-import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
@@ -70,6 +69,7 @@ import com.apps.adrcotfas.goodtime.main.OnboardingDest
 import com.apps.adrcotfas.goodtime.main.ProDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
+import com.apps.adrcotfas.goodtime.main.TimerDurationsDest
 import com.apps.adrcotfas.goodtime.main.TimerStyleDest
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
 import com.apps.adrcotfas.goodtime.main.route
@@ -79,6 +79,7 @@ import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
 import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
+import com.apps.adrcotfas.goodtime.settings.timerdurations.TimerProfileScreen
 import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
@@ -295,7 +296,7 @@ class MainActivity : GoodtimeMainActivity() {
                             val addEditLabelDest = it.toRoute<AddEditLabelDest>()
                             AddEditLabelScreen(
                                 labelName = addEditLabelDest.name,
-                                onNavigateToDefault = { navController.navigate(AddEditLabelDest(name = Label.DEFAULT_LABEL_NAME)) },
+                                onNavigateToDefault = { navController.navigate(TimerDurationsDest) },
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }
@@ -318,12 +319,13 @@ class MainActivity : GoodtimeMainActivity() {
                                     )
                                 },
                                 onNavigateToDefaultLabel = {
-                                    navController.navigate(
-                                        AddEditLabelDest(
-                                            name = Label.DEFAULT_LABEL_NAME,
-                                        ),
-                                    )
+                                    navController.navigate(TimerDurationsDest)
                                 },
+                                onNavigateBack = navController::popBackStack2,
+                            )
+                        }
+                        composable<TimerDurationsDest> {
+                            TimerProfileScreen(
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }
