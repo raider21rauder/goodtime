@@ -56,6 +56,7 @@ import com.apps.adrcotfas.goodtime.labels.addedit.AddEditLabelScreen
 import com.apps.adrcotfas.goodtime.labels.archived.ArchivedLabelsScreen
 import com.apps.adrcotfas.goodtime.labels.main.LabelsScreen
 import com.apps.adrcotfas.goodtime.main.AboutDest
+import com.apps.adrcotfas.goodtime.main.AcknowledgementsDest
 import com.apps.adrcotfas.goodtime.main.AddEditLabelDest
 import com.apps.adrcotfas.goodtime.main.ArchivedLabelsDest
 import com.apps.adrcotfas.goodtime.main.BackupDest
@@ -76,6 +77,7 @@ import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
 import com.apps.adrcotfas.goodtime.settings.about.AboutScreen
+import com.apps.adrcotfas.goodtime.settings.about.AcknowledgementsScreen
 import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
 import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
@@ -354,6 +356,11 @@ class MainActivity : GoodtimeMainActivity() {
                                         LicensesDest,
                                     )
                                 },
+                                onNavigateToAcknowledgements = {
+                                    navController.navigate(
+                                        AcknowledgementsDest,
+                                    )
+                                },
                                 onNavigateBack = navController::popBackStack2,
                                 onNavigateToMain = {
                                     navController.navigate(MainDest) {
@@ -366,6 +373,9 @@ class MainActivity : GoodtimeMainActivity() {
                         }
                         composable<LicensesDest> {
                             LicensesScreen(onNavigateBack = navController::popBackStack2)
+                        }
+                        composable<AcknowledgementsDest> {
+                            AcknowledgementsScreen(navController::popBackStack2)
                         }
                         composable<ProDest> {
                             ProScreen(onNavigateBack = navController::popBackStack2)
