@@ -46,7 +46,7 @@ data object StatsDest
 data object SettingsDest
 
 @Serializable
-data object TimerStyleDest
+data object UserInterfaceDest
 
 @Serializable
 data object TimerDurationsDest

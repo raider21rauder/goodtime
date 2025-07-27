@@ -18,8 +18,6 @@
 package com.apps.adrcotfas.goodtime.settings
 
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.text.format.DateFormat
 import androidx.activity.ComponentActivity
@@ -49,7 +47,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -59,10 +56,8 @@ import com.apps.adrcotfas.goodtime.bl.AndroidTimeUtils.localizedDayNamesFull
 import com.apps.adrcotfas.goodtime.bl.notifications.NotificationArchManager
 import com.apps.adrcotfas.goodtime.common.areNotificationsEnabled
 import com.apps.adrcotfas.goodtime.common.findActivity
-import com.apps.adrcotfas.goodtime.common.getAppLanguage
 import com.apps.adrcotfas.goodtime.common.secondsOfDayToTimerFormat
 import com.apps.adrcotfas.goodtime.data.settings.NotificationPermissionState
-import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.data.settings.isDarkTheme
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel.Companion.firstDayOfWeekOptions
 import com.apps.adrcotfas.goodtime.settings.notifications.ProductivityReminderListItem
@@ -92,7 +87,7 @@ import java.util.Locale
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToTimerStyle: () -> Unit,
+    onNavigateToUserInterface: () -> Unit,
     onNavigateToNotifications: () -> Unit,
     onNavigateToDefaultLabel: () -> Unit,
     viewModel: SettingsViewModel = koinViewModel(),
@@ -182,15 +177,15 @@ fun SettingsScreen(
             )
 
             IconListItem(
-                title = stringResource(R.string.settings_timer_style_title),
+                title = stringResource(R.string.settings_user_interface),
                 icon = {
                     Icon(
                         modifier = Modifier.padding(vertical = 12.dp),
                         imageVector = EvaIcons.Outline.ColorPalette,
-                        contentDescription = stringResource(R.string.settings_timer_style_title),
+                        contentDescription = stringResource(R.string.settings_user_interface),
                     )
                 },
-                onClick = onNavigateToTimerStyle,
+                onClick = onNavigateToUserInterface,
             )
             IconListItem(
                 title = stringResource(R.string.settings_notifications_title),
@@ -203,18 +198,7 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToNotifications,
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val activity = context.findActivity()
-                BetterListItem(
-                    title = stringResource(R.string.settings_language),
-                    trailing = context.getAppLanguage(),
-                    onClick = {
-                        val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
-                        intent.data = Uri.fromParts("package", activity?.packageName, null)
-                        activity?.startActivity(intent)
-                    },
-                )
-            }
+
             BetterListItem(
                 title = stringResource(R.string.settings_custom_start_of_day_title),
                 subtitle = stringResource(R.string.settings_custom_start_of_day_desc),
@@ -239,36 +223,6 @@ fun SettingsScreen(
                 dropdownMenuOptions = days,
                 onDropdownMenuItemSelected = {
                     viewModel.setFirstDayOfWeek(firstDayOfWeekOptions[it].isoDayNumber)
-                },
-            )
-
-            DropdownMenuListItem(
-                title = stringResource(R.string.settings_theme),
-                value = stringArrayResource(R.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
-                dropdownMenuOptions = stringArrayResource(R.array.settings_theme_options).toList(),
-                onDropdownMenuItemSelected = {
-                    viewModel.setThemeOption(ThemePreference.entries[it])
-                },
-            )
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                CheckboxListItem(
-                    title = stringResource(R.string.settings_use_dynamic_color),
-                    checked = uiState.settings.uiSettings.useDynamicColor,
-                ) {
-                    viewModel.setUseDynamicColor(it)
-                }
-            }
-
-            DropdownMenuListItem(
-                title = stringResource(R.string.settings_launcher_name),
-                value = stringArrayResource(R.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
-                dropdownMenuOptions = stringArrayResource(R.array.settings_launcher_name).toList(),
-                onDropdownMenuItemSelected = { index ->
-                    viewModel.setLauncherNameIndex(index)
-                    context.findActivity()?.let { activity ->
-                        updateLauncherName(context.packageManager, activity, index)
-                    }
                 },
             )
 

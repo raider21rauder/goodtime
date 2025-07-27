@@ -17,6 +17,10 @@
  */
 package com.apps.adrcotfas.goodtime.settings.timerstyle
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -48,21 +52,31 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.bl.DomainLabel
 import com.apps.adrcotfas.goodtime.bl.TimerState
 import com.apps.adrcotfas.goodtime.bl.TimerType
+import com.apps.adrcotfas.goodtime.common.findActivity
+import com.apps.adrcotfas.goodtime.common.getAppLanguage
 import com.apps.adrcotfas.goodtime.data.settings.LongBreakData
+import com.apps.adrcotfas.goodtime.data.settings.ThemePreference
 import com.apps.adrcotfas.goodtime.main.MainTimerView
 import com.apps.adrcotfas.goodtime.main.TimerUiState
 import com.apps.adrcotfas.goodtime.settings.SettingsViewModel
+import com.apps.adrcotfas.goodtime.settings.updateLauncherName
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ActionCard
+import com.apps.adrcotfas.goodtime.ui.common.BetterListItem
 import com.apps.adrcotfas.goodtime.ui.common.CheckboxListItem
 import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
+import com.apps.adrcotfas.goodtime.ui.common.CompactPreferenceGroupTitle
+import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuListItem
 import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
+import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.dashedBorder
 import com.apps.adrcotfas.goodtime.ui.timerFontWeights
@@ -75,11 +89,12 @@ import kotlin.time.Duration.Companion.minutes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimerStyleScreen(
+fun UserInterfaceScreen(
     viewModel: SettingsViewModel = koinViewModel(),
     onNavigateToPro: () -> Unit,
     onNavigateBack: () -> Boolean,
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isPro = uiState.settings.isPro
 
@@ -92,7 +107,7 @@ fun TimerStyleScreen(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.settings_timer_style_title),
+                title = stringResource(R.string.settings_user_interface),
                 onNavigateBack = { onNavigateBack() },
                 showSeparator = listState.canScrollBackward,
             )
@@ -121,6 +136,52 @@ fun TimerStyleScreen(
                     onNavigateToPro()
                 }
             }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val activity = context.findActivity()
+                BetterListItem(
+                    title = stringResource(R.string.settings_language),
+                    trailing = context.getAppLanguage(),
+                    onClick = {
+                        val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                        intent.data = Uri.fromParts("package", activity?.packageName, null)
+                        activity?.startActivity(intent)
+                    },
+                )
+            }
+
+            DropdownMenuListItem(
+                title = stringResource(R.string.settings_theme),
+                value = stringArrayResource(R.array.settings_theme_options)[uiState.settings.uiSettings.themePreference.ordinal],
+                dropdownMenuOptions = stringArrayResource(R.array.settings_theme_options).toList(),
+                onDropdownMenuItemSelected = {
+                    viewModel.setThemeOption(ThemePreference.entries[it])
+                },
+            )
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                CheckboxListItem(
+                    title = stringResource(R.string.settings_use_dynamic_color),
+                    checked = uiState.settings.uiSettings.useDynamicColor,
+                ) {
+                    viewModel.setUseDynamicColor(it)
+                }
+            }
+
+            DropdownMenuListItem(
+                title = stringResource(R.string.settings_launcher_name),
+                value = stringArrayResource(R.array.settings_launcher_name)[uiState.settings.uiSettings.launcherNameIndex],
+                dropdownMenuOptions = stringArrayResource(R.array.settings_launcher_name).toList(),
+                onDropdownMenuItemSelected = { index ->
+                    viewModel.setLauncherNameIndex(index)
+                    context.findActivity()?.let { activity ->
+                        updateLauncherName(context.packageManager, activity, index)
+                    }
+                },
+            )
+
+            SubtleHorizontalDivider()
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_timer_style_title))
 
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 SliderListItem(

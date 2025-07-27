@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Days of the week</string>
     <string name="settings_reminder_time">Reminder time</string>
     <string name="settings_timer_style_title">Timer Customization</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">Notifications</string>
     <string name="settings_custom_start_of_day_title">Custom start of day</string>
     <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>

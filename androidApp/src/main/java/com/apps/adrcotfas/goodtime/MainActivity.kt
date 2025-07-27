@@ -70,8 +70,8 @@ import com.apps.adrcotfas.goodtime.main.ProDest
 import com.apps.adrcotfas.goodtime.main.SettingsDest
 import com.apps.adrcotfas.goodtime.main.StatsDest
 import com.apps.adrcotfas.goodtime.main.TimerDurationsDest
-import com.apps.adrcotfas.goodtime.main.TimerStyleDest
 import com.apps.adrcotfas.goodtime.main.TimerViewModel
+import com.apps.adrcotfas.goodtime.main.UserInterfaceDest
 import com.apps.adrcotfas.goodtime.main.route
 import com.apps.adrcotfas.goodtime.onboarding.OnboardingScreen
 import com.apps.adrcotfas.goodtime.settings.SettingsScreen
@@ -80,7 +80,7 @@ import com.apps.adrcotfas.goodtime.settings.about.LicensesScreen
 import com.apps.adrcotfas.goodtime.settings.backup.BackupScreen
 import com.apps.adrcotfas.goodtime.settings.notifications.NotificationsScreen
 import com.apps.adrcotfas.goodtime.settings.timerdurations.TimerProfileScreen
-import com.apps.adrcotfas.goodtime.settings.timerstyle.TimerStyleScreen
+import com.apps.adrcotfas.goodtime.settings.timerstyle.UserInterfaceScreen
 import com.apps.adrcotfas.goodtime.stats.StatisticsScreen
 import com.apps.adrcotfas.goodtime.ui.ApplicationTheme
 import com.apps.adrcotfas.goodtime.ui.common.ObserveAsEvents
@@ -312,7 +312,7 @@ class MainActivity : GoodtimeMainActivity() {
                         }
                         composable<SettingsDest> {
                             SettingsScreen(
-                                onNavigateToTimerStyle = { navController.navigate(TimerStyleDest) },
+                                onNavigateToUserInterface = { navController.navigate(UserInterfaceDest) },
                                 onNavigateToNotifications = {
                                     navController.navigate(
                                         NotificationSettingsDest,
@@ -329,8 +329,8 @@ class MainActivity : GoodtimeMainActivity() {
                                 onNavigateBack = navController::popBackStack2,
                             )
                         }
-                        composable<TimerStyleDest> {
-                            TimerStyleScreen(
+                        composable<UserInterfaceDest> {
+                            UserInterfaceScreen(
                                 onNavigateToPro = { navController.navigate(ProDest) },
                                 onNavigateBack = navController::popBackStack2,
                             )
