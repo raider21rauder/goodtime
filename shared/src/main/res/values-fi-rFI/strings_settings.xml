@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Viikonpäivät</string>
     <string name="settings_reminder_time">Muistutuksen aika</string>
     <string name="settings_timer_style_title">Ajastimen mukautus</string>
+    <string name="settings_user_interface">Käyttöliittymä</string>
     <string name="settings_notifications_title">Ilmoitukset</string>
     <string name="settings_custom_start_of_day_title">Mukautettu päivän alku</string>
     <string name="settings_custom_start_of_day_desc">Määrittelee milloin päivä alkaa tilastojen osalta</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Pidä tauko työistunnon jälkeen ilman käyttäjän vuorovaikutusta</string>
     <string name="settings_display_over_lock_screen">Näytä lukitusnäytön päällä</string>
     <string name="settings_display_over_lock_screen_desc">Pidä sovellus näkyvissä lukitusnäytön päällä</string>
-    <string name="settings_timer_durations_title">Ajastimen kestot</string>
+    <string name="settings_timer_durations_title">Ajastimen profiili</string>
     <string name="settings_timer_durations_desc">Aseta työ- ja taukoistuntojen kestot</string>
+    <string name="settings_create_profile">Luo profiili</string>
+    <string name="settings_delete_profile">Poista profiili</string>
+    <string name="settings_delete_profile_confirmation">Oletko varma, että haluat poistaa %1$s?</string>
     <string name="settings_launcher_name">Käynnistimen nimi</string>
     <string name="settings_language">Kieli</string>
     <string name="settings_update">Päivitä</string>

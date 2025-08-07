@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">תוויות בארכיון</string>
     <string name="labels_delete">למחוק %1$s?</string>
     <string name="labels_delete_desc">מחיקת התווית הזו תסיר אותה מההפעלות שהושלמו המשויכות.</string>
-    <string name="labels_more_about">עוד על</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">הוסר מהארכיון</string>
     <string name="labels_select_label">בחר תווית</string>
     <string name="labels_select_labels">בחר תווית</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"מחיקת התווית הזו תסיר אותה מההפעלות שהושלמו המשויכות."</string>
     <string name="labels_navigate_to_archived">"נווט אל תוויות בארכיון"</string>
     <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_name">למחוק %1$s</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>

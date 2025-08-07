@@ -21,8 +21,9 @@
     <string name="main_cancel">Abandonner</string>
     <string name="main_delete">Supprimer</string>
     <string name="main_edit">Modifier</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Échec de l\'ouverture de l\'URL</string>
-    <string name="main_start_focus">Démarrer la mise au point</string>
+    <string name="main_start_focus">Démarrer la session de concentration</string>
     <string name="main_start_break">Démarrer la pause</string>
     <string name="main_break_complete">Pause terminée</string>
     <string name="main_session_complete">Session terminée</string>
@@ -37,7 +38,7 @@
     <string name="main_break_in_progress">Pause en cours</string>
     <string name="main_pause">Pause</string>
     <string name="main_resume">Reprendre</string>
-    <string name="main_skip">Ignorer</string>
+    <string name="main_skip">Passer</string>
     <string name="main_stop">Arrêter</string>
     <string name="main_focus_session_finished">Session de concentration terminée</string>
     <string name="main_break_finished">Pause terminée</string>

@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Ugens dage</string>
     <string name="settings_reminder_time">Tidspunkt for påmindelse</string>
     <string name="settings_timer_style_title">Tilpasning Af Timer</string>
+    <string name="settings_user_interface">Brugergrænseflade</string>
     <string name="settings_notifications_title">Underretninger</string>
     <string name="settings_custom_start_of_day_title">Brugerdefineret start på dagen</string>
     <string name="settings_custom_start_of_day_desc">Definerer hvornår dagen begynder for statistik</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Start pausesessionen efter en arbejdssession uden brugerinteraktion</string>
     <string name="settings_display_over_lock_screen">Vis over låseskærmen</string>
     <string name="settings_display_over_lock_screen_desc">Hold app\'en synlig over låseskærmen</string>
-    <string name="settings_timer_durations_title">Varighed af timer</string>
+    <string name="settings_timer_durations_title">Timer profil</string>
     <string name="settings_timer_durations_desc">Indstil varigheden for arbejde og pauser</string>
+    <string name="settings_create_profile">Opret profil</string>
+    <string name="settings_delete_profile">Slet profil</string>
+    <string name="settings_delete_profile_confirmation">Er du sikker på, at du vil slette %1$s?</string>
     <string name="settings_launcher_name">Launcher navn</string>
     <string name="settings_language">Sprog</string>
     <string name="settings_update">Opdater</string>

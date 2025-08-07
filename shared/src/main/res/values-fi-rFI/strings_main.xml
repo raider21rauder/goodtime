@@ -21,6 +21,7 @@
     <string name="main_cancel">Peruuta</string>
     <string name="main_delete">Poista</string>
     <string name="main_edit">Muokkaa</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">URL-osoitetta ei voitu avata</string>
     <string name="main_start_focus">Keskity</string>
     <string name="main_start_break">Pidä tauko</string>

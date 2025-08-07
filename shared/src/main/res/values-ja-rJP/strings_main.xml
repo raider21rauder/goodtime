@@ -21,6 +21,7 @@
     <string name="main_cancel">キャンセル</string>
     <string name="main_delete">削除</string>
     <string name="main_edit">編集</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">URLを開けませんでした</string>
     <string name="main_start_focus">フォーカスを開始</string>
     <string name="main_start_break">休憩を開始</string>

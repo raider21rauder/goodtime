@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Dny v týdnu</string>
     <string name="settings_reminder_time">Čas připomenutí</string>
     <string name="settings_timer_style_title">Přizpůsobení časovače</string>
+    <string name="settings_user_interface">Uživatelské rozhraní</string>
     <string name="settings_notifications_title">Upozornění</string>
     <string name="settings_custom_start_of_day_title">Vlastní začátek dne</string>
     <string name="settings_custom_start_of_day_desc">Určuje pro statistiky začátek dne</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Začít přestávku ihned po pracovním bloku bez souhlasu uživatele</string>
     <string name="settings_display_over_lock_screen">Zobrazit přes zamykací obrazovku</string>
     <string name="settings_display_over_lock_screen_desc">Ponechat aplikaci viditelnou na zamykací obrazovce</string>
-    <string name="settings_timer_durations_title">Délka časového úseku</string>
+    <string name="settings_timer_durations_title">Profil časovače</string>
     <string name="settings_timer_durations_desc">Nastavit délku bloku pro práci a přestávku</string>
+    <string name="settings_create_profile">Vytvořit profil</string>
+    <string name="settings_delete_profile">Odstranit profil</string>
+    <string name="settings_delete_profile_confirmation">Jste si jisti, že chcete odstranit %1$s?</string>
     <string name="settings_launcher_name">Název spouštěče</string>
     <string name="settings_language">Jazyk</string>
     <string name="settings_update">Aktualizovat</string>

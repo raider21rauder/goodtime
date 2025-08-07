@@ -39,11 +39,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
+import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.BetterDropdownMenu
 import com.apps.adrcotfas.goodtime.ui.common.SubtleHorizontalDivider
 import com.apps.adrcotfas.goodtime.ui.common.firstMenuItemModifier
@@ -119,7 +121,7 @@ fun LabelListItem(
             IconButton(onClick = { dropDownMenuExpanded = true }) {
                 Icon(
                     EvaIcons.Outline.MoreVertical,
-                    contentDescription = "More about $labelName",
+                    contentDescription = stringResource(R.string.labels_more_about, labelName),
                 )
             }
             BetterDropdownMenu(
@@ -129,18 +131,34 @@ fun LabelListItem(
                 val paddingModifier = Modifier.padding(end = 32.dp)
                 DropdownMenuItem(
                     modifier = firstMenuItemModifier,
-                    text = { Text(modifier = paddingModifier, text = "Edit") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.main_edit),
+                        )
+                    },
                     onClick = {
                         onEdit()
                         dropDownMenuExpanded = false
                     },
-                    // TODO: extract strings from this file
                     leadingIcon = {
-                        Icon(EvaIcons.Outline.Edit, contentDescription = "Edit $labelName")
+                        Icon(
+                            EvaIcons.Outline.Edit,
+                            contentDescription =
+                                stringResource(
+                                    R.string.labels_edit_label,
+                                    labelName,
+                                ),
+                        )
                     },
                 )
                 DropdownMenuItem(
-                    text = { Text(modifier = paddingModifier, text = "Duplicate") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.main_duplicate),
+                        )
+                    },
                     onClick = {
                         onDuplicate()
                         dropDownMenuExpanded = false
@@ -148,13 +166,22 @@ fun LabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Copy,
-                            contentDescription = "Duplicate $labelName",
+                            contentDescription =
+                                stringResource(
+                                    R.string.labels_duplicate_label_name,
+                                    labelName,
+                                ),
                         )
                     },
                 )
                 SubtleHorizontalDivider()
                 DropdownMenuItem(
-                    text = { Text(modifier = paddingModifier, text = "Archive") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.labels_archived),
+                        )
+                    },
                     onClick = {
                         onArchive()
                         dropDownMenuExpanded = false
@@ -162,13 +189,22 @@ fun LabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Archive,
-                            contentDescription = "Archive $labelName",
+                            contentDescription =
+                                stringResource(
+                                    R.string.labels_archive_label_name,
+                                    labelName,
+                                ),
                         )
                     },
                 )
                 DropdownMenuItem(
                     modifier = lastMenuItemModifier,
-                    text = { Text(modifier = paddingModifier, text = "Delete") },
+                    text = {
+                        Text(
+                            modifier = paddingModifier,
+                            text = stringResource(R.string.main_delete),
+                        )
+                    },
                     onClick = {
                         onDelete()
                         dropDownMenuExpanded = false
@@ -176,7 +212,11 @@ fun LabelListItem(
                     leadingIcon = {
                         Icon(
                             EvaIcons.Outline.Trash,
-                            contentDescription = "Delete $labelName",
+                            contentDescription =
+                                stringResource(
+                                    R.string.labels_delete_label_name,
+                                    labelName,
+                                ),
                         )
                     },
                 )

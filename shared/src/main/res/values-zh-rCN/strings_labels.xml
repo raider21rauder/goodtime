@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">已归档标签</string>
     <string name="labels_delete">删除 %1$s？</string>
     <string name="labels_delete_desc">删除此标签将从关联的已完成会话中移除。</string>
-    <string name="labels_more_about">了解更多</string>
+    <string name="labels_more_about">更多关于 %1$s</string>
+    <string name="labels_archived">已存档</string>
     <string name="labels_unarchive">取消归档</string>
     <string name="labels_select_label">选择标签</string>
     <string name="labels_select_labels">选择多个标签</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"删除此标签将从关联的已完成会话中移除。"</string>
     <string name="labels_navigate_to_archived">"前往已归档标签"</string>
     <string name="labels_clear_label">"清除标签"</string>
+    <string name="labels_delete_label_name">删除 %1$s</string>
+    <string name="labels_archive_label_name">存档 %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">编辑 %1$s</string>
+    <string name="labels_custom">自定义</string>
 </resources>

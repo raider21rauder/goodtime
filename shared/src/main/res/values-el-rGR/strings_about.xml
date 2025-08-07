@@ -20,8 +20,9 @@
     <string name="about_and_feedback_title">Σχετικά και σχόλια</string>
     <string name="about_source_code">Κωδικός πηγής</string>
     <string name="about_open_source_licenses">Άδειες Ανοιχτού Κώδικα</string>
+    <string name="about_acknowledgements">Ευχαριστίες</string>
     <string name="about_app_intro">Εισαγωγή Εφαρμογής</string>
     <string name="about_feedback">Αξιολόγηση</string>
     <string name="about_rate_this_app">Βαθμολόγησε αυτή την εφαρμογή</string>
-    <string name="about_translate_this_app">Translate this app</string>
+    <string name="about_translate_this_app">Μετάφραση αυτής της εφαρμογής</string>
 </resources>

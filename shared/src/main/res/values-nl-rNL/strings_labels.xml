@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Gearchiveerde labels</string>
     <string name="labels_delete">Verwijder %1$s?</string>
     <string name="labels_delete_desc">Het verwijderen van dit label zal het verwijderen van de bijbehorende voltooide sessies.</string>
-    <string name="labels_more_about">Meer over</string>
+    <string name="labels_more_about">Meer over %1$s</string>
+    <string name="labels_archived">Gearchiveerd</string>
     <string name="labels_unarchive">Dearchiveren</string>
     <string name="labels_select_label">Label kiezen</string>
     <string name="labels_select_labels">Selecteer labels</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Het verwijderen van dit label zal het verwijderen van de bijbehorende voltooide sessies."</string>
     <string name="labels_navigate_to_archived">"Navigeer naar gearchiveerde labels"</string>
     <string name="labels_clear_label">"Verwijder label"</string>
+    <string name="labels_delete_label_name">Verwijder %1$s</string>
+    <string name="labels_archive_label_name">Archief %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">%1$s bewerken</string>
+    <string name="labels_custom">Aangepaste</string>
 </resources>

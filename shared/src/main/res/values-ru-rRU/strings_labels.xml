@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Архивные метки</string>
     <string name="labels_delete">Удалить %1$s?</string>
     <string name="labels_delete_desc">Удаление ярлыка удалит его из связанных завершенных сессий.</string>
-    <string name="labels_more_about">Подробнее о</string>
+    <string name="labels_more_about">Подробнее о %1$s</string>
+    <string name="labels_archived">Архивировано</string>
     <string name="labels_unarchive">Разархивировать</string>
     <string name="labels_select_label">Выберите ярлык</string>
     <string name="labels_select_labels">Выберите метки</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Удаление ярлыка удалит его из связанных завершенных сессий."</string>
     <string name="labels_navigate_to_archived">"Перейдите к архивированным меткам"</string>
     <string name="labels_clear_label">"Очистить метку"</string>
+    <string name="labels_delete_label_name">Удалить %1$s</string>
+    <string name="labels_archive_label_name">Архивировать %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Изменить %1$s</string>
+    <string name="labels_custom">Свой</string>
 </resources>

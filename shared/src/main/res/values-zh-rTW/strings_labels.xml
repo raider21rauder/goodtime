@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">歸檔標籤</string>
     <string name="labels_delete">刪除%1$s？</string>
     <string name="labels_delete_desc">刪除此標籤會將其從關聯的已完成會話中刪除。</string>
-    <string name="labels_more_about">更多關於</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">取消封存</string>
     <string name="labels_select_label">選擇分類</string>
     <string name="labels_select_labels">选择标签</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"刪除此標籤會將其從關聯的已完成會話中刪除。"</string>
     <string name="labels_navigate_to_archived">"導航至存檔標籤"</string>
     <string name="labels_clear_label">"清除已選取標籤"</string>
+    <string name="labels_delete_label_name">Delete %1$s</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>

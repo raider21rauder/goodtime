@@ -20,6 +20,7 @@
     <string name="about_and_feedback_title">Tietoja ja palautetta</string>
     <string name="about_source_code">Lähdekoodi</string>
     <string name="about_open_source_licenses">Avoimen lähdekoodin lisenssit</string>
+    <string name="about_acknowledgements">Kiitokset</string>
     <string name="about_app_intro">Sovelluksen esittely</string>
     <string name="about_feedback">Palaute</string>
     <string name="about_rate_this_app">Arvioi tätä sovellusta</string>

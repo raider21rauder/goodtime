@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">أيام من الأسبوع</string>
     <string name="settings_reminder_time">وقت التذكير</string>
     <string name="settings_timer_style_title">تخصيص المؤقت</string>
+    <string name="settings_user_interface">واجهة المستخدم</string>
     <string name="settings_notifications_title">الإشعارات</string>
     <string name="settings_custom_start_of_day_title">بداية مخصصة من اليوم</string>
     <string name="settings_custom_start_of_day_desc">يحدد عندما يبدأ اليوم للإحصاءات</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">بدء جلسة الاستراحة بعد جلسة عمل بدون تفاعل المستخدم</string>
     <string name="settings_display_over_lock_screen">عرض على شاشة القفل</string>
     <string name="settings_display_over_lock_screen_desc">إبقاء التطبيق مرئي على شاشة القفل</string>
-    <string name="settings_timer_durations_title">مدة المؤقت</string>
+    <string name="settings_timer_durations_title">ملف مؤقت</string>
     <string name="settings_timer_durations_desc">تعيين مدة العمل وجلسات الاستراحة</string>
+    <string name="settings_create_profile">إنشاء ملف شخصي</string>
+    <string name="settings_delete_profile">حذف الملف الشخصي</string>
+    <string name="settings_delete_profile_confirmation">هل أنت متأكد من أنك تريد حذف %1$s؟</string>
     <string name="settings_launcher_name">اسم المشغل</string>
     <string name="settings_language">اللغة</string>
     <string name="settings_update">تحديث</string>

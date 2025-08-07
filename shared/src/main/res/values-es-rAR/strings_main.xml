@@ -21,6 +21,7 @@
     <string name="main_cancel">Cancelar</string>
     <string name="main_delete">Borrar</string>
     <string name="main_edit">Editar</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">No se puede abrir URL</string>
     <string name="main_start_focus">Iniciar enfoque</string>
     <string name="main_start_break">Iniciar descanso</string>

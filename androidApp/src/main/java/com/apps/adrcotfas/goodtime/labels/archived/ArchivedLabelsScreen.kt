@@ -167,7 +167,7 @@ fun ArchivedLabelListItem(
             IconButton(onClick = { dropDownMenuExpanded = true }) {
                 Icon(
                     EvaIcons.Outline.MoreVertical,
-                    contentDescription = "${stringResource(R.string.labels_more_about)} $labelName",
+                    contentDescription = stringResource(R.string.labels_more_about, labelName),
                 )
             }
 

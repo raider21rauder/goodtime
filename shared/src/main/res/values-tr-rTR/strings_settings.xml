@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Haftanın günleri</string>
     <string name="settings_reminder_time">Hatırlatıcı zamanı</string>
     <string name="settings_timer_style_title">Zamanlayıcı Özelleştirmesi</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">Bildirimler</string>
     <string name="settings_custom_start_of_day_title">Özelleştirilmiş gün başlangıcı</string>
     <string name="settings_custom_start_of_day_desc">İstatistikler için günün ne zaman başladığını tanımlar</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Ara oturumunu çalışma oturumunun ardından kullanıcı etkileşimi olmadan başlat</string>
     <string name="settings_display_over_lock_screen">Kilit ekranının üstünde görüntüle</string>
     <string name="settings_display_over_lock_screen_desc">Uygulamayı kilit ekranının üstünde görünür kıl</string>
-    <string name="settings_timer_durations_title">Zamanlayıcı uzunlukları</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Çalışma ve ara sürelerini ayarla</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">Dil</string>
     <string name="settings_update">Güncelle</string>

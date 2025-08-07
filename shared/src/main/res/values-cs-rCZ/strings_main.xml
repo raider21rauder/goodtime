@@ -21,6 +21,7 @@
     <string name="main_cancel">Zrušit</string>
     <string name="main_delete">Odstranit</string>
     <string name="main_edit">Upravit</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Nepodařilo se otevřít URL</string>
     <string name="main_start_focus">Začít soustředění</string>
     <string name="main_start_break">Začít přestávku</string>

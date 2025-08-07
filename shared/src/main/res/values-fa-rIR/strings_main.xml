@@ -21,6 +21,7 @@
     <string name="main_cancel">لغو</string>
     <string name="main_delete">حذف</string>
     <string name="main_edit">ویرایش</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">باز کردن لینک ناموفق بود</string>
     <string name="main_start_focus">شروع تمرکز</string>
     <string name="main_start_break">شروع استراحت</string>

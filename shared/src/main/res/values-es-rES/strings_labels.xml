@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Etiquetas archivadas</string>
     <string name="labels_delete">¿Eliminar %1$s?</string>
     <string name="labels_delete_desc">Eliminar esta etiqueta la eliminará de las sesiones completadas asociadas.</string>
-    <string name="labels_more_about">Más sobre</string>
+    <string name="labels_more_about">Más sobre %1$s</string>
+    <string name="labels_archived">Archivado</string>
     <string name="labels_unarchive">Desarchivar</string>
     <string name="labels_select_label">Selecciona la Etiqueta</string>
     <string name="labels_select_labels">Seleccionar etiquetas</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Eliminar esta etiqueta la eliminará de las sesiones completadas asociadas."</string>
     <string name="labels_navigate_to_archived">"Navegar a etiquetas archivadas"</string>
     <string name="labels_clear_label">"Borrar etiqueta"</string>
+    <string name="labels_delete_label_name">Eliminar %1$s</string>
+    <string name="labels_archive_label_name">Archivo %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Editar %1$s</string>
+    <string name="labels_custom">Personalizado</string>
 </resources>

@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Ημέρες της εβδομάδας</string>
     <string name="settings_reminder_time">Ώρα υπενθύμισης</string>
     <string name="settings_timer_style_title">Προσαρμογή Χρονομέτρου</string>
+    <string name="settings_user_interface">Περιβάλλον χρήστη</string>
     <string name="settings_notifications_title">Ειδοποιήσεις</string>
     <string name="settings_custom_start_of_day_title">Προσαρμοσμένη έναρξη της ημέρας</string>
     <string name="settings_custom_start_of_day_desc">Καθορίζει πότε αρχίζει η ημέρα για τα στατιστικά</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Εκκίνηση συνεδρίας διακοπής μετά από μια συνεδρία εργασίας χωρίς αλληλεπίδραση χρήστη</string>
     <string name="settings_display_over_lock_screen">Εμφάνιση πάνω από την οθόνη κλειδώματος</string>
     <string name="settings_display_over_lock_screen_desc">Κρατήστε την εφαρμογή ορατή πάνω από την οθόνη κλειδώματος</string>
-    <string name="settings_timer_durations_title">Διάρκεια χρονομέτρου</string>
+    <string name="settings_timer_durations_title">Προφίλ χρονομέτρου</string>
     <string name="settings_timer_durations_desc">Όρισε την διάρκεια για εργασία και διαλείμματα</string>
+    <string name="settings_create_profile">Δημιουργία προφίλ</string>
+    <string name="settings_delete_profile">Διαγραφή προφίλ</string>
+    <string name="settings_delete_profile_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε το %1$s?</string>
     <string name="settings_launcher_name">Όνομα εκκινητή</string>
     <string name="settings_language">Γλώσσες</string>
     <string name="settings_update">Ενημέρωση</string>

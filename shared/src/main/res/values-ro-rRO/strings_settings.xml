@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Zile ale săptămânii</string>
     <string name="settings_reminder_time">Timp de memento</string>
     <string name="settings_timer_style_title">Personalizare cronometru</string>
+    <string name="settings_user_interface">Interfață utilizator</string>
     <string name="settings_notifications_title">Notificări</string>
     <string name="settings_custom_start_of_day_title">Pornire personalizată a zilei</string>
     <string name="settings_custom_start_of_day_desc">Definește data la care începe ziua pentru statistici</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Începe sesiunea de pauză după o sesiune de lucru fără interacțiunea utilizatorului</string>
     <string name="settings_display_over_lock_screen">Afiseaza peste ecranul de blocare</string>
     <string name="settings_display_over_lock_screen_desc">Păstrați aplicația vizibilă pe ecranul de blocare</string>
-    <string name="settings_timer_durations_title">Durate cronometru</string>
+    <string name="settings_timer_durations_title">Profil cronometru</string>
     <string name="settings_timer_durations_desc">Setați durata de lucru și de pauză a sesiunilor</string>
+    <string name="settings_create_profile">Crează profil</string>
+    <string name="settings_delete_profile">Ștergeți profilul</string>
+    <string name="settings_delete_profile_confirmation">Sunteţi sigur că doriţi să ştergeţi %1$s?</string>
     <string name="settings_launcher_name">Nume lansator</string>
     <string name="settings_language">Limba</string>
     <string name="settings_update">Actualizează</string>

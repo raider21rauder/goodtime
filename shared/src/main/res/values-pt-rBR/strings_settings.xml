@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Dias da semana</string>
     <string name="settings_reminder_time">Hora do Lembrete</string>
     <string name="settings_timer_style_title">Personalização do temporizador</string>
+    <string name="settings_user_interface">Interface do usuário</string>
     <string name="settings_notifications_title">Notificações</string>
     <string name="settings_custom_start_of_day_title">Início do dia personalizado</string>
     <string name="settings_custom_start_of_day_desc">Define quando o dia começa para estatísticas</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Iniciar a sessão de interrupção após uma sessão de trabalho sem interação do usuário</string>
     <string name="settings_display_over_lock_screen">Mostrar na tela de bloqueio</string>
     <string name="settings_display_over_lock_screen_desc">Manter o aplicativo visível na tela de bloqueio</string>
-    <string name="settings_timer_durations_title">Duração do temporizador</string>
+    <string name="settings_timer_durations_title">Perfil do cronômetro</string>
     <string name="settings_timer_durations_desc">Definir a duração das sessões de trabalho e dos intervalos</string>
+    <string name="settings_create_profile">Criar perfil</string>
+    <string name="settings_delete_profile">Apagar perfil</string>
+    <string name="settings_delete_profile_confirmation">Tem certeza que deseja excluir %1$s?</string>
     <string name="settings_launcher_name">Nome do lançador</string>
     <string name="settings_language">Língua</string>
     <string name="settings_update">Atualizar</string>

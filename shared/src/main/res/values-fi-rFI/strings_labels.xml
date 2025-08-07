@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Arkistoidut tunnisteet</string>
     <string name="labels_delete">Poista %1$s?</string>
     <string name="labels_delete_desc">Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista.</string>
-    <string name="labels_more_about">Lisää aiheesta</string>
+    <string name="labels_more_about">Lisätietoja %1$s</string>
+    <string name="labels_archived">Arkistoitu</string>
     <string name="labels_unarchive">Poista</string>
     <string name="labels_select_label">Valitse tunniste</string>
     <string name="labels_select_labels">Valitse tunnisteet</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Tämän tunnisteen poistaminen irrottaa sen suoritetuista istunnoista."</string>
     <string name="labels_navigate_to_archived">"Siirry arkistoituihin tunnisteisiin"</string>
     <string name="labels_clear_label">"Tyhjennä tunniste"</string>
+    <string name="labels_delete_label_name">Poista %1$s</string>
+    <string name="labels_archive_label_name">Arkistoi %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Muokkaa %1$s</string>
+    <string name="labels_custom">Mukautettu</string>
 </resources>

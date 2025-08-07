@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Дні тижня</string>
     <string name="settings_reminder_time">Час нагадування</string>
     <string name="settings_timer_style_title">Налаштування таймера</string>
+    <string name="settings_user_interface">Інтерфейс користувача</string>
     <string name="settings_notifications_title">Сповіщення</string>
     <string name="settings_custom_start_of_day_title">Власний початок дня</string>
     <string name="settings_custom_start_of_day_desc">Визначає, коли день починається для статистики</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Початок сеансу перерви після робочого сеансу без взаємодії з користувачем</string>
     <string name="settings_display_over_lock_screen">Показувати над екраном блокування</string>
     <string name="settings_display_over_lock_screen_desc">Залишати програму видимою для екрану блокування</string>
-    <string name="settings_timer_durations_title">Тривалість таймера</string>
+    <string name="settings_timer_durations_title">Профіль таймера</string>
     <string name="settings_timer_durations_desc">Встановіть тривалість для робочих сесій та перерв</string>
+    <string name="settings_create_profile">Створити профіль</string>
+    <string name="settings_delete_profile">Видалити профіль</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Ім\'я лаунчера</string>
     <string name="settings_language">Мова</string>
     <string name="settings_update">Оновити</string>

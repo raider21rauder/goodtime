@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Arkiverade etiketter</string>
     <string name="labels_delete">Ta bort %1$s?</string>
     <string name="labels_delete_desc">Borttagning av denna etikett kommer att ta bort den från associerade avslutade sessioner.</string>
-    <string name="labels_more_about">Mer om</string>
+    <string name="labels_more_about">Mer om %1$s</string>
+    <string name="labels_archived">Arkiverad</string>
     <string name="labels_unarchive">Avarkivera</string>
     <string name="labels_select_label">Välj etikett</string>
     <string name="labels_select_labels">Välj etiketter</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Borttagning av denna etikett kommer att ta bort den från associerade avslutade sessioner."</string>
     <string name="labels_navigate_to_archived">"Navigera till arkiverade etiketter"</string>
     <string name="labels_clear_label">"Rensa etikett"</string>
+    <string name="labels_delete_label_name">Ta bort %1$s</string>
+    <string name="labels_archive_label_name">Arkivera %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Redigera %1$s</string>
+    <string name="labels_custom">Anpassad</string>
 </resources>

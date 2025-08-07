@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">週の日数</string>
     <string name="settings_reminder_time">リマインダー時間</string>
     <string name="settings_timer_style_title">タイマーのカスタマイズ</string>
+    <string name="settings_user_interface">ユーザー インターフェイス</string>
     <string name="settings_notifications_title">通知</string>
     <string name="settings_custom_start_of_day_title">カスタム開始日</string>
     <string name="settings_custom_start_of_day_desc">統計情報の開始日を定義します。</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">ユーザーの操作なしで作業セッションの後に休憩セッションを開始する</string>
     <string name="settings_display_over_lock_screen">ロック画面上に表示</string>
     <string name="settings_display_over_lock_screen_desc">アプリをロック画面上に常に表示する</string>
-    <string name="settings_timer_durations_title">タイマーの期間</string>
+    <string name="settings_timer_durations_title">タイマープロファイル</string>
     <string name="settings_timer_durations_desc">作業時間と休憩時間を設定する</string>
+    <string name="settings_create_profile">プロファイルを作成</string>
+    <string name="settings_delete_profile">プロファイルを削除</string>
+    <string name="settings_delete_profile_confirmation">%1$s を削除してもよろしいですか？</string>
     <string name="settings_launcher_name">ランチャー名</string>
     <string name="settings_language">言語</string>
     <string name="settings_update">更新</string>

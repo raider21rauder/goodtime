@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Αρχειοθετημένες ετικέτα</string>
     <string name="labels_delete">Διαγραφή %1$s?</string>
     <string name="labels_delete_desc">Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες</string>
-    <string name="labels_more_about">Περισσότερα για</string>
+    <string name="labels_more_about">Περισσότερα για το %1$s</string>
+    <string name="labels_archived">Αρχειοθετημένο</string>
     <string name="labels_unarchive">Αποσυμπιεσμένο</string>
     <string name="labels_select_label">Επιλέξτε ετικέτα</string>
     <string name="labels_select_labels">Επιλογή ετικετών</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Η διαγραφή αυτής της ετικέτας θα την αφαιρέσει από τις σχετικές ολοκληρωμένες συνεδρίες."</string>
     <string name="labels_navigate_to_archived">"Πλοήγηση σε αρχειοθετημένες ετικέτες"</string>
     <string name="labels_clear_label">"Καθαρισμός ετικέτας"</string>
+    <string name="labels_delete_label_name">Διαγραφή %1$s</string>
+    <string name="labels_archive_label_name">Αρχειοθέτηση %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Επεξεργασία %1$s</string>
+    <string name="labels_custom">Προσαρμοσμένο</string>
 </resources>

@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Jours de la semaine</string>
     <string name="settings_reminder_time">Heure de rappel</string>
     <string name="settings_timer_style_title">Personnalisation du minuteur</string>
+    <string name="settings_user_interface">Interface utilisateur</string>
     <string name="settings_notifications_title">Notifications</string>
     <string name="settings_custom_start_of_day_title">Début de la journée personnalisé</string>
     <string name="settings_custom_start_of_day_desc">Définit l\'heure de début de journée pour les statistiques</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Démarrer la pause après une session de travail, sans intervention de l’utilisateur</string>
     <string name="settings_display_over_lock_screen">Afficher sur l\'écran de verrouillage</string>
     <string name="settings_display_over_lock_screen_desc">Garder l\'application visible sur l\'écran de verrouillage</string>
-    <string name="settings_timer_durations_title">Durée de la minuterie</string>
+    <string name="settings_timer_durations_title">Profil de minuterie</string>
     <string name="settings_timer_durations_desc">Définir la durée des séances de travail et des pauses</string>
+    <string name="settings_create_profile">Créer un profil</string>
+    <string name="settings_delete_profile">Supprimer le profil</string>
+    <string name="settings_delete_profile_confirmation">Êtes-vous sûr de vouloir supprimer %1$s?</string>
     <string name="settings_launcher_name">Nom du lanceur</string>
     <string name="settings_language">Langue</string>
     <string name="settings_update">Mettre à jour</string>

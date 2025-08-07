@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">برچسب‌های بایگانی شده</string>
     <string name="labels_delete">%1$s حذف شود؟</string>
     <string name="labels_delete_desc">حذف کردن این برچسب باعث حذف شدنش در دوره‌های اتمام یافته مربوطه می‌شود.</string>
-    <string name="labels_more_about">بیشتر درباره</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">خروج از بایگانی</string>
     <string name="labels_select_label">انتخاب برچسب</string>
     <string name="labels_select_labels">برچسب‌ها را انتخاب کنید</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"حذف کردن این برچسب باعث حذف شدنش در دوره‌های اتمام یافته مربوطه می‌شود."</string>
     <string name="labels_navigate_to_archived">"راهیابی به برچسب‌های بایگانی شده"</string>
     <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_name">Delete %1$s</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>

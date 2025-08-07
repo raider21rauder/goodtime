@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">アーカイブされたラベル</string>
     <string name="labels_delete">%1$s を削除しますか？</string>
     <string name="labels_delete_desc">このラベルを削除すると、関連する完了したセッションから削除されます。</string>
-    <string name="labels_more_about">詳細</string>
+    <string name="labels_more_about">%1$s の詳細</string>
+    <string name="labels_archived">アーカイブ済み</string>
     <string name="labels_unarchive">アーカイブ解除</string>
     <string name="labels_select_label">ラベルを選択</string>
     <string name="labels_select_labels">ラベルを選択</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"このラベルを削除すると、関連する完了したセッションから削除されます。"</string>
     <string name="labels_navigate_to_archived">"アーカイブされたラベルに移動"</string>
     <string name="labels_clear_label">"ラベルをクリア"</string>
+    <string name="labels_delete_label_name">%1$s を削除</string>
+    <string name="labels_archive_label_name">アーカイブ %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">編集 %1$s</string>
+    <string name="labels_custom">カスタム</string>
 </resources>

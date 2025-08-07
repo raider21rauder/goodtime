@@ -21,6 +21,7 @@
     <string name="main_cancel">Ezeztatu</string>
     <string name="main_delete">Ezabatu</string>
     <string name="main_edit">Editatu</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">URL-a irekitzeko huts egin du</string>
     <string name="main_start_focus">Has zaitez arreta jartzen</string>
     <string name="main_start_break">Hasi etenaldia</string>

@@ -21,6 +21,7 @@
     <string name="main_cancel">Anulează</string>
     <string name="main_delete">Șterge</string>
     <string name="main_edit">Editează</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Deschiderea URL-ului a eșuat</string>
     <string name="main_start_focus">Începe sesiune de focus</string>
     <string name="main_start_break">Începeți pauza</string>

@@ -20,8 +20,9 @@
     <string name="about_and_feedback_title">Despre și feedback</string>
     <string name="about_source_code">Codul sursă</string>
     <string name="about_open_source_licenses">Licențe Open Source</string>
+    <string name="about_acknowledgements">Mulţumiri</string>
     <string name="about_app_intro">Introducere în aplicație</string>
     <string name="about_feedback">Feedback</string>
     <string name="about_rate_this_app">Evaluează această aplicație</string>
-    <string name="about_translate_this_app">Translate this app</string>
+    <string name="about_translate_this_app">Tradu această aplicație</string>
 </resources>

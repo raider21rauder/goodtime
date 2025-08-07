@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Arhivirane oznake</string>
     <string name="labels_delete">Izbrisati %1$s?</string>
     <string name="labels_delete_desc">Brisanje ove oznake uklonit će je iz povezanih dovršenih sesija.</string>
-    <string name="labels_more_about">Više o</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Neanhivirati</string>
     <string name="labels_select_label">Odaberite oznaku</string>
     <string name="labels_select_labels">Odaberi etikete</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Brisanje ove oznake uklonit će je iz povezanih dovršenih sesija."</string>
     <string name="labels_navigate_to_archived">"Idite na arhivirane oznake"</string>
     <string name="labels_clear_label">"Jasne oznake"</string>
+    <string name="labels_delete_label_name">Izbrisati %1$s</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>

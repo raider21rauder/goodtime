@@ -20,8 +20,9 @@
     <string name="about_and_feedback_title">关于和反馈</string>
     <string name="about_source_code">源代码</string>
     <string name="about_open_source_licenses">开源许可证</string>
+    <string name="about_acknowledgements">鸣谢</string>
     <string name="about_app_intro">应用简介</string>
     <string name="about_feedback">用户反馈</string>
     <string name="about_rate_this_app">评价本应用</string>
-    <string name="about_translate_this_app">Translate this app</string>
+    <string name="about_translate_this_app">翻译此应用</string>
 </resources>

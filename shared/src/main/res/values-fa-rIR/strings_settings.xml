@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">روز از هفته</string>
     <string name="settings_reminder_time">زمان یادآوری</string>
     <string name="settings_timer_style_title">سفارشی سازی زمان‌سنج</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">اعلان‌ها</string>
     <string name="settings_custom_start_of_day_title">شروع روز سفارشی</string>
     <string name="settings_custom_start_of_day_desc">برای آماره‌ها مشخص کنید روز چه زمانی آغاز می‌شود</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">نوبت استراحت را بدون پرسش از کاربر آغاز کن</string>
     <string name="settings_display_over_lock_screen">نمایش روی صفحه قفل</string>
     <string name="settings_display_over_lock_screen_desc">برنامه را روی صفحه قفل نمایان نگه دارید</string>
-    <string name="settings_timer_durations_title">مدت‌ زمان‌سنج</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">مدت زمان دوره‌های کار و استراحت را تنظیم کنید</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">اسم برنامه</string>
     <string name="settings_language">زبان</string>
     <string name="settings_update">به روز رسانی</string>

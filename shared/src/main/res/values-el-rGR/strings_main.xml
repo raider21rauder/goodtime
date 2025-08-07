@@ -21,6 +21,7 @@
     <string name="main_cancel">Ακύρωση</string>
     <string name="main_delete">Διαγραφή</string>
     <string name="main_edit">Επεξεργασία</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Αποτυχία ανοίγματος του URL</string>
     <string name="main_start_focus">Έναρξη εστίασης</string>
     <string name="main_start_break">Έναρξη διάλειμμα</string>

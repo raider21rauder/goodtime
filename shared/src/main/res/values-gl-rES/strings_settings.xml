@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Días da semana</string>
     <string name="settings_reminder_time">Hora do recordatorio</string>
     <string name="settings_timer_style_title">Personalización do temporizador</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">Notificacións</string>
     <string name="settings_custom_start_of_day_title">Inicio de día personalizado</string>
     <string name="settings_custom_start_of_day_desc">Define cando comeza o día para as estatísticas</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Comece a pausa despois dunha sesión de traballo sen interacción do usuario</string>
     <string name="settings_display_over_lock_screen">Mostrar sobre a pantalla de bloqueo</string>
     <string name="settings_display_over_lock_screen_desc">Personalización do temporizador</string>
-    <string name="settings_timer_durations_title">Duración do temporizador</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Estabelece a duración das sesións de traballo e dos descansos</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_update">Actualizar</string>

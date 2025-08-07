@@ -21,6 +21,7 @@
     <string name="main_cancel">Hủy</string>
     <string name="main_delete">Xóa</string>
     <string name="main_edit">Thay đổi</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Không thể mở URL</string>
     <string name="main_start_focus">Bắt đầu tập trung</string>
     <string name="main_start_break">Bắt đầu nghỉ</string>

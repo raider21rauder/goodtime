@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Etichete arhivate</string>
     <string name="labels_delete">Ștergeți %1$s?</string>
     <string name="labels_delete_desc">Ștergerea acestei etichete o va elimina din sesiunile asociate cu finalizarea.</string>
-    <string name="labels_more_about">Mai multe despre</string>
+    <string name="labels_more_about">Mai multe despre %1$s</string>
+    <string name="labels_archived">Arhivat</string>
     <string name="labels_unarchive">Dezarhivare</string>
     <string name="labels_select_label">Selectează eticheta</string>
     <string name="labels_select_labels">Selectare etichete</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Stergerea acestei etichete o va elimina din sesiunile asociate cu finalizarea."</string>
     <string name="labels_navigate_to_archived">"Navigati spre etichete arhivate"</string>
     <string name="labels_clear_label">"Ștergeți eticheta"</string>
+    <string name="labels_delete_label_name">Șterge %1$s</string>
+    <string name="labels_archive_label_name">Arhivează %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Editează %1$s</string>
+    <string name="labels_custom">Personalizat</string>
 </resources>

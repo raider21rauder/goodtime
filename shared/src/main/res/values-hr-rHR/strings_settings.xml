@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Dan u tjednu</string>
     <string name="settings_reminder_time">Vrijeme podsjetnika</string>
     <string name="settings_timer_style_title">Prilagodba timera</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">Obavijesti</string>
     <string name="settings_custom_start_of_day_title">Prilagođeni početak dana</string>
     <string name="settings_custom_start_of_day_desc">Definira kada dan počinje za statistiku</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Počnite pauzu nakon radne sesije bez interakcije korisnika</string>
     <string name="settings_display_over_lock_screen">Prikaži preko zaslona za zaključavanje</string>
     <string name="settings_display_over_lock_screen_desc">Održavajte aplikaciju vidljivom preko zaslona za zaključavanje</string>
-    <string name="settings_timer_durations_title">Trajanje vremena</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Odredi dužinu rada i odmora</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">Jezik</string>
     <string name="settings_update">Ažuriraj</string>

@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Etiquetas arquivadas</string>
     <string name="labels_delete">Excluir %1$s?</string>
     <string name="labels_delete_desc">Excluir esta etiqueta irá removê-la das sessões concluídas associadas.</string>
-    <string name="labels_more_about">Mais sobre</string>
+    <string name="labels_more_about">Mais sobre %1$s</string>
+    <string name="labels_archived">Arquivado</string>
     <string name="labels_unarchive">Desarquivar</string>
     <string name="labels_select_label">Selecionar etiqueta</string>
     <string name="labels_select_labels">Selecionar etiquetas</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Excluir esta etiqueta irá removê-la das sessões concluídas associadas."</string>
     <string name="labels_navigate_to_archived">"Navegar para etiquetas arquivadas"</string>
     <string name="labels_clear_label">"Limpar marcador"</string>
+    <string name="labels_delete_label_name">Excluir %1$s</string>
+    <string name="labels_archive_label_name">Arquivar %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Editar %1$s</string>
+    <string name="labels_custom">Personalizado</string>
 </resources>

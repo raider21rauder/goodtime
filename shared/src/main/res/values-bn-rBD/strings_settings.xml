@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">সপ্তাহের দিন</string>
     <string name="settings_reminder_time">মনে করানোর সময়</string>
     <string name="settings_timer_style_title">টাইমার কাস্টমাইজেশন</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">বিজ্ঞপ্তিগুলি</string>
     <string name="settings_custom_start_of_day_title">দিনের কাস্টম শুরু</string>
     <string name="settings_custom_start_of_day_desc">পরিসংখ্যানের জন্য কখন দিন শুরু হয় তা নির্ধারণ করে</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">ফজরের পরে ব্যবহারকারীর মিথস্ক্রিয়া ছাড়াই কাজ অধিবেশন শুরু</string>
     <string name="settings_display_over_lock_screen">লক স্ক্রিনে প্রদর্শন করুন</string>
     <string name="settings_display_over_lock_screen_desc">লক স্ক্রিনে অ্যাপটিকে দৃশ্যমান রাখুন</string>
-    <string name="settings_timer_durations_title">টাইমার সময়কাল</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Set the duration for work and break sessions</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">ভাষা</string>
     <string name="settings_update">হালনাগাদ</string>

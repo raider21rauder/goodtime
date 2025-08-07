@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Дни недели</string>
     <string name="settings_reminder_time">Время напоминания</string>
     <string name="settings_timer_style_title">Настройка таймера</string>
+    <string name="settings_user_interface">Пользовательский интерфейс</string>
     <string name="settings_notifications_title">Уведомления</string>
     <string name="settings_custom_start_of_day_title">Пользовательский старт дня</string>
     <string name="settings_custom_start_of_day_desc">Определяет, когда день начинается для статистики</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Запускать перерыв после рабочего сеанса без взаимодействия пользователя</string>
     <string name="settings_display_over_lock_screen">Отображать на экране блокировки</string>
     <string name="settings_display_over_lock_screen_desc">Оставлять приложение видимым на экране блокировки</string>
-    <string name="settings_timer_durations_title">Время действия таймера</string>
+    <string name="settings_timer_durations_title">Профиль таймера</string>
     <string name="settings_timer_durations_desc">Установить продолжительность работы и перерывов</string>
+    <string name="settings_create_profile">Создать профиль</string>
+    <string name="settings_delete_profile">Удалить профиль</string>
+    <string name="settings_delete_profile_confirmation">Вы уверены, что хотите удалить %1$s?</string>
     <string name="settings_launcher_name">Имя лаунчера</string>
     <string name="settings_language">Язык</string>
     <string name="settings_update">Обновить</string>

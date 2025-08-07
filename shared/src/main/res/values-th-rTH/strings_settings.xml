@@ -27,6 +27,7 @@
     <string name="settings_days_of_the_week">Days of the week</string>
     <string name="settings_reminder_time">Reminder time</string>
     <string name="settings_timer_style_title">Timer Customization</string>
+    <string name="settings_user_interface">User interface</string>
     <string name="settings_notifications_title">การแจ้งเตือน</string>
     <string name="settings_custom_start_of_day_title">Custom start of day</string>
     <string name="settings_custom_start_of_day_desc">Defines when the day begins for statistics</string>
@@ -77,8 +78,11 @@
     <string name="settings_auto_start_break_desc">Start the break session after a work session without user interaction</string>
     <string name="settings_display_over_lock_screen">Display over lock screen</string>
     <string name="settings_display_over_lock_screen_desc">Keep the app visible over the lock screen</string>
-    <string name="settings_timer_durations_title">Timer durations</string>
+    <string name="settings_timer_durations_title">Timer profile</string>
     <string name="settings_timer_durations_desc">Set the duration for work and break sessions</string>
+    <string name="settings_create_profile">Create profile</string>
+    <string name="settings_delete_profile">Delete profile</string>
+    <string name="settings_delete_profile_confirmation">Are you sure you want to delete %1$s?</string>
     <string name="settings_launcher_name">Launcher name</string>
     <string name="settings_language">Language</string>
     <string name="settings_update">อัปเดต</string>

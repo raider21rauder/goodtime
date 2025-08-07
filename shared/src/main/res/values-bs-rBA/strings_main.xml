@@ -21,6 +21,7 @@
     <string name="main_cancel">Otkaži</string>
     <string name="main_delete">Izbriši</string>
     <string name="main_edit">Uredi</string>
+    <string name="main_duplicate">Duplicate</string>
     <string name="main_failed_to_open_url">Otvaranje URL-a nije uspjelo</string>
     <string name="main_start_focus">Pokreni fokus</string>
     <string name="main_start_break">Započni pauzu</string>

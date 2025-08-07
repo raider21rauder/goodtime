@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">আর্কাইভ করা লেবেল</string>
     <string name="labels_delete">%1$sমুছবেন?</string>
     <string name="labels_delete_desc">এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে.</string>
-    <string name="labels_more_about">আরও বিস্তারিত</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">সংরক্ষণাগারমুক্ত করুন</string>
     <string name="labels_select_label">লেবেল নির্বাচন করুন</string>
     <string name="labels_select_labels">লেবেল নির্বাচন করুন</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"এই লেবেলটি মুছে দিলে এটি সংশ্লিষ্ট সম্পূর্ণ সেশন থেকে মুছে যাবে."</string>
     <string name="labels_navigate_to_archived">"আর্কাইভ করা লেবেলে যান"</string>
     <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_name">%1$sমুছবেন</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>

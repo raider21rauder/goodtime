@@ -42,7 +42,8 @@
     <string name="labels_archived_labels_title">Etiquetes arxivades</string>
     <string name="labels_delete">Voleu eliminar %1$s?</string>
     <string name="labels_delete_desc">Si suprimiu aquesta etiqueta, s\'eliminarà de les sessions completades associades.</string>
-    <string name="labels_more_about">Més sobre</string>
+    <string name="labels_more_about">More about %1$s</string>
+    <string name="labels_archived">Archived</string>
     <string name="labels_unarchive">Desarxiva</string>
     <string name="labels_select_label">Selecciona una Etiqueta</string>
     <string name="labels_select_labels">Selecciona etiquetes</string>
@@ -50,4 +51,9 @@
     <string name="labels_delete_label_confirmation">"Si suprimiu aquesta etiqueta, s'eliminarà de les sessions completades associades."</string>
     <string name="labels_navigate_to_archived">"Navegueu a les etiquetes arxivades"</string>
     <string name="labels_clear_label">"Clear label"</string>
+    <string name="labels_delete_label_name">Voleu eliminar %1$s</string>
+    <string name="labels_archive_label_name">Archive %1$s</string>
+    <string name="labels_duplicate_label_name">Duplicate %1$s</string>
+    <string name="labels_edit_label_name">Edit %1$s</string>
+    <string name="labels_custom">Custom</string>
 </resources>
