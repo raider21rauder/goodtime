@@ -38,7 +38,6 @@ import com.apps.adrcotfas.goodtime.labels.main.unarchivedLabels
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.AlertDialogButtonStack
 import com.apps.adrcotfas.goodtime.ui.common.SelectLabelDialog
-import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -52,14 +51,13 @@ fun SelectActiveLabelDialog(
     onDismiss: () -> Unit,
     onConfirm: (List<String>) -> Unit,
 ) {
-    val labels by viewModel.uiState
-        .map { state ->
-            state.unarchivedLabels.filter { !it.isDefault() }.map { it.getLabelData() }
-        }.collectAsStateWithLifecycle(emptyList())
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val labels = uiState.unarchivedLabels.filter { !it.isDefault() }.map { it.getLabelData() }
 
     val labelsIsEmpty = labels.isEmpty()
     val isDefaultLabelActive = initialSelectedLabel == Label.DEFAULT_LABEL_NAME
 
+    if (uiState.isLoading) return
     SelectLabelDialog(
         title = stringResource(R.string.labels_select_active_label),
         singleSelection = true,
