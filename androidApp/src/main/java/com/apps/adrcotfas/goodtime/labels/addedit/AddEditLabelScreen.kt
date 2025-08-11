@@ -32,18 +32,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -66,16 +62,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
+import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.data.model.Label.Companion.LABEL_NAME_MAX_LENGTH
 import com.apps.adrcotfas.goodtime.labels.AddEditLabelViewModel
 import com.apps.adrcotfas.goodtime.labels.labelNameIsValid
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.ColorSelectRow
-import com.apps.adrcotfas.goodtime.ui.common.DropdownMenuBox
-import com.apps.adrcotfas.goodtime.ui.common.EditableNumberListItem
-import com.apps.adrcotfas.goodtime.ui.common.InfoDialog
-import com.apps.adrcotfas.goodtime.ui.common.SliderListItem
-import com.apps.adrcotfas.goodtime.ui.common.TimerTypeRow
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
 import com.apps.adrcotfas.goodtime.ui.common.clearFocusOnKeyboardDismiss
 import compose.icons.EvaIcons
@@ -109,10 +102,6 @@ fun AddEditLabelScreen(
     val labelNameToDisplay = label.name
 
     val followDefault = label.useDefaultTimeProfile
-    val isCountDown = label.timerProfile.isCountdown
-    val isBreakEnabled = label.timerProfile.isBreakEnabled
-    val isLongBreakEnabled = label.timerProfile.isLongBreakEnabled
-
     var showBreakBudgetInfoDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -197,198 +186,17 @@ fun AddEditLabelScreen(
             )
             AnimatedVisibility(!followDefault) {
                 Column {
-                    AnimatedVisibility(uiState.timerProfiles.isNotEmpty()) {
-                        Row(
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Box(
-                                modifier = Modifier.weight(1f),
-                            ) {
-                                DropdownMenuBox(
-                                    contentModifier = Modifier.fillMaxWidth(),
-                                    colored = true,
-                                    textStyle = MaterialTheme.typography.bodyLarge,
-                                    value =
-                                        label.timerProfile.name
-                                            ?: stringResource(R.string.labels_custom),
-                                    options = uiState.timerProfiles.mapNotNull { it.name },
-                                    onDismissRequest = {},
-                                    onDropdownMenuItemSelected = {
-                                        val selectedProfile = uiState.timerProfiles[it]
-                                        viewModel.updateTmpLabel(
-                                            label.copy(timerProfile = selectedProfile),
-                                            resetProfile = false,
-                                        )
-                                    },
-                                )
-                            }
-                        }
-                    }
-                    TimerTypeRow(
-                        isCountDown = isCountDown,
-                        onCountDownEnabled = {
-                            viewModel.updateTmpLabel(
-                                label.copy(
-                                    timerProfile = label.timerProfile.copy(isCountdown = it),
-                                ),
-                            )
+                    TimerProfileSettings(
+                        timerProfile = label.timerProfile,
+                        timerProfiles = uiState.timerProfiles,
+                        onTimerProfileChange = { updated ->
+                            viewModel.updateTmpLabel(label.copy(timerProfile = updated))
                         },
+                        onTimerProfileSelect = { selected ->
+                            viewModel.updateTmpLabel(label.copy(timerProfile = selected), resetProfile = false)
+                        },
+                        onBreakBudgetInfo = { showBreakBudgetInfoDialog = true },
                     )
-                    AnimatedVisibility(isCountDown) {
-                        Column {
-                            EditableNumberListItem(
-                                title = stringResource(R.string.labels_focus_time),
-                                value = label.timerProfile.workDuration,
-                                onValueChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile = label.timerProfile.copy(workDuration = it),
-                                        ),
-                                    )
-                                },
-                            )
-                            EditableNumberListItem(
-                                title = stringResource(R.string.labels_break_time),
-                                value = label.timerProfile.breakDuration,
-                                onValueChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile = label.timerProfile.copy(breakDuration = it),
-                                        ),
-                                    )
-                                },
-                                enableSwitch = true,
-                                switchValue = isBreakEnabled,
-                                onSwitchChange = {
-                                    val longBreakState = if (!it) false else isLongBreakEnabled
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile =
-                                                label.timerProfile.copy(
-                                                    isBreakEnabled = it,
-                                                    isLongBreakEnabled = longBreakState,
-                                                ),
-                                        ),
-                                    )
-                                },
-                            )
-                            EditableNumberListItem(
-                                title = stringResource(R.string.labels_long_break),
-                                value = label.timerProfile.longBreakDuration,
-                                onValueChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile =
-                                                label.timerProfile.copy(
-                                                    longBreakDuration = it,
-                                                ),
-                                        ),
-                                    )
-                                },
-                                enabled = isBreakEnabled,
-                                enableSwitch = true,
-                                switchValue = isLongBreakEnabled,
-                                onSwitchChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile =
-                                                label.timerProfile.copy(
-                                                    isLongBreakEnabled = it,
-                                                ),
-                                        ),
-                                    )
-                                },
-                            )
-                            EditableNumberListItem(
-                                title = stringResource(R.string.labels_sessions_before_long_break),
-                                value = label.timerProfile.sessionsBeforeLongBreak,
-                                minValue = 2,
-                                maxValue = 8,
-                                enabled = isBreakEnabled && isLongBreakEnabled,
-                                onValueChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile =
-                                                label.timerProfile.copy(
-                                                    sessionsBeforeLongBreak = it,
-                                                ),
-                                        ),
-                                    )
-                                },
-                            )
-                        }
-                    }
-                    AnimatedVisibility(!isCountDown) {
-                        Column {
-                            val toggleBreak = {
-                                viewModel.updateTmpLabel(
-                                    label.copy(
-                                        timerProfile = label.timerProfile.copy(isBreakEnabled = !isBreakEnabled),
-                                    ),
-                                )
-                            }
-                            ListItem(
-                                modifier =
-                                    Modifier.toggleable(
-                                        value = isBreakEnabled,
-                                        onValueChange = { toggleBreak() },
-                                    ),
-                                headlineContent = {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement =
-                                            Arrangement.spacedBy(
-                                                8.dp,
-                                                Alignment.Start,
-                                            ),
-                                    ) {
-                                        Text(stringResource(R.string.labels_enable_break_budget))
-
-                                        IconButton(
-                                            onClick = {
-                                                showBreakBudgetInfoDialog = true
-                                            },
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.Info,
-                                                contentDescription = stringResource(R.string.labels_break_budget_info),
-                                                tint = MaterialTheme.colorScheme.primary,
-                                            )
-                                        }
-                                    }
-                                },
-                                trailingContent = {
-                                    Checkbox(
-                                        checked = isBreakEnabled,
-                                        onCheckedChange = null,
-                                    )
-                                },
-                            )
-                            SliderListItem(
-                                title = stringResource(R.string.labels_focus_break_ratio),
-                                min = 2,
-                                max = 6,
-                                enabled = isBreakEnabled,
-                                value = label.timerProfile.workBreakRatio,
-                                showValue = true,
-                                onValueChange = {
-                                    viewModel.updateTmpLabel(
-                                        label.copy(
-                                            timerProfile =
-                                                label.timerProfile.copy(
-                                                    workBreakRatio = it,
-                                                ),
-                                        ),
-                                    )
-                                },
-                            )
-                        }
-                    }
                 }
             }
             AnimatedVisibility(visible = uiState.labelToEdit != label) {
@@ -412,14 +220,9 @@ fun AddEditLabelScreen(
             }
         }
         if (showBreakBudgetInfoDialog) {
-            InfoDialog(
-                title = stringResource(R.string.labels_break_budget_info),
-                subtitle =
-                    "${stringResource(R.string.labels_break_budget_desc1)}\n" +
-                        stringResource(R.string.labels_break_budget_desc2),
-            ) {
-                showBreakBudgetInfoDialog = false
-            }
+            BreakBudgetInfoDialog(
+                onDismiss = { showBreakBudgetInfoDialog = false },
+            )
         }
     }
 }
