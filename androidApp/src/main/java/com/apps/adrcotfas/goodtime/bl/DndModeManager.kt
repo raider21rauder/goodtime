@@ -39,19 +39,28 @@ class DndModeManager(
     private var job: Job? = null
 
     private var dndEnabledBeforeStart = false
+    private var wasPaused = false
 
     override fun onEvent(event: Event) {
         when (event) {
             is Event.Start -> {
                 if (event.isFocus) {
-                    maybeEnterDndMode()
+                    if (!wasPaused) {
+                        maybeEnterDndMode()
+                    }
                 } else { // break session
                     maybeExitDndMode()
                 }
+                wasPaused = false
+            }
+
+            is Event.Pause -> {
+                wasPaused = true
             }
 
             is Event.Reset, is Event.Finished -> {
                 maybeExitDndMode()
+                wasPaused = false
             }
 
             else -> { // do nothing
