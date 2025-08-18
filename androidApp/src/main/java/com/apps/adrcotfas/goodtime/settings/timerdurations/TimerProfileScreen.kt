@@ -17,8 +17,6 @@
  */
 package com.apps.adrcotfas.goodtime.settings.timerdurations
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -109,13 +107,12 @@ fun TimerProfileScreen(
                     onBreakBudgetInfo = { showBreakBudgetInfoDialog = true },
                 )
 
-                AnimatedVisibility(isDifferentFromDefault || label.timerProfile.name == null) {
+                if (isDifferentFromDefault || label.timerProfile.name == null) {
                     Row(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp)
-                                .animateContentSize(),
+                                .padding(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         val createProfileButtonTargetWeight =

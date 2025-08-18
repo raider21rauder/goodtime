@@ -18,6 +18,10 @@
 package com.apps.adrcotfas.goodtime.common
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,7 +114,7 @@ fun TimerProfileSettings(
     )
 
     // ---- Countdown mode ---------------------------------------------------
-    AnimatedVisibility(timerProfile.isCountdown) {
+    AnimatedVisibility(timerProfile.isCountdown, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
         Column {
             EditableNumberListItem(
                 title = stringResource(R.string.labels_focus_time),
@@ -164,7 +168,7 @@ fun TimerProfileSettings(
     }
 
     // ---- Break‑budget mode (non‑countdown) -------------------------------
-    AnimatedVisibility(!timerProfile.isCountdown) {
+    AnimatedVisibility(!timerProfile.isCountdown, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
         Column {
             val toggleBreak = {
                 onTimerProfileChange(
