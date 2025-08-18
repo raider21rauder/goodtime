@@ -20,7 +20,7 @@ package com.apps.adrcotfas.goodtime.data.local.migrations
 import androidx.room.migration.Migration
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
-import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_PROFILE_NAME
+import com.apps.adrcotfas.goodtime.data.local.LocalTimerProfile
 
 val MIGRATION_1_2: Migration =
     object : Migration(1, 2) {
@@ -213,7 +213,6 @@ val MIGRATION_8_9: Migration =
                 """
                 CREATE TABLE IF NOT EXISTS localTimerProfile (
                     name TEXT PRIMARY KEY NOT NULL,
-                    orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
                     isCountdown INTEGER NOT NULL DEFAULT 1,
                     workDuration INTEGER NOT NULL DEFAULT 25,
                     isBreakEnabled INTEGER NOT NULL DEFAULT 1,
@@ -226,9 +225,32 @@ val MIGRATION_8_9: Migration =
                 """.trimIndent(),
             )
 
+            // Insert default timer profiles matching the ones in insertDefaultLabel
             connection.execSQL(
                 """
-                ALTER TABLE localLabel ADD COLUMN timerProfileName TEXT DEFAULT '$DEFAULT_PROFILE_NAME';
+                INSERT INTO localTimerProfile (name, isCountdown, workDuration, isBreakEnabled, breakDuration, isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak, workBreakRatio)
+                VALUES ('${LocalTimerProfile.DEFAULT_PROFILE_NAME}', 1, 25, 1, 5, 0, 15, 4, 3);
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                INSERT INTO localTimerProfile (name, isCountdown, workDuration, isBreakEnabled, breakDuration, isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak, workBreakRatio)
+                VALUES ('${LocalTimerProfile.PROFILE_50_10_NAME}', 1, 50, 1, 10, 0, 15, 4, 3);
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                INSERT INTO localTimerProfile (name, isCountdown, workDuration, isBreakEnabled, breakDuration, isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak, workBreakRatio)
+                VALUES ('${LocalTimerProfile.POMODORO_PROFILE_NAME}', 1, 25, 1, 5, 1, 15, 4, 3);
+                """.trimIndent(),
+            )
+
+            connection.execSQL(
+                """
+                INSERT INTO localTimerProfile (name, isCountdown, workDuration, isBreakEnabled, breakDuration, isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak, workBreakRatio)
+                VALUES ('${LocalTimerProfile.THIRD_TIME_PROFILE_NAME}', 0, 25, 1, 5, 0, 15, 4, 3);
                 """.trimIndent(),
             )
 
@@ -239,7 +261,7 @@ val MIGRATION_8_9: Migration =
                     colorIndex INTEGER NOT NULL DEFAULT 24,
                     orderIndex INTEGER NOT NULL DEFAULT ${Long.MAX_VALUE},
                     useDefaultTimeProfile INTEGER NOT NULL DEFAULT 1,
-                    timerProfileName TEXT DEFAULT NULL,
+                    timerProfileName TEXT DEFAULT '${LocalTimerProfile.DEFAULT_PROFILE_NAME}',
                     isCountdown INTEGER NOT NULL DEFAULT 1,
                     workDuration INTEGER NOT NULL DEFAULT 25,
                     isBreakEnabled INTEGER NOT NULL DEFAULT 1,
@@ -250,15 +272,25 @@ val MIGRATION_8_9: Migration =
                     workBreakRatio INTEGER NOT NULL DEFAULT 3,
                     isArchived INTEGER NOT NULL DEFAULT 0,
                     FOREIGN KEY (timerProfileName) REFERENCES localTimerProfile(name)
-                    ON UPDATE CASCADE ON DELETE NO ACTION
-                )
+                    ON UPDATE CASCADE ON DELETE SET NULL
+                );
                 """.trimIndent(),
             )
 
             connection.execSQL(
                 """
-                INSERT INTO localLabel_new
-                SELECT * FROM localLabel
+                INSERT INTO localLabel_new (
+                    name, colorIndex, orderIndex, useDefaultTimeProfile, timerProfileName,
+                    isCountdown, workDuration, isBreakEnabled, breakDuration,
+                    isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak,
+                    workBreakRatio, isArchived
+                )
+                SELECT
+                    name, colorIndex, orderIndex, useDefaultTimeProfile, '${LocalTimerProfile.DEFAULT_PROFILE_NAME}',
+                    isCountdown, workDuration, isBreakEnabled, breakDuration,
+                    isLongBreakEnabled, longBreakDuration, sessionsBeforeLongBreak,
+                    workBreakRatio, isArchived
+                FROM localLabel;
                 """.trimIndent(),
             )
 

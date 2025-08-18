@@ -48,4 +48,11 @@ data class LocalTimerProfile(
     val sessionsBeforeLongBreak: Int,
     @ColumnInfo(defaultValue = "$DEFAULT_WORK_BREAK_RATIO")
     val workBreakRatio: Int,
-)
+) {
+    companion object {
+        const val DEFAULT_PROFILE_NAME = "25/5"
+        const val PROFILE_50_10_NAME = "50/10"
+        const val POMODORO_PROFILE_NAME = "Pomodoro"
+        const val THIRD_TIME_PROFILE_NAME = "Third Time"
+    }
+}

@@ -58,7 +58,7 @@ internal class LocalDataRepositoryImpl(
                 timerProfileDao.insert(localTimerProfile)
                 timerProfileDao.insert(
                     TimerProfile(
-                        name = "50/10",
+                        name = LocalTimerProfile.PROFILE_50_10_NAME,
                         workDuration = 50,
                         breakDuration = 10,
                         isLongBreakEnabled = false,
@@ -66,7 +66,7 @@ internal class LocalDataRepositoryImpl(
                 )
                 timerProfileDao.insert(
                     TimerProfile(
-                        name = "Pomodoro",
+                        name = LocalTimerProfile.POMODORO_PROFILE_NAME,
                         workDuration = 25,
                         breakDuration = 5,
                         isLongBreakEnabled = true,
@@ -76,7 +76,7 @@ internal class LocalDataRepositoryImpl(
                 )
                 timerProfileDao.insert(
                     TimerProfile(
-                        name = "Third Time",
+                        name = LocalTimerProfile.THIRD_TIME_PROFILE_NAME,
                         isCountdown = false,
                         workBreakRatio = 3,
                     ).toLocal(),

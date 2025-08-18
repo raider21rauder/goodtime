@@ -17,6 +17,7 @@
  */
 package com.apps.adrcotfas.goodtime.settings.timerdurations
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -71,6 +72,7 @@ fun TimerProfileBottomSheet(
     }
 
     ModalBottomSheet(
+        modifier = Modifier.animateContentSize(),
         onDismissRequest = onDismiss,
         sheetState = sheetState,
     ) {

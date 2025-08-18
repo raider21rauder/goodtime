@@ -71,7 +71,7 @@ fun TimerProfileSettings(
     onBreakBudgetInfo: () -> Unit,
 ) {
     // ---- Profile selector -------------------------------------------------
-    AnimatedVisibility(timerProfiles.isNotEmpty()) {
+    AnimatedVisibility(timerProfiles.isNotEmpty(), enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
         Row(
             modifier =
                 Modifier

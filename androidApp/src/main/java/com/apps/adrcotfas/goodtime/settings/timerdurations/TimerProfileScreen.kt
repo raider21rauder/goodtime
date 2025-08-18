@@ -191,7 +191,7 @@ fun TimerProfileScreen(
                 onDismiss = { showTimerProfilesSheet = false },
                 onDelete = {
                     viewModel.deleteTimerProfile(it)
-                    if (uiState.timerProfiles.isEmpty()) {
+                    if (uiState.timerProfiles.size <= 1) {
                         showTimerProfilesSheet = false
                     }
                 },
