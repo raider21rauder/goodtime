@@ -38,6 +38,7 @@ class FakeLabelDao : LabelDao {
         newName: String,
         newColorIndex: Long,
         newUseDefaultTimeProfile: Boolean,
+        newTimerProfileName: String?,
         newIsCountdown: Boolean,
         newWorkDuration: Int,
         newIsBreakEnabled: Boolean,
@@ -54,6 +55,7 @@ class FakeLabelDao : LabelDao {
                     it.copy(
                         name = newName,
                         colorIndex = newColorIndex,
+                        timerProfileName = newTimerProfileName,
                         useDefaultTimeProfile = newUseDefaultTimeProfile,
                         isCountdown = newIsCountdown,
                         workDuration = newWorkDuration,

@@ -35,6 +35,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeLabelDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSessionDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
+import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
@@ -72,18 +73,19 @@ class TimerManagerTest {
     fun setup() =
         runTest(testDispatcher) {
             timeProvider.elapsedRealtime = 0L
+            settingsRepo = FakeSettingsRepository()
             localDataRepo =
                 LocalDataRepositoryImpl(
                     sessionDao = FakeSessionDao(),
                     labelDao = FakeLabelDao(),
+                    timerProfileDao = FakeTimerProfileDao(),
+                    settingsRepo = settingsRepo,
                     coroutineScope = testScope,
                 )
 
             localDataRepo.updateDefaultLabel(defaultLabel)
             localDataRepo.insertLabel(customLabel)
             localDataRepo.insertLabel(countUpLabel)
-
-            settingsRepo = FakeSettingsRepository()
 
             finishedSessionsHandler =
                 FinishedSessionsHandler(

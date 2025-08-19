@@ -29,6 +29,7 @@ import com.apps.adrcotfas.goodtime.fakes.FakeLabelDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSessionDao
 import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import com.apps.adrcotfas.goodtime.fakes.FakeTimeProvider
+import com.apps.adrcotfas.goodtime.fakes.FakeTimerProfileDao
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -41,6 +42,7 @@ import kotlin.test.assertTrue
 class StatsViewModelTest {
     private lateinit var fakeSessionDao: FakeSessionDao
     private lateinit var fakeLabelDao: FakeLabelDao
+    private lateinit var fakeTimerProfileDao: FakeTimerProfileDao
     private lateinit var localDataRepository: LocalDataRepository
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var timeProvider: FakeTimeProvider
@@ -53,8 +55,16 @@ class StatsViewModelTest {
             fakeSessionDao = FakeSessionDao()
             fakeLabelDao = FakeLabelDao()
             timeProvider = FakeTimeProvider()
-            localDataRepository = LocalDataRepositoryImpl(fakeSessionDao, fakeLabelDao, this)
+            fakeTimerProfileDao = FakeTimerProfileDao()
             settingsRepository = FakeSettingsRepository()
+            localDataRepository =
+                LocalDataRepositoryImpl(
+                    fakeSessionDao,
+                    fakeLabelDao,
+                    fakeTimerProfileDao,
+                    settingsRepository,
+                    this,
+                )
             viewModel = StatisticsViewModel(localDataRepository, settingsRepository, timeProvider)
             populateRepo()
 

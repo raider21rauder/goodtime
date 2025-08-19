@@ -21,6 +21,8 @@ import com.apps.adrcotfas.goodtime.data.model.Label
 import com.apps.adrcotfas.goodtime.data.model.Session
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile
 import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WORK_DURATION
+import com.apps.adrcotfas.goodtime.data.settings.SettingsRepository
+import com.apps.adrcotfas.goodtime.fakes.FakeSettingsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
@@ -36,6 +38,8 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
     private lateinit var repo: LocalDataRepository
     private lateinit var db: ProductivityDatabase
 
+    private lateinit var settingsRepo: SettingsRepository
+
     @AfterTest
     fun after() {
         db.close()
@@ -44,11 +48,14 @@ class LocalDataRepositoryTest : RoomDatabaseTest() {
     @BeforeTest
     fun setup() =
         runTest {
+            settingsRepo = FakeSettingsRepository()
             db = getInMemoryDatabaseBuilder().build()
             repo =
                 LocalDataRepositoryImpl(
                     sessionDao = db.sessionsDao(),
                     labelDao = db.labelsDao(),
+                    timerProfileDao = db.timerProfileDao(),
+                    settingsRepo = settingsRepo,
                     coroutineScope = this,
                 )
             repo.deleteAllSessions()

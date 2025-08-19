@@ -21,7 +21,7 @@ import com.apps.adrcotfas.goodtime.bl.TimerType
 import kotlin.time.Duration.Companion.minutes
 
 data class TimerProfile(
-    val name: String? = DEFAULT_PROFILE_NAME,
+    val name: String? = null,
     val isCountdown: Boolean = true,
     /** Work(focus) duration in minutes; invalid for isCountdown false */
     val workDuration: Int = DEFAULT_WORK_DURATION,

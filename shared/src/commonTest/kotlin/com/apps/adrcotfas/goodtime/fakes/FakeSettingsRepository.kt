@@ -182,6 +182,12 @@ class FakeSettingsRepository(
         )
     }
 
+    override suspend fun setTimeProfilesInitialized(initialized: Boolean) {
+        _settings.emit(
+            _settings.value.copy(timeProfilesInitialized = initialized),
+        )
+    }
+
     override suspend fun setShouldAskForReview(enable: Boolean) {
         _settings.emit(
             _settings.value.copy(shouldAskForReview = enable),

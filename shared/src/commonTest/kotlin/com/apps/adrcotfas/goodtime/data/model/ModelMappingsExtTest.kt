@@ -86,6 +86,17 @@ class ModelMappingsExtTest {
 
     @Test
     fun `Convert external label to local and back`() {
+        val timerProfile =
+            TimerProfile(
+                isCountdown = false,
+                workDuration = 3,
+                isBreakEnabled = false,
+                breakDuration = 4,
+                isLongBreakEnabled = false,
+                longBreakDuration = 5,
+                sessionsBeforeLongBreak = 6,
+                workBreakRatio = 7,
+            )
         val label =
             Label(
                 name = "name",
@@ -93,22 +104,13 @@ class ModelMappingsExtTest {
                 orderIndex = 2,
                 useDefaultTimeProfile = true,
                 timerProfile =
-                    TimerProfile(
-                        isCountdown = false,
-                        workDuration = 3,
-                        isBreakEnabled = false,
-                        breakDuration = 4,
-                        isLongBreakEnabled = false,
-                        longBreakDuration = 5,
-                        sessionsBeforeLongBreak = 6,
-                        workBreakRatio = 7,
-                    ),
+                timerProfile,
                 isArchived = true,
             )
         val localLabel = label.toLocal()
         assertEquals(
             label,
-            localLabel.toExternal(),
+            localLabel.toExternal(timerProfile),
         )
     }
 }
