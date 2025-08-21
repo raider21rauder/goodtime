@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">Posodobi</string>
     <string name="settings_update_available">Na voljo je nova posodobitev</string>
+    <string name="settings_general_title">Splošno</string>
+    <string name="settings_display_and_appearance">Prikaz in videz</string>
+    <string name="settings_timer_and_sessions">Časovnik in seje</string>
 </resources>

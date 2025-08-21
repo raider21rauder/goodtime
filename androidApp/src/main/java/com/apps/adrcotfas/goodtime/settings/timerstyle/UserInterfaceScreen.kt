@@ -126,16 +126,7 @@ fun UserInterfaceScreen(
             var streak by rememberSaveable { mutableIntStateOf(1) }
             var timerType by rememberSaveable { mutableStateOf(TimerType.FOCUS) }
 
-            if (!isPro) {
-                ActionCard(icon = {
-                    Icon(
-                        imageVector = EvaIcons.Outline.Unlock,
-                        contentDescription = stringResource(R.string.unlock_premium),
-                    )
-                }, description = stringResource(R.string.unlock_timer_style)) {
-                    onNavigateToPro()
-                }
-            }
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_general_title))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 val activity = context.findActivity()
@@ -271,7 +262,10 @@ fun UserInterfaceScreen(
                     )
 
                 MainTimerView(
-                    modifier = Modifier.padding(vertical = 16.dp).align(Alignment.Center),
+                    modifier =
+                        Modifier
+                            .padding(vertical = 16.dp)
+                            .align(Alignment.Center),
                     gestureModifier = Modifier,
                     timerUiState = timerUiState,
                     timerStyle = timerStyle,
@@ -308,6 +302,16 @@ fun UserInterfaceScreen(
                         viewModel.setTimerMinutesOnly(it)
                     },
                 )
+                if (!isPro) {
+                    ActionCard(icon = {
+                        Icon(
+                            imageVector = EvaIcons.Outline.Unlock,
+                            contentDescription = stringResource(R.string.unlock_premium),
+                        )
+                    }, description = stringResource(R.string.unlock_timer_style)) {
+                        onNavigateToPro()
+                    }
+                }
             }
         }
     }

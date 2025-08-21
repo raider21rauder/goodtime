@@ -87,4 +87,7 @@
     <string name="settings_language">Språk</string>
     <string name="settings_update">Uppdatera</string>
     <string name="settings_update_available">En ny uppdatering finns tillgänglig</string>
+    <string name="settings_general_title">Allmänt</string>
+    <string name="settings_display_and_appearance">Visning och utseende</string>
+    <string name="settings_timer_and_sessions">Timer och sessioner</string>
 </resources>

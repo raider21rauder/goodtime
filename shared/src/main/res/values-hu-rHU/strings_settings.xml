@@ -87,4 +87,7 @@
     <string name="settings_language">Nyelvek</string>
     <string name="settings_update">Frissítés</string>
     <string name="settings_update_available">Új frissítés érhető el</string>
+    <string name="settings_general_title">Általános</string>
+    <string name="settings_display_and_appearance">Kijelző és megjelenés</string>
+    <string name="settings_timer_and_sessions">Időzítő és munkamenetek</string>
 </resources>

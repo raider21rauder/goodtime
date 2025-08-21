@@ -87,4 +87,7 @@
     <string name="settings_language">언어</string>
     <string name="settings_update">업데이트</string>
     <string name="settings_update_available">새로운 업데이트가 있습니다</string>
+    <string name="settings_general_title">일반</string>
+    <string name="settings_display_and_appearance">디스플레이 및 외관</string>
+    <string name="settings_timer_and_sessions">타이머 및 세션</string>
 </resources>

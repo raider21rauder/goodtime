@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">Atjaunināt</string>
     <string name="settings_update_available">Ir pieejams jauns atjauninājums</string>
+    <string name="settings_general_title">Vispārīgi</string>
+    <string name="settings_display_and_appearance">Displejs un izskats</string>
+    <string name="settings_timer_and_sessions">Taimeris un sesijas</string>
 </resources>

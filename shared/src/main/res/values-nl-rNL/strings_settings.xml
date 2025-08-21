@@ -87,4 +87,7 @@
     <string name="settings_language">Taal</string>
     <string name="settings_update">Bijwerken</string>
     <string name="settings_update_available">Er is een nieuwe update beschikbaar</string>
+    <string name="settings_general_title">Algemeen</string>
+    <string name="settings_display_and_appearance">Weergave en uiterlijk</string>
+    <string name="settings_timer_and_sessions">Timer en sessies</string>
 </resources>

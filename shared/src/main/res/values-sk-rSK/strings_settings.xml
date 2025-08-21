@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">Aktualizovať</string>
     <string name="settings_update_available">Je k dispozícii nová aktualizácia</string>
+    <string name="settings_general_title">Všeobecné</string>
+    <string name="settings_display_and_appearance">Zobrazenie a vzhľad</string>
+    <string name="settings_timer_and_sessions">Časovač a relácie</string>
 </resources>

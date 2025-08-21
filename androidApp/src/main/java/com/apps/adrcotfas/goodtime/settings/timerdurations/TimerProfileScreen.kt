@@ -34,6 +34,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,8 +44,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apps.adrcotfas.goodtime.common.BreakBudgetInfoDialog
@@ -52,6 +55,9 @@ import com.apps.adrcotfas.goodtime.common.TimerProfileSettings
 import com.apps.adrcotfas.goodtime.settings.TimerProfileViewModel
 import com.apps.adrcotfas.goodtime.shared.R
 import com.apps.adrcotfas.goodtime.ui.common.TopBar
+import compose.icons.EvaIcons
+import compose.icons.evaicons.Outline
+import compose.icons.evaicons.outline.Lock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +107,10 @@ fun TimerProfileScreen(
                         viewModel.updateTmpLabel(label.copy(timerProfile = updated))
                     },
                     onTimerProfileSelect = { selected ->
-                        viewModel.updateTmpLabel(label.copy(timerProfile = selected), resetProfile = false)
+                        viewModel.updateTmpLabel(
+                            label.copy(timerProfile = selected),
+                            resetProfile = false,
+                        )
                     },
                     onEditProfiles = { showTimerProfilesSheet = true },
                     onBreakBudgetInfo = { showBreakBudgetInfoDialog = true },
@@ -143,7 +152,22 @@ fun TimerProfileScreen(
                                     ),
                                 onClick = { showAddTimerProfileDialog = true },
                             ) {
-                                Text(stringResource(R.string.settings_create_profile))
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    if (!uiState.isPro) {
+                                        Icon(
+                                            EvaIcons.Outline.Lock,
+                                            contentDescription = null,
+                                        )
+                                    }
+                                    Text(
+                                        text = stringResource(R.string.settings_create_profile),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                }
                             }
                         }
 

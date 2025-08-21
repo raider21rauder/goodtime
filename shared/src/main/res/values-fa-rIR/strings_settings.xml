@@ -87,4 +87,7 @@
     <string name="settings_language">زبان</string>
     <string name="settings_update">به روز رسانی</string>
     <string name="settings_update_available">یک به روز رسانی جدید در دسترس است</string>
+    <string name="settings_general_title">عمومی</string>
+    <string name="settings_display_and_appearance">نمایش و ظاهر</string>
+    <string name="settings_timer_and_sessions">تایمر و جلسات</string>
 </resources>

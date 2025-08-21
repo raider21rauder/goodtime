@@ -87,4 +87,7 @@
     <string name="settings_language">言語</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_available">新しいアップデートが利用可能です</string>
+    <string name="settings_general_title">一般</string>
+    <string name="settings_display_and_appearance">表示と外観</string>
+    <string name="settings_timer_and_sessions">タイマーとセッション</string>
 </resources>

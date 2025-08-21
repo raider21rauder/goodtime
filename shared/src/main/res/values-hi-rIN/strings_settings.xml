@@ -87,4 +87,7 @@
     <string name="settings_language">भाषा</string>
     <string name="settings_update">अपडेट</string>
     <string name="settings_update_available">एक नया अपडेट उपलब्ध है</string>
+    <string name="settings_general_title">सामान्य</string>
+    <string name="settings_display_and_appearance">प्रदर्शन और उपस्थिति</string>
+    <string name="settings_timer_and_sessions">टाइमर और सत्र</string>
 </resources>

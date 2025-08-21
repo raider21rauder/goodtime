@@ -87,4 +87,7 @@
     <string name="settings_language">Idioma</string>
     <string name="settings_update">Actualitza</string>
     <string name="settings_update_available">Hi ha una nova actualització disponible</string>
+    <string name="settings_general_title">General</string>
+    <string name="settings_display_and_appearance">Visualització i aparença</string>
+    <string name="settings_timer_and_sessions">Temporitzador i sessions</string>
 </resources>

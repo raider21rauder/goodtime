@@ -87,4 +87,7 @@
     <string name="settings_language">Jezik</string>
     <string name="settings_update">Ažuriraj</string>
     <string name="settings_update_available">Dostupno je novo ažuriranje</string>
+    <string name="settings_general_title">Općenito</string>
+    <string name="settings_display_and_appearance">Prikaz i izgled</string>
+    <string name="settings_timer_and_sessions">Odbrojavanje i sesije</string>
 </resources>

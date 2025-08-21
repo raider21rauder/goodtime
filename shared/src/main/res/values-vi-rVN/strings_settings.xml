@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">Cập nhật</string>
     <string name="settings_update_available">Bản cập nhật mới đã sẵn sàng</string>
+    <string name="settings_general_title">Chung</string>
+    <string name="settings_display_and_appearance">Hiển thị và giao diện</string>
+    <string name="settings_timer_and_sessions">Hẹn giờ và phiên</string>
 </resources>

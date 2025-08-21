@@ -87,4 +87,7 @@
     <string name="settings_language">Hizkuntza</string>
     <string name="settings_update">Eguneratu</string>
     <string name="settings_update_available">Eguneratze berri bat dago eskuragarri</string>
+    <string name="settings_general_title">Orokorra</string>
+    <string name="settings_display_and_appearance">Bistaratzea eta itxura</string>
+    <string name="settings_timer_and_sessions">Tenporizadorea eta saioak</string>
 </resources>

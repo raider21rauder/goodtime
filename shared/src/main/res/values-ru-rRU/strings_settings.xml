@@ -87,4 +87,7 @@
     <string name="settings_language">Язык</string>
     <string name="settings_update">Обновить</string>
     <string name="settings_update_available">Доступно новое обновление</string>
+    <string name="settings_general_title">Общие</string>
+    <string name="settings_display_and_appearance">Отображение и внешний вид</string>
+    <string name="settings_timer_and_sessions">Таймер и сессии</string>
 </resources>

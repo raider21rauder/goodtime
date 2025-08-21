@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">อัปเดต</string>
     <string name="settings_update_available">มีการปรับปรุงใหม่</string>
+    <string name="settings_general_title">ทั่วไป</string>
+    <string name="settings_display_and_appearance">การแสดงผลและลักษณะ</string>
+    <string name="settings_timer_and_sessions">ตัวจับเวลาและเซสชัน</string>
 </resources>

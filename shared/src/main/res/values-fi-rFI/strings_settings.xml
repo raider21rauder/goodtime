@@ -87,4 +87,7 @@
     <string name="settings_language">Kieli</string>
     <string name="settings_update">Päivitä</string>
     <string name="settings_update_available">Uusi päivitys on saatavilla</string>
+    <string name="settings_general_title">Yleiset</string>
+    <string name="settings_display_and_appearance">Näyttö ja ulkoasu</string>
+    <string name="settings_timer_and_sessions">Ajastin ja istunnot</string>
 </resources>

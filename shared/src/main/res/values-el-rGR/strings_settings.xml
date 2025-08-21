@@ -87,4 +87,7 @@
     <string name="settings_language">Γλώσσες</string>
     <string name="settings_update">Ενημέρωση</string>
     <string name="settings_update_available">Μια νέα ενημέρωση είναι διαθέσιμη</string>
+    <string name="settings_general_title">Γενικά</string>
+    <string name="settings_display_and_appearance">Εμφάνιση και εμφάνιση</string>
+    <string name="settings_timer_and_sessions">Χρονοδιακόπτης και συνεδρίες</string>
 </resources>

@@ -87,4 +87,7 @@
     <string name="settings_language">Language</string>
     <string name="settings_update">Atnaujinti</string>
     <string name="settings_update_available">Yra naujas atnaujinimas</string>
+    <string name="settings_general_title">Bendra</string>
+    <string name="settings_display_and_appearance">Ekranas ir išvaizda</string>
+    <string name="settings_timer_and_sessions">Laikmatis ir seansai</string>
 </resources>

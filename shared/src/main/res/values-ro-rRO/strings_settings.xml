@@ -87,4 +87,7 @@
     <string name="settings_language">Limba</string>
     <string name="settings_update">Actualizează</string>
     <string name="settings_update_available">O nouă actualizare este disponibilă</string>
+    <string name="settings_general_title">General</string>
+    <string name="settings_display_and_appearance">Afișaj și aspect</string>
+    <string name="settings_timer_and_sessions">Cronometru și sesiuni</string>
 </resources>

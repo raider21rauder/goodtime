@@ -87,4 +87,7 @@
     <string name="settings_language">语言</string>
     <string name="settings_update">更新</string>
     <string name="settings_update_available">有新的更新</string>
+    <string name="settings_general_title">常规</string>
+    <string name="settings_display_and_appearance">显示和外观</string>
+    <string name="settings_timer_and_sessions">计时器和会话</string>
 </resources>

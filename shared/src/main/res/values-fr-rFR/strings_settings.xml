@@ -87,4 +87,7 @@
     <string name="settings_language">Langue</string>
     <string name="settings_update">Mettre à jour</string>
     <string name="settings_update_available">Une nouvelle mise à jour est disponible</string>
+    <string name="settings_general_title">Général</string>
+    <string name="settings_display_and_appearance">Affichage et apparence</string>
+    <string name="settings_timer_and_sessions">Minuteur et sessions</string>
 </resources>

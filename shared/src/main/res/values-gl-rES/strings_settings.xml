@@ -87,4 +87,7 @@
     <string name="settings_language">Idioma</string>
     <string name="settings_update">Actualizar</string>
     <string name="settings_update_available">Hai unha nova actualización dispoñible</string>
+    <string name="settings_general_title">Xeral</string>
+    <string name="settings_display_and_appearance">Visualización e aparencia</string>
+    <string name="settings_timer_and_sessions">Temporizador e sesións</string>
 </resources>

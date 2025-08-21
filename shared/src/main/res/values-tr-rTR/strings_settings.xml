@@ -87,4 +87,7 @@
     <string name="settings_language">Dil</string>
     <string name="settings_update">Güncelle</string>
     <string name="settings_update_available">Yeni bir güncelleme mevcut</string>
+    <string name="settings_general_title">Genel</string>
+    <string name="settings_display_and_appearance">Görünüm ve görünüş</string>
+    <string name="settings_timer_and_sessions">Zamanlayıcı ve oturumlar</string>
 </resources>

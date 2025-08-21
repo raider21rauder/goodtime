@@ -158,9 +158,10 @@ fun SettingsScreen(
                         onSelectDay = viewModel::onToggleProductivityReminderDay,
                         onReminderTimeClick = { viewModel.setShowTimePicker(true) },
                     )
-                    SubtleHorizontalDivider()
                 }
             }
+            SubtleHorizontalDivider()
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_timer_and_sessions))
 
             IconListItem(
                 title = stringResource(R.string.settings_timer_durations_title),
@@ -175,29 +176,20 @@ fun SettingsScreen(
                 },
                 onClick = onNavigateToDefaultLabel,
             )
-
-            IconListItem(
-                title = stringResource(R.string.settings_user_interface),
-                icon = {
-                    Icon(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        imageVector = EvaIcons.Outline.ColorPalette,
-                        contentDescription = stringResource(R.string.settings_user_interface),
-                    )
-                },
-                onClick = onNavigateToUserInterface,
-            )
-            IconListItem(
-                title = stringResource(R.string.settings_notifications_title),
-                icon = {
-                    Icon(
-                        modifier = Modifier.padding(vertical = 12.dp),
-                        imageVector = EvaIcons.Outline.Bell,
-                        contentDescription = stringResource(R.string.settings_notifications_title),
-                    )
-                },
-                onClick = onNavigateToNotifications,
-            )
+            CheckboxListItem(
+                title = stringResource(R.string.settings_auto_start_focus_title),
+                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
+                checked = settings.autoStartFocus,
+            ) {
+                viewModel.setAutoStartWork(it)
+            }
+            CheckboxListItem(
+                title = stringResource(R.string.settings_auto_start_break_title),
+                subtitle = stringResource(R.string.settings_auto_start_break_desc),
+                checked = settings.autoStartBreak,
+            ) {
+                viewModel.setAutoStartBreak(it)
+            }
 
             BetterListItem(
                 title = stringResource(R.string.settings_custom_start_of_day_title),
@@ -214,7 +206,10 @@ fun SettingsScreen(
 
             val days =
                 firstDayOfWeekOptions.map {
-                    it.getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, Locale.getDefault())
+                    it.getDisplayName(
+                        java.time.format.TextStyle.FULL_STANDALONE,
+                        Locale.getDefault(),
+                    )
                 }
 
             DropdownMenuListItem(
@@ -227,34 +222,20 @@ fun SettingsScreen(
             )
 
             SubtleHorizontalDivider()
-            CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_focus_title),
-                subtitle = stringResource(R.string.settings_auto_start_focus_desc),
-                checked = settings.autoStartFocus,
-            ) {
-                viewModel.setAutoStartWork(it)
-            }
-            CheckboxListItem(
-                title = stringResource(R.string.settings_auto_start_break_title),
-                subtitle = stringResource(R.string.settings_auto_start_break_desc),
-                checked = settings.autoStartBreak,
-            ) {
-                viewModel.setAutoStartBreak(it)
-            }
-            SubtleHorizontalDivider()
-            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_during_work_sessions))
-            CheckboxListItem(
-                title = stringResource(R.string.settings_do_not_disturb_mode),
-                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
-                checked = uiState.settings.uiSettings.dndDuringWork,
-            ) {
-                if (isNotificationPolicyAccessGranted) {
-                    viewModel.setDndDuringWork(it)
-                } else {
-                    isNotificationPolicyAccessRequested = true
-                    requestDndPolicyAccess(context.findActivity()!!)
-                }
-            }
+
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_display_and_appearance))
+
+            IconListItem(
+                title = stringResource(R.string.settings_user_interface),
+                icon = {
+                    Icon(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        imageVector = EvaIcons.Outline.ColorPalette,
+                        contentDescription = stringResource(R.string.settings_user_interface),
+                    )
+                },
+                onClick = onNavigateToUserInterface,
+            )
             CheckboxListItem(
                 title = stringResource(R.string.settings_keep_the_screen_on),
                 checked = uiState.settings.uiSettings.keepScreenOn,
@@ -322,6 +303,32 @@ fun SettingsScreen(
                 checked = uiState.settings.uiSettings.showWhenLocked,
             ) {
                 viewModel.setShowWhenLocked(it)
+            }
+
+            SubtleHorizontalDivider()
+            CompactPreferenceGroupTitle(text = stringResource(R.string.settings_notifications_title))
+            IconListItem(
+                title = stringResource(R.string.settings_notifications_title),
+                icon = {
+                    Icon(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        imageVector = EvaIcons.Outline.Bell,
+                        contentDescription = stringResource(R.string.settings_notifications_title),
+                    )
+                },
+                onClick = onNavigateToNotifications,
+            )
+            CheckboxListItem(
+                title = stringResource(R.string.settings_do_not_disturb_mode),
+                subtitle = if (isNotificationPolicyAccessGranted) null else stringResource(R.string.settings_click_to_grant_permission),
+                checked = uiState.settings.uiSettings.dndDuringWork,
+            ) {
+                if (isNotificationPolicyAccessGranted) {
+                    viewModel.setDndDuringWork(it)
+                } else {
+                    isNotificationPolicyAccessRequested = true
+                    requestDndPolicyAccess(context.findActivity()!!)
+                }
             }
         }
         if (uiState.showWorkdayStartPicker) {

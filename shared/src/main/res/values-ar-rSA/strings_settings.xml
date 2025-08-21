@@ -87,4 +87,7 @@
     <string name="settings_language">اللغة</string>
     <string name="settings_update">تحديث</string>
     <string name="settings_update_available">يتوفر تحديث جديد</string>
+    <string name="settings_general_title">عام</string>
+    <string name="settings_display_and_appearance">العرض والمظهر</string>
+    <string name="settings_timer_and_sessions">المؤقت والجلسات</string>
 </resources>

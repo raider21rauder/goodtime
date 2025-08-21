@@ -87,4 +87,7 @@
     <string name="settings_language">Bahasa</string>
     <string name="settings_update">Memperbarui</string>
     <string name="settings_update_available">Pembaruan baru tersedia</string>
+    <string name="settings_general_title">Umum</string>
+    <string name="settings_display_and_appearance">Tampilan dan penampilan</string>
+    <string name="settings_timer_and_sessions">Timer dan sesi</string>
 </resources>

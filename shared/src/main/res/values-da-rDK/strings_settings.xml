@@ -87,4 +87,7 @@
     <string name="settings_language">Sprog</string>
     <string name="settings_update">Opdater</string>
     <string name="settings_update_available">En ny opdatering er tilgængelig</string>
+    <string name="settings_general_title">Generelt</string>
+    <string name="settings_display_and_appearance">Visning og udseende</string>
+    <string name="settings_timer_and_sessions">Timer og sessioner</string>
 </resources>
