@@ -158,9 +158,9 @@ fun SettingsScreen(
                         onSelectDay = viewModel::onToggleProductivityReminderDay,
                         onReminderTimeClick = { viewModel.setShowTimePicker(true) },
                     )
+                    SubtleHorizontalDivider()
                 }
             }
-            SubtleHorizontalDivider()
             CompactPreferenceGroupTitle(text = stringResource(R.string.settings_timer_and_sessions))
 
             IconListItem(
