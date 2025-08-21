@@ -376,6 +376,9 @@ class SettingsViewModel(
         val firstDayOfWeekOptions =
             listOf(
                 DayOfWeek.MONDAY,
+                DayOfWeek.TUESDAY,
+                DayOfWeek.WEDNESDAY,
+                DayOfWeek.THURSDAY,
                 DayOfWeek.FRIDAY,
                 DayOfWeek.SATURDAY,
                 DayOfWeek.SUNDAY,
