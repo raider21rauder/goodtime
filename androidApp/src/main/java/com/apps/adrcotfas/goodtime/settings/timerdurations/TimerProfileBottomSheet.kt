@@ -72,11 +72,10 @@ fun TimerProfileBottomSheet(
     }
 
     ModalBottomSheet(
-        modifier = Modifier.animateContentSize(),
         onDismissRequest = onDismiss,
         sheetState = sheetState,
     ) {
-        LazyColumn {
+        LazyColumn(modifier = Modifier.animateContentSize()) {
             items(profiles) { profile ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

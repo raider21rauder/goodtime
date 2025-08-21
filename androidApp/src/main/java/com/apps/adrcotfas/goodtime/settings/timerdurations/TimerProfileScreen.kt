@@ -112,7 +112,12 @@ fun TimerProfileScreen(
                             resetProfile = false,
                         )
                     },
-                    onEditProfiles = { showTimerProfilesSheet = true },
+                    onEditProfiles =
+                        if (uiState.isPro) {
+                            { showAddTimerProfileDialog = true }
+                        } else {
+                            null
+                        },
                     onBreakBudgetInfo = { showBreakBudgetInfoDialog = true },
                 )
 
