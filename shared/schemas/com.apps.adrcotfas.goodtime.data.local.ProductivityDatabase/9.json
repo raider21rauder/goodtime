@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 9,
-    "identityHash": "684b9a0c6fa86cd0ff40ff9e13792464",
+    "identityHash": "61afc0d308733af6bb9bdd27352fc3da",
     "entities": [
       {
         "tableName": "localLabel",
@@ -121,6 +121,15 @@
             ],
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_localLabel_name_isArchived` ON `${TABLE_NAME}` (`name`, `isArchived`)"
+          },
+          {
+            "name": "index_localLabel_timerProfileName",
+            "unique": false,
+            "columnNames": [
+              "timerProfileName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localLabel_timerProfileName` ON `${TABLE_NAME}` (`timerProfileName`)"
           }
         ],
         "foreignKeys": [
@@ -333,7 +342,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '684b9a0c6fa86cd0ff40ff9e13792464')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '61afc0d308733af6bb9bdd27352fc3da')"
     ]
   }
 }

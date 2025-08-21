@@ -43,6 +43,7 @@ import com.apps.adrcotfas.goodtime.data.model.TimerProfile.Companion.DEFAULT_WOR
     ],
     indices = [
         Index(value = ["name", "isArchived"], unique = true),
+        Index(value = ["timerProfileName"]),
     ],
 )
 data class LocalLabel(

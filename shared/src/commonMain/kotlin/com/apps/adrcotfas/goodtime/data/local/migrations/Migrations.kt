@@ -299,6 +299,7 @@ val MIGRATION_8_9: Migration =
             connection.execSQL("ALTER TABLE localLabel_new RENAME TO localLabel")
 
             connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_localLabel_name_isArchived ON localLabel(name, isArchived);")
+            connection.execSQL("CREATE INDEX IF NOT EXISTS index_localLabel_timerProfileName ON localLabel(timerProfileName);")
 
             connection.execSQL("PRAGMA foreign_keys=on;")
         }
