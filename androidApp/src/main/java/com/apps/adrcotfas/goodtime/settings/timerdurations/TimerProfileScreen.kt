@@ -114,7 +114,7 @@ fun TimerProfileScreen(
                     },
                     onEditProfiles =
                         if (uiState.isPro) {
-                            { showAddTimerProfileDialog = true }
+                            { showTimerProfilesSheet = true }
                         } else {
                             null
                         },
