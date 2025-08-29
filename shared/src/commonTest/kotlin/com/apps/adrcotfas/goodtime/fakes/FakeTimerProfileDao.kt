@@ -26,7 +26,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class FakeTimerProfileDao : TimerProfileDao {
-    private val timerProfiles = MutableStateFlow(listOf(TimerProfile.default().toLocal()))
+    private val timerProfiles =
+        MutableStateFlow(
+            listOf(
+                TimerProfile.default().copy(name = TimerProfile.DEFAULT_PROFILE_NAME).toLocal(),
+            ),
+        )
 
     override suspend fun insert(timerProfile: LocalTimerProfile) {
         val currentList = timerProfiles.value.toMutableList()
@@ -37,6 +42,14 @@ class FakeTimerProfileDao : TimerProfileDao {
             currentList.add(timerProfile)
         }
         timerProfiles.value = currentList
+    }
+
+    override suspend fun insertTimerProfileAndSetDefault(timerProfile: LocalTimerProfile) {
+        insert(timerProfile)
+    }
+
+    override fun setDefaultLabelProfileName(name: String) {
+        // do nothing here
     }
 
     override suspend fun deleteByName(name: String) {

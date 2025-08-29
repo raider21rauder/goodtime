@@ -124,6 +124,8 @@ interface LocalDataRepository {
 
     suspend fun insertTimerProfile(profile: TimerProfile)
 
+    suspend fun insertTimerProfileAndSetDefault(profile: TimerProfile)
+
     suspend fun deleteTimerProfile(name: String)
 
     suspend fun selectTimerProfile(name: String): Flow<TimerProfile?>

@@ -96,6 +96,7 @@ class TimerManager(
                             settingsRepo.activateDefaultLabel()
                             DomainLabel(defaultLabel, defaultTimerProfile)
                         } else {
+                            // TODO: move this logic to DomainLabel; have DomainLabel a typedef of Label since it contains a TimerProfile already
                             DomainLabel(
                                 label,
                                 if (label.useDefaultTimeProfile) defaultTimerProfile else label.timerProfile,

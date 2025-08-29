@@ -108,13 +108,12 @@ class TimerProfileViewModel(
 
     fun createTimerProfile(timerProfile: TimerProfile) {
         viewModelScope.launch {
-            repo.insertTimerProfile(timerProfile)
+            repo.insertTimerProfileAndSetDefault(timerProfile)
         }
     }
 
     fun deleteTimerProfile(name: String) {
         viewModelScope.launch {
-            repo.deleteTimerProfile(name)
             // If the deleted profile was the one currently being edited, reset the tmpLabel's timerProfile name
             if (_uiState.value.tmpLabel.timerProfile.name == name) {
                 _uiState.update {
@@ -129,6 +128,7 @@ class TimerProfileViewModel(
                     )
                 }
             }
+            repo.deleteTimerProfile(name)
         }
     }
 }

@@ -64,7 +64,7 @@ class AddEditLabelViewModel(
 
     fun init(
         labelToEditName: String? = null,
-        defaultLabelName: String,
+        defaultLabelDisplayName: String,
     ) {
         viewModelScope.launch {
             combine(
@@ -82,23 +82,21 @@ class AddEditLabelViewModel(
                     labelToEditName?.let { name ->
                         labels.find { label -> label.name == name }
                     }
-                val defaultProfile =
-                    (
-                        labels.find { label -> label.name == defaultLabelName }
-                            ?: Label.defaultLabel()
-                    ).timerProfile
+                val defaultLabel =
+                    labels.find { label -> label.name == Label.DEFAULT_LABEL_NAME }
+                        ?: Label.defaultLabel()
 
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         isPro = settings.isPro,
-                        defaultLabelDisplayName = defaultLabelName,
+                        defaultLabelDisplayName = defaultLabelDisplayName,
                         labelToEdit = labelToEdit,
                         tmpLabel =
                             labelToEdit
                                 ?: Label
                                     .newLabelWithRandomColorIndex(lightPalette.lastIndex)
-                                    .copy(timerProfile = defaultProfile),
+                                    .copy(timerProfile = defaultLabel.timerProfile),
                         activeLabelName = settings.labelName,
                         labels = labels,
                         timerProfiles = timerProfiles,

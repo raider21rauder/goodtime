@@ -205,7 +205,6 @@ fun TimerProfileScreen(
                         newLabel = newLabel,
                         resetProfile = false,
                     )
-                    viewModel.saveChanges(newLabel)
                     showAddTimerProfileDialog = false
                 },
                 onDismiss = {

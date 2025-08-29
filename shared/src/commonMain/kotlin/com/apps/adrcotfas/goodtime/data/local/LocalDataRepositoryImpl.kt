@@ -54,8 +54,14 @@ internal class LocalDataRepositoryImpl(
         coroutineScope.launch {
             val insert = !settingsRepo.settings.map { it.timeProfilesInitialized }.first()
             if (insert) {
-                val localTimerProfile = TimerProfile.default().toLocal()
-                timerProfileDao.insert(localTimerProfile)
+                timerProfileDao.insert(
+                    TimerProfile(
+                        name = LocalTimerProfile.DEFAULT_PROFILE_NAME,
+                        workDuration = 25,
+                        breakDuration = 5,
+                        isLongBreakEnabled = false,
+                    ).toLocal(),
+                )
                 timerProfileDao.insert(
                     TimerProfile(
                         name = LocalTimerProfile.PROFILE_50_10_NAME,
@@ -282,6 +288,10 @@ internal class LocalDataRepositoryImpl(
 
     override suspend fun insertTimerProfile(profile: TimerProfile) {
         timerProfileDao.insert(profile.toLocal())
+    }
+
+    override suspend fun insertTimerProfileAndSetDefault(profile: TimerProfile) {
+        timerProfileDao.insertTimerProfileAndSetDefault(profile.toLocal())
     }
 
     override suspend fun deleteTimerProfile(name: String) {

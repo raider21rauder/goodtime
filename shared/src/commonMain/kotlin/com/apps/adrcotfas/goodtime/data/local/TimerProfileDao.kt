@@ -21,12 +21,23 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import com.apps.adrcotfas.goodtime.data.model.Label
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TimerProfileDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(timerProfile: LocalTimerProfile)
+
+    @Query("UPDATE localLabel SET timerProfileName = :name WHERE name = '${Label.DEFAULT_LABEL_NAME}' ")
+    fun setDefaultLabelProfileName(name: String)
+
+    @Transaction
+    suspend fun insertTimerProfileAndSetDefault(timerProfile: LocalTimerProfile) {
+        insert(timerProfile)
+        setDefaultLabelProfileName(timerProfile.name)
+    }
 
     @Query("DELETE FROM localTimerProfile WHERE name = :name")
     suspend fun deleteByName(name: String)

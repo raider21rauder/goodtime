@@ -46,7 +46,7 @@ data class TimerProfile(
 
         fun default() =
             TimerProfile(
-                name = DEFAULT_PROFILE_NAME,
+                name = null,
                 isCountdown = true,
                 workDuration = DEFAULT_WORK_DURATION,
                 isBreakEnabled = true,

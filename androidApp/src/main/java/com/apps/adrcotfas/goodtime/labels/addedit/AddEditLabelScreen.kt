@@ -92,8 +92,8 @@ fun AddEditLabelScreen(
     val listState = rememberScrollState()
 
     LaunchedEffect(labelName) {
-        val defaultLabelName = context.getString(R.string.labels_default_label_name)
-        viewModel.init(labelName, defaultLabelName)
+        val defaultLabelDisplayName = context.getString(R.string.labels_default_label_name)
+        viewModel.init(labelName, defaultLabelDisplayName)
     }
 
     if (uiState.isLoading) return
