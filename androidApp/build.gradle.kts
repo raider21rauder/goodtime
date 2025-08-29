@@ -25,8 +25,8 @@ android {
             libs.versions.android.targetSdk
                 .get()
                 .toInt()
-        versionCode = 344
-        versionName = "3.0.13"
+        versionCode = 345
+        versionName = "3.0.14"
     }
     buildFeatures {
         compose = true
