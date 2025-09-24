@@ -1,0 +1,17 @@
+{
+  // VS Code/Codespaces task for one-click build of both variants
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Android (test + real NOTHING_KEY)",
+      "type": "shell",
+      "command": "/usr/bin/bash",
+      "args": ["-lc", "scripts/build-variants.sh"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
+
