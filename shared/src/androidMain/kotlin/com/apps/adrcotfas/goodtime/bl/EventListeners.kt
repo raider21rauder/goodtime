@@ -27,3 +27,5 @@ val EventListener.Companion.SESSION_RESET_HANDLER: String
     get() = "SessionResetHandler"
 val EventListener.Companion.DND_MODE_MANAGER: String
     get() = "DndModeManager"
+val EventListener.Companion.GLYPH_CONTROLLER: String
+    get() = "GlyphController"

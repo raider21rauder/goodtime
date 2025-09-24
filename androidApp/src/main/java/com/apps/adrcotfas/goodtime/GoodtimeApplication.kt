@@ -170,6 +170,15 @@ class GoodtimeApplication :
                             coroutineScope = get<CoroutineScope>(named(IO_SCOPE)),
                         )
                     }
+                    single<EventListener>(named(EventListener.GLYPH_CONTROLLER)) {
+                        com.apps.adrcotfas.goodtime.bl.NothingGlyphController(
+                            context = get(),
+                            settingsRepository = get(),
+                            localDataRepository = get(),
+                            timeProvider = get(),
+                            logger = getWith("NothingGlyphController"),
+                        )
+                    }
                     single(createdAtStart = true) {
                         AutoBackupManager(
                             context = get(),
