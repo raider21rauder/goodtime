@@ -30,10 +30,10 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
@@ -71,7 +71,9 @@ class NothingGlyphController(
     private val breakConfigState =
         combine(
             settingsRepository.settings,
-            settingsRepository.settings.map { it.labelName }.distinctUntilChanged()
+            settingsRepository.settings
+                .map { it.labelName }
+                .distinctUntilChanged()
                 .flatMapLatest { labelName ->
                     combine(
                         localDataRepository.selectLabelByName(labelName),
@@ -137,7 +139,8 @@ class NothingGlyphController(
             updateAProgress()
         } else {
             // Break session
-            val isLongBreak = cfg.isLongBreakEnabled && cfg.sessionsBeforeLongBreak > 0 && cfg.longBreakData.streakInUse(cfg.sessionsBeforeLongBreak) == 0
+            val isLongBreak =
+                cfg.isLongBreakEnabled && cfg.sessionsBeforeLongBreak > 0 && cfg.longBreakData.streakInUse(cfg.sessionsBeforeLongBreak) == 0
             if (isLongBreak) {
                 // Long break: B1 solid, A pulsates back-and-forth
                 toggleChannels(listOf(bIndex(1)))
@@ -149,14 +152,18 @@ class NothingGlyphController(
         }
 
         // Compute total duration for accurate C progress, only meaningful on countdown profiles
-        currentTotalMs = when {
-            !cfg.isCountdown -> 0L
-            event.isFocus -> cfg.workDurationMin * 60_000L
-            else -> {
-                val isLongBreak = cfg.isLongBreakEnabled && cfg.sessionsBeforeLongBreak > 0 && cfg.longBreakData.streakInUse(cfg.sessionsBeforeLongBreak) == 0
-                (if (isLongBreak) cfg.longBreakDurationMin else cfg.breakDurationMin) * 60_000L
+        currentTotalMs =
+            when {
+                !cfg.isCountdown -> 0L
+                event.isFocus -> cfg.workDurationMin * 60_000L
+                else -> {
+                    val isLongBreak =
+                        cfg.isLongBreakEnabled &&
+                            cfg.sessionsBeforeLongBreak > 0 &&
+                            cfg.longBreakData.streakInUse(cfg.sessionsBeforeLongBreak) == 0
+                    (if (isLongBreak) cfg.longBreakDurationMin else cfg.breakDurationMin) * 60_000L
+                }
             }
-        }
 
         startProgressLoop()
     }
@@ -185,12 +192,13 @@ class NothingGlyphController(
 
     private fun startProgressLoop() {
         stopProgress()
-        progressJob = scope.launch {
-            while (isActive) {
-                displayProgress()
-                delay(500L)
+        progressJob =
+            scope.launch {
+                while (isActive) {
+                    displayProgress()
+                    delay(500L)
+                }
             }
-        }
     }
 
     private fun stopProgress() {
@@ -200,18 +208,25 @@ class NothingGlyphController(
 
     private fun startAPulse() {
         stopPulse()
-        pulseJob = scope.launch {
-            var forward = true
-            var pos = 1
-            while (isActive) {
-                val channels = listOf(aIndex(pos))
-                animateChannels(channels, period = 500, cycles = 1, interval = 0)
-                delay(150L)
-                pos = if (forward) pos + 1 else pos - 1
-                if (pos >= 11) { pos = 11; forward = false }
-                if (pos <= 1) { pos = 1; forward = true }
+        pulseJob =
+            scope.launch {
+                var forward = true
+                var pos = 1
+                while (isActive) {
+                    val channels = listOf(aIndex(pos))
+                    animateChannels(channels, period = 500, cycles = 1, interval = 0)
+                    delay(150L)
+                    pos = if (forward) pos + 1 else pos - 1
+                    if (pos >= 11) {
+                        pos = 11
+                        forward = false
+                    }
+                    if (pos <= 1) {
+                        pos = 1
+                        forward = true
+                    }
+                }
             }
-        }
     }
 
     private fun stopPulse() {
@@ -227,14 +242,15 @@ class NothingGlyphController(
 
             val now = timeProvider.elapsedRealtime()
             val remaining = (currentEndTime - now).coerceAtLeast(0L)
-            val progress = if (currentTotalMs > 0L) {
-                val done = (currentTotalMs - remaining).coerceIn(0L, currentTotalMs)
-                ((done * 100L) / currentTotalMs).toInt().coerceIn(0, 100)
-            } else {
-                // Fallback when profile is count-up: animate breathing on C instead of progress bar
-                animateChannels((1..20).map { it - 1 }, period = 800, cycles = 1, interval = 0)
-                return
-            }
+            val progress =
+                if (currentTotalMs > 0L) {
+                    val done = (currentTotalMs - remaining).coerceIn(0L, currentTotalMs)
+                    ((done * 100L) / currentTotalMs).toInt().coerceIn(0, 100)
+                } else {
+                    // Fallback when profile is count-up: animate breathing on C instead of progress bar
+                    animateChannels((1..20).map { it - 1 }, period = 800, cycles = 1, interval = 0)
+                    return
+                }
             gmCall("displayProgress", arrayOf(frameClass, Int::class.javaPrimitiveType), arrayOf(frame, progress))
         } catch (t: Throwable) {
             logger.w(t) { "displayProgress failed" }
@@ -259,7 +275,8 @@ class NothingGlyphController(
             val builder = getBuilder() ?: return
             // If no channels, turn all off
             if (indices.isEmpty()) {
-                turnOff(); return
+                turnOff()
+                return
             }
             indices.forEach { idx -> builderBuildChannel(builder, idx) }
             val frame = builderBuild(builder)
@@ -269,7 +286,12 @@ class NothingGlyphController(
         }
     }
 
-    private fun animateChannels(indices: List<Int>, period: Int, cycles: Int, interval: Int) {
+    private fun animateChannels(
+        indices: List<Int>,
+        period: Int,
+        cycles: Int,
+        interval: Int,
+    ) {
         try {
             val builder = getBuilder() ?: return
             indices.forEach { idx -> builderBuildChannel(builder, idx) }
@@ -296,29 +318,30 @@ class NothingGlyphController(
             glyphClass = Class.forName("com.nothing.ketchum.Glyph")
             commonClass = Class.forName("com.nothing.ketchum.Common")
             frameClass = Class.forName("com.nothing.ketchum.GlyphFrame")
-            builderClass = Class.forName("com.nothing.ketchum.GlyphFrame$Builder")
+            builderClass = Class.forName("com.nothing.ketchum.GlyphFrame\$Builder")
             val managerClass = Class.forName("com.nothing.ketchum.GlyphManager")
 
             gm = managerClass.getMethod("getInstance", Context::class.java).invoke(null, context.applicationContext)
 
             // Setup callback proxy
-            val callbackClass = Class.forName("com.nothing.ketchum.GlyphManager$Callback")
-            callbackProxy = java.lang.reflect.Proxy.newProxyInstance(
-                callbackClass.classLoader,
-                arrayOf(callbackClass),
-            ) { _, method, args ->
-                when (method.name) {
-                    "onServiceConnected" -> {
-                        onServiceConnected(args?.get(0) as? ComponentName)
-                        null
+            val callbackClass = Class.forName("com.nothing.ketchum.GlyphManager\$Callback")
+            callbackProxy =
+                java.lang.reflect.Proxy.newProxyInstance(
+                    callbackClass.classLoader,
+                    arrayOf(callbackClass),
+                ) { _, method, args ->
+                    when (method.name) {
+                        "onServiceConnected" -> {
+                            onServiceConnected(args?.get(0) as? ComponentName)
+                            null
+                        }
+                        "onServiceDisconnected" -> {
+                            onServiceDisconnected(args?.get(0) as? ComponentName)
+                            null
+                        }
+                        else -> null
                     }
-                    "onServiceDisconnected" -> {
-                        onServiceDisconnected(args?.get(0) as? ComponentName)
-                        null
-                    }
-                    else -> null
                 }
-            }
 
             // init service
             gmCall("init", arrayOf(callbackClass), arrayOf(callbackProxy!!))
@@ -329,7 +352,9 @@ class NothingGlyphController(
         }
     }
 
-    private fun onServiceConnected(@Suppress("UNUSED_PARAMETER") componentName: ComponentName?) {
+    private fun onServiceConnected(
+        @Suppress("UNUSED_PARAMETER") componentName: ComponentName?,
+    ) {
         try {
             val device24111 = glyphClass!!.getField("DEVICE_24111").get(null)
             val registered = gmCall("register", arrayOf(String::class.java), arrayOf(device24111)) as? Boolean
@@ -342,46 +367,64 @@ class NothingGlyphController(
         }
     }
 
-    private fun onServiceDisconnected(@Suppress("UNUSED_PARAMETER") componentName: ComponentName?) {
+    private fun onServiceDisconnected(
+        @Suppress("UNUSED_PARAMETER") componentName: ComponentName?,
+    ) {
         try {
             gmCall("closeSession", emptyArray(), emptyArray())
-        } catch (_: Throwable) {}
+        } catch (_: Throwable) {
+        }
     }
 
-    private fun getBuilder(): Any? {
-        return try {
+    private fun getBuilder(): Any? =
+        try {
             gmCall("getGlyphFrameBuilder", emptyArray(), emptyArray())
         } catch (t: Throwable) {
             logger.w(t) { "getGlyphFrameBuilder failed" }
             null
         }
-    }
 
-    private fun builderBuildChannel(builder: Any, channelIndex: Int) {
+    private fun builderBuildChannel(
+        builder: Any,
+        channelIndex: Int,
+    ) {
         builderCall(builder, "buildChannel", arrayOf(Int::class.javaPrimitiveType), arrayOf(channelIndex))
     }
 
-    private fun builderBuild(builder: Any): Any {
-        return builderCall(builder, "build", emptyArray(), emptyArray())
-    }
+    private fun builderBuild(builder: Any): Any = builderCall(builder, "build", emptyArray(), emptyArray())
 
-    private fun builderCall(builder: Any, name: String, paramTypes: Array<Class<*>?>, args: Array<Any?>): Any {
+    private fun builderCall(
+        builder: Any,
+        name: String,
+        paramTypes: Array<Class<*>?>,
+        args: Array<Any?>,
+    ): Any {
         val method = builderClass!!.getMethod(name, *paramTypes)
         return method.invoke(builder, *args)
     }
 
-    private fun gmCall(name: String, paramTypes: Array<Class<*>?>, args: Array<Any?>): Any? {
+    private fun gmCall(
+        name: String,
+        paramTypes: Array<Class<*>?>,
+        args: Array<Any?>,
+    ): Any? {
         val method = gm!!.javaClass.getMethod(name, *paramTypes)
         return method.invoke(gm, *args)
     }
 
     private fun aIndex(pos: Int): Int = 19 + pos // 20..30
+
     private fun bIndex(pos: Int): Int = 30 + pos // 31..35
 
     fun destroy() {
         scope.cancel()
-        try { gmCall("closeSession", emptyArray(), emptyArray()) } catch (_: Throwable) {}
-        try { gmCall("unInit", emptyArray(), emptyArray()) } catch (_: Throwable) {}
+        try {
+            gmCall("closeSession", emptyArray(), emptyArray())
+        } catch (_: Throwable) {
+        }
+        try {
+            gmCall("unInit", emptyArray(), emptyArray())
+        } catch (_: Throwable) {
+        }
     }
 }
-
