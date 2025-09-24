@@ -55,6 +55,8 @@ actual val platformModule: Module =
                 get<EventListener>(named(EventListener.SOUND_AND_VIBRATION_PLAYER)),
                 get<EventListener>(named(EventListener.SESSION_RESET_HANDLER)),
                 get<EventListener>(named(EventListener.DND_MODE_MANAGER)),
+                // Optional: Only available on Nothing devices; implementation will no-op elsewhere
+                get<EventListener>(named(EventListener.GLYPH_CONTROLLER)),
             )
         }
     }

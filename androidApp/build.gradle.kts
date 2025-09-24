@@ -59,9 +59,11 @@ android {
                 "proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("debug")
+            manifestPlaceholders["NOTHING_KEY"] = (project.findProperty("NOTHING_KEY") as String?) ?: ""
         }
         getByName("debug") {
             isDebuggable = true
+            manifestPlaceholders["NOTHING_KEY"] = "test"
         }
     }
     compileOptions {
