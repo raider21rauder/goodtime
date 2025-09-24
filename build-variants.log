@@ -1,0 +1,4 @@
+==> Cleaning previous builds
+==> Building Debug (uses test key via manifest placeholder)
+Saved: /workspace/artifacts/app-google-debug-testKey.apk
+==> Building Release with TEST key
