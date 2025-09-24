@@ -2,3 +2,7 @@
 ==> Building Debug (uses test key via manifest placeholder)
 Saved: /workspace/artifacts/app-google-debug-testKey.apk
 ==> Building Release with TEST key
+Saved: /workspace/artifacts/app-google-release-testKey.apk
+==> Building Release with REAL key
+Saved: /workspace/artifacts/app-google-release-realKey.apk
+==> Done. Artifacts in: /workspace/artifacts
