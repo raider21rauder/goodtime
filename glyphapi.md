@@ -76,7 +76,7 @@ How the Glyph Interface is indexed
 | int  | E1  | ```6``` |
 
 
-![img_v3_027r_aed999af-858f-47c0-8f92-dc3c837ba1ah](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/assets/56658376/16eb0b53-ce08-4275-97c4-26c82f18299f)
+![img_v3_027r_aed999af-858f-47c0-8f92-dc3c837ba1ah](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/56658376/16eb0b53-ce08-4275-97c4-26c82f18299f)
 
 
 ### Nothing Phone (2)
@@ -91,7 +91,7 @@ How the Glyph Interface is indexed
 | int   |  E1   |  ```24```   |
 
 
-![img_v3_027r_a4ecc24c-68b7-454d-b78c-67b3bdc966fh](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/assets/56658376/f576177c-9e15-4628-bf78-906509bb3673)
+![img_v3_027r_a4ecc24c-68b7-454d-b78c-67b3bdc966fh](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/56658376/f576177c-9e15-4628-bf78-906509bb3673)
 
 ### Nothing Phone (2a) and Phone (2a) Plus
 | Constants  |   | ArrayIndex  |
@@ -100,7 +100,7 @@ How the Glyph Interface is indexed
 | int | B  |  ```24```  |
 | int | C1 - C24 <br> Where C_1 is bottom left and C_24 is top right of C |  ```0 - 23```  |
 
-![Frame 7](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/assets/56658376/8720123a-e88e-4958-96f3-2582b0dee590)
+![Frame 7](https://github.com/Nothing-Developer-Programme/Glyph-Developer-Kit/56658376/8720123a-e88e-4958-96f3-2582b0dee590)
 
 ### Nothing Phone (3a) and Phone (3a) Pro
 | Constants  |   | ArrayIndex  |
@@ -109,7 +109,7 @@ How the Glyph Interface is indexed
 | int | B1 - B5 <br> Where B_1 is bottom right and B_5 is top left of B |  ```31 - 35```  |
 | int | C1 - C20 <br> Where C_1 is bottom left and C_20 is top right of C |  ```0 - 19```  |
 
-![image](https://github.com/user-attachments/assets/8bd3950a-8c12-4df3-bfb4-8a5d94c1b047)
+![image](https://github.com/user-attachments/8bd3950a-8c12-4df3-bfb4-8a5d94c1b047)
 
 
 
@@ -274,5 +274,6 @@ mGM.toggle(frame1);
 GlyphFrame frame2 = builder.buildChannel(Glyph.A2).buildChannel(Glyph.C1_2).build();
 mGM.toggle(frame2);
 ```
+
 
 
